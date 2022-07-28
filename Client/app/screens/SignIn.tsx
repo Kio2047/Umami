@@ -1,15 +1,20 @@
 import { View, Text, StyleSheet, Image, TouchableOpacity, SafeAreaView, Platform, StatusBar} from "react-native";
 import { CommonActions } from "@react-navigation/native";
+
 import { backgroundColor, defaultButtonColor, primaryFontColor } from "../colors";
+import type { SignInProps } from "../navTypes";
 
-import logo from '../assets/logo.png'
+import logo from "../assets/logo.png"
 
-const SignIn = ( {navigation} ) => {
+const SignIn = ( {route, navigation}: SignInProps  ) => {
+  const user = route.params.user;
   return (
     <SafeAreaView style={styles.container}>
+      {/* fadeDuration={0} */}
       <Image style={styles.logo} source={logo} resizeMode="contain" />
       <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.topButton} title="Create Account" activeOpacity={0.5} onPress={() => {
+        {/* add accessibility to the touchable opacities */}
+        <TouchableOpacity style={styles.topButton} activeOpacity={0.5} onPress={() => {
           // navigation.dispatch(
           //   CommonActions.reset({
           //     index: 0,
@@ -27,7 +32,7 @@ const SignIn = ( {navigation} ) => {
           <View style={styles.ruleLine} />
         </View>
 
-        <TouchableOpacity style={styles.bottomButton} title="Login" activeOpacity={0.5} onPress={() => {
+        <TouchableOpacity style={styles.bottomButton} activeOpacity={0.5} onPress={() => {
         //   navigation.dispatch(
         //     CommonActions.reset({
         //       index: 0,

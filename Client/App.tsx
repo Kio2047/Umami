@@ -5,25 +5,25 @@ import { SafeAreaView, StatusBar, StyleSheet, Platform } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
-
+import type { RootStackParamsList } from './app/navTypes';
 import { backgroundColor } from './app/colors';
 import SignIn from './app/screens/SignIn';
 import Home from './app/screens/Home';
 import About from './app/screens/About';
 
-const Stack = createStackNavigator();
 NavigationBar.setBackgroundColorAsync(backgroundColor);
+const RootStack = createStackNavigator<RootStackParamsList>();
 
 export default function App() {
   return (
     <SafeAreaView style={styles.appContainer}>
     <StatusBar></StatusBar>
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="SignIn" screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="SignIn" component={SignIn} options={{ title: "SignIn" }} />
-        <Stack.Screen name="Home" component={Home} options={{ title: "Home" }} />
-        <Stack.Screen name="About" component={About} />
-      </Stack.Navigator>
+      <RootStack.Navigator initialRouteName="SignIn" screenOptions={{ headerShown: false }}>
+        <RootStack.Screen name="SignIn" component={SignIn} />
+        <RootStack.Screen name="Home" component={Home} />
+        <RootStack.Screen name="About" component={About} />
+      </RootStack.Navigator>
     </NavigationContainer>
     </SafeAreaView>
 
