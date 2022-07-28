@@ -60,7 +60,12 @@ const Login = ( {navigation} : LoginScreenProps) => {
           <TouchableOpacity
             style={[styles.loginButton, {marginTop: isFocused ? 0 : 20}]}
             activeOpacity={0.5}
-            onPress={() => navigation.navigate('Home')}
+            onPress={() => {
+              navigation.dispatch(CommonActions.reset({
+                index: 0,
+                routes: [{name: "Home"}]
+              }))
+            }}
           >
             <Text style={styles.buttonText}>Login</Text>
           </TouchableOpacity>
