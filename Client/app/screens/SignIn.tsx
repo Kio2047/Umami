@@ -11,17 +11,14 @@ const SignIn = ( {navigation}: SignInScreenProps ) => {
     <SafeAreaView style={styles.container}>
       {/* fadeDuration={0} */}
       <Image style={styles.logo} source={logo} resizeMode="contain" />
+
       <View style={styles.buttonContainer}>
         {/* add accessibility to the touchable opacities */}
-        <TouchableOpacity style={styles.topButton} activeOpacity={0.5} onPress={() => {
-          // navigation.dispatch(
-          //   CommonActions.reset({
-          //     index: 0,
-          //     routes: [{name: "Home"}]
-          //   })
-          // )
-          navigation.navigate('Register');
-        }}>
+        <TouchableOpacity
+          style={styles.topButton}
+          activeOpacity={0.5}
+          onPress={() => navigation.navigate('Register')}
+        >
           <Text style={styles.topButtonText}>Create Account</Text>
         </ TouchableOpacity>
 
@@ -31,19 +28,15 @@ const SignIn = ( {navigation}: SignInScreenProps ) => {
           <View style={styles.ruleLine} />
         </View>
 
-        <TouchableOpacity style={styles.bottomButton} activeOpacity={0.5} onPress={() => {
-        //   navigation.dispatch(
-        //     CommonActions.reset({
-        //       index: 0,
-        //       routes: [{name: "Home"}]
-        //     })
-        //   )
-         navigation.navigate('Login');
-        }}
+        <TouchableOpacity
+        style={styles.bottomButton}
+        activeOpacity={0.5}
+        onPress={() => navigation.navigate('Login')}
         >
           <Text style={styles.bottomButtonText}>Login</Text>
         </ TouchableOpacity>
       </View>
+
     </SafeAreaView>
   )
 }

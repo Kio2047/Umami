@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet, SafeAreaView, Image, TextInput, NativeSyntheticEvent, TextInputChangeEventData, Keyboard } from "react-native";
-import { TouchableOpacity, } from "react-native-gesture-handler";
+import { View, Text, StyleSheet, SafeAreaView, Image, TextInput, TouchableOpacity, NativeSyntheticEvent, TextInputChangeEventData, Keyboard } from "react-native";
+import { CommonActions } from "@react-navigation/native";
 
 import { LoginScreenProps } from "../navTypes";
 import logo from "../assets/logo.png";
@@ -57,7 +57,11 @@ const Login = ( {navigation} : LoginScreenProps) => {
             value={loginForm.password}
             onChange={(event) => inputChangeHandler(event, "password")}
           />
-          <TouchableOpacity style={[styles.loginButton, {marginTop: isFocused ? 0 : 20}]} activeOpacity={0.5} onPress={() => navigation.navigate("Home")}>
+          <TouchableOpacity
+            style={[styles.loginButton, {marginTop: isFocused ? 0 : 20}]}
+            activeOpacity={0.5}
+            onPress={() => navigation.navigate('Home')}
+          >
             <Text style={styles.buttonText}>Login</Text>
           </TouchableOpacity>
         </View>
