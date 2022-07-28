@@ -4,7 +4,7 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 
 import { LoginScreenProps } from "../navTypes";
 import logo from "../assets/logo.png";
-import { backgroundColor, defaultButtonColor, formInputBackgroundColor, formPlaceholderColor, primaryFontColor } from "../colors";
+import { backgroundColor, bottomTabBorderColor, defaultButtonColor, formInputBackgroundColor, formPlaceholderColor, primaryFontColor } from "../colors";
 
 const Login = ( {navigation} : LoginScreenProps) => {
 
@@ -39,9 +39,14 @@ const Login = ( {navigation} : LoginScreenProps) => {
           value={loginForm.password}
           onChange={(event) => onInputChange(event, "password")}
         />
-        <TouchableOpacity style={styles.button} activeOpacity={0.5} onPress={() => navigation.navigate("Home")}>
+        <TouchableOpacity style={styles.loginButton} activeOpacity={0.5} onPress={() => navigation.navigate("Home")}>
           <Text style={styles.buttonText}>Login</Text>
         </TouchableOpacity>
+      </View>
+      <View style={styles.bottomTab}>
+        <Text style={styles.bottomTabText}>Don't have an account yet? Create one&nbsp;
+        <Text style={styles.registerLink} onPress={() => navigation.navigate("Register")}>here</Text>
+        </Text>
       </View>
     </SafeAreaView>
   )
@@ -68,7 +73,7 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     borderRadius: 4
   },
-  button: {
+  loginButton: {
     justifyContent: "center",
     width: 300,
     height: 50,
@@ -80,6 +85,25 @@ const styles = StyleSheet.create({
     width: "100%",
     textAlign: "center",
     color: primaryFontColor
+  },
+  bottomTab: {
+    position: "absolute",
+    bottom: 0,
+    justifyContent: "center",
+    alignItems: "center",
+    width: "100%",
+    height: 50,
+    backgroundColor: backgroundColor,
+    borderTopColor: bottomTabBorderColor,
+    borderTopWidth: 1
+  },
+  bottomTabText: {
+    color: primaryFontColor
+  },
+  registerLink: {
+    color: primaryFontColor,
+    textDecorationLine: "underline",
+    fontWeight: "bold"
   }
 
 })
