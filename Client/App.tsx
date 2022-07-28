@@ -2,7 +2,7 @@ import 'react-native-gesture-handler';
 // import { StatusBar } from 'expo-status-bar';
 import * as NavigationBar from 'expo-navigation-bar'
 import { SafeAreaView, StatusBar, StyleSheet, Platform } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, DarkTheme } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
 import type { RootStackParamsList } from './app/navTypes';
@@ -19,7 +19,7 @@ export default function App() {
   return (
     <SafeAreaView style={styles.appContainer}>
     <StatusBar></StatusBar>
-    <NavigationContainer>
+    <NavigationContainer theme={DarkTheme}>
       <RootStack.Navigator initialRouteName="SignIn" screenOptions={{ headerShown: false }}>
         {/* initialParams={{user: "Dan"}} */}
         <RootStack.Screen name="SignIn" component={SignIn} />

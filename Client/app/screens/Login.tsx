@@ -47,6 +47,7 @@ const Login = ( {navigation} : LoginScreenProps) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    alignItems: "center",
     backgroundColor: backgroundColor
   },
   logo: {
@@ -54,6 +55,7 @@ const styles = StyleSheet.create({
     height: 200,
     marginBottom: 60
   },
+
 })
 
 export default Login
