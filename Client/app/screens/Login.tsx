@@ -13,11 +13,21 @@ const Login = ( {navigation} : LoginScreenProps) => {
     password: ""
   })
 
-  const onInputChange = (event: NativeSyntheticEvent<TextInputChangeEventData>, field: string): void => {
+  const [isFocused, setIsFocused] = useState(false);
+
+  const inputChangeHandler = (event: NativeSyntheticEvent<TextInputChangeEventData>, field: string): void => {
     setLoginForm({
       ...loginForm,
       [field]: event.nativeEvent.text
     });
+  }
+
+  const inputFocusHandler = (): void => {
+    setIsFocused(true);
+  }
+
+  const inputBlurHandler = (): void => {
+    setIsFocused(false);
   }
 
   return (
@@ -30,14 +40,14 @@ const Login = ( {navigation} : LoginScreenProps) => {
           placeholder="Email address or username"
           placeholderTextColor={formPlaceholderColor}
           value={loginForm.identity}
-          onChange={(event) => onInputChange(event, "identity")}
+          onChange={(event) => inputChangeHandler(event, "identity")}
         />
         <TextInput
           style={styles.input}
           placeholder="Password"
           placeholderTextColor={formPlaceholderColor}
           value={loginForm.password}
-          onChange={(event) => onInputChange(event, "password")}
+          onChange={(event) => inputChangeHandler(event, "password")}
         />
         <TouchableOpacity style={styles.loginButton} activeOpacity={0.5} onPress={() => navigation.navigate("Home")}>
           <Text style={styles.buttonText}>Login</Text>
@@ -62,7 +72,7 @@ const styles = StyleSheet.create({
   logo: {
     width: 200,
     height: 200,
-    marginBottom: 60
+    marginBottom: 40
   },
   input: {
     color: primaryFontColor,
