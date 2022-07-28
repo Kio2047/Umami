@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, SafeAreaView, Image, TextInput, NativeSyntheticEvent, TextInputChangeEventData, Keyboard } from "react-native";
-import { TouchableOpacity, TouchableWithoutFeedback } from "react-native-gesture-handler";
+import { TouchableOpacity, } from "react-native-gesture-handler";
 
 import { LoginScreenProps } from "../navTypes";
 import logo from "../assets/logo.png";
@@ -23,6 +23,11 @@ const Login = ( {navigation} : LoginScreenProps) => {
       Keyboard.addListener("keyboardDidHide", () => {
         setIsFocused(false);
       });
+
+      return () => {
+        Keyboard.removeAllListeners("keyboardDidShow");
+        Keyboard.removeAllListeners("keyboardDidHide");
+      }
     }, []
   )
 
@@ -35,7 +40,6 @@ const Login = ( {navigation} : LoginScreenProps) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      {/* <TouchableWithoutFeedback style={styles.touchable} onPress={Keyboard.dismiss}> */}
         {/* fadeDuration={0} */}
         <Image style={styles.logo} source={logo} resizeMode="contain" />
         <View>
@@ -62,7 +66,6 @@ const Login = ( {navigation} : LoginScreenProps) => {
           <Text style={styles.registerLink} onPress={() => navigation.navigate("Register")}>here</Text>
           </Text>
         </View> }
-      {/* </TouchableWithoutFeedback> */}
     </SafeAreaView>
   )
 }
@@ -73,12 +76,6 @@ const styles = StyleSheet.create({
     backgroundColor: backgroundColor,
     justifyContent: "center",
     alignItems: "center"
-  },
-  touchable: {
-    width: "100%",
-    height: "100%",
-    justifyContent: "center",
-    alignItems: "center",
   },
   logo: {
     width: 200,

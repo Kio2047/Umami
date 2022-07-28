@@ -8,9 +8,10 @@ import { createStackNavigator } from '@react-navigation/stack';
 import type { RootStackParamsList } from './app/navTypes';
 import { backgroundColor } from './app/colors';
 import SignIn from './app/screens/SignIn';
+import Login from './app/screens/Login';
+import Register from './app/screens/Register';
 import Home from './app/screens/Home';
 import About from './app/screens/About';
-import Login from './app/screens/Login';
 
 NavigationBar.setBackgroundColorAsync(backgroundColor);
 const RootStack = createStackNavigator<RootStackParamsList>();
@@ -24,6 +25,7 @@ export default function App() {
         {/* initialParams={{user: "Dan"}} */}
         <RootStack.Screen name="SignIn" component={SignIn} />
         <RootStack.Screen name="Login" component={Login} />
+        <RootStack.Screen name="Register" component={Register} />
         <RootStack.Screen name="Home" component={Home} />
         <RootStack.Screen name="About" component={About} />
       </RootStack.Navigator>

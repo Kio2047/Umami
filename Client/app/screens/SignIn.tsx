@@ -20,7 +20,7 @@ const SignIn = ( {navigation}: SignInScreenProps ) => {
           //     routes: [{name: "Home"}]
           //   })
           // )
-          navigation.navigate('Home');
+          navigation.navigate('Register');
         }}>
           <Text style={styles.topButtonText}>Create Account</Text>
         </ TouchableOpacity>
