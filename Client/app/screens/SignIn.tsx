@@ -3,12 +3,10 @@ import { CommonActions } from "@react-navigation/native";
 
 import { backgroundColor, defaultButtonColor, primaryFontColor } from "../colors";
 import type { SignInScreenProps } from "../navTypes";
-
 import logo from "../assets/logo.png"
 
 const SignIn = ( {navigation}: SignInScreenProps ) => {
-  // const user = route.params.user;
-  // console.log(user);
+
   return (
     <SafeAreaView style={styles.container}>
       {/* fadeDuration={0} */}
@@ -40,7 +38,7 @@ const SignIn = ( {navigation}: SignInScreenProps ) => {
         //       routes: [{name: "Home"}]
         //     })
         //   )
-         navigation.navigate('Home');
+         navigation.navigate('Login');
         }}
         >
           <Text style={styles.bottomButtonText}>Login</Text>
