@@ -65,20 +65,18 @@ const styles = StyleSheet.create({
     alignItems: "center"
   },
   topButton: {
+    justifyContent: "center",
     width: 300,
     height: 50,
     backgroundColor: defaultButtonColor,
-    justifyContent: "center",
-    padding: 5,
     marginBottom: 15,
     borderRadius: 4
   },
   bottomButton: {
+    justifyContent: "center",
     width: 50,
     height: 50,
     backgroundColor: backgroundColor,
-    justifyContent: "center",
-    padding: 5,
     marginBottom: 15,
     borderRadius: 4
   },
