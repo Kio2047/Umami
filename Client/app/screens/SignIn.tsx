@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
   logo: {
     width: 200,
     height: 200,
-    marginBottom: 40
+    marginBottom: 30
   },
   buttonContainer: {
     alignItems: "center"
@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
     height: 50,
     backgroundColor: defaultButtonColor,
     marginBottom: 15,
-    borderRadius: 4
+    borderRadius: 7
   },
   bottomButton: {
     justifyContent: "center",
@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
     height: 50,
     backgroundColor: backgroundColor,
     marginBottom: 15,
-    borderRadius: 4
+    borderRadius: 7
   },
   topButtonText: {
     textAlign: "center",

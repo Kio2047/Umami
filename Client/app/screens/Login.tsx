@@ -1,6 +1,6 @@
-import React, { useState } from "react";
-import { View, Text, StyleSheet, SafeAreaView, Image, TextInput, Button, NativeSyntheticEvent, TextInputChangeEventData } from "react-native";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import React, { useEffect, useState } from "react";
+import { View, Text, StyleSheet, SafeAreaView, Image, TextInput, NativeSyntheticEvent, TextInputChangeEventData, Keyboard } from "react-native";
+import { TouchableOpacity, TouchableWithoutFeedback } from "react-native-gesture-handler";
 
 import { LoginScreenProps } from "../navTypes";
 import logo from "../assets/logo.png";
@@ -15,6 +15,17 @@ const Login = ( {navigation} : LoginScreenProps) => {
 
   const [isFocused, setIsFocused] = useState(false);
 
+  useEffect(
+    () => {
+      Keyboard.addListener("keyboardDidShow", () => {
+        setIsFocused(true);
+      });
+      Keyboard.addListener("keyboardDidHide", () => {
+        setIsFocused(false);
+      });
+    }, []
+  )
+
   const inputChangeHandler = (event: NativeSyntheticEvent<TextInputChangeEventData>, field: string): void => {
     setLoginForm({
       ...loginForm,
@@ -22,42 +33,36 @@ const Login = ( {navigation} : LoginScreenProps) => {
     });
   }
 
-  const inputFocusHandler = (): void => {
-    setIsFocused(true);
-  }
-
-  const inputBlurHandler = (): void => {
-    setIsFocused(false);
-  }
-
   return (
     <SafeAreaView style={styles.container}>
-      {/* fadeDuration={0} */}
-      <Image style={styles.logo} source={logo} resizeMode="contain" />
-      <View>
-        <TextInput
-          style={styles.input}
-          placeholder="Email address or username"
-          placeholderTextColor={formPlaceholderColor}
-          value={loginForm.identity}
-          onChange={(event) => inputChangeHandler(event, "identity")}
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Password"
-          placeholderTextColor={formPlaceholderColor}
-          value={loginForm.password}
-          onChange={(event) => inputChangeHandler(event, "password")}
-        />
-        <TouchableOpacity style={styles.loginButton} activeOpacity={0.5} onPress={() => navigation.navigate("Home")}>
-          <Text style={styles.buttonText}>Login</Text>
-        </TouchableOpacity>
-      </View>
-      <View style={styles.bottomTab}>
-        <Text style={styles.bottomTabText}>Don't have an account yet? Create one&nbsp;
-        <Text style={styles.registerLink} onPress={() => navigation.navigate("Register")}>here</Text>
-        </Text>
-      </View>
+      {/* <TouchableWithoutFeedback style={styles.touchable} onPress={Keyboard.dismiss}> */}
+        {/* fadeDuration={0} */}
+        <Image style={styles.logo} source={logo} resizeMode="contain" />
+        <View>
+          <TextInput
+            style={styles.input}
+            placeholder="Email address or username"
+            placeholderTextColor={formPlaceholderColor}
+            value={loginForm.identity}
+            onChange={(event) => inputChangeHandler(event, "identity")}
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="Password"
+            placeholderTextColor={formPlaceholderColor}
+            value={loginForm.password}
+            onChange={(event) => inputChangeHandler(event, "password")}
+          />
+          <TouchableOpacity style={[styles.loginButton, {marginTop: isFocused ? 0 : 20}]} activeOpacity={0.5} onPress={() => navigation.navigate("Home")}>
+            <Text style={styles.buttonText}>Login</Text>
+          </TouchableOpacity>
+        </View>
+        {!isFocused && <View style={styles.bottomTab}>
+          <Text style={styles.bottomTabText}>Don't have an account yet? Create one&nbsp;
+          <Text style={styles.registerLink} onPress={() => navigation.navigate("Register")}>here</Text>
+          </Text>
+        </View> }
+      {/* </TouchableWithoutFeedback> */}
     </SafeAreaView>
   )
 }
@@ -65,31 +70,37 @@ const Login = ( {navigation} : LoginScreenProps) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: backgroundColor,
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  touchable: {
+    width: "100%",
+    height: "100%",
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: backgroundColor
   },
   logo: {
     width: 200,
     height: 200,
-    marginBottom: 40
+    marginBottom: 30
   },
   input: {
     color: primaryFontColor,
     backgroundColor: formInputBackgroundColor,
-    width: 300,
+    width: 330,
     height: 50,
     padding: 10,
     marginBottom: 15,
-    borderRadius: 4
+    borderRadius: 3
   },
   loginButton: {
     justifyContent: "center",
-    width: 300,
+    width: 330,
     height: 50,
     backgroundColor: defaultButtonColor,
-    borderRadius: 4,
-    marginTop: 20
+    borderRadius: 7,
+    // marginTop: 20
   },
   buttonText: {
     width: "100%",
