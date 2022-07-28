@@ -20,6 +20,7 @@ export default function App() {
     <StatusBar></StatusBar>
     <NavigationContainer>
       <RootStack.Navigator initialRouteName="SignIn" screenOptions={{ headerShown: false }}>
+        {/* initialParams={{user: "Dan"}} */}
         <RootStack.Screen name="SignIn" component={SignIn} />
         <RootStack.Screen name="Home" component={Home} />
         <RootStack.Screen name="About" component={About} />

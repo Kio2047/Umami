@@ -2,12 +2,13 @@ import { View, Text, StyleSheet, Image, TouchableOpacity, SafeAreaView, Platform
 import { CommonActions } from "@react-navigation/native";
 
 import { backgroundColor, defaultButtonColor, primaryFontColor } from "../colors";
-import type { SignInProps } from "../navTypes";
+import type { SignInScreenProps } from "../navTypes";
 
 import logo from "../assets/logo.png"
 
-const SignIn = ( {route, navigation}: SignInProps  ) => {
-  const user = route.params.user;
+const SignIn = ( {navigation}: SignInScreenProps ) => {
+  // const user = route.params.user;
+  // console.log(user);
   return (
     <SafeAreaView style={styles.container}>
       {/* fadeDuration={0} */}

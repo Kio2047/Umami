@@ -1,7 +1,8 @@
 import { View, Text, StyleSheet, Button } from "react-native"
 import React, { useEffect } from "react"
+import { HomeScreenProps } from "../navTypes"
 
-const Home = ( {navigation} ) => {
+const Home = ( {navigation}: HomeScreenProps ) => {
 
   return (
     <View style={styles.container}>
