@@ -1,12 +1,13 @@
-import { View, Text, StyleSheet, Button, SafeAreaView, TouchableOpacity } from "react-native"
+import { View, Text, StyleSheet, Button, SafeAreaView, TouchableOpacity, Image } from "react-native"
 import React from "react"
 import { AntDesign } from '@expo/vector-icons';
-
 
 import { FeedScreenProps } from "../types"
 import { backgroundColor, formInputBackgroundColor, primaryFontColor } from "../colors"
 
-const Feed = ( {navigation}: FeedScreenProps ) => {
+const Feed = ( {route, navigation}: FeedScreenProps ) => {
+
+  const userID = route.params.userID;
 
   return (
     <SafeAreaView style={styles.container}>
@@ -25,6 +26,7 @@ const Feed = ( {navigation}: FeedScreenProps ) => {
             body: "Testing 2"
           })}
         />
+
       </View>
     </SafeAreaView>
   )
