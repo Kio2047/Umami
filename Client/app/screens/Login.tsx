@@ -63,7 +63,7 @@ const Login = ( {navigation} : LoginScreenProps) => {
             onPress={() => {
               navigation.dispatch(CommonActions.reset({
                 index: 0,
-                routes: [{name: "Feed"}]
+                routes: [{name: "Feed", params: {userID: "Kiavash Shirazpour"}}]
               }))
             }}
           >
