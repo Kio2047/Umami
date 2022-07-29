@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, SafeAreaView, Image, TextInput, TouchableOpacity, NativeSyntheticEvent, TextInputChangeEventData, Keyboard } from "react-native";
 import { CommonActions } from "@react-navigation/native";
 
-import { LoginScreenProps } from "../navTypes";
+import { LoginScreenProps } from "../types";
 import logo from "../assets/logo.png";
 import { backgroundColor, bottomTabBorderColor, defaultButtonColor, formInputBackgroundColor, formPlaceholderColor, primaryFontColor } from "../colors";
 
@@ -63,7 +63,7 @@ const Login = ( {navigation} : LoginScreenProps) => {
             onPress={() => {
               navigation.dispatch(CommonActions.reset({
                 index: 0,
-                routes: [{name: "Home"}]
+                routes: [{name: "Feed"}]
               }))
             }}
           >

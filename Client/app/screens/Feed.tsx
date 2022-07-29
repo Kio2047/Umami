@@ -3,10 +3,10 @@ import React from "react"
 import { AntDesign } from '@expo/vector-icons';
 
 
-import { HomeScreenProps } from "../types"
+import { FeedScreenProps } from "../types"
 import { backgroundColor, formInputBackgroundColor, primaryFontColor } from "../colors"
 
-const Home = ( {navigation}: HomeScreenProps ) => {
+const Feed = ( {navigation}: FeedScreenProps ) => {
 
   return (
     <SafeAreaView style={styles.container}>
@@ -17,7 +17,7 @@ const Home = ( {navigation}: HomeScreenProps ) => {
         <Text style={styles.makePostText}>Make new post</Text>
       </TouchableOpacity>
       <View>
-        <Text>Home</Text>
+        <Text>Feed</Text>
         <Button
           title="Go to About"
           onPress={() => navigation.navigate("About", {
@@ -52,4 +52,4 @@ const styles = StyleSheet.create({
   }
 })
 
-export default Home
+export default Feed

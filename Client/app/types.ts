@@ -13,7 +13,7 @@ export type RootStackParamsList = {
   SignIn: {user: string},
   Login: undefined,
   Register: undefined,
-  Home: undefined,
+  Feed: undefined,
   Post: PostProps,
   About: { title: string, body: string },
 }
@@ -21,8 +21,8 @@ export type RootStackParamsList = {
 export type SignInScreenProps = { navigation: StackNavigationProp<RootStackParamsList, "SignIn"> };
 export type LoginScreenProps = { navigation: StackNavigationProp<RootStackParamsList, "Login"> };
 export type RegisterScreenProps = { navigation: StackNavigationProp<RootStackParamsList, "Register"> };
-export type HomeScreenProps = { navigation: StackNavigationProp<RootStackParamsList, "Home"> };
+export type FeedScreenProps = { navigation: StackNavigationProp<RootStackParamsList, "Feed"> };
 export type PostScreenProps = StackScreenProps<RootStackParamsList, "Post">
 export type AboutScreenProps = StackScreenProps<RootStackParamsList, 'About'>;
 // type SignInScreenRouteAndNavigationProps = StackNavigationProp<RootStackParamsList, 'SignIn'>;
-// export type HomeScreenRouteAndNavigationProps = StackScreenProps<RootStackParamsList, 'Home'>;
+// export type FeedScreenRouteAndNavigationProps = StackScreenProps<RootStackParamsList, 'Feed'>;

@@ -13,8 +13,8 @@ const About = ( {navigation, route}: AboutScreenProps ) => {
       <Text>{title}</Text>
       <Text>{body}</Text>
       <Button
-        title="Go to Home"
-        onPress={() => navigation.navigate("Home")}
+        title="Go to Feed"
+        onPress={() => navigation.navigate("Feed")}
       />
     </View>
   )

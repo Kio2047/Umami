@@ -10,7 +10,7 @@ import { backgroundColor } from './app/colors';
 import SignIn from './app/screens/SignIn';
 import Login from './app/screens/Login';
 import Register from './app/screens/Register';
-import Home from './app/screens/Home';
+import Feed from './app/screens/Feed';
 import Post from './app/components/Post';
 import About from './app/screens/About';
 
@@ -27,7 +27,7 @@ export default function App() {
         <RootStack.Screen name="SignIn" component={SignIn} />
         <RootStack.Screen name="Login" component={Login} />
         <RootStack.Screen name="Register" component={Register} />
-        <RootStack.Screen name="Home" component={Home} />
+        <RootStack.Screen name="Feed" component={Feed} />
         <RootStack.Screen name="Post" component={Post} />
         <RootStack.Screen name="About" component={About} />
       </RootStack.Navigator>
