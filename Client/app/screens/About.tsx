@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet, Button } from 'react-native'
 import React from 'react'
 
-import { AboutScreenProps } from '../navTypes';
+import { AboutScreenProps } from '../types';
 
 const About = ( {navigation, route}: AboutScreenProps ) => {
 

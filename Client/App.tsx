@@ -5,12 +5,13 @@ import { SafeAreaView, StatusBar, StyleSheet, Platform } from 'react-native';
 import { NavigationContainer, DarkTheme } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
-import type { RootStackParamsList } from './app/navTypes';
+import type { RootStackParamsList } from './app/types';
 import { backgroundColor } from './app/colors';
 import SignIn from './app/screens/SignIn';
 import Login from './app/screens/Login';
 import Register from './app/screens/Register';
 import Home from './app/screens/Home';
+import Post from './app/components/Post';
 import About from './app/screens/About';
 
 NavigationBar.setBackgroundColorAsync(backgroundColor);
@@ -27,6 +28,7 @@ export default function App() {
         <RootStack.Screen name="Login" component={Login} />
         <RootStack.Screen name="Register" component={Register} />
         <RootStack.Screen name="Home" component={Home} />
+        <RootStack.Screen name="Post" component={Post} />
         <RootStack.Screen name="About" component={About} />
       </RootStack.Navigator>
     </NavigationContainer>

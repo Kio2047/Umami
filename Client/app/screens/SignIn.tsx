@@ -2,7 +2,7 @@ import { View, Text, StyleSheet, Image, TouchableOpacity, SafeAreaView, Platform
 import { CommonActions } from "@react-navigation/native";
 
 import { backgroundColor, defaultButtonColor, primaryFontColor } from "../colors";
-import type { SignInScreenProps } from "../navTypes";
+import type { SignInScreenProps } from "../types";
 import logo from "../assets/logo.png"
 
 const SignIn = ( {navigation}: SignInScreenProps ) => {

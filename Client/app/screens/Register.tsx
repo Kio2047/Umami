@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, SafeAreaView, Image, TextInput, NativeSyntheticEvent, TextInputChangeEventData, Keyboard } from "react-native";
 
-import { RegisterScreenProps } from "../navTypes";
+import { RegisterScreenProps } from "../types";
 import logo from "../assets/logo.png";
 
 const Register = ( {navigation} : RegisterScreenProps) => {
