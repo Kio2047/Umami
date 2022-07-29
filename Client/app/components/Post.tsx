@@ -9,7 +9,7 @@ import { backgroundColor, bottomTabBorderColor, formInputBackgroundColor, primar
 
 const Post = ( {postData}: {postData: postDataType} ) => {
 
-  const { userId, profilePicture, scores, images, title, text, restaurant, others} = postData
+  const { userID, profilePicture, scores, images, title, text, restaurant, others} = postData
   const renderedImages = images.slice(0, 3);
 
   return (
@@ -19,7 +19,7 @@ const Post = ( {postData}: {postData: postDataType} ) => {
       <View style={styles.banner}>
         <Image style={styles.profilePicture} source={profilePicture}></Image>
         <View style={styles.bannerTextContainer}>
-          <Text style={styles.authorName}>{userId}</Text>
+          <Text style={styles.authorName}>{userID}</Text>
           <Text style={styles.subheading}>was at <Text style={styles.restaurantName}>{restaurant}</Text> {others && <Text style={styles.subheading}>with {others?.map((name) => <Text key={name} style={styles.otherProfiles}>{name}</Text>)}</Text>}</Text>
         </View>
       </View>
@@ -73,7 +73,18 @@ const Post = ( {postData}: {postData: postDataType} ) => {
 
       <View style={styles.reviewTextContainer}>
         <Text style={styles.reviewTitle}>{title}</Text>
+
+        { text.length > 50 ?
+        <ReadMore
+          numberOfLines={5}
+          renderTruncatedFooter={(handlePress: any) => { return <Text onPress={handlePress} style={{ color: 'grey' }}>more</Text> }}
+          renderRevealedFooter={(handlePress: any) => { return <Text onPress={handlePress} style={{ color: 'grey' }}>less</Text> }}
+        >
+          <Text style={styles.reviewMainText}>{text}</Text>
+        </ReadMore>
+        :
         <Text style={styles.reviewMainText}>{text}</Text>
+        }
       </View>
 
     </View>
@@ -84,14 +95,16 @@ const gap = 5
 
 const styles = StyleSheet.create({
   container: {
-    maxHeight: 500,
+     // borderBottomColor: bottomTabBorderColor,
+    // borderBottomWidth: 2,
+    marginTop: -2,
+    // maxHeight: 500,
     // below should be converted to a percentage
     width: 400,
-    // overflow: "hidden",
-    borderRadius: 15,
+    // borderRadius: 15,
+    borderTopWidth: 2,
     borderColor: bottomTabBorderColor,
     borderWidth: 1,
-
     backgroundColor: formInputBackgroundColor
   },
   banner: {
@@ -131,15 +144,8 @@ const styles = StyleSheet.create({
     // overflow: "scroll"
   },
   postImage: {
-    // flex: 1,
     width: 400/3,
     height: 400/3,
-    // maxWidth: 300,
-    // maxHeight: 200,
-    // height: undefined,
-    // aspectRatio: 134 / 70,
-    // height: "auto"
-    // backgroundColor: "red"
   },
   ratingsContainer: {
     flexDirection: "row",
@@ -167,7 +173,8 @@ const styles = StyleSheet.create({
     marginVertical: (gap / 2)
   },
   reviewTextContainer: {
-    marginTop: 7
+    marginTop: 7,
+    paddingBottom: 5
   },
   reviewTitle: {
     color: primaryFontColor,
@@ -175,7 +182,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
   reviewMainText: {
-    color: primaryFontColor
+    color: primaryFontColor,
   }
 })
 

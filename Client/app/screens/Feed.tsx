@@ -1,11 +1,11 @@
-import { View, Text, StyleSheet, Button, SafeAreaView, TouchableOpacity, Image, FlatList } from "react-native"
+import { View, Text, StyleSheet, Button, SafeAreaView, TouchableOpacity, Image, FlatList, ScrollView } from "react-native"
 import React from "react"
 import { AntDesign } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 import Post from "../components/Post";
 import { FeedScreenProps } from "../types"
-import { backgroundColor, formInputBackgroundColor, primaryFontColor } from "../colors"
+import { backgroundColor, bottomTabBorderColor, formInputBackgroundColor, formPlaceholderColor, primaryFontColor } from "../colors"
 import * as mockPost from "../assets/mockdata"
 
 const Feed = ( {route, navigation}: FeedScreenProps ) => {
@@ -15,29 +15,24 @@ const Feed = ( {route, navigation}: FeedScreenProps ) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <TouchableOpacity
-        style={styles.makePostButton}
-        onPress={() => navigation.navigate("About", {
-          title: "Testing 1",
-          body: "Testing 2"
-        })}
-      >
-        <MaterialCommunityIcons style={styles.leftIcon} name="silverware-fork" size={50} color="black" />
-        <View style={styles.newPostIconAndText}>
-          <AntDesign name="pluscircleo" size={50} color="white" />
-          <Text style={styles.makePostText}>Make new post</Text>
-        </View>
-        <MaterialCommunityIcons style={styles.rightIcon} name="silverware-spoon" size={50} color="black" />
-      </TouchableOpacity>
-      <Text>Feed</Text>
-      {/* <Button
-        title="Go to About"
-        onPress={() => navigation.navigate("About", {
-          title: "Testing 1",
-          body: "Testing 2"
-        })}
-      /> */}
+
       <FlatList
+        style={styles.postList}
+        ListHeaderComponent={<TouchableOpacity
+          style={styles.makePostButton}
+          onPress={() => navigation.navigate("About", {
+            title: "Testing 1",
+            body: "Testing 2"
+          })}
+        >
+          <MaterialCommunityIcons style={styles.leftIcon} name="silverware-fork" size={50} color="black" />
+          <View style={styles.newPostIconAndText}>
+            <AntDesign name="pluscircleo" size={50} color="white" />
+            <Text style={styles.makePostText}>Make new post</Text>
+          </View>
+          <MaterialCommunityIcons style={styles.rightIcon} name="silverware-spoon" size={50} color="black" />
+
+        </TouchableOpacity>}
         data={posts}
         renderItem={({item}) => <Post postData={item}></Post>}
       />
@@ -53,16 +48,22 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingVertical: 10,
     paddingHorizontal: 5,
+    overflow: "scroll"
+  },
+  postList: {
+    borderBottomLeftRadius: 10,
+    borderBottomRightRadius: 10,
   },
   makePostButton: {
-    width: "90%",
-    height: 120,
-    borderRadius: 8,
+    width: 400,
+    height: 113,
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
     backgroundColor: formInputBackgroundColor,
-    padding: 30
+    padding: 30,
   },
   leftIcon: {
     color: primaryFontColor

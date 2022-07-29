@@ -55,6 +55,7 @@ const Login = ( {navigation} : LoginScreenProps) => {
             placeholder="Password"
             placeholderTextColor={formPlaceholderColor}
             value={loginForm.password}
+            secureTextEntry={true}
             onChange={(event) => inputChangeHandler(event, "password")}
           />
           <TouchableOpacity

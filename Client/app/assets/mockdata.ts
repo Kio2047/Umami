@@ -4,7 +4,7 @@ import foodPhoto2 from "./foodphoto2.png"
 import foodPhoto3 from "./foodphoto3.png"
 import profilePicture from "./profilepicture.jpg"
 
-export const userId = "Sajjad Irvani";
+export const userID = "Sajjad Irvani";
 export { profilePicture }
 export const restaurant = "Angelina's";
 export const images = [restaurantPhoto, foodPhoto1, foodPhoto2, foodPhoto3];

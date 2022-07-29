@@ -2,7 +2,7 @@ import { StackScreenProps } from "@react-navigation/stack";
 import { StackNavigationProp } from "@react-navigation/stack";
 
 export type Post = {
-  userId: string,
+  userID: string,
   profilePicture: any,
   restaurant: string,
   images: any[],
