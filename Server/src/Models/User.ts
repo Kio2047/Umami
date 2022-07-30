@@ -3,6 +3,7 @@ import type { User, UserCredentials } from "../types";
 import { userSchema } from "./schemas";
 
 const User = mongoose.model("User", userSchema);
+export { User }
 
 // When registering, the app should perform an initial to see check if an account is already
 // associated with email before asking for more details such as their name and profilepicture
@@ -34,22 +35,32 @@ export const checkUserCredentials = async function ({email, password}: UserCrede
   else return account
 }
 
-export const loadFeed = async function (id: string) {
+export const loadFeed = async function (userID: string) {
 
   const feedData = [];
 
-  const account = await User.findOne({_id: id}).populate({
+  // const account = await User.findOne({_id: userID})
+
+  // const account = await User.findOne({_id: userID}).populate("friends");
+
+
+  const account = await User.findOne({_id: userID}).populate({
     path: "friends",
-    populate: { path: "posts" }
+    // populate: { path: "posts" }
   });
 
-
+  // for (let friend of account.friends) {
+  //   for (let post of friend.posts) {
+  //     const postData = {friend.name, friend.profilePictureURL, ...post}
+  //   }
+  // }
 
   return account;
 
   // flatmap
 
 }
+
 
 // Cleaner way of making them required below
 
