@@ -5,6 +5,8 @@ import * as AuthenticationController from "./Controllers/authenticationControlle
 const router = Router();
 
 router.post("/authenticate/does-user-exist", AuthenticationController.checkUserExists);
+router.post("/authenticate/create-new-user", AuthenticationController.createNewUser);
+
 // router.post("/login", );
 // router.get("/feed", );
 

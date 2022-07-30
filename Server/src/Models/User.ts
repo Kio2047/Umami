@@ -9,6 +9,7 @@ const User = mongoose.model("User", userSchema);
 // export const checkUserExists = async function (email) ...
 
 export const checkUserExists = async function (email: string) {
+  console.log(email);
   const account = await User.findOne({email});
   if (account) return true
   else return false
@@ -16,6 +17,7 @@ export const checkUserExists = async function (email: string) {
 
 export const createNewUser = async function ({email, password, name, profilePictureURL, posts, friends}: User) {
   const newUser = await User.create({
+    _id: new mongoose.Types.ObjectId,
     email,
     password,
     name,

@@ -9,9 +9,9 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
-app.use(router)
+app.use(router);
 
-async () => {
+(async () => {
   try{
     connectDBClient()
     app.listen(port, () => {
@@ -21,4 +21,4 @@ async () => {
   catch (error) {
     console.log(error);
   }
-}
+})();
