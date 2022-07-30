@@ -1,17 +1,6 @@
 import { mongoose } from "./index";
 import type { User, UserCredentials } from "../types";
-
-const { Schema } = mongoose;
-
-const userSchema = new mongoose.Schema({
-  _id: Schema.Types.ObjectId
-  email: {type: String, required: true},
-  password: {type: String, required: true},
-  name: {type: String, required: true},
-  profilePictureURL: {type: String, required: true},
-  posts: {type: [String], required: true},
-  friends: {type: [String], required: true}
-});
+import { userSchema } from "./schemas";
 
 const User = mongoose.model("User", userSchema);
 
@@ -19,11 +8,13 @@ const User = mongoose.model("User", userSchema);
 // associated with email before asking for more details such as their name and profilepicture
 // export const checkUserExists = async function (email) ...
 
-export const createNewUser = async function ({email, password, name, profilePictureURL, posts, friends}: User) {
-
+export const checkUserExists = async function (email: string) {
   const account = await User.findOne({email});
+  if (account) return true
+  else return false
+}
 
-  if (account) return;
+export const createNewUser = async function ({email, password, name, profilePictureURL, posts, friends}: User) {
   const newUser = await User.create({
     email,
     password,
@@ -32,16 +23,29 @@ export const createNewUser = async function ({email, password, name, profilePict
     posts,
     friends
   });
-
+  return newUser;
 }
 
-export const checkUserCredentialsAndLoadFeed = async function ({email, password}: UserCredentials) {
+export const checkUserCredentials = async function ({email, password}: UserCredentials) {
   const account = await User.findOne({email});
-  if (!account) return "account does not exist";
-  else if (password !== account.password) return "wrong password";
-  else {
-    for
-  }
+  if (!account || password !== account.password) return "invalid";
+  else return account
+}
+
+export const loadFeed = async function (id: string) {
+
+  const feedData = [];
+
+  const account = await User.findOne({_id: id}).populate({
+    path: "friends",
+    populate: { path: "posts" }
+  });
+
+
+
+  return account;
+
+  // flatmap
 
 }
 

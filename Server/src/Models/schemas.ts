@@ -3,32 +3,34 @@ import { mongoose } from "./index";
 
 const { Schema } = mongoose;
 
-const userSchema = new mongoose.Schema({
+// Make the schema properties required where necessary
+
+export const userSchema = new mongoose.Schema({
   _id: Schema.Types.ObjectId,
-  email: {type: String, required: true},
-  password: {type: String, required: true},
-  name: {type: String, required: true},
-  profilePictureURL: {type: String, required: true},
+  email: String,
+  password: String,
+  name: String,
+  profilePictureURL: String,
   posts: [{ type: Schema.Types.ObjectId, ref: "Post" }],
-  friends: {type: [String], required: true}
+  friends: [{type: Schema.Types.ObjectId, ref: "User"}]
 });
 
-// Make the below properties required
-
-const postSchema = new mongoose.Schema({
+export const postSchema = new mongoose.Schema({
   _id: Schema.Types.ObjectId,
   author: { type: Schema.Types.ObjectId, ref: "User" },
   restaurant: { type: Schema.Types.ObjectId, ref: "Restaurant"},
   ratings: [Number],
   imageURLs: [String],
+  timeStamp: String,
   title: String,
   text: String,
   others: [],
 });
 
-const restaurantSchema = new mongoose.Schema({
+export const restaurantSchema = new mongoose.Schema({
   _id: Schema.Types.ObjectId,
   posts: [{type: Schema.Types.ObjectId, ref: "Post"}],
   cuisine: [String],
-  averageScore: Number
+  averageScore: Number,
+  location: String
 })

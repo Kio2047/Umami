@@ -1,7 +1,11 @@
-// import { Router } from "express";
+import { Router } from "express";
 
-// const router = Router();
+import * as AuthenticationController from "./Controllers/authenticationController";
 
-// // router.post("/createUser", );
+const router = Router();
+
+router.post("/authenticate/does-user-exist", AuthenticationController.checkUserExists);
 // router.post("/login", );
 // router.get("/feed", );
+
+export default router

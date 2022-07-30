@@ -1,8 +1,24 @@
-// import express from "express"
-// import cors from "cors"
-// import { connectDBClient } from "./Models";
+import express from "express"
+import cors from "cors"
 
-// const app = express();
+import router from "./router"
+import { connectDBClient } from "./Models";
 
-// app.use(cors());
-// app.use(express.json());
+const port = process.env.PORT || 3001;
+const app = express();
+
+app.use(cors());
+app.use(express.json());
+app.use(router)
+
+async () => {
+  try{
+    connectDBClient()
+    app.listen(port, () => {
+      console.log(`Express listening on ${port}`);
+    })
+  }
+  catch (error) {
+    console.log(error);
+  }
+}
