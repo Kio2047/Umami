@@ -30,7 +30,7 @@ export const createNewUser = async function ({email, password, name, profilePict
 
 export const checkUserCredentials = async function ({email, password}: UserCredentials) {
   const account = await User.findOne({email});
-  if (!account || password !== account.password) return "invalid";
+  if (!account || password !== account.password) return;
   else return account
 }
 

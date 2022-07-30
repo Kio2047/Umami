@@ -24,3 +24,16 @@ export const createNewUser = async function (req: express.Request, res: express.
     res.sendStatus(500);
   }
 };
+
+export const checkUserCredentials = async function (req: express.Request, res: express.Response) {
+  try {
+    const submittedCredentials = req.body;
+    const account = await UserModel.checkUserCredentials(submittedCredentials);
+    if (!account) res.status(401).json("invalid details");
+    else res.status(200).send(account);
+  }
+  catch (error) {
+    console.log(error);
+    res.sendStatus(500);
+  }
+};
