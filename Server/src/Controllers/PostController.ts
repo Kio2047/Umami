@@ -24,8 +24,6 @@ export const createNewPost = async function (req: express.Request, res: express.
     const updatedRestaurant = await RestaurantModel.findRestaurantAndAddPost({ name: restaurantName, postID: newPostID} );
     let newPost;
 
-    // console.log("is it valid:", Types.ObjectId.isValid(userID));
-
     if (updatedRestaurant) {
       newPost = await PostModel.createNewPost({ ...postData, id: newPostID, restaurantID: updatedRestaurant._id });
     }

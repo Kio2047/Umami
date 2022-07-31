@@ -7,9 +7,6 @@ const Restaurant = mongoose.model("Restaurant", restaurantSchema);
 // Will need to be restructured once the places api is integrated with the front-end
 
 export const createNewRestaurant = async function ( {id, name, posts}: RestaurantData ) {
-    console.log("this is happening");
-    console.log(id);
-    console.log(posts);
   const newRestaurant = await Restaurant.create({
     _id: id ? id : new mongoose.Types.ObjectId(),
     name,

@@ -1,11 +1,22 @@
-import { mongoose, connectDBClient } from "../src/Models/index";
-import { createNewUser } from "../src/Models/User";
-import { createNewPost } from "../src/Models/Post";
-import { createNewRestaurant } from "../src/Models/Restaurant";
-
-
+import { mongoose, connectDBClient } from "../Models/index";
+import { createNewUser } from "../Models/User";
+import { createNewPost } from "../Models/Post";
+import { createNewRestaurant } from "../Models/Restaurant";
 
 const seedDB = async function () {
+
+  if (mongoose.connection.readyState !== 0) {
+    console.log("Only seed the database when the server is not running");
+    return;
+  }
+
+  try{
+    await connectDBClient();
+  }
+  catch (error) {
+    console.log("An error occurred whilst attempting to connect to the databse")
+    console.log(error);
+  }
 
   const user1ID = new mongoose.Types.ObjectId;
   const user2ID = new mongoose.Types.ObjectId;
@@ -20,13 +31,12 @@ const seedDB = async function () {
   // const post5ID = new mongoose.Types.ObjectId;
 
   const restaurant4ID = new mongoose.Types.ObjectId; // Antillean
-  const restaurant2ID = new mongoose.Types.ObjectId; //pino's warung
+  const restaurant2ID = new mongoose.Types.ObjectId; //pino's warung <-- I've actually been to this one, highly recommend
   const restaurant3ID = new mongoose.Types.ObjectId; // Charro De Rio
   const restaurant1ID = new mongoose.Types.ObjectId; //bosco
   // const restaurant5ID = new mongoose.Types.ObjectId;
 
   // Create 5 dummy users
-
   const user1 = await createNewUser({
     id: user1ID,
     email: "samkay1@aol.com",
@@ -77,9 +87,33 @@ const seedDB = async function () {
     friends: []
   })
 
+  // Create 5 dummy restaurants
+  const restaurant1 = await createNewRestaurant({
+    id: restaurant1ID,
+    name: "Antillean",
+    posts: [post1ID]
+  })
+
+  const restaurant2 = await createNewRestaurant({
+    id: restaurant2ID,
+    name: "Pino's Warung",
+    posts: [post2ID]
+  })
+
+  const restaurant3 = await createNewRestaurant({
+    id: restaurant3ID,
+    name: "Charro de Rio",
+    posts: [post3ID]
+  })
+
+  const restaurant4 = await createNewRestaurant({
+    id: restaurant4ID,
+    name: "Bosco Pizzeria",
+    posts: [post4ID]
+  })
+
 
   // Create 5 dummy posts
-
   const post1 = await createNewPost({
     id: post1ID,
     authorID: user1ID,
@@ -128,29 +162,7 @@ const seedDB = async function () {
     others: []
   })
 
-  const restaurant1 = await createNewRestaurant({
-    id: restaurant1ID,
-    name: "Antillean",
-    posts: [post1ID]
-  })
-
-  const restaurant2 = await createNewRestaurant({
-    id: restaurant1ID,
-    name: "Pino's Warung",
-    posts: [post2ID]
-  })
-
-  const restaurant3 = await createNewRestaurant({
-    id: restaurant1ID,
-    name: "Charro de Rio",
-    posts: [post3ID]
-  })
-
-  const restaurant4 = await createNewRestaurant({
-    id: restaurant1ID,
-    name: "Bosco Pizzeria",
-    posts: [post4ID]
-  })
+  mongoose.connection.close();
 
 }
 
