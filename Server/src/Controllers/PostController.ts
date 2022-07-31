@@ -4,17 +4,17 @@ import * as RestaurantModel from "../Models/Restaurant"
 import { Types } from "mongoose";
 import express from "express";
 
-// export const loadFeed = async function (req: express.Request, res: express.Response) {
-//   try {
-//     const { userID } = req.body;
-//     const feedData = await UserModel.loadFeed(userID);
-//     res.status(200).json(feedData);
-//   }
-//   catch (error) {
-//     console.log(error);
-//     res.sendStatus(500);
-//   }
-// };
+export const loadFeed = async function (req: express.Request, res: express.Response) {
+  try {
+    const { userID } = req.body;
+    const feedData = await UserModel.loadFeed(userID);
+    res.status(200).json(feedData);
+  }
+  catch (error) {
+    console.log(error);
+    res.sendStatus(500);
+  }
+};
 
 export const createNewPost = async function (req: express.Request, res: express.Response) {
   try {

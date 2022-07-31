@@ -47,37 +47,34 @@ export const searchForUser = async function ( name: string ) {
   return matchedUsers;
 };
 
+export const loadFeed = async function (userID: string) {
+
+  const feedData = [];
+
+  const account = await User.findOne({_id: userID}).populate({
+    path: "friends",
+    populate: { path: "posts" }
+  });
+
+  for (let friend of account.friends) {
+    // Add populate with typescript
+    // @ts-ignore: Object ID bug
+    for (let post of friend.posts) {
+      // @ts-ignore: Object ID bug
+      feedData.push({...post.toObject(), authorName: friend.name, profilePictureURL: friend.profilePictureURL});
+    };
+  };
+
+  return feedData;
+
+}
+
 // export const addFriend = async function (  ) {
 //   const regex = new RegExp(`^${name}`, 'i');
 //   const matchedUsers = await User.find({ name: {$regex: regex} });
 //   return matchedUsers;
 // };
 
-// export const loadFeed = async function (userID: string) {
-
-//   const feedData = [];
-
-//   // const account = await User.findOne({_id: userID})
-
-//   // const account = await User.findOne({_id: userID}).populate("friends");
-
-
-//   const account = await User.findOne({_id: userID}).populate({
-//     path: "friends",
-//     // populate: { path: "posts" }
-//   });
-
-//   // for (let friend of account.friends) {
-//   //   for (let post of friend.posts) {
-//   //     const postData = {friend.name, friend.profilePictureURL, ...post}
-//   //   }
-//   // }
-
-//   return account;
-
-//   // flatmap
-
-// }
 
 
 // Cleaner way of making them required below

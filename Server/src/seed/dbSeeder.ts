@@ -87,31 +87,6 @@ const seedDB = async function () {
     friends: []
   })
 
-  // Create 5 dummy restaurants
-  const restaurant1 = await createNewRestaurant({
-    id: restaurant1ID,
-    name: "Antillean",
-    posts: [post1ID]
-  })
-
-  const restaurant2 = await createNewRestaurant({
-    id: restaurant2ID,
-    name: "Pino's Warung",
-    posts: [post2ID]
-  })
-
-  const restaurant3 = await createNewRestaurant({
-    id: restaurant3ID,
-    name: "Charro de Rio",
-    posts: [post3ID]
-  })
-
-  const restaurant4 = await createNewRestaurant({
-    id: restaurant4ID,
-    name: "Bosco Pizzeria",
-    posts: [post4ID]
-  })
-
 
   // Create 5 dummy posts
   const post1 = await createNewPost({
@@ -160,6 +135,32 @@ const seedDB = async function () {
     text: "The aranacini and pizza are next level. Salads are great too. Ambience is lovely, it's got that Italian hustle and bustle. Love this place.",
     timestamp: new Date(Date.now() - (86400000 * 2)),
     others: []
+  })
+
+
+   // Create 5 dummy restaurants
+   const restaurant1 = await createNewRestaurant({
+    id: restaurant1ID,
+    name: "Antillean",
+    posts: [post1ID]
+  })
+
+  const restaurant2 = await createNewRestaurant({
+    id: restaurant2ID,
+    name: "Pino's Warung",
+    posts: [post2ID]
+  })
+
+  const restaurant3 = await createNewRestaurant({
+    id: restaurant3ID,
+    name: "Charro de Rio",
+    posts: [post3ID]
+  })
+
+  const restaurant4 = await createNewRestaurant({
+    id: restaurant4ID,
+    name: "Bosco Pizzeria",
+    posts: [post4ID]
   })
 
   mongoose.connection.close();
