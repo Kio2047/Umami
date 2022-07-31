@@ -1,13 +1,41 @@
-export type UserCredentials = {
-  email: string,
-  password: string
-}
+// import { ObjectId } from "bson"
+import { Types } from "mongoose"
 
-export type User = {
+export type UserData = {
+  id?: Types.ObjectId,
   email: string,
   password: string,
   name: string,
   profilePictureURL: string,
-  posts: [string],
-  friends: [string]
+  posts: Types.ObjectId[],
+  friends: Types.ObjectId[]
+}
+
+export type PostData = {
+  id? : Types.ObjectId,
+  authorID: Types.ObjectId,
+  restaurantID: Types.ObjectId,
+  // restaurantName: string,
+  ratings: number[],
+  imageURLs: string[],
+  title: string,
+  text: string
+  timestamp: Date,
+  others?: Types.ObjectId[],
+}
+
+export type RestaurantData = {
+  id?: Types.ObjectId,
+  name: string,
+  posts: Types.ObjectId[]
+}
+
+export type UserCredentials = {
+  email: string,
+  password: string,
+}
+
+export type RestaurantNewPost = {
+  name: string,
+  postID: Types.ObjectId
 }

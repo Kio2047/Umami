@@ -1,9 +1,8 @@
 import { mongoose } from "./index";
-import type { User, UserCredentials } from "../types";
+import type { UserData, UserCredentials } from "../types";
 import { userSchema } from "./schemas";
 
 const User = mongoose.model("User", userSchema);
-export { User }
 
 // When registering, the app should perform an initial to see check if an account is already
 // associated with email before asking for more details such as their name and profilepicture
@@ -12,13 +11,14 @@ export { User }
 export const checkUserExists = async function (email: string) {
   console.log(email);
   const account = await User.findOne({email});
+    // @ts-ignore: Unreachable code error
   if (account) return true
   else return false
 }
 
-export const createNewUser = async function ({email, password, name, profilePictureURL, posts, friends}: User) {
+export const createNewUser = async function ({email, password, name, profilePictureURL, posts, friends, id}: UserData) {
   const newUser = await User.create({
-    _id: new mongoose.Types.ObjectId,
+    _id: id ? id : new mongoose.Types.ObjectId,
     email,
     password,
     name,

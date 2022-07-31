@@ -21,7 +21,7 @@ export const postSchema = new mongoose.Schema({
   restaurant: { type: Schema.Types.ObjectId, ref: "Restaurant"},
   ratings: [Number],
   imageURLs: [String],
-  timeStamp: String,
+  timeStamp: Date,
   title: String,
   text: String,
   others: [],
@@ -29,8 +29,9 @@ export const postSchema = new mongoose.Schema({
 
 export const restaurantSchema = new mongoose.Schema({
   _id: Schema.Types.ObjectId,
-  posts: [{type: Schema.Types.ObjectId, ref: "Post"}],
-  cuisine: [String],
-  averageScore: Number,
-  location: String
+  name: String,
+  posts: [{type: Schema.Types.ObjectId, ref: "Post"}]
+  // cuisine: [String],
+  // averageScore: Number,
+  // location: String
 })
