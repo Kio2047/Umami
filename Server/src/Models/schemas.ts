@@ -17,11 +17,11 @@ export const userSchema = new mongoose.Schema({
 
 export const postSchema = new mongoose.Schema({
   _id: Schema.Types.ObjectId,
-  author: { type: Schema.Types.ObjectId, ref: "User" },
-  restaurant: { type: Schema.Types.ObjectId, ref: "Restaurant"},
+  authorID: { type: Schema.Types.ObjectId, ref: "User" },
+  restaurantID: { type: Schema.Types.ObjectId, ref: "Restaurant"},
   ratings: [Number],
   imageURLs: [String],
-  timeStamp: Date,
+  timestamp: Date,
   title: String,
   text: String,
   others: [],

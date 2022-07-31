@@ -1,5 +1,5 @@
 import { mongoose } from "./index";
-import type { UserData, UserCredentials } from "../types";
+import type { UserData, UserCredentials, UserAndPostIDs } from "../types";
 import { userSchema } from "./schemas";
 
 const User = mongoose.model("User", userSchema);
@@ -11,14 +11,13 @@ const User = mongoose.model("User", userSchema);
 export const checkUserExists = async function (email: string) {
   console.log(email);
   const account = await User.findOne({email});
-    // @ts-ignore: Unreachable code error
   if (account) return true
   else return false
 }
 
 export const createNewUser = async function ({email, password, name, profilePictureURL, posts, friends, id}: UserData) {
   const newUser = await User.create({
-    _id: id ? id : new mongoose.Types.ObjectId,
+    _id: id ? id : new mongoose.Types.ObjectId(),
     email,
     password,
     name,
@@ -35,31 +34,50 @@ export const checkUserCredentials = async function ({email, password}: UserCrede
   else return account
 }
 
-export const loadFeed = async function (userID: string) {
+export const addPostToUser = async function ({userID, postID}: UserAndPostIDs) {
+  const account = await User.findOne({ _id: userID });
+  // @ts-ignore: Object ID bug
+  account.posts.push(postID);
+  await account.save();
+};
 
-  const feedData = [];
+export const searchForUser = async function ( name: string ) {
+  const regex = new RegExp(`^${name}`, 'i');
+  const matchedUsers = await User.find({ name: {$regex: regex} });
+  return matchedUsers;
+};
 
-  // const account = await User.findOne({_id: userID})
+// export const addFriend = async function (  ) {
+//   const regex = new RegExp(`^${name}`, 'i');
+//   const matchedUsers = await User.find({ name: {$regex: regex} });
+//   return matchedUsers;
+// };
 
-  // const account = await User.findOne({_id: userID}).populate("friends");
+// export const loadFeed = async function (userID: string) {
+
+//   const feedData = [];
+
+//   // const account = await User.findOne({_id: userID})
+
+//   // const account = await User.findOne({_id: userID}).populate("friends");
 
 
-  const account = await User.findOne({_id: userID}).populate({
-    path: "friends",
-    // populate: { path: "posts" }
-  });
+//   const account = await User.findOne({_id: userID}).populate({
+//     path: "friends",
+//     // populate: { path: "posts" }
+//   });
 
-  // for (let friend of account.friends) {
-  //   for (let post of friend.posts) {
-  //     const postData = {friend.name, friend.profilePictureURL, ...post}
-  //   }
-  // }
+//   // for (let friend of account.friends) {
+//   //   for (let post of friend.posts) {
+//   //     const postData = {friend.name, friend.profilePictureURL, ...post}
+//   //   }
+//   // }
 
-  return account;
+//   return account;
 
-  // flatmap
+//   // flatmap
 
-}
+// }
 
 
 // Cleaner way of making them required below

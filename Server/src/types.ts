@@ -39,3 +39,8 @@ export type RestaurantNewPost = {
   name: string,
   postID: Types.ObjectId
 }
+
+export type UserAndPostIDs = {
+  userID: Types.ObjectId,
+  postID: Types.ObjectId
+}
