@@ -18,7 +18,7 @@ const Feed = ( {route, navigation}: FeedScreenProps ) => {
   useEffect(() => {
     (async () => {
       const posts = await loadFeed(_id);
-      // deal with react native error stating date.getTime is not a function
+      // TODO: deal with timestamps not getting converted into Date objects + also edit timestamp utils file when this is done
       posts.sort((a: PostType, b: PostType) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
       setFeedPosts(posts);
     })();

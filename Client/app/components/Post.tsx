@@ -5,6 +5,7 @@ import ReadMore from 'react-native-read-more-text';
 
 import type { Post as PostType } from "../types";
 import { backgroundColor, bottomTabBorderColor, primaryFontColor } from "../colors";
+import { calculatePostTimestamp } from "../utils";
 
 
 const Post = ( {postData}: {postData: PostType} ) => {
@@ -24,6 +25,7 @@ const Post = ( {postData}: {postData: PostType} ) => {
   } = postData
 
   const renderedimageURLs = imageURLs.slice(0, 3);
+  const renderedTimestamp = calculatePostTimestamp(timestamp);
 
   return (
 
@@ -37,7 +39,7 @@ const Post = ( {postData}: {postData: PostType} ) => {
             <Text style={styles.subheading}>was at <Text style={styles.restaurantName}>{restaurantID.name}</Text> {others.length && <Text style={styles.subheading}>with {others?.map((friend) => <Text key={friend._id} style={styles.otherProfiles}>{friend.name}</Text>)}</Text>}</Text>
           </View>
         </View>
-        <Text style={styles.postDate}>hello</Text>
+        <Text style={styles.postDate}>{renderedTimestamp}</Text>
       </View>
 
       <View style={styles.imageContainer}>
@@ -121,14 +123,15 @@ const styles = StyleSheet.create({
     borderColor: bottomTabBorderColor,
     borderWidth: 1,
     backgroundColor: backgroundColor,
-    paddingTop: 10
+    // paddingTop: 10
   },
   postBanner: {
-    paddingHorizontal: 4.5,
-    paddingVertical: 6,
+    paddingHorizontal: 5,
+    paddingVertical: 10,
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
+    // backgroundColor: "red"
   },
   postInfo: {
     flexDirection: "row",
