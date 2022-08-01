@@ -70,7 +70,7 @@ const Feed = ( {route, navigation}: FeedScreenProps ) => {
       }
         contentContainerStyle={styles.postsContainer}
         data={feedPosts}
-        renderItem={({item}) => <Post postData={item}></Post>}
+        renderItem={({item}) => <Post postData={item} navigation={navigation}></Post>}
       />
     </SafeAreaView>
   )

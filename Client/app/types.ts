@@ -43,7 +43,8 @@ export type RootStackParamsList = {
   Login: undefined,
   Register: undefined,
   Feed: {feedUserInfo: User},
-  DetailedPost: {postData: Post}
+  DetailedImage: { imageURL: string },
+  // DetailedPost: {postData: Post, navigation: any },
   About: { title: string, body: string },
 }
 
@@ -56,6 +57,7 @@ export type SignInScreenProps = { navigation: StackNavigationProp<RootStackParam
 export type LoginScreenProps = { navigation: StackNavigationProp<RootStackParamsList, "Login"> };
 export type RegisterScreenProps = { navigation: StackNavigationProp<RootStackParamsList, "Register"> };
 export type FeedScreenProps = StackScreenProps<RootStackParamsList, "Feed">;
+export type DetailedImageScreenProps = StackScreenProps<RootStackParamsList, 'DetailedImage'>;
 // export type PostScreenProps = StackScreenProps<RootStackParamsList, "Post">
 export type AboutScreenProps = StackScreenProps<RootStackParamsList, 'About'>;
 // type SignInScreenRouteAndNavigationProps = StackNavigationProp<RootStackParamsList, 'SignIn'>;

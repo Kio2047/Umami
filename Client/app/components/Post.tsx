@@ -6,9 +6,10 @@ import ReadMore from 'react-native-read-more-text';
 import type { Post as PostType } from "../types";
 import { backgroundColor, bottomTabBorderColor, primaryFontColor } from "../colors";
 import { calculatePostTimestamp } from "../utils";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 
-const Post = ( {postData}: {postData: PostType} ) => {
+const Post = ( {postData, navigation}: {postData: PostType, navigation: any} ) => {
 
   const {
     _id,
@@ -43,7 +44,18 @@ const Post = ( {postData}: {postData: PostType} ) => {
       </View>
 
       <View style={styles.imageContainer}>
-        {renderedimageURLs.map((imageURL) => <Image style={styles.postImage} key={imageURL} source={{ uri: imageURL }} resizeMode="cover"></Image>)}
+        {renderedimageURLs.map((imageURL) => {
+          return (
+            <TouchableOpacity
+              onPress={() => navigation.navigate("DetailedImage", {
+                imageURL: imageURL
+              })}
+              key={imageURL}
+            >
+              <Image style={styles.postImage} source={{ uri: imageURL }} resizeMode="cover"></Image>
+            </TouchableOpacity>
+          )
+        })}
       </View>
 
       <View style={styles.ratingsContainer}>

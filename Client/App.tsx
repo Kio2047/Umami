@@ -11,6 +11,7 @@ import SignIn from './app/screens/SignIn';
 import Login from './app/screens/Login';
 import Register from './app/screens/Register';
 import Feed from './app/screens/Feed';
+import DetailedImage from './app/screens/DetailedImage';
 // import DetailedPost from './app/components/Post';
 import About from './app/screens/About';
 
@@ -29,6 +30,7 @@ export default function App() {
         <RootStack.Screen name="Register" component={Register} />
         <RootStack.Screen name="Feed" component={Feed} />
         {/* <RootStack.Screen name="DetailedPost" component={DetailedPost} /> */}
+        <RootStack.Screen name="DetailedImage" component={DetailedImage} />
         <RootStack.Screen name="About" component={About} />
       </RootStack.Navigator>
     </NavigationContainer>
