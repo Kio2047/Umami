@@ -7,9 +7,10 @@ import type { Post as PostType } from "../types";
 import { backgroundColor, bottomTabBorderColor, primaryFontColor } from "../colors";
 import { calculatePostTimestamp } from "../utils";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import { PostNavigationProp } from "../types";
 
 
-const Post = ( {postData, navigation}: {postData: PostType, navigation: any} ) => {
+const Post = ( {postData, navigation}: {postData: PostType, navigation: PostNavigationProp} ) => {
 
   const {
     _id,
@@ -37,7 +38,7 @@ const Post = ( {postData, navigation}: {postData: PostType, navigation: any} ) =
           <Image style={styles.profilePicture} source={{ uri: authorProfilePictureURL }}></Image>
           <View style={styles.bannerTextContainer}>
             <Text style={styles.authorName}>{authorName}</Text>
-            <Text style={styles.subheading}>was at <Text style={styles.restaurantName}>{restaurantID.name}</Text> {others.length && <Text style={styles.subheading}>with {others?.map((friend) => <Text key={friend._id} style={styles.otherProfiles}>{friend.name}</Text>)}</Text>}</Text>
+            <Text style={styles.subheading}>was at <Text style={styles.restaurantName}>{restaurantID.name}</Text> {Boolean(others.length) && <Text style={styles.subheading}>with {others?.map((friend) => <Text key={friend._id} style={styles.otherProfiles}>{friend.name}</Text>)}</Text>}</Text>
           </View>
         </View>
         <Text style={styles.postDate}>{renderedTimestamp}</Text>

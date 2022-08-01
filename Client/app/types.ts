@@ -57,6 +57,7 @@ export type SignInScreenProps = { navigation: StackNavigationProp<RootStackParam
 export type LoginScreenProps = { navigation: StackNavigationProp<RootStackParamsList, "Login"> };
 export type RegisterScreenProps = { navigation: StackNavigationProp<RootStackParamsList, "Register"> };
 export type FeedScreenProps = StackScreenProps<RootStackParamsList, "Feed">;
+export type PostNavigationProp = StackNavigationProp<RootStackParamsList, "Feed">
 export type DetailedImageScreenProps = StackScreenProps<RootStackParamsList, 'DetailedImage'>;
 // export type PostScreenProps = StackScreenProps<RootStackParamsList, "Post">
 export type AboutScreenProps = StackScreenProps<RootStackParamsList, 'About'>;
