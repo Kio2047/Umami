@@ -3,15 +3,25 @@ import { StackNavigationProp } from "@react-navigation/stack";
 
 // replace type string with objectID where necessary
 
+export type PostRestaurant = {
+  _id: string,
+  name: string,
+}
+
+// Rename restaurant ID to 'restaurant', as we're populating this field
+
 export type Post = {
-  userID: string,
-  profilePicture: any,
-  restaurant: string,
-  images: any[],
-  scores: {food: number, vibes: number, value: number},
+  _id: string,
+  authorID: string,
+  restaurantID: PostRestaurant,
+  ratings: number[],
+  imageURLs: string[],
+  timestamp: Date,
   title: string,
   text: string,
-  others?: string[]
+  others: string[],
+  authorName: string,
+  authorProfilePictureURL: string
 }
 
 export type User = {

@@ -9,7 +9,7 @@ router.post("/authenticate/check-user-exists", AuthenticationController.checkUse
 router.post("/authenticate/create-new-user", AuthenticationController.createNewUser);
 router.post("/authenticate/check-user-credentials", AuthenticationController.checkUserCredentials);
 
-router.post("/user/friend-posts", PostController.loadFeed);
+router.post("/user/get-posts", PostController.loadFeed);
 router.post("/user/create-new-post", PostController.createNewPost);
 
 export default router

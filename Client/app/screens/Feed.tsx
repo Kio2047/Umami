@@ -1,16 +1,31 @@
 import { View, Text, StyleSheet, Button, SafeAreaView, TouchableOpacity, Image, FlatList, ScrollView } from "react-native"
-import React from "react"
+import React, { useEffect, useState } from "react";
 import { AntDesign } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 import Post from "../components/Post";
-import { FeedScreenProps } from "../types"
+import type { Post as PostType, FeedScreenProps } from "../types";
+import { loadFeed } from "../apiClientService";
 import { backgroundColor, bottomTabBorderColor, formInputBackgroundColor, formPlaceholderColor, primaryFontColor } from "../colors"
 import * as mockPost from "../assets/mockdata"
 
 const Feed = ( {route, navigation}: FeedScreenProps ) => {
 
   const {_id, name, profilePictureURL, posts, friends} = route.params.feedUserInfo
+
+  const [feedPosts, setFeedPosts] = useState<PostType[]>([]);
+
+  useEffect(() => {
+    async () => {
+      const posts = await loadFeed(_id);
+
+      // if no posts display add some friends
+      // else setFeedPosts to posts sorted by timestamp
+
+
+    }
+  })
+
   const mockPosts = [mockPost];
 
   return (

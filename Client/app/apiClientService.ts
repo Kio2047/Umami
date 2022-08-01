@@ -9,7 +9,20 @@ export const checkUserCredentials = async function (credentialData: UserCredenti
       "Content-Type": "application/json"
     },
     body: JSON.stringify(credentialData)
-  })
+  });
+
+  return response;
+}
+
+export const loadFeed = async function (userID: string) {
+
+  const response = await fetch(`${baseURL}/user/get-posts`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ userID })
+  });
 
   return response;
 }
