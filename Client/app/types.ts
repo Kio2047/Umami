@@ -21,6 +21,11 @@ export type RootStackParamsList = {
   About: { title: string, body: string },
 }
 
+export type UserCredentials = {
+  email: string,
+  password: string,
+}
+
 export type SignInScreenProps = { navigation: StackNavigationProp<RootStackParamsList, "SignIn"> };
 export type LoginScreenProps = { navigation: StackNavigationProp<RootStackParamsList, "Login"> };
 export type RegisterScreenProps = { navigation: StackNavigationProp<RootStackParamsList, "Register"> };

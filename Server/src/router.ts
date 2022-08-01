@@ -5,7 +5,7 @@ import * as PostController from "./Controllers/PostController";
 
 const router = Router();
 
-router.post("/authenticate/does-user-exist", AuthenticationController.checkUserExists);
+router.post("/authenticate/check-user-exists", AuthenticationController.checkUserExists);
 router.post("/authenticate/create-new-user", AuthenticationController.createNewUser);
 router.post("/authenticate/check-user-credentials", AuthenticationController.checkUserCredentials);
 

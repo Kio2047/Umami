@@ -9,7 +9,6 @@ const User = mongoose.model("User", userSchema);
 // export const checkUserExists = async function (email) ...
 
 export const checkUserExists = async function (email: string) {
-  console.log(email);
   const account = await User.findOne({email});
   if (account) return true
   else return false
