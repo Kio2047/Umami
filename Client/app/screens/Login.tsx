@@ -79,9 +79,9 @@ const Login = ( {navigation} : LoginScreenProps) => {
               else {
                 navigation.dispatch(CommonActions.reset({
                   index: 0,
-                  routes: [{name: "Feed", params: {userID: parsedResponse._id}}]
+                  routes: [{name: "Feed", params: parsedResponse}]
                 }))
-              }
+              };
             }}
           >
             <Text style={styles.buttonText}>Login</Text>

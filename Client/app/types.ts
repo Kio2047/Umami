@@ -1,6 +1,8 @@
 import { StackScreenProps } from "@react-navigation/stack";
 import { StackNavigationProp } from "@react-navigation/stack";
 
+// replace type string with objectID where necessary
+
 export type Post = {
   userID: string,
   profilePicture: any,
@@ -12,11 +14,19 @@ export type Post = {
   others?: string[]
 }
 
+export type User = {
+  _id: string,
+  name: string,
+  profilePictureURL: string,
+  posts: string[],
+  friends: string[]
+}
+
 export type RootStackParamsList = {
   SignIn: undefined,
   Login: undefined,
   Register: undefined,
-  Feed: {userID: string},
+  Feed: {feedUserInfo: User},
   DetailedPost: {postData: Post}
   About: { title: string, body: string },
 }

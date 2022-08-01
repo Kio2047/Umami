@@ -10,8 +10,8 @@ import * as mockPost from "../assets/mockdata"
 
 const Feed = ( {route, navigation}: FeedScreenProps ) => {
 
-  const userID = route.params.userID;
-  const posts = [mockPost];
+  const {_id, name, profilePictureURL, posts, friends} = route.params.feedUserInfo
+  const mockPosts = [mockPost];
 
   return (
     <SafeAreaView style={styles.container}>
@@ -33,7 +33,7 @@ const Feed = ( {route, navigation}: FeedScreenProps ) => {
           <MaterialCommunityIcons style={styles.rightIcon} name="silverware-spoon" size={50} color="black" />
 
         </TouchableOpacity>}
-        data={posts}
+        data={mockPosts}
         renderItem={({item}) => <Post postData={item}></Post>}
       />
     </SafeAreaView>
