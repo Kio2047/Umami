@@ -1,4 +1,4 @@
-import { View, Text, Image, StyleSheet } from "react-native";
+import { View, Text, Image, StyleSheet, FlatList } from "react-native";
 import React from "react";
 import { Rating, AirbnbRating } from 'react-native-ratings';
 import ReadMore from 'react-native-read-more-text';
@@ -45,7 +45,24 @@ const Post = ( {postData, navigation}: {postData: PostType, navigation: PostNavi
       </View>
 
       <View style={styles.imageContainer}>
-        {renderedimageURLs.map((imageURL) => {
+        <FlatList
+          horizontal={true}
+          data={renderedimageURLs}
+          renderItem={({item}) => {
+            return (<TouchableOpacity
+            onPress={() => navigation.navigate("DetailedImage", {
+              imageURL: item
+            })}
+            key={item}
+          >
+            <Image style={styles.postImage} source={{ uri: item }} resizeMode="cover"></Image>
+          </TouchableOpacity>)
+          }}
+        >
+
+        </FlatList>
+
+        {/* {renderedimageURLs.map((imageURL) => {
           return (
             <TouchableOpacity
               onPress={() => navigation.navigate("DetailedImage", {
@@ -56,7 +73,7 @@ const Post = ( {postData, navigation}: {postData: PostType, navigation: PostNavi
               <Image style={styles.postImage} source={{ uri: imageURL }} resizeMode="cover"></Image>
             </TouchableOpacity>
           )
-        })}
+        })} */}
       </View>
 
       <View style={styles.ratingsContainer}>
@@ -139,7 +156,7 @@ const styles = StyleSheet.create({
     // paddingTop: 10
   },
   postBanner: {
-    paddingHorizontal: 5,
+    paddingHorizontal: 10,
     paddingVertical: 10,
     flexDirection: "row",
     justifyContent: "space-between",
@@ -180,12 +197,13 @@ const styles = StyleSheet.create({
   imageContainer: {
     flexDirection: "row",
     width: "100%",
-    height: 400/3,
+    height: 500/3,
     // overflow: "scroll"
   },
   postImage: {
-    width: 400/3,
-    height: 400/3,
+    width: 500/3,
+    height: 500/3,
+    marginLeft: 10
   },
   ratingsContainer: {
     flexDirection: "row",

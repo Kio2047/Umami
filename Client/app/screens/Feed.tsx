@@ -45,7 +45,7 @@ const Feed = ( {route, navigation}: FeedScreenProps ) => {
                 body: "Testing 2"
               })}
             >
-              <Text style={styles.makeNewPostText}>Share new eateries with your friends! 😋</Text>
+              <Text style={styles.makeNewPostText}>Share a new eatery with your friends? 😋</Text>
             </TouchableOpacity>
           </View>
 
