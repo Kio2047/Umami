@@ -1,7 +1,6 @@
 import { View, Text, StyleSheet, Button, SafeAreaView, TouchableOpacity, Image, FlatList, ScrollView } from "react-native"
 import React, { useEffect, useState } from "react";
-import { AntDesign } from '@expo/vector-icons';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { AntDesign, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 
 import Post from "../components/Post";
 import type { Post as PostType, FeedScreenProps } from "../types";
@@ -11,28 +10,48 @@ import * as mockPost from "../assets/mockdata"
 
 const Feed = ( {route, navigation}: FeedScreenProps ) => {
 
-  const {_id, name, profilePictureURL, posts, friends} = route.params.feedUserInfo
+  let {_id, name, profilePictureURL, posts, friends} = route.params.feedUserInfo
+  const firstName = name.match(/[a-z]+/i);
 
   const [feedPosts, setFeedPosts] = useState<PostType[]>([]);
 
   useEffect(() => {
     (async () => {
       const posts = await loadFeed(_id);
-      // console.log(posts);
-      console.log(posts[0]);
+      // deal with react native error stating date.getTime is not a function
       posts.sort((a: PostType, b: PostType) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
       setFeedPosts(posts);
     })();
   }, [])
 
   // const mockPosts = [mockPost];
-
   return (
     <SafeAreaView style={styles.container}>
 
       <FlatList
-        style={styles.postList}
-        ListHeaderComponent={<TouchableOpacity
+        style={styles.flatList}
+        ListHeaderComponent={
+        <View style={styles.feedBanner}>
+          <View style={styles.feedBannerTop}>
+            <Text style={styles.userGreeting}>Good afternoon, {firstName}</Text>
+            <Ionicons name="settings-outline" size={26} color="white" />
+          </View>
+          <View style={styles.newPostField}>
+            <Image style={styles.userProfilePicture} source={{ uri: profilePictureURL }}></Image>
+            <TouchableOpacity
+              // style={styles.makePostButtonV2}
+              onPress={() => navigation.navigate("About", {
+                title: "Testing 1",
+                body: "Testing 2"
+              })}
+            >
+              <Text style={styles.makeNewPostText}>Share new eateries with your friends! 😋</Text>
+            </TouchableOpacity>
+          </View>
+
+
+
+        {/* <TouchableOpacity
           style={styles.makePostButton}
           onPress={() => navigation.navigate("About", {
             title: "Testing 1",
@@ -46,7 +65,10 @@ const Feed = ( {route, navigation}: FeedScreenProps ) => {
           </View>
           <MaterialCommunityIcons style={styles.rightIcon} name="silverware-spoon" size={50} color="black" />
 
-        </TouchableOpacity>}
+        </TouchableOpacity> */}
+        </View>
+      }
+        contentContainerStyle={styles.postsContainer}
         data={feedPosts}
         renderItem={({item}) => <Post postData={item}></Post>}
       />
@@ -60,39 +82,83 @@ const styles = StyleSheet.create({
     backgroundColor: backgroundColor,
     justifyContent: "flex-start",
     alignItems: "center",
-    paddingVertical: 10,
-    paddingHorizontal: 5,
-    overflow: "scroll"
+    overflow: "scroll",
   },
-  postList: {
+  flatList: {
+    width: "100%",
     borderBottomLeftRadius: 10,
     borderBottomRightRadius: 10,
+    // backgroundColor: "blue",
+    paddingVertical: 10,
+    paddingHorizontal: 10,
   },
-  makePostButton: {
-    width: 400,
-    height: 113,
-    borderTopLeftRadius: 10,
-    borderTopRightRadius: 10,
+  feedBanner: {
+    // width: "100%",
+    minWidth: "100%",
+    // height: 200,
+    paddingVertical: 10,
+    // backgroundColor: "red"
+  },
+  feedBannerTop: {
     flexDirection: "row",
     justifyContent: "space-between",
-    alignItems: "center",
-    backgroundColor: formInputBackgroundColor,
-    padding: 30,
-  },
-  leftIcon: {
-    color: primaryFontColor
-  },
-  newPostIconAndText: {
     alignItems: "center"
   },
-  rightIcon: {
+  userGreeting: {
     color: primaryFontColor,
-    transform: [{scaleX: -1}]
+    fontSize: 23,
+    fontWeight: "500",
   },
-  makePostText: {
+  newPostField: {
+    flexDirection: "row",
+    alignItems: "center",
     marginTop: 10,
-    color: primaryFontColor
-  }
+    paddingVertical: 20,
+    paddingHorizontal: 15,
+    backgroundColor: formInputBackgroundColor,
+    borderRadius: 10
+  },
+  userProfilePicture: {
+    width: 45,
+    height: 45,
+    borderRadius: 45 / 2
+  },
+  // makePostButtonV2: {
+
+  // },
+  makeNewPostText: {
+    color: formPlaceholderColor,
+    marginLeft: 10
+  },
+  postsContainer: {
+    alignItems: "center"
+  },
+
+  // makePostButton: {
+  //   width: 400,
+  //   height: 113,
+  //   borderTopLeftRadius: 10,
+  //   borderTopRightRadius: 10,
+  //   flexDirection: "row",
+  //   justifyContent: "space-between",
+  //   alignItems: "center",
+  //   backgroundColor: formInputBackgroundColor,
+  //   padding: 30,
+  // },
+  // leftIcon: {
+  //   color: primaryFontColor
+  // },
+  // newPostIconAndText: {
+  //   alignItems: "center"
+  // },
+  // rightIcon: {
+  //   color: primaryFontColor,
+  //   transform: [{scaleX: -1}]
+  // },
+  // makePostText: {
+  //   marginTop: 10,
+  //   color: primaryFontColor
+  // }
 })
 
 export default Feed

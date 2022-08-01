@@ -71,7 +71,7 @@ const seedDB = async function () {
     id: user4ID,
     email: "kiavash90@gmail.com",
     password: "1234",
-    name: "Kiavash Shirazpour",
+    name: "Kio Shirazpour",
     profilePictureURL: "https://pps.whatsapp.net/v/t61.24694-24/294839335_732040164522381_3909308128657133963_n.jpg?ccb=11-4&oh=01_AVzN1nRf9nQK2qmEC4KneDbfSBLITOIbUqja1VW4jN6Y6Q&oe=62F43B42",
     posts: [],
     friends: [user1ID, user2ID, user3ID]

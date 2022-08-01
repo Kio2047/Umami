@@ -4,7 +4,7 @@ import { Rating, AirbnbRating } from 'react-native-ratings';
 import ReadMore from 'react-native-read-more-text';
 
 import type { Post as PostType } from "../types";
-import { backgroundColor, bottomTabBorderColor, formInputBackgroundColor, primaryFontColor } from "../colors";
+import { backgroundColor, bottomTabBorderColor, primaryFontColor } from "../colors";
 
 
 const Post = ( {postData}: {postData: PostType} ) => {
@@ -29,12 +29,15 @@ const Post = ( {postData}: {postData: PostType} ) => {
 
     <View style={styles.container}>
 
-      <View style={styles.banner}>
-        <Image style={styles.profilePicture} source={{ uri: authorProfilePictureURL }}></Image>
-        <View style={styles.bannerTextContainer}>
-          <Text style={styles.authorName}>{authorName}</Text>
-          <Text style={styles.subheading}>was at <Text style={styles.restaurantName}>{restaurantID.name}</Text> {others.length && <Text style={styles.subheading}>with {others?.map((friend) => <Text key={friend._id} style={styles.otherProfiles}>{friend.name}</Text>)}</Text>}</Text>
+      <View style={styles.postBanner}>
+        <View style={styles.postInfo}>
+          <Image style={styles.profilePicture} source={{ uri: authorProfilePictureURL }}></Image>
+          <View style={styles.bannerTextContainer}>
+            <Text style={styles.authorName}>{authorName}</Text>
+            <Text style={styles.subheading}>was at <Text style={styles.restaurantName}>{restaurantID.name}</Text> {others.length && <Text style={styles.subheading}>with {others?.map((friend) => <Text key={friend._id} style={styles.otherProfiles}>{friend.name}</Text>)}</Text>}</Text>
+          </View>
         </View>
+        <Text style={styles.postDate}>hello</Text>
       </View>
 
       <View style={styles.imageContainer}>
@@ -50,7 +53,7 @@ const Post = ( {postData}: {postData: PostType} ) => {
             style={styles.rating}
             readonly={true}
             showReadOnlyText={false}
-            tintColor= {formInputBackgroundColor}
+            tintColor= {backgroundColor}
             imageSize = {24}
             startingValue={ratings[0]}
           />
@@ -63,7 +66,7 @@ const Post = ( {postData}: {postData: PostType} ) => {
             style={styles.rating}
             readonly={true}
             showReadOnlyText={false}
-            tintColor= {formInputBackgroundColor}
+            tintColor= {backgroundColor}
             imageSize = {24}
             startingValue={ratings[1]}
           />
@@ -76,7 +79,7 @@ const Post = ( {postData}: {postData: PostType} ) => {
             style={styles.rating}
             readonly={true}
             showReadOnlyText={false}
-            tintColor= {formInputBackgroundColor}
+            tintColor= {backgroundColor}
             imageSize = {24}
             startingValue={ratings[2]}
           />
@@ -110,7 +113,6 @@ const styles = StyleSheet.create({
   container: {
      // borderBottomColor: bottomTabBorderColor,
     // borderBottomWidth: 2,
-    marginTop: -2,
     // maxHeight: 500,
     // below should be converted to a percentage
     width: 400,
@@ -118,11 +120,17 @@ const styles = StyleSheet.create({
     borderTopWidth: 2,
     borderColor: bottomTabBorderColor,
     borderWidth: 1,
-    backgroundColor: formInputBackgroundColor
+    backgroundColor: backgroundColor,
+    paddingTop: 10
   },
-  banner: {
+  postBanner: {
     paddingHorizontal: 4.5,
     paddingVertical: 6,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  postInfo: {
     flexDirection: "row",
     alignItems: "center"
   },
@@ -149,6 +157,9 @@ const styles = StyleSheet.create({
   },
   otherProfiles: {
     fontWeight: "500"
+  },
+  postDate: {
+    color: primaryFontColor,
   },
   imageContainer: {
     flexDirection: "row",

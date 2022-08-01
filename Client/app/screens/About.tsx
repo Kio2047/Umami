@@ -20,7 +20,6 @@ const About = ( {navigation, route}: AboutScreenProps ) => {
   return (
     <View style={styles.container}>
 
-
 {/*
 <AirbnbRating />
 
