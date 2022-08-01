@@ -8,6 +8,12 @@ export type PostRestaurant = {
   name: string,
 }
 
+export type OtherPerson = {
+  _id: string,
+  name: string,
+  profilePictureURL: string
+}
+
 // Rename restaurant ID to 'restaurant', as we're populating this field
 
 export type Post = {
@@ -19,7 +25,7 @@ export type Post = {
   timestamp: Date,
   title: string,
   text: string,
-  others: string[],
+  others: OtherPerson[],
   authorName: string,
   authorProfilePictureURL: string
 }

@@ -18,7 +18,8 @@ const Feed = ( {route, navigation}: FeedScreenProps ) => {
   useEffect(() => {
     (async () => {
       const posts = await loadFeed(_id);
-      console.log(posts);
+      // console.log(posts);
+      console.log(posts[0]);
       posts.sort((a: PostType, b: PostType) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
       setFeedPosts(posts);
     })();

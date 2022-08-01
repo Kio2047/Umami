@@ -33,7 +33,7 @@ const Post = ( {postData}: {postData: PostType} ) => {
         <Image style={styles.profilePicture} source={{ uri: authorProfilePictureURL }}></Image>
         <View style={styles.bannerTextContainer}>
           <Text style={styles.authorName}>{authorName}</Text>
-          <Text style={styles.subheading}>was at <Text style={styles.restaurantName}>{restaurantID.name}</Text> {others.length && <Text style={styles.subheading}>with {others?.map((name) => <Text key={name} style={styles.otherProfiles}>{name}</Text>)}</Text>}</Text>
+          <Text style={styles.subheading}>was at <Text style={styles.restaurantName}>{restaurantID.name}</Text> {others.length && <Text style={styles.subheading}>with {others?.map((friend) => <Text key={friend._id} style={styles.otherProfiles}>{friend.name}</Text>)}</Text>}</Text>
         </View>
       </View>
 
