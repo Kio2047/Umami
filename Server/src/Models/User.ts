@@ -52,13 +52,21 @@ export const loadFeed = async function (userID: string) {
   const feedData = [];
 
   const account = await User.findOne({_id: userID}).populate({
+    path: "posts",
+    populate: [
+      {
+        path: "restaurantID",
+        select: "-posts"
+      },
+      {
+        path: "others",
+        select: "_id name profilePictureURL"
+      }
+    ]
+  }).populate({
     path: "friends",
     populate: {
       path: "posts",
-      // populate: {
-      //   path: "restaurantID",
-      //   select: "-posts"
-      // },
       populate: [
           {
             path: "restaurantID",
@@ -68,20 +76,18 @@ export const loadFeed = async function (userID: string) {
             path: "others",
             select: "_id name profilePictureURL"
           }
-        ],
+        ]
      }
   });
 
-  // for (let post of account.posts) {
-  //   console.log(post);
-  //   feedData.push({
-  //     // @ts-ignore: Object ID bug
-  //     ...post.toObject(),
-  //     authorName: account.name,
-  //     profilePictureURL: account.profilePictureURL
-  //   })
-  // }
-  // restaurantName: restaurantID.name
+  for (let post of account.posts) {
+    feedData.push({
+      // @ts-ignore: Object ID bug
+      ...post.toObject(),
+      authorName: account.name,
+      profilePictureURL: account.profilePictureURL
+    })
+  }
 
   for (let friend of account.friends) {
     // Add populate with typescript
