@@ -16,17 +16,15 @@ const Feed = ( {route, navigation}: FeedScreenProps ) => {
   const [feedPosts, setFeedPosts] = useState<PostType[]>([]);
 
   useEffect(() => {
-    async () => {
+    (async () => {
       const posts = await loadFeed(_id);
+      console.log(posts);
+      posts.sort((a: PostType, b: PostType) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
+      setFeedPosts(posts);
+    })();
+  }, [])
 
-      // if no posts display add some friends
-      // else setFeedPosts to posts sorted by timestamp
-
-
-    }
-  })
-
-  const mockPosts = [mockPost];
+  // const mockPosts = [mockPost];
 
   return (
     <SafeAreaView style={styles.container}>
@@ -48,7 +46,7 @@ const Feed = ( {route, navigation}: FeedScreenProps ) => {
           <MaterialCommunityIcons style={styles.rightIcon} name="silverware-spoon" size={50} color="black" />
 
         </TouchableOpacity>}
-        data={mockPosts}
+        data={feedPosts}
         renderItem={({item}) => <Post postData={item}></Post>}
       />
     </SafeAreaView>

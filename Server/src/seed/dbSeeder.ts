@@ -93,7 +93,7 @@ const seedDB = async function () {
     id: post1ID,
     authorID: user1ID,
     restaurantID: restaurant1ID,
-    ratings: [4.5, 3, 3.5],
+    ratings: [4.5, 3.5, 3],
     imageURLs: ["https://media-cdn.tripadvisor.com/media/photo-w/22/53/a1/05/caption.jpg", "https://media-cdn.tripadvisor.com/media/photo-p/21/59/e1/06/grilled-aubergine-stir.jpg", "https://media-cdn.tripadvisor.com/media/photo-p/22/53/a1/03/caption.jpg"],
     title: "Next level Caribbean food that will break the bank",
     text: "Had the scallop ceviche and the octopus, crab and mackerel small plates which were all amazing. For mains we had the crab curry, tamarind chicken and the lamb cutlets, the curry was probably the best but all of these were totally sublime. To finish we had the plantain tarte tatin, chocolate torte and carrot cake with pineapple, all nice but not at the level of the starters. We washed them all down with a selection of ‘tropical’ cocktails as it’s 24/7 happy hour for July / August. It's far from cheap though - I'll probably be living off of baked beans and toast for the foreseeable future. Worth it? Not sure, but the food was wicked",
@@ -108,7 +108,7 @@ const seedDB = async function () {
     ratings: [5, 4, 5],
     imageURLs: ["https://media-cdn.tripadvisor.com/media/photo-w/1b/15/b7/24/pino-s-warung.jpg", "https://media-cdn.tripadvisor.com/media/photo-w/1d/8d/fc/35/pino-s-warung.jpg", "https://media-cdn.tripadvisor.com/media/photo-p/1d/8d/fc/38/pino-s-warung.jpg"],
     title: "Best Indonesian Satay Chicken in London!!",
-    text: "If you haven’t already tasted the Satay Chicken, you need to try them they are finger licking delicious!!! While in London, if you’re looking for an authentic Indonesian street food, THIS IS the place to go! I highly recommend. This place is definitely worth a visit. The portion is quiet big for the price you pay. No doubt, I’ll continue to keep coming back for more.",
+    text: "If you haven’t already tasted the Satay Chicken, you need to try them they are finger licking delicious!!! While in London, if you’re looking for an authentic Indonesian street food, THIS IS the place to go! Highly highly recommended - this place is deffo worth a visit. The portions are quiet big for the price you pay. Hit me up if you're ever planning on going to this place 😂",
     timestamp: new Date(Date.now() - 86400000),
     others: []
   })

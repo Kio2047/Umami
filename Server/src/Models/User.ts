@@ -55,21 +55,32 @@ export const loadFeed = async function (userID: string) {
     path: "friends",
     populate: {
       path: "posts",
-      populate: {
-        path: "restaurantID",
-        select: "-posts"
-      },
+      // populate: {
+      //   path: "restaurantID",
+      //   select: "-posts"
+      // },
+      populate: [
+          {
+            path: "restaurantID",
+            select: "-posts"
+          },
+          {
+            path: "others",
+            select: "_id name profilePictureURL"
+          }
+        ],
      }
   });
 
-  for (let post of account.posts) {
-    feedData.push({
-      // @ts-ignore: Object ID bug
-      ...post.toObject(),
-      authorName: account.name,
-      profilePictureURL: account.profilePictureURL
-    })
-  }
+  // for (let post of account.posts) {
+  //   console.log(post);
+  //   feedData.push({
+  //     // @ts-ignore: Object ID bug
+  //     ...post.toObject(),
+  //     authorName: account.name,
+  //     profilePictureURL: account.profilePictureURL
+  //   })
+  // }
   // restaurantName: restaurantID.name
 
   for (let friend of account.friends) {

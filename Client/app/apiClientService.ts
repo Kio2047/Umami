@@ -11,7 +11,9 @@ export const checkUserCredentials = async function (credentialData: UserCredenti
     body: JSON.stringify(credentialData)
   });
 
-  return response;
+  const parsedResponse = await response.json();
+
+  return parsedResponse;
 }
 
 export const loadFeed = async function (userID: string) {
@@ -24,5 +26,7 @@ export const loadFeed = async function (userID: string) {
     body: JSON.stringify({ userID })
   });
 
-  return response;
+  const parsedResponse = await response.json();
+
+  return parsedResponse;
 }

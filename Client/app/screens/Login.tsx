@@ -53,6 +53,7 @@ const Login = ( {navigation} : LoginScreenProps) => {
             // placeholder="Email address or username"
             placeholderTextColor={formPlaceholderColor}
             value={loginForm.email}
+            keyboardType="email-address"
             onChange={(event) => inputChangeHandler(event, "email")}
             // value={loginForm.identity}
             // onChange={(event) => inputChangeHandler(event, "identity")}
@@ -70,16 +71,17 @@ const Login = ( {navigation} : LoginScreenProps) => {
             style={[styles.loginButton, {marginTop: isFocused ? 20 : 20}]}
             activeOpacity={0.5}
             onPress={async () => {
-              const response = await checkUserCredentials({email: loginForm.email, password: loginForm.password});
-              const parsedResponse = await response.json();
-              if (parsedResponse === "invalid details") {
+              const authenticationOutcome = await checkUserCredentials({email: loginForm.email, password: loginForm.password});
+              if (authenticationOutcome === "invalid details") {
                 setInvalidCredentials(true);
                 return;
               }
               else {
                 navigation.dispatch(CommonActions.reset({
                   index: 0,
-                  routes: [{name: "Feed", params: parsedResponse}]
+                  routes: [{name: "Feed", params: {
+                    feedUserInfo: authenticationOutcome
+                  }}]
                 }))
               };
             }}

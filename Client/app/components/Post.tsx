@@ -3,29 +3,42 @@ import React from "react";
 import { Rating, AirbnbRating } from 'react-native-ratings';
 import ReadMore from 'react-native-read-more-text';
 
-import type { Post as postDataType } from "../types";
+import type { Post as PostType } from "../types";
 import { backgroundColor, bottomTabBorderColor, formInputBackgroundColor, primaryFontColor } from "../colors";
 
 
-const Post = ( {postData}: {postData: postDataType} ) => {
+const Post = ( {postData}: {postData: PostType} ) => {
 
-  const { userID, profilePicture, scores, images, title, text, restaurant, others} = postData
-  const renderedImages = images.slice(0, 3);
+  const {
+    _id,
+    authorID,
+    restaurantID,
+    ratings,
+    imageURLs,
+    timestamp,
+    title,
+    text,
+    others,
+    authorName,
+    authorProfilePictureURL
+  } = postData
+
+  const renderedimageURLs = imageURLs.slice(0, 3);
 
   return (
 
     <View style={styles.container}>
 
       <View style={styles.banner}>
-        <Image style={styles.profilePicture} source={profilePicture}></Image>
+        <Image style={styles.profilePicture} source={{ uri: authorProfilePictureURL }}></Image>
         <View style={styles.bannerTextContainer}>
-          <Text style={styles.authorName}>{userID}</Text>
-          <Text style={styles.subheading}>was at <Text style={styles.restaurantName}>{restaurant}</Text> {others && <Text style={styles.subheading}>with {others?.map((name) => <Text key={name} style={styles.otherProfiles}>{name}</Text>)}</Text>}</Text>
+          <Text style={styles.authorName}>{authorName}</Text>
+          <Text style={styles.subheading}>was at <Text style={styles.restaurantName}>{restaurantID.name}</Text> {others.length && <Text style={styles.subheading}>with {others?.map((name) => <Text key={name} style={styles.otherProfiles}>{name}</Text>)}</Text>}</Text>
         </View>
       </View>
 
       <View style={styles.imageContainer}>
-        {renderedImages.map((image) => <Image style={styles.postImage} key={image.toString()} source={image} resizeMode="cover"></Image>)}
+        {renderedimageURLs.map((imageURL) => <Image style={styles.postImage} key={imageURL} source={{ uri: imageURL }} resizeMode="cover"></Image>)}
       </View>
 
       <View style={styles.ratingsContainer}>
@@ -39,7 +52,7 @@ const Post = ( {postData}: {postData: postDataType} ) => {
             showReadOnlyText={false}
             tintColor= {formInputBackgroundColor}
             imageSize = {24}
-            startingValue={scores.food}
+            startingValue={ratings[0]}
           />
         </View>
 
@@ -52,7 +65,7 @@ const Post = ( {postData}: {postData: postDataType} ) => {
             showReadOnlyText={false}
             tintColor= {formInputBackgroundColor}
             imageSize = {24}
-            startingValue={scores.vibes}
+            startingValue={ratings[1]}
           />
         </View>
 
@@ -65,7 +78,7 @@ const Post = ( {postData}: {postData: postDataType} ) => {
             showReadOnlyText={false}
             tintColor= {formInputBackgroundColor}
             imageSize = {24}
-            startingValue={scores.value}
+            startingValue={ratings[2]}
           />
         </View>
 
