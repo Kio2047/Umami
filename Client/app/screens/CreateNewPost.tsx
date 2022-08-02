@@ -6,7 +6,7 @@ import { AntDesign } from '@expo/vector-icons';
 
 import { CreateNewPostScreenProps } from '../types';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { backgroundColor, primaryFontColor, formPlaceholderColor, formInputBackgroundColor, ratingsColor, bottomTabBorderColor } from '../colors';
+import { backgroundColor, primaryFontColor, formPlaceholderColor, formInputBackgroundColor, ratingsColor, bottomTabBorderColor, defaultButtonColor } from '../colors';
 import type { NewPost, formTextFields, formRatingFields } from '../types';
 
 const CreateNewPost = ( {navigation, route}: CreateNewPostScreenProps ) => {
@@ -75,6 +75,7 @@ const CreateNewPost = ( {navigation, route}: CreateNewPostScreenProps ) => {
 
   return (
     <SafeAreaView style={styles.container}>
+      {/* <KeyboardAvoidingView style={{ flex: 1, flexDirection: 'column', justifyContent: 'center', backgroundColor: "red"}} behavior="height" enabled keyboardVerticalOffset={50}> */}
       <ScrollView
       contentContainerStyle={styles.scrollViewList}
       style={styles.scrollview}
@@ -198,7 +199,25 @@ const CreateNewPost = ( {navigation, route}: CreateNewPostScreenProps ) => {
           >
           </TextInput>
         </View>
+
+        <View style={styles.inputContainer}>
+          <Text style={styles.inputLabel}>Who did you eat with?</Text>
+          <TextInput
+            style={styles.eateryInput}
+            placeholder='List friends who joined you'
+            placeholderTextColor={formPlaceholderColor}
+            value={formEntries.restaurantName}
+            onChange={(event) => textInputChangeHandler(event, "restaurantName")}
+          >
+          </TextInput>
+        </View>
+
+        <TouchableOpacity style={styles.submitButton}>
+          <Text style={styles.submitButtonText}>Create post</Text>
+        </TouchableOpacity>
+
       </ScrollView>
+      {/* </KeyboardAvoidingView> */}
     </SafeAreaView>
   )
 }
@@ -247,10 +266,11 @@ const styles = StyleSheet.create({
     width: "100%",
     height: 50,
     padding: 10,
-    borderRadius: 6
+    borderRadius: 7
   },
   addImagesButton: {
     backgroundColor: formInputBackgroundColor,
+    // backgroundColor: defaultButtonColor,
     alignItems: "center",
     width: "100%",
     padding: 15,
@@ -313,6 +333,20 @@ const styles = StyleSheet.create({
     borderBottomLeftRadius: 6,
     borderBottomRightRadius: 6,
     textAlignVertical: 'top'
+  },
+  submitButton: {
+    justifyContent: "center",
+    width: "100%",
+    height: 70,
+    backgroundColor: defaultButtonColor,
+    borderRadius: 7,
+    marginTop: 30
+  },
+  submitButtonText: {
+    textAlign: "center",
+    color: primaryFontColor,
+    fontSize: 25,
+    fontWeight: "500",
   },
 })
 

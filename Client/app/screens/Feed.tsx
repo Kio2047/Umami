@@ -6,7 +6,6 @@ import Post from "../components/Post";
 import type { Post as PostType, FeedScreenProps } from "../types";
 import { loadFeed } from "../apiClientService";
 import { backgroundColor, bottomTabBorderColor, formInputBackgroundColor, formPlaceholderColor, primaryFontColor } from "../colors"
-import * as mockPost from "../assets/mockdata"
 
 const Feed = ( {route, navigation}: FeedScreenProps ) => {
 
