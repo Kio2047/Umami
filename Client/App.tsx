@@ -12,8 +12,8 @@ import Login from './app/screens/Login';
 import Register from './app/screens/Register';
 import Feed from './app/screens/Feed';
 import DetailedImage from './app/screens/DetailedImage';
+import CreateNewPost from './app/screens/CreateNewPost';
 // import DetailedPost from './app/components/Post';
-import About from './app/screens/About';
 
 NavigationBar.setBackgroundColorAsync(backgroundColor);
 const RootStack = createStackNavigator<RootStackParamsList>();
@@ -31,7 +31,7 @@ export default function App() {
         <RootStack.Screen name="Feed" component={Feed} />
         {/* <RootStack.Screen name="DetailedPost" component={DetailedPost} /> */}
         <RootStack.Screen name="DetailedImage" component={DetailedImage} />
-        <RootStack.Screen name="About" component={About} />
+        <RootStack.Screen name="CreateNewPost" component={CreateNewPost} />
       </RootStack.Navigator>
     </NavigationContainer>
     </SafeAreaView>

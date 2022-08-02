@@ -4,10 +4,11 @@ import { Rating, AirbnbRating } from 'react-native-ratings';
 import ReadMore from 'react-native-read-more-text';
 
 import type { Post as PostType } from "../types";
-import { backgroundColor, bottomTabBorderColor, primaryFontColor } from "../colors";
+import { backgroundColor, bottomTabBorderColor, defaultButtonColor, primaryFontColor, ratingsColor } from "../colors";
 import { calculatePostTimestamp } from "../utils";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { PostNavigationProp } from "../types";
+// import hollowDollar from "../assets/dollar-sign-hollow.jpg"
 
 
 const Post = ( {postData, navigation}: {postData: PostType, navigation: PostNavigationProp} ) => {
@@ -29,6 +30,7 @@ const Post = ( {postData, navigation}: {postData: PostType, navigation: PostNavi
   const renderedimageURLs = imageURLs.slice(0, 3);
   const renderedTimestamp = calculatePostTimestamp(timestamp);
 
+
   return (
 
     <View style={styles.container}>
@@ -36,7 +38,7 @@ const Post = ( {postData, navigation}: {postData: PostType, navigation: PostNavi
       <View style={styles.postBanner}>
         <View style={styles.postInfo}>
           <Image style={styles.profilePicture} source={{ uri: authorProfilePictureURL }}></Image>
-          <View style={styles.bannerTextContainer}>
+          <View style={styles.postBannerTextContainer}>
             <Text style={styles.authorName}>{authorName}</Text>
             <Text style={styles.subheading}>was at <Text style={styles.restaurantName}>{restaurantID.name}</Text> {Boolean(others.length) && <Text style={styles.subheading}>with {others?.map((friend) => <Text key={friend._id} style={styles.otherProfiles}>{friend.name}</Text>)}</Text>}</Text>
           </View>
@@ -80,40 +82,46 @@ const Post = ( {postData, navigation}: {postData: PostType, navigation: PostNavi
 
         <View style={styles.ratingContainer}>
           <Text style={styles.ratingTitle}>Food</Text>
-          <View style={styles.ratingCardLinebreak}/>
           <Rating
+            type="custom"
             style={styles.rating}
             readonly={true}
             showReadOnlyText={false}
             tintColor= {backgroundColor}
-            imageSize = {24}
+            imageSize = {20}
             startingValue={ratings[0]}
+            ratingColor={ratingsColor}
+            ratingBackgroundColor={backgroundColor}
           />
         </View>
 
         <View style={styles.ratingContainer}>
           <Text style={styles.ratingTitle}>Vibes</Text>
-          <View style={styles.ratingCardLinebreak}/>
           <Rating
+            type="custom"
             style={styles.rating}
             readonly={true}
             showReadOnlyText={false}
             tintColor= {backgroundColor}
-            imageSize = {24}
+            imageSize = {20}
             startingValue={ratings[1]}
+            ratingColor={ratingsColor}
+            ratingBackgroundColor={backgroundColor}
           />
         </View>
 
         <View style={styles.ratingContainer}>
           <Text style={styles.ratingTitle}>Value</Text>
-          <View style={styles.ratingCardLinebreak}/>
           <Rating
+            type="custom"
             style={styles.rating}
             readonly={true}
             showReadOnlyText={false}
             tintColor= {backgroundColor}
-            imageSize = {24}
+            imageSize = {20}
             startingValue={ratings[2]}
+            ratingColor={ratingsColor}
+            ratingBackgroundColor={backgroundColor}
           />
         </View>
 
@@ -149,15 +157,14 @@ const styles = StyleSheet.create({
     // below should be converted to a percentage
     width: 400,
     // borderRadius: 15,
-    borderTopWidth: 2,
     borderColor: bottomTabBorderColor,
-    borderWidth: 1,
+    borderWidth: 0.5,
     backgroundColor: backgroundColor,
-    // paddingTop: 10
+    paddingBottom: 10
   },
   postBanner: {
     paddingHorizontal: 10,
-    paddingVertical: 10,
+    paddingVertical: 12,
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
@@ -172,7 +179,7 @@ const styles = StyleSheet.create({
     height: 45,
     borderRadius: 45 / 2
   },
-  bannerTextContainer: {
+  postBannerTextContainer: {
     marginLeft: 10
   },
   authorName: {
@@ -203,36 +210,32 @@ const styles = StyleSheet.create({
   postImage: {
     width: 500/3,
     height: 500/3,
-    marginLeft: 10
+    marginLeft: 10,
+    borderRadius: 3
   },
   ratingsContainer: {
     flexDirection: "row",
-    justifyContent: "center",
-    marginTop: 7
+    justifyContent: "space-evenly",
+    marginTop: 10
   },
   ratingContainer: {
     alignItems: "center",
-    borderRightColor: bottomTabBorderColor,
-    borderRightWidth: 1,
     paddingVertical: (gap / -2),
     paddingHorizontal: 5
   },
   ratingTitle: {
+    fontWeight: "700",
     color: primaryFontColor,
-    marginVertical: (gap / 2)
-  },
-  ratingCardLinebreak: {
-    height: 1,
-    width: "80%",
-    backgroundColor: bottomTabBorderColor,
     marginVertical: (gap / 2)
   },
   rating: {
     marginVertical: (gap / 2)
   },
   reviewTextContainer: {
+    width: "100%",
     marginTop: 7,
-    paddingBottom: 5
+    paddingHorizontal: 10,
+    paddingBottom: 8
   },
   reviewTitle: {
     color: primaryFontColor,

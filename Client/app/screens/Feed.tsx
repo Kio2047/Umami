@@ -1,6 +1,6 @@
 import { View, Text, StyleSheet, Button, SafeAreaView, TouchableOpacity, Image, FlatList, ScrollView } from "react-native"
 import React, { useEffect, useState } from "react";
-import { AntDesign, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
 
 import Post from "../components/Post";
 import type { Post as PostType, FeedScreenProps } from "../types";
@@ -40,9 +40,9 @@ const Feed = ( {route, navigation}: FeedScreenProps ) => {
             <Image style={styles.userProfilePicture} source={{ uri: profilePictureURL }}></Image>
             <TouchableOpacity
               // style={styles.makePostButtonV2}
-              onPress={() => navigation.navigate("About", {
-                title: "Testing 1",
-                body: "Testing 2"
+              onPress={() => navigation.navigate("CreateNewPost", {
+                profilePictureURL,
+                authorID: _id
               })}
             >
               <Text style={styles.makeNewPostText}>Share a new eatery with your friends? 😋</Text>
@@ -94,10 +94,9 @@ const styles = StyleSheet.create({
   },
   feedBanner: {
     // width: "100%",
-    minWidth: "100%",
-    // height: 200,
+    minWidth: "97%",
     paddingVertical: 10,
-    // backgroundColor: "red"
+    marginBottom: 2
   },
   feedBannerTop: {
     flexDirection: "row",
