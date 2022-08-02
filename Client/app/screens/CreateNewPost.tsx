@@ -8,10 +8,11 @@ import { CreateNewPostScreenProps } from '../types';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { backgroundColor, primaryFontColor, formPlaceholderColor, formInputBackgroundColor, ratingsColor, bottomTabBorderColor, defaultButtonColor } from '../colors';
 import type { NewPost, formTextFields, formRatingFields } from '../types';
+import { sendNewPost, uploadImages } from '../apiClientService';
 
 const CreateNewPost = ( {navigation, route}: CreateNewPostScreenProps ) => {
 
-  const {profilePictureURL, authorID} = route.params;
+  const {profilePictureURL, authorID, setRefreshCount} = route.params;
 
   const [formEntries, setFormEntries] = useState<NewPost>({
     authorID,
@@ -183,7 +184,7 @@ const CreateNewPost = ( {navigation, route}: CreateNewPostScreenProps ) => {
             style={styles.titleInput}
             placeholder='Title'
             placeholderTextColor={formPlaceholderColor}
-            maxLength={10}
+            maxLength={25}
             value={formEntries.title}
             onChange={(event) => textInputChangeHandler(event, "title")}
           >
@@ -206,13 +207,39 @@ const CreateNewPost = ( {navigation, route}: CreateNewPostScreenProps ) => {
             style={styles.eateryInput}
             placeholder='List friends who joined you'
             placeholderTextColor={formPlaceholderColor}
-            value={formEntries.restaurantName}
-            onChange={(event) => textInputChangeHandler(event, "restaurantName")}
+            // value={formEntries.restaurantName}
+            // onChange={(event) => textInputChangeHandler(event, "restaurantName")}
           >
           </TextInput>
         </View>
 
-        <TouchableOpacity style={styles.submitButton}>
+        <TouchableOpacity style={styles.submitButton}
+        // onPress={async () => {
+        //   const parsedReponse = await sendNewPost(formEntries);
+        //   console.log(parsedReponse);
+        // }}
+          onPress={async () => {
+          //   const parsedReponse = await uploadImages(formEntries.imageURLs);
+          //   console.log(parsedReponse);
+          //   const newPost = await sendNewPost(
+          //     {
+          //       ...formEntries,
+          //       imageURLs: parsedReponse,
+          //       timestamp: new Date(),
+          //     }
+          //   );
+          // }}
+            const newPost = await sendNewPost(
+              {
+                ...formEntries,
+                imageURLs: ["https://media-cdn.tripadvisor.com/media/photo-w/11/69/6e/ed/photo1jpg.jpg", "https://media-cdn.tripadvisor.com/media/photo-p/19/58/92/70/photo1jpg.jpg", "https://media-cdn.tripadvisor.com/media/photo-w/0f/6e/a4/73/photo2jpg.jpg"],
+                timestamp: new Date(),
+              }
+            )
+            console.log(newPost);
+            setRefreshCount((refreshCount) => refreshCount + 1);
+          }}
+        >
           <Text style={styles.submitButtonText}>Create post</Text>
         </TouchableOpacity>
 

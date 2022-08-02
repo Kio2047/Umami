@@ -16,12 +16,28 @@ export const loadFeed = async function (req: express.Request, res: express.Respo
   }
 };
 
+export const uploadImages = async function (req: express.Request, res: express.Response) {
+  try{
+    const files = req.files as { [fieldname: string]: Express.Multer.File[] };
+    // @ts-ignore
+    const imagePaths = req.files.map((file) => `C:\Users\kiava\MyFiles\Software Engineering\Codeworks\Main Course\Projects\Solo Project\Umami\Server\\${file.path}`)
+    res.status(201).json(imagePaths);
+  }
+  catch (error) {
+    console.log(error);
+    res.sendStatus(500);
+  }
+}
+
 export const createNewPost = async function (req: express.Request, res: express.Response) {
   try {
+    console.log("this is happening");
     const newPostID = new Types.ObjectId();
     const postData = req.body;
+    console.log(req.body);
     const { restaurantName } = postData;
-    const updatedRestaurant = await RestaurantModel.findRestaurantAndAddPost({ name: restaurantName, postID: newPostID} );
+    console.log("restaurant name is:", restaurantName);
+    const updatedRestaurant = await RestaurantModel.addPostToRestaurant({ name: restaurantName, postID: newPostID} );
     let newPost;
 
     if (updatedRestaurant) {

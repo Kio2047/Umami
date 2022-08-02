@@ -35,7 +35,9 @@ export const checkUserCredentials = async function ({email, password}: UserCrede
 }
 
 export const addPostToUser = async function ({userID, postID}: UserAndPostIDs) {
+  console.log("this do be happening too tho")
   const account = await User.findOne({ _id: userID });
+  console.log(account);
   // @ts-ignore: Object ID bug
   account.posts.push(postID);
   await account.save();
@@ -85,7 +87,7 @@ export const loadFeed = async function (userID: string) {
       // @ts-ignore: Object ID bug
       ...post.toObject(),
       authorName: account.name,
-      profilePictureURL: account.profilePictureURL
+      authorProfilePictureURL: account.profilePictureURL
     })
   }
 

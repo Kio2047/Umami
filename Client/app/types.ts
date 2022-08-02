@@ -38,17 +38,6 @@ export type User = {
   friends: string[]
 };
 
-export type RootStackParamsList = {
-  SignIn: undefined,
-  Login: undefined,
-  Register: undefined,
-  Feed: { feedUserInfo: User },
-  DetailedImage: { imageURL: string },
-  CreateNewPost: { profilePictureURL: string, authorID: string },
-  // DetailedPost: {postData: Post, navigation: any },
-  About: { title: string, body: string },
-};
-
 export type UserCredentials = {
   email: string,
   password: string,
@@ -63,6 +52,17 @@ export type NewPost = {
   text: string,
   others: string[],
   timestamp: Date | undefined
+};
+
+export type RootStackParamsList = {
+  SignIn: undefined,
+  Login: undefined,
+  Register: undefined,
+  Feed: { feedUserInfo: User },
+  DetailedImage: { imageURL: string },
+  CreateNewPost: { profilePictureURL: string, authorID: string, setRefreshCount: React.Dispatch<React.SetStateAction<number>> },
+  // DetailedPost: {postData: Post, navigation: any },
+  About: { title: string, body: string },
 };
 
 export type formTextFields = "restaurantName" | "title" | "text";

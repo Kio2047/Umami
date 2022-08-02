@@ -15,7 +15,7 @@ export const createNewRestaurant = async function ( {id, name, posts}: Restauran
   return newRestaurant;
 }
 
-export const findRestaurantAndAddPost = async function ( { name, postID }: RestaurantNewPost ) {
+export const addPostToRestaurant = async function ( { name, postID }: RestaurantNewPost ) {
   const restaurant = await Restaurant.findOne({ name });
   if (!restaurant) return;
   // @ts-ignore: Object ID bug

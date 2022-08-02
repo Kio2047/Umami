@@ -15,7 +15,6 @@ export type PostData = {
   id? : Types.ObjectId,
   authorID: Types.ObjectId,
   restaurantID: Types.ObjectId,
-  // restaurantName: string,
   ratings: number[],
   imageURLs: string[],
   title: string,

@@ -13,6 +13,7 @@ const Feed = ( {route, navigation}: FeedScreenProps ) => {
   const firstName = name.match(/[a-z]+/i);
 
   const [feedPosts, setFeedPosts] = useState<PostType[]>([]);
+  const [refreshCount, setRefreshCount] = useState<number>(0);
 
   useEffect(() => {
     (async () => {
@@ -21,7 +22,7 @@ const Feed = ( {route, navigation}: FeedScreenProps ) => {
       posts.sort((a: PostType, b: PostType) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
       setFeedPosts(posts);
     })();
-  }, [])
+  }, [refreshCount])
 
   // const mockPosts = [mockPost];
   return (
@@ -41,7 +42,8 @@ const Feed = ( {route, navigation}: FeedScreenProps ) => {
               // style={styles.makePostButtonV2}
               onPress={() => navigation.navigate("CreateNewPost", {
                 profilePictureURL,
-                authorID: _id
+                authorID: _id,
+                setRefreshCount
               })}
             >
               <Text style={styles.makeNewPostText}>Share a new eatery with your friends? 😋</Text>

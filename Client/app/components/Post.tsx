@@ -30,7 +30,6 @@ const Post = ( {postData, navigation}: {postData: PostType, navigation: PostNavi
   const renderedimageURLs = imageURLs.slice(0, 3);
   const renderedTimestamp = calculatePostTimestamp(timestamp);
 
-
   return (
 
     <View style={styles.container}>
