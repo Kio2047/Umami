@@ -33,7 +33,7 @@ const Feed = ( {route, navigation}: FeedScreenProps ) => {
         ListHeaderComponent={
         <View style={styles.feedBanner}>
           <View style={styles.feedBannerTop}>
-            <Text style={styles.userGreeting}>Good afternoon, {firstName}</Text>
+            <Text style={styles.userGreeting}>Good evening, {firstName}</Text>
             <Ionicons name="settings-outline" size={26} color="white" />
           </View>
           <View style={styles.newPostField}>
@@ -49,29 +49,11 @@ const Feed = ( {route, navigation}: FeedScreenProps ) => {
               <Text style={styles.makeNewPostText}>Share a new eatery with your friends? 😋</Text>
             </TouchableOpacity>
           </View>
-
-
-
-        {/* <TouchableOpacity
-          style={styles.makePostButton}
-          onPress={() => navigation.navigate("About", {
-            title: "Testing 1",
-            body: "Testing 2"
-          })}
-        >
-          <MaterialCommunityIcons style={styles.leftIcon} name="silverware-fork" size={50} color="black" />
-          <View style={styles.newPostIconAndText}>
-            <AntDesign name="pluscircleo" size={50} color="white" />
-            <Text style={styles.makePostText}>Make new post</Text>
-          </View>
-          <MaterialCommunityIcons style={styles.rightIcon} name="silverware-spoon" size={50} color="black" />
-
-        </TouchableOpacity> */}
         </View>
       }
         contentContainerStyle={styles.postsContainer}
         data={feedPosts}
-        renderItem={({item}) => <Post postData={item} navigation={navigation}></Post>}
+        renderItem={({item}) => <Post postData={item} navigation={navigation} feedPosts={feedPosts}></Post>}
       />
     </SafeAreaView>
   )

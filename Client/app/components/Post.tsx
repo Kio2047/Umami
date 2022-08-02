@@ -4,14 +4,14 @@ import { Rating, AirbnbRating } from 'react-native-ratings';
 import ReadMore from 'react-native-read-more-text';
 
 import type { Post as PostType } from "../types";
-import { backgroundColor, bottomTabBorderColor, defaultButtonColor, primaryFontColor, ratingsColor } from "../colors";
+import { backgroundColor, bottomTabBorderColor, primaryFontColor, ratingsColor } from "../colors";
 import { calculatePostTimestamp } from "../utils";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { PostNavigationProp } from "../types";
-// import hollowDollar from "../assets/dollar-sign-hollow.jpg"
 
 
-const Post = ( {postData, navigation}: {postData: PostType, navigation: PostNavigationProp} ) => {
+const Post = ( {postData, navigation, feedPosts}: {postData: PostType, navigation: PostNavigationProp, feedPosts: PostType[]} ) => {
+  // console.log("FEEDposts: ", feedPosts);
 
   const {
     _id,
@@ -36,10 +36,22 @@ const Post = ( {postData, navigation}: {postData: PostType, navigation: PostNavi
 
       <View style={styles.postBanner}>
         <View style={styles.postInfo}>
-          <Image style={styles.profilePicture} source={{ uri: authorProfilePictureURL }}></Image>
+          <TouchableOpacity onPress={() => navigation.navigate("UserProfile", {
+            profileUserID: authorID,
+            profileUserProfilePictureURL: authorProfilePictureURL,
+            profileUserName: authorName,
+            feedPosts: feedPosts
+          })}
+          >
+            <Image style={styles.profilePicture} source={{ uri: authorProfilePictureURL }}></Image>
+          </TouchableOpacity>
           <View style={styles.postBannerTextContainer}>
             <Text style={styles.authorName}>{authorName}</Text>
-            <Text style={styles.subheading}>was at <Text style={styles.restaurantName}>{restaurantID.name}</Text> {Boolean(others.length) && <Text style={styles.subheading}>with {others?.map((friend) => <Text key={friend._id} style={styles.otherProfiles}>{friend.name}</Text>)}</Text>}</Text>
+            <Text style={styles.subheading}>was at <Text style={styles.restaurantName} onPress={() => {navigation.navigate("RestaurantProfile", {
+              restaurantID: restaurantID._id,
+              restaurantName: restaurantID.name,
+              feedPosts
+            })}}>{restaurantID.name}</Text> {Boolean(others.length) && <Text style={styles.subheading}>with {others?.map((friend) => <Text key={friend._id} style={styles.otherProfiles}>{friend.name}</Text>)}</Text>}</Text>
           </View>
         </View>
         <Text style={styles.postDate}>{renderedTimestamp}</Text>
