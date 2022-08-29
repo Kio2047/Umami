@@ -14,7 +14,15 @@ const seedDB = async function () {
     await connectDBClient();
   }
   catch (error) {
-    console.log("An error occurred whilst attempting to connect to the databse")
+    console.log("An error occurred whilst attempting to connect to the database")
+    console.log(error);
+  }
+
+  try{
+    mongoose.connection.db.dropDatabase();
+  }
+  catch (error) {
+    console.log("An error occurred whilst clearing the database")
     console.log(error);
   }
 
