@@ -4,6 +4,7 @@ import * as NavigationBar from 'expo-navigation-bar'
 import { SafeAreaView, StatusBar, StyleSheet, Platform } from 'react-native';
 import { NavigationContainer, DarkTheme } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import { Provider } from "react-redux"
 
 import type { RootStackParamsList } from './app/types';
 import { backgroundColor } from './app/colors';
