@@ -1,6 +1,7 @@
 import { mongoose } from "./index";
 import type { UserData, UserCredentials, UserAndPostIDs } from "../types";
 import { userSchema } from "./schemas";
+import { Types } from "mongoose";
 
 const User = mongoose.model("User", userSchema);
 
@@ -35,7 +36,6 @@ export const checkUserCredentials = async function ({email, password}: UserCrede
 }
 
 export const addPostToUser = async function ({userID, postID}: UserAndPostIDs) {
-  console.log("this do be happening too tho")
   const account = await User.findOne({ _id: userID });
   console.log(account);
   // @ts-ignore: Object ID bug
@@ -49,15 +49,15 @@ export const searchForUser = async function ( name: string ) {
   return matchedUsers;
 };
 
-export const loadFeed = async function (userID: string) {
+export const getFeedPosts = async function (userID: Types.ObjectId) {
 
-  const feedData = [];
+  const feedPosts = [];
 
   const account = await User.findOne({_id: userID}).populate({
     path: "posts",
     populate: [
       {
-        path: "restaurantID",
+        path: "restaurant",
         select: "-posts"
       },
       {
@@ -71,7 +71,7 @@ export const loadFeed = async function (userID: string) {
       path: "posts",
       populate: [
           {
-            path: "restaurantID",
+            path: "restaurant",
             select: "-posts"
           },
           {
@@ -83,7 +83,7 @@ export const loadFeed = async function (userID: string) {
   });
 
   for (let post of account.posts) {
-    feedData.push({
+    feedPosts.push({
       // @ts-ignore: Object ID bug
       ...post.toObject(),
       authorName: account.name,
@@ -96,12 +96,44 @@ export const loadFeed = async function (userID: string) {
     // @ts-ignore: Object ID bug
     for (let post of friend.posts) {
       // @ts-ignore: Object ID bug
-      feedData.push({...post.toObject(), authorName: friend.name, authorProfilePictureURL: friend.profilePictureURL});
+      feedPosts.push({...post.toObject(), authorName: friend.name, authorProfilePictureURL: friend.profilePictureURL});
     };
   };
+  console.log("feed posts are:", feedPosts);
+  return feedPosts;
 
-  return feedData;
+};
 
+export const getUserPosts = async function (userID: Types.ObjectId) {
+  const user = await User.findOne({_id: userID}).populate({
+    path: "posts",
+    populate: [
+      {
+        path: "restaurant",
+        select: "-posts"
+      },
+      {
+        path: "others",
+        select: "_id name profilePictureURL"
+      }
+    ]
+    // next commit: feat: implemented FE and BE logic for fetching posts by user
+  });
+
+  // console.log("The user's post before:", user.posts[0]);
+
+  const userPosts = user.posts.map((post) => {
+    // @ts-ignore: Object ID bug
+    return {
+      // @ts-ignore: Object ID bug
+      ...post.toObject(),
+      authorName: user.name,
+      authorProfilePictureURL: user.profilePictureURL,
+
+    }
+  });
+  // console.log("The user's posts after:", userPosts);
+  return userPosts;
 }
 
 // export const addFriend = async function (  ) {

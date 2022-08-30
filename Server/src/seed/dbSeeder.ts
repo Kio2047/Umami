@@ -99,8 +99,8 @@ const seedDB = async function () {
   // Create 5 dummy posts
   const post1 = await createNewPost({
     id: post1ID,
-    authorID: user1ID,
-    restaurantID: restaurant1ID,
+    author: user1ID,
+    restaurant: restaurant1ID,
     ratings: [4.5, 3.5, 3],
     imageURLs: ["https://media-cdn.tripadvisor.com/media/photo-w/22/53/a1/05/caption.jpg", "https://media-cdn.tripadvisor.com/media/photo-p/21/59/e1/06/grilled-aubergine-stir.jpg", "https://media-cdn.tripadvisor.com/media/photo-p/22/53/a1/03/caption.jpg"],
     title: "Next level Caribbean food that will break the bank",
@@ -111,8 +111,8 @@ const seedDB = async function () {
 
   const post2 = await createNewPost({
     id: post2ID,
-    authorID: user2ID,
-    restaurantID: restaurant2ID,
+    author: user2ID,
+    restaurant: restaurant2ID,
     ratings: [5, 4, 5],
     imageURLs: ["https://media-cdn.tripadvisor.com/media/photo-w/1b/15/b7/24/pino-s-warung.jpg", "https://media-cdn.tripadvisor.com/media/photo-w/1d/8d/fc/35/pino-s-warung.jpg", "https://media-cdn.tripadvisor.com/media/photo-p/1d/8d/fc/38/pino-s-warung.jpg"],
     title: "Best Indonesian Satay Chicken in London!!",
@@ -123,8 +123,8 @@ const seedDB = async function () {
 
   const post3 = await createNewPost({
     id: post3ID,
-    authorID: user3ID,
-    restaurantID: restaurant3ID,
+    author: user3ID,
+    restaurant: restaurant3ID,
     ratings: [4.5, 4, 5],
     imageURLs: ["https://media-cdn.tripadvisor.com/media/photo-w/24/ac/93/cf/caption.jpg", "https://media-cdn.tripadvisor.com/media/photo-o/18/c2/49/5e/20190812-180127-largejpg.jpg", "https://media-cdn.tripadvisor.com/media/photo-p/1e/41/10/c4/charro-de-rio.jpg"],
     title: "I may never need to eat again",
@@ -135,8 +135,8 @@ const seedDB = async function () {
 
   const post4 = await createNewPost({
     id: post4ID,
-    authorID: user1ID,
-    restaurantID: restaurant4ID,
+    author: user1ID,
+    restaurant: restaurant4ID,
     ratings: [4.5, 4.5, 4],
     imageURLs: ["https://media-cdn.tripadvisor.com/media/photo-p/22/28/eb/a9/bosco-pizzeria.jpg", "https://media-cdn.tripadvisor.com/media/photo-p/22/28/eb/b1/bosco-pizzeria.jpg", "https://media-cdn.tripadvisor.com/media/photo-p/22/28/eb/b5/bosco-pizzeria.jpg"],
     title: "Close your eyes and you're in Italy!",

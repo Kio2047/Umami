@@ -71,7 +71,10 @@ const Login = ( {navigation} : LoginScreenProps) => {
             style={[styles.loginButton, {marginTop: isFocused ? 20 : 20}]}
             activeOpacity={0.5}
             onPress={async () => {
+              console.log("Hello");
               const authenticationOutcome = await checkUserCredentials({email: loginForm.email, password: loginForm.password});
+              console.log("hello");
+              console.log(authenticationOutcome);
               if (authenticationOutcome === "invalid details") {
                 setInvalidCredentials(true);
                 return;

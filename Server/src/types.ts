@@ -13,8 +13,8 @@ export type UserData = {
 
 export type PostData = {
   id? : Types.ObjectId,
-  authorID: Types.ObjectId,
-  restaurantID: Types.ObjectId,
+  author: Types.ObjectId,
+  restaurant: Types.ObjectId,
   ratings: number[],
   imageURLs: string[],
   title: string,

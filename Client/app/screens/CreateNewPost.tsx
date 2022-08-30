@@ -16,7 +16,7 @@ const CreateNewPost = ( {navigation, route}: CreateNewPostScreenProps ) => {
 
   const [formEntries, setFormEntries] = useState<NewPost>({
     authorID,
-    restaurantName: "",
+    restaurant: "",
     imageURLs: [],
     ratings: [0, 0, 0],
     title: "",
@@ -92,7 +92,7 @@ const CreateNewPost = ( {navigation, route}: CreateNewPostScreenProps ) => {
             style={styles.eateryInput}
             placeholder='Restaurant / café'
             placeholderTextColor={formPlaceholderColor}
-            value={formEntries.restaurantName}
+            value={formEntries.restaurant}
             onChange={(event) => textInputChangeHandler(event, "restaurantName")}
           >
           </TextInput>

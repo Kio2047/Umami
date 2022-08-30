@@ -1,8 +1,6 @@
 import { StackScreenProps } from "@react-navigation/stack";
 import { StackNavigationProp } from "@react-navigation/stack";
 
-// replace type string with objectID where necessary
-
 export type PostRestaurant = {
   _id: string,
   name: string,
@@ -14,12 +12,12 @@ export type OtherPerson = {
   profilePictureURL: string
 };
 
-// Rename restaurant ID to 'restaurant', as we're populating this field
+// TODO Rename restaurant ID to 'restaurant', as we're populating this field
 
 export type Post = {
   _id: string,
-  authorID: string,
-  restaurantID: PostRestaurant,
+  author: string,
+  restaurant: PostRestaurant,
   ratings: number[],
   imageURLs: string[],
   timestamp: Date,
@@ -45,7 +43,7 @@ export type UserCredentials = {
 
 export type NewPost = {
   authorID: string,
-  restaurantName: string,
+  restaurant: string,
   imageURLs: string[],
   ratings: number[],
   title: string,
@@ -61,8 +59,8 @@ export type RootStackParamsList = {
   Feed: { feedUserInfo: User },
   DetailedImage: { imageURL: string },
   CreateNewPost: { profilePictureURL: string, authorID: string, setRefreshCount: React.Dispatch<React.SetStateAction<number>> },
-  UserProfile: { profileUserID: string, profileUserProfilePictureURL: string, profileUserName: string, feedPosts: Post[] },
-  RestaurantProfile: { restaurantID: string, restaurantName: string, feedPosts: Post[] },
+  UserProfile: { profileUserID: string, profileUserProfilePictureURL: string, profileUserName: string },
+  RestaurantProfile: { restaurantID: string, restaurantName: string },
   // DetailedPost: {postData: Post, navigation: any },
   About: { title: string, body: string },
 };

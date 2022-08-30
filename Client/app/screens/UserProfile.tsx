@@ -1,18 +1,28 @@
 import { View, Text, StyleSheet, Button, SafeAreaView, TouchableOpacity, Image, FlatList } from "react-native"
+import { useEffect, useState } from "react";
 
 import Post from "../components/Post";
 import type { UserProfileScreenProps, Post as PostType } from "../types";
 import { backgroundColor, bottomTabBorderColor, defaultButtonColor, formInputBackgroundColor, formPlaceholderColor, primaryFontColor } from "../colors"
+import { getPostsByUser } from "../apiClientService";
 
 const UserProfile = ( {route, navigation}: UserProfileScreenProps ) => {
 
   // Rather than filtering the posts from the original feed, this should make another fetch using the userID and get posts from the user's posts field
-  let { profileUserID, profileUserProfilePictureURL, profileUserName, feedPosts } = route.params;
+  let { profileUserID, profileUserProfilePictureURL, profileUserName } = route.params;
 
-  const displayedPosts = feedPosts.filter((post) => post.authorID === profileUserID);
-  const postCount = displayedPosts.length;
+  const [posts, setPosts] = useState<PostType[]>([]);
 
-  // const mockPosts = [mockPost];
+
+  useEffect(() => {
+    (async () => {
+      const posts = await getPostsByUser(profileUserID);
+      setPosts(posts);
+    })();
+  }, []);
+
+  const postCount = posts.length;
+
   return (
     <SafeAreaView style={styles.container}>
 
@@ -31,8 +41,8 @@ const UserProfile = ( {route, navigation}: UserProfileScreenProps ) => {
         </View>
       }
         contentContainerStyle={styles.postsContainer}
-        data={displayedPosts}
-        renderItem={({item}) => <Post postData={item} navigation={navigation} feedPosts={[]}></Post>}
+        data={posts}
+        renderItem={({item}) => <Post key={item._id} postData={item} navigation={navigation} />}
       />
     </SafeAreaView>
   )

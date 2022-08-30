@@ -4,7 +4,7 @@ import { Ionicons } from '@expo/vector-icons';
 
 import Post from "../components/Post";
 import type { Post as PostType, FeedScreenProps } from "../types";
-import { loadFeed } from "../apiClientService";
+import { getFeedPosts } from "../apiClientService";
 import { backgroundColor, bottomTabBorderColor, formInputBackgroundColor, formPlaceholderColor, primaryFontColor } from "../colors"
 
 const Feed = ( {route, navigation}: FeedScreenProps ) => {
@@ -17,12 +17,14 @@ const Feed = ( {route, navigation}: FeedScreenProps ) => {
 
   useEffect(() => {
     (async () => {
-      const posts = await loadFeed(_id);
+      const posts = await getFeedPosts(_id);
       // TODO: deal with timestamps not getting converted into Date objects + also edit timestamp utils file when this is done
       posts.sort((a: PostType, b: PostType) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
       setFeedPosts(posts);
     })();
   }, [refreshCount])
+
+  console.log("feed posts are:", feedPosts);
 
   // const mockPosts = [mockPost];
   return (
@@ -53,7 +55,7 @@ const Feed = ( {route, navigation}: FeedScreenProps ) => {
       }
         contentContainerStyle={styles.postsContainer}
         data={feedPosts}
-        renderItem={({item}) => <Post postData={item} navigation={navigation} feedPosts={feedPosts}></Post>}
+        renderItem={({item}) => <Post postData={item} navigation={navigation} ></Post>}
       />
     </SafeAreaView>
   )

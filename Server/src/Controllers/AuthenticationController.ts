@@ -27,6 +27,7 @@ export const createNewUser = async function (req: express.Request, res: express.
 
 export const checkUserCredentials = async function (req: express.Request, res: express.Response) {
   try {
+    console.log("hello");
     const submittedCredentials = req.body;
     const account = await UserModel.checkUserCredentials(submittedCredentials);
     if (!account) res.status(401).json("invalid details");
