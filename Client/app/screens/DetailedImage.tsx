@@ -1,17 +1,21 @@
-import { StyleSheet, SafeAreaView, Image } from 'react-native'
-import React from 'react'
-import type { DetailedImageScreenProps } from '../types'
+import { StyleSheet, Image } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import React from "react";
+import type { DetailedImageScreenProps } from "../types";
 
-const DetailedImage = ( {route, navigation}: DetailedImageScreenProps) => {
-
-  const { imageURL } = route.params
+const DetailedImage = ({ route, navigation }: DetailedImageScreenProps) => {
+  const { imageURL } = route.params;
 
   return (
     <SafeAreaView style={styles.container}>
-      <Image style={styles.image} source={{uri: imageURL}} resizeMode="contain"></Image>
+      <Image
+        style={styles.image}
+        source={{ uri: imageURL }}
+        resizeMode="contain"
+      ></Image>
     </SafeAreaView>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -20,6 +24,6 @@ const styles = StyleSheet.create({
   image: {
     flex: 1
   }
-})
+});
 
-export default DetailedImage
+export default DetailedImage;

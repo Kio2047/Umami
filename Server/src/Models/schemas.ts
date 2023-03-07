@@ -1,9 +1,8 @@
-
 import { mongoose } from "./index";
 
 const { Schema } = mongoose;
 
-// Make the schema properties required where necessary
+// TODO: Make the schema properties required where necessary
 
 export const userSchema = new mongoose.Schema({
   _id: Schema.Types.ObjectId,
@@ -24,7 +23,7 @@ export const postSchema = new mongoose.Schema({
   timestamp: Date,
   title: String,
   text: String,
-  others: [{ type: Schema.Types.ObjectId, ref: "User" }],
+  others: [{ type: Schema.Types.ObjectId, ref: "User" }]
 });
 
 export const restaurantSchema = new mongoose.Schema({
@@ -34,4 +33,4 @@ export const restaurantSchema = new mongoose.Schema({
   // cuisine: [String],
   // averageScore: Number,
   // location: String
-})
+});

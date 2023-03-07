@@ -1,24 +1,17 @@
-import express from "express"
-import cors from "cors"
+import * as dotenv from "dotenv";
+dotenv.config({ path: "./.env" });
 
-import router from "./router"
+import app from "./server";
 import { connectDBClient } from "./Models";
 
-const port = process.env.PORT || 3001;
-const app = express();
-
-app.use(cors());
-app.use(express.json());
-app.use(router);
-
 (async () => {
-  try{
-    connectDBClient()
+  try {
+    const port = process.env.PORT || 3001;
+    await connectDBClient();
     app.listen(port, () => {
-      console.log(`Express listening on ${port}`);
-    })
-  }
-  catch (error) {
+      console.log(`Server listening on ${port}`);
+    });
+  } catch (error) {
     console.log(error);
   }
 })();

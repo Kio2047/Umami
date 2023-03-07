@@ -1,17 +1,21 @@
 import { View, Text, Image, StyleSheet, FlatList } from "react-native";
 import React from "react";
-import { Rating, AirbnbRating } from 'react-native-ratings';
-import ReadMore from 'react-native-read-more-text';
+import { Rating, AirbnbRating } from "react-native-ratings";
+import ReadMore from "react-native-read-more-text";
 
 import type { Post as PostType } from "../types";
-import { backgroundColor, bottomTabBorderColor, primaryFontColor, ratingsColor } from "../colors";
+import colors from "../colors";
 import { calculatePostTimestamp } from "../utils";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { PostNavigationProp } from "../types";
 
-
-const Post = ( {postData, navigation }: {postData: PostType, navigation: PostNavigationProp } ) => {
-
+const Post = ({
+  postData,
+  navigation
+}: {
+  postData: PostType;
+  navigation: PostNavigationProp;
+}) => {
   console.log("postDATAAA: ", postData);
 
   const {
@@ -26,31 +30,55 @@ const Post = ( {postData, navigation }: {postData: PostType, navigation: PostNav
     others,
     authorName,
     authorProfilePictureURL
-  } = postData
+  } = postData;
 
   const renderedimageURLs = imageURLs.slice(0, 3);
   const renderedTimestamp = calculatePostTimestamp(timestamp);
 
   return (
-
     <View style={styles.container}>
-
       <View style={styles.postBanner}>
         <View style={styles.postInfo}>
-          <TouchableOpacity onPress={() => navigation.navigate("UserProfile", {
-            profileUserID: author,
-            profileUserProfilePictureURL: authorProfilePictureURL,
-            profileUserName: authorName,
-          })}
+          <TouchableOpacity
+            onPress={() =>
+              navigation.navigate("UserProfile", {
+                profileUserID: author,
+                profileUserProfilePictureURL: authorProfilePictureURL,
+                profileUserName: authorName
+              })
+            }
           >
-            <Image style={styles.profilePicture} source={{ uri: authorProfilePictureURL }}></Image>
+            <Image
+              style={styles.profilePicture}
+              source={{ uri: authorProfilePictureURL }}
+            ></Image>
           </TouchableOpacity>
           <View style={styles.postBannerTextContainer}>
             <Text style={styles.authorName}>{authorName}</Text>
-            <Text style={styles.subheading}>was at <Text style={styles.restaurantName} onPress={() => {navigation.navigate("RestaurantProfile", {
-              restaurantID: restaurant._id,
-              restaurantName: restaurant.name,
-            })}}>{restaurant.name}</Text> {Boolean(others.length) && <Text style={styles.subheading}>with {others?.map((friend) => <Text key={friend._id} style={styles.otherProfiles}>{friend.name}</Text>)}</Text>}</Text>
+            <Text style={styles.subheading}>
+              was at{" "}
+              <Text
+                style={styles.restaurantName}
+                onPress={() => {
+                  navigation.navigate("RestaurantProfile", {
+                    restaurantID: restaurant._id,
+                    restaurantName: restaurant.name
+                  });
+                }}
+              >
+                {restaurant.name}
+              </Text>{" "}
+              {Boolean(others.length) && (
+                <Text style={styles.subheading}>
+                  with{" "}
+                  {others?.map((friend) => (
+                    <Text key={friend._id} style={styles.otherProfiles}>
+                      {friend.name}
+                    </Text>
+                  ))}
+                </Text>
+              )}
+            </Text>
           </View>
         </View>
         <Text style={styles.postDate}>{renderedTimestamp}</Text>
@@ -60,19 +88,26 @@ const Post = ( {postData, navigation }: {postData: PostType, navigation: PostNav
         <FlatList
           horizontal={true}
           data={renderedimageURLs}
-          renderItem={({item}) => {
-            return (<TouchableOpacity
-            onPress={() => navigation.navigate("DetailedImage", {
-              imageURL: item
-            })}
-            key={item}
-          >
-            <Image key={item} style={styles.postImage} source={{ uri: item }} resizeMode="cover"></Image>
-          </TouchableOpacity>)
+          renderItem={({ item }) => {
+            return (
+              <TouchableOpacity
+                onPress={() =>
+                  navigation.navigate("DetailedImage", {
+                    imageURL: item
+                  })
+                }
+                key={item}
+              >
+                <Image
+                  key={item}
+                  style={styles.postImage}
+                  source={{ uri: item }}
+                  resizeMode="cover"
+                ></Image>
+              </TouchableOpacity>
+            );
           }}
-        >
-
-        </FlatList>
+        ></FlatList>
 
         {/* {renderedimageURLs.map((imageURL) => {
           return (
@@ -89,7 +124,6 @@ const Post = ( {postData, navigation }: {postData: PostType, navigation: PostNav
       </View>
 
       <View style={styles.ratingsContainer}>
-
         <View style={styles.ratingContainer}>
           <Text style={styles.ratingTitle}>Food</Text>
           <Rating
@@ -97,11 +131,11 @@ const Post = ( {postData, navigation }: {postData: PostType, navigation: PostNav
             style={styles.rating}
             readonly={true}
             showReadOnlyText={false}
-            tintColor= {backgroundColor}
-            imageSize = {20}
+            tintColor={colors.backgroundColor}
+            imageSize={20}
             startingValue={ratings[0]}
-            ratingColor={ratingsColor}
-            ratingBackgroundColor={backgroundColor}
+            ratingColor={colors.ratingsColor}
+            ratingBackgroundColor={colors.backgroundColor}
           />
         </View>
 
@@ -112,11 +146,11 @@ const Post = ( {postData, navigation }: {postData: PostType, navigation: PostNav
             style={styles.rating}
             readonly={true}
             showReadOnlyText={false}
-            tintColor= {backgroundColor}
-            imageSize = {20}
+            tintColor={colors.backgroundColor}
+            imageSize={20}
             startingValue={ratings[1]}
-            ratingColor={ratingsColor}
-            ratingBackgroundColor={backgroundColor}
+            ratingColor={colors.ratingsColor}
+            ratingBackgroundColor={colors.backgroundColor}
           />
         </View>
 
@@ -127,49 +161,59 @@ const Post = ( {postData, navigation }: {postData: PostType, navigation: PostNav
             style={styles.rating}
             readonly={true}
             showReadOnlyText={false}
-            tintColor= {backgroundColor}
-            imageSize = {20}
+            tintColor={colors.backgroundColor}
+            imageSize={20}
             startingValue={ratings[2]}
-            ratingColor={ratingsColor}
-            ratingBackgroundColor={backgroundColor}
+            ratingColor={colors.ratingsColor}
+            ratingBackgroundColor={colors.backgroundColor}
           />
         </View>
-
       </View>
 
       <View style={styles.reviewTextContainer}>
         <Text style={styles.reviewTitle}>{title}</Text>
 
-        { text.length > 50 ?
-        <ReadMore
-          numberOfLines={5}
-          renderTruncatedFooter={(handlePress: any) => { return <Text onPress={handlePress} style={{ color: 'grey' }}>more</Text> }}
-          renderRevealedFooter={(handlePress: any) => { return <Text onPress={handlePress} style={{ color: 'grey' }}>less</Text> }}
-        >
+        {text.length > 50 ? (
+          <ReadMore
+            numberOfLines={5}
+            renderTruncatedFooter={(handlePress: any) => {
+              return (
+                <Text onPress={handlePress} style={{ color: "grey" }}>
+                  more
+                </Text>
+              );
+            }}
+            renderRevealedFooter={(handlePress: any) => {
+              return (
+                <Text onPress={handlePress} style={{ color: "grey" }}>
+                  less
+                </Text>
+              );
+            }}
+          >
+            <Text style={styles.reviewMainText}>{text}</Text>
+          </ReadMore>
+        ) : (
           <Text style={styles.reviewMainText}>{text}</Text>
-        </ReadMore>
-        :
-        <Text style={styles.reviewMainText}>{text}</Text>
-        }
+        )}
       </View>
-
     </View>
-  )
-}
+  );
+};
 
-const gap = 5
+const gap = 5;
 
 const styles = StyleSheet.create({
   container: {
-     // borderBottomColor: bottomTabBorderColor,
+    // borderBottomColor: bottomTabBorderColor,
     // borderBottomWidth: 2,
     // maxHeight: 500,
     // below should be converted to a percentage
     width: 400,
     // borderRadius: 15,
-    borderColor: bottomTabBorderColor,
+    borderColor: colors.bottomTabBorderColor,
     borderWidth: 0.5,
-    backgroundColor: backgroundColor,
+    backgroundColor: colors.backgroundColor,
     paddingBottom: 10
   },
   postBanner: {
@@ -177,7 +221,7 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     flexDirection: "row",
     justifyContent: "space-between",
-    alignItems: "center",
+    alignItems: "center"
     // backgroundColor: "red"
   },
   postInfo: {
@@ -193,12 +237,12 @@ const styles = StyleSheet.create({
     marginLeft: 10
   },
   authorName: {
-    color: primaryFontColor,
-    fontWeight: 'bold',
+    color: colors.primaryFontColor,
+    fontWeight: "bold"
   },
   subheading: {
     marginTop: -2,
-    color: primaryFontColor,
+    color: colors.primaryFontColor,
     fontSize: 12,
     fontWeight: "300"
   },
@@ -209,17 +253,17 @@ const styles = StyleSheet.create({
     fontWeight: "500"
   },
   postDate: {
-    color: primaryFontColor,
+    color: colors.primaryFontColor
   },
   imageContainer: {
     flexDirection: "row",
     width: "100%",
-    height: 500/3,
+    height: 500 / 3
     // overflow: "scroll"
   },
   postImage: {
-    width: 500/3,
-    height: 500/3,
+    width: 500 / 3,
+    height: 500 / 3,
     marginLeft: 10,
     borderRadius: 3
   },
@@ -230,16 +274,16 @@ const styles = StyleSheet.create({
   },
   ratingContainer: {
     alignItems: "center",
-    paddingVertical: (gap / -2),
+    paddingVertical: gap / -2,
     paddingHorizontal: 5
   },
   ratingTitle: {
     fontWeight: "700",
-    color: primaryFontColor,
-    marginVertical: (gap / 2)
+    color: colors.primaryFontColor,
+    marginVertical: gap / 2
   },
   rating: {
-    marginVertical: (gap / 2)
+    marginVertical: gap / 2
   },
   reviewTextContainer: {
     width: "100%",
@@ -248,13 +292,13 @@ const styles = StyleSheet.create({
     paddingBottom: 8
   },
   reviewTitle: {
-    color: primaryFontColor,
+    color: colors.primaryFontColor,
     fontWeight: "bold",
-    fontSize: 20,
+    fontSize: 20
   },
   reviewMainText: {
-    color: primaryFontColor,
+    color: colors.primaryFontColor
   }
-})
+});
 
-export default Post
+export default Post;

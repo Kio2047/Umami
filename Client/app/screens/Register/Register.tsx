@@ -2,13 +2,13 @@ import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
-  SafeAreaView,
   Image,
   TextInput,
   NativeSyntheticEvent,
   TextInputChangeEventData,
   Keyboard
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 import styles from "./RegisterStyles";
 import { RegisterScreenProps } from "../../types";

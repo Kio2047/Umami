@@ -18,15 +18,7 @@ import { AntDesign } from "@expo/vector-icons";
 
 import { CreateNewPostScreenProps } from "../types";
 import { SafeAreaView } from "react-native-safe-area-context";
-import {
-  backgroundColor,
-  primaryFontColor,
-  formPlaceholderColor,
-  formInputBackgroundColor,
-  ratingsColor,
-  bottomTabBorderColor,
-  defaultButtonColor
-} from "../colors";
+import colors from "../colors";
 import type { NewPost, formTextFields, formRatingFields } from "../types";
 import { sendNewPost, uploadImages } from "../apiClientService";
 
@@ -119,7 +111,7 @@ const CreateNewPost = ({ navigation, route }: CreateNewPostScreenProps) => {
           <TextInput
             style={styles.eateryInput}
             placeholder="Restaurant / café"
-            placeholderTextColor={formPlaceholderColor}
+            placeholderTextColor={colors.formPlaceholderColor}
             value={formEntries.restaurant}
             onChange={(event) =>
               textInputChangeHandler(event, "restaurantName")
@@ -164,8 +156,8 @@ const CreateNewPost = ({ navigation, route }: CreateNewPostScreenProps) => {
                 // readonly={true}
                 jumpValue={0.5}
                 fractions={1}
-                tintColor={backgroundColor}
-                ratingColor={ratingsColor}
+                tintColor={colors.backgroundColor}
+                ratingColor={colors.ratingsColor}
                 startingValue={formEntries.ratings[1]}
               />
             </View>
@@ -182,8 +174,8 @@ const CreateNewPost = ({ navigation, route }: CreateNewPostScreenProps) => {
                 // readonly={true}
                 jumpValue={0.5}
                 fractions={1}
-                tintColor={backgroundColor}
-                ratingColor={ratingsColor}
+                tintColor={colors.backgroundColor}
+                ratingColor={colors.ratingsColor}
                 startingValue={formEntries.ratings[2]}
               />
             </View>
@@ -199,8 +191,8 @@ const CreateNewPost = ({ navigation, route }: CreateNewPostScreenProps) => {
                 // readonly={true}
                 jumpValue={0.5}
                 fractions={1}
-                tintColor={backgroundColor}
-                ratingColor={ratingsColor}
+                tintColor={colors.backgroundColor}
+                ratingColor={colors.ratingsColor}
                 startingValue={formEntries.ratings[0]}
               />
             </View>
@@ -213,7 +205,7 @@ const CreateNewPost = ({ navigation, route }: CreateNewPostScreenProps) => {
           <TextInput
             style={styles.titleInput}
             placeholder="Title"
-            placeholderTextColor={formPlaceholderColor}
+            placeholderTextColor={colors.formPlaceholderColor}
             maxLength={25}
             value={formEntries.title}
             onChange={(event) => textInputChangeHandler(event, "title")}
@@ -223,7 +215,7 @@ const CreateNewPost = ({ navigation, route }: CreateNewPostScreenProps) => {
           <TextInput
             style={styles.bodyInput}
             placeholder="Body"
-            placeholderTextColor={formPlaceholderColor}
+            placeholderTextColor={colors.formPlaceholderColor}
             value={formEntries.text}
             onChange={(event) => textInputChangeHandler(event, "text")}
           ></TextInput>
@@ -234,7 +226,7 @@ const CreateNewPost = ({ navigation, route }: CreateNewPostScreenProps) => {
           <TextInput
             style={styles.eateryInput}
             placeholder="List friends who joined you"
-            placeholderTextColor={formPlaceholderColor}
+            placeholderTextColor={colors.formPlaceholderColor}
             // value={formEntries.restaurantName}
             // onChange={(event) => textInputChangeHandler(event, "restaurantName")}
           ></TextInput>
@@ -301,7 +293,7 @@ const styles = StyleSheet.create({
     borderRadius: 50 / 2
   },
   newPostBannerText: {
-    color: primaryFontColor,
+    color: colors.primaryFontColor,
     fontSize: 40,
     fontWeight: "600"
   },
@@ -311,21 +303,21 @@ const styles = StyleSheet.create({
     width: "100%"
   },
   inputLabel: {
-    color: primaryFontColor,
+    color: colors.primaryFontColor,
     fontSize: 25,
     fontWeight: "500",
     marginBottom: 5
   },
   eateryInput: {
-    color: primaryFontColor,
-    backgroundColor: formInputBackgroundColor,
+    color: colors.primaryFontColor,
+    backgroundColor: colors.formInputBackgroundColor,
     width: "100%",
     height: 50,
     padding: 10,
     borderRadius: 7
   },
   addImagesButton: {
-    backgroundColor: formInputBackgroundColor,
+    backgroundColor: colors.formInputBackgroundColor,
     // backgroundColor: defaultButtonColor,
     alignItems: "center",
     width: "100%",
@@ -333,7 +325,7 @@ const styles = StyleSheet.create({
     borderRadius: 6
   },
   addImagesButtonText: {
-    color: primaryFontColor,
+    color: colors.primaryFontColor,
     marginTop: 5
   },
   imageContainer: {
@@ -359,17 +351,17 @@ const styles = StyleSheet.create({
     justifyContent: "space-evenly"
   },
   ratingTitle: {
-    color: primaryFontColor,
+    color: colors.primaryFontColor,
     fontSize: 18.5,
     fontWeight: "500"
   },
   flexboxSpaceCreator: {
     width: "10%",
-    backgroundColor: backgroundColor
+    backgroundColor: colors.backgroundColor
   },
   titleInput: {
-    color: primaryFontColor,
-    backgroundColor: formInputBackgroundColor,
+    color: colors.primaryFontColor,
+    backgroundColor: colors.formInputBackgroundColor,
     width: "100%",
     height: 50,
     padding: 10,
@@ -378,11 +370,11 @@ const styles = StyleSheet.create({
   },
   titleBodySeparator: {
     height: 2,
-    backgroundColor: bottomTabBorderColor
+    backgroundColor: colors.bottomTabBorderColor
   },
   bodyInput: {
-    color: primaryFontColor,
-    backgroundColor: formInputBackgroundColor,
+    color: colors.primaryFontColor,
+    backgroundColor: colors.formInputBackgroundColor,
     width: "100%",
     height: 120,
     padding: 10,
@@ -394,13 +386,13 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     width: "100%",
     height: 70,
-    backgroundColor: defaultButtonColor,
+    backgroundColor: colors.defaultButtonColor,
     borderRadius: 7,
     marginTop: 30
   },
   submitButtonText: {
     textAlign: "center",
-    color: primaryFontColor,
+    color: colors.primaryFontColor,
     fontSize: 25,
     fontWeight: "500"
   }

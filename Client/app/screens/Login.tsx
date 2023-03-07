@@ -3,7 +3,6 @@ import {
   View,
   Text,
   StyleSheet,
-  SafeAreaView,
   Image,
   TextInput,
   TouchableOpacity,
@@ -11,6 +10,7 @@ import {
   TextInputChangeEventData,
   Keyboard
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { CommonActions } from "@react-navigation/native";
 
 import { LoginScreenProps, UserCredentials } from "../types";
