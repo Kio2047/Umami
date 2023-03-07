@@ -1,12 +1,20 @@
-import { View, Text, StyleSheet, Image, TouchableOpacity, SafeAreaView, Platform, StatusBar} from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  TouchableOpacity,
+  SafeAreaView,
+  Platform,
+  StatusBar
+} from "react-native";
 import { CommonActions } from "@react-navigation/native";
 
-import { backgroundColor, defaultButtonColor, primaryFontColor } from "../colors";
+import colors from "../colors";
 import type { SignInScreenProps } from "../types";
-import logo from "../assets/logo.png"
+import logo from "../assets/logo.png";
 
-const SignIn = ( {navigation}: SignInScreenProps ) => {
-
+const SignIn = ({ navigation }: SignInScreenProps) => {
   return (
     <SafeAreaView style={styles.container}>
       {/* fadeDuration={0} */}
@@ -17,10 +25,10 @@ const SignIn = ( {navigation}: SignInScreenProps ) => {
         <TouchableOpacity
           style={styles.topButton}
           activeOpacity={0.5}
-          onPress={() => navigation.navigate('Register')}
+          onPress={() => navigation.navigate("Register")}
         >
           <Text style={styles.topButtonText}>Create Account</Text>
-        </ TouchableOpacity>
+        </TouchableOpacity>
 
         <View style={styles.horizontalRuleContainer}>
           <View style={styles.ruleLine} />
@@ -29,17 +37,16 @@ const SignIn = ( {navigation}: SignInScreenProps ) => {
         </View>
 
         <TouchableOpacity
-        style={styles.bottomButton}
-        activeOpacity={0.5}
-        onPress={() => navigation.navigate('Login')}
+          style={styles.bottomButton}
+          activeOpacity={0.5}
+          onPress={() => navigation.navigate("Login")}
         >
           <Text style={styles.bottomButtonText}>Login</Text>
-        </ TouchableOpacity>
+        </TouchableOpacity>
       </View>
-
     </SafeAreaView>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -47,7 +54,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: backgroundColor
+    backgroundColor: colors.backgroundColor
   },
   logo: {
     width: 200,
@@ -61,7 +68,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     width: 300,
     height: 50,
-    backgroundColor: defaultButtonColor,
+    backgroundColor: colors.defaultButtonColor,
     marginBottom: 15,
     borderRadius: 7
   },
@@ -69,34 +76,34 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     width: 50,
     height: 50,
-    backgroundColor: backgroundColor,
+    backgroundColor: colors.backgroundColor,
     marginBottom: 15,
     borderRadius: 7
   },
   topButtonText: {
     textAlign: "center",
-    color: primaryFontColor,
+    color: colors.primaryFontColor,
     fontWeight: "500"
   },
   bottomButtonText: {
     textAlign: "center",
-    color: defaultButtonColor,
+    color: colors.defaultButtonColor,
     fontWeight: "500"
   },
   horizontalRuleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center"
   },
   ruleLine: {
     flex: 1,
     height: 1,
-    backgroundColor: primaryFontColor
+    backgroundColor: colors.primaryFontColor
   },
   ruleText: {
     width: 50,
-    textAlign: 'center',
-    color: primaryFontColor
+    textAlign: "center",
+    color: colors.primaryFontColor
   }
-})
+});
 
-export default SignIn
+export default SignIn;
