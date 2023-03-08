@@ -1,15 +1,23 @@
-import { mongoose } from "./index";
+// import { mongoose } from "./index";
+// const { Schema } = mongoose;
 
-const { Schema } = mongoose;
+import { Schema } from "mongoose";
+
+import { User } from "../types";
 
 // TODO: Make the schema properties required where necessary
+// TODO: remove _id from schema and corresponding interface if you can
 
-export const userSchema = new mongoose.Schema({
+// const makeAllFieldsRequired = function (obj: {
+//   [key: string]:
+// })
+
+export const userSchema = new Schema<User>({
   _id: Schema.Types.ObjectId,
-  email: String,
-  password: String,
-  name: String,
-  profilePictureURL: String,
+  email: { type: String, required: true, unique: true },
+  passwordHash: { type: String, required: true },
+  name: { type: String, required: true },
+  profilePictureURL: { type: String, required: true },
   posts: [{ type: Schema.Types.ObjectId, ref: "Post" }],
   friends: [{ type: Schema.Types.ObjectId, ref: "User" }]
 });
