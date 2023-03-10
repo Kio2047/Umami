@@ -1,7 +1,7 @@
 import { comparePasswords } from "../Modules/auth";
 
 import { mongoose } from "./index";
-import { NewUserDetails, RawUserDocument } from "../types";
+import { NewUserDetailsPostHash, RawUserDocument } from "../types";
 import { UserCredentials, UserAndPostIDs } from "../types";
 import { userSchema } from "./schemas";
 import { HydratedDocument, Types } from "mongoose";
@@ -18,7 +18,9 @@ export const checkUserExists = async function (email: string) {
   else return false;
 };
 
-export const createNewUser = async function (newUserDetails: NewUserDetails) {
+export const createNewUser = async function (
+  newUserDetails: NewUserDetailsPostHash
+) {
   if (!newUserDetails.hasOwnProperty("_id")) {
     newUserDetails._id = new mongoose.Types.ObjectId();
   }
@@ -28,18 +30,18 @@ export const createNewUser = async function (newUserDetails: NewUserDetails) {
   return newUser;
 };
 
-export const checkUserCredentials = async function ({
-  email,
-  password
-}: UserCredentials) {
-  const account: null | HydratedDocument<IUser> = await User.findOne({ email });
-  console.log();
-  if (await comparePasswords(password, account.passwordHash)) {
-    return;
-  }
-  const { _id, name, profilePictureURL, posts, friends } = account;
-  return { _id, name, profilePictureURL, posts, friends };
-};
+// export const checkUserCredentials = async function ({
+//   email,
+//   password
+// }: UserCredentials) {
+//   const account: null | HydratedDocument<IUser> = await User.findOne({ email });
+//   console.log();
+//   if (await comparePasswords(password, account.passwordHash)) {
+//     return;
+//   }
+//   const { _id, name, profilePictureURL, posts, friends } = account;
+//   return { _id, name, profilePictureURL, posts, friends };
+// };
 
 // export const addPostToUser = async function ({
 //   userID,

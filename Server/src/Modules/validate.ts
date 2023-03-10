@@ -6,7 +6,7 @@ export const validateRequest: RequestHandler = (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     res.status(400);
-    res.json({ errors: errors.array() });
+    res.json({ message: errors.array() });
   } else {
     const filteredBody = matchedData(req, {
       locations: ["body"],

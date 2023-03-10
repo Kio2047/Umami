@@ -36,9 +36,16 @@ export interface NewUserDetails {
   // would remove the ID if it was to be included in the request body
   _id?: Types.ObjectId;
   email: string;
-  password: string;
   name: string;
   profilePictureURL: string;
+}
+
+export interface NewUserDetailsPreHash extends NewUserDetails {
+  password: string;
+}
+
+export interface NewUserDetailsPostHash extends NewUserDetails {
+  passwordHash: string;
 }
 
 export interface UserCredentials {
