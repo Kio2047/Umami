@@ -13,6 +13,7 @@ export type OtherPerson = {
 };
 
 // TODO Rename restaurant ID to 'restaurant', as we're populating this field
+// TODO - now disagree with the above - the raw field in the document is the ID, not the restaurant itself
 
 export type Post = {
   _id: string;

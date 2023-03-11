@@ -7,9 +7,10 @@ export const backupErrorHandler: ErrorRequestHandler = function (
   res,
   next
 ) {
-  console.log(err);
+  console.error(err);
+  // TODO: use switch statement
   if (err.type === "duplicate value") {
-    res.status(400).json({ message: `duplicate ${res.locals.duplicateKey}` });
+    res.status(400).json({ message: `duplicate ${err.duplicateKey}` });
   } else if (err.type === "auth") {
     res.status(403);
     res.json({ message: "Not authorized" });

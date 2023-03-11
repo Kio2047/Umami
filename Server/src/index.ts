@@ -11,7 +11,7 @@ import { connectDBClient } from "./Models";
     app.listen(port, () => {
       console.log(`Server listening on ${port}`);
     });
-  } catch (error) {
-    console.log(error);
+  } catch (err) {
+    console.log(err);
   }
 })();

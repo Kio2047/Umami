@@ -39,3 +39,8 @@ export const createNewUserValidations = [
     .matches(/[0-9]/)
     .matches(/[^A-Za-z0-9]/)
 ];
+
+export const loginUserValidations = [
+  body("email").exists().isString().isEmail().normalizeEmail(),
+  body("password").exists().isString()
+];

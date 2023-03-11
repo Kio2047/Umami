@@ -4,7 +4,11 @@ import { body } from "express-validator";
 import * as AuthController from "./Controllers/AuthController";
 import * as PostController from "./Controllers/PostController";
 import * as ImageUploadController from "./Controllers/ImageUploadController";
-import { createNewUserValidations, validateRequest } from "./Modules/validate";
+import {
+  createNewUserValidations,
+  loginUserValidations,
+  validateRequest
+} from "./Modules/validate";
 
 const router = Router();
 
@@ -14,7 +18,13 @@ router.post(
   validateRequest,
   AuthController.createNewUser
 );
-// router.post("/session", AuthController.loginUser);
+router.post(
+  "/session",
+  loginUserValidations,
+  validateRequest,
+  AuthController.loginUser
+);
+
 // router.post("/session", AuthController.checkUserExists);
 // router.post(
 //   "/authenticate/check-user-credentials",
