@@ -3,7 +3,15 @@ import { HydratedDocument, Types } from "mongoose";
 
 type Nullable<T> = T | null;
 
-export type QueryResult<T> = Promise<Nullable<HydratedDocument<T>>>;
+// export type Result<T> = Promise<Nullable<HydratedDocument<T>>>;
+
+export type FindOneResult<T> = Nullable<HydratedDocument<T>>;
+
+export type FindOnePromise<T> = Promise<FindOneResult<T>>;
+
+export type CreateOneResult<T> = HydratedDocument<T>;
+
+export type CreateOnePromise<T> = Promise<CreateOneResult<T>>;
 
 export interface RawUserDocument {
   // _id: Types.ObjectId;
@@ -52,6 +60,31 @@ export interface NewDummyUserDetails extends NewUserDetails {
   posts: Types.ObjectId[];
   friends: Types.ObjectId[];
 }
+
+interface NewPostDataBase {
+  author: Types.ObjectId;
+  ratings: [number, number, number];
+  imageURLs: string[];
+  title: string;
+  text: string;
+  others: Types.ObjectId[];
+}
+
+interface NewPostDataWithRestaurantName extends NewPostDataBase {
+  newRestaurantName: string;
+  restaurantID?: never;
+}
+
+export interface NewPostDataWithRestaurantID extends NewPostDataBase {
+  restaurantID: Types.ObjectId;
+  newRestaurantName?: never;
+}
+
+export type NewPostData =
+  | NewPostDataWithRestaurantName
+  | NewPostDataWithRestaurantID;
+
+  export inter
 
 export interface UserCredentials {
   email: string;

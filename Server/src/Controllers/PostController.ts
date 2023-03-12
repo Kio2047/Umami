@@ -1,70 +1,89 @@
-import * as UserModel from "../Models/User";
-import * as PostModel from "../Models/Post"
-import * as RestaurantModel from "../Models/Restaurant"
-import mongoose, { Types } from "mongoose";
-import express from "express";
+import { Request } from "express";
+import { ParamsDictionary } from "express-serve-static-core";
 
-export const getFeedPosts = async function (req: express.Request, res: express.Response) {
+import * as UserModel from "../Models/User";
+import * as PostModel from "../Models/Post";
+import * as RestaurantModel from "../Models/Restaurant";
+import mongoose, { HydratedDocument, Types } from "mongoose";
+import express, { RequestHandler } from "express";
+import {
+  CreateOneResult,
+  FindOneResult,
+  NewPostData,
+  RawPostDocument,
+  RawRestaurantDocument
+} from "../types/types";
+
+// export const getFeedPosts = async function (req: express.Request, res: express.Response) {
+//   try {
+//     console.log("yo")
+//     const userID = new mongoose.Types.ObjectId(req.params.userID);
+//     const feedPosts = await UserModel.getFeedPosts(userID);
+//     res.status(200).json(feedPosts);
+//   }
+//   catch (error) {
+//     console.log(error);
+//     res.sendStatus(500);
+//   }
+// };
+
+// export const getUserPosts = async function (req: express.Request, res: express.Response) {
+//   try {
+//     const userID = new mongoose.Types.ObjectId(req.params.userID);
+//     const userPosts = await UserModel.getUserPosts(userID);
+//     res.status(200).json(userPosts);
+//   }
+//   catch (error) {
+//     console.log(error);
+//     res.sendStatus(500);
+//   }
+// }
+
+// export const uploadImages = async function (req: express.Request, res: express.Response) {
+//   try{
+//     const files = req.files as { [fieldname: string]: Express.Multer.File[] };
+//     // @ts-ignore
+//     const imagePaths = req.files.map((file) => `C:\Users\kiava\MyFiles\Software Engineering\Codeworks\Main Course\Projects\Solo Project\Umami\Server\\${file.path}`)
+//     res.status(201).json(imagePaths);
+//   }
+//   catch (error) {
+//     console.log(error);
+//     res.sendStatus(500);
+//   }
+// }
+
+export const createNewPost: RequestHandler = async function (
+  req: Request<ParamsDictionary, any, NewPostData>,
+  res,
+  next
+) {
   try {
-    console.log("yo")
-    const userID = new mongoose.Types.ObjectId(req.params.userID);
-    const feedPosts = await UserModel.getFeedPosts(userID);
-    res.status(200).json(feedPosts);
-  }
-  catch (error) {
+    const newPostData = req.body;
+    let newPost: CreateOneResult<RawPostDocument>;
+
+    if (newPostData.restaurantID !== undefined) {
+      const restaurant = await RestaurantModel.findRestaurantByID(
+        newPostData.restaurantID
+      );
+      if (!restaurant) {
+        res.status(404).json({ message: "invalid restaurant ID" });
+        return;
+      } else {
+        newPost = await PostModel.createNewPost(newPostData);
+      }
+    } else {
+      const newRestaurant = await RestaurantModel.createNewRestaurant({
+        name: newPostData.newRestaurantName
+      });
+      const { newRestaurantName, ...rest } = newPostData;
+      newPost = await PostModel.createNewPost({
+        ...rest,
+        restaurantID: newRestaurant._id
+      });
+    }
+    res.status(200).json({ data: newPost });
+  } catch (error) {
     console.log(error);
     res.sendStatus(500);
   }
 };
-
-export const getUserPosts = async function (req: express.Request, res: express.Response) {
-  try {
-    const userID = new mongoose.Types.ObjectId(req.params.userID);
-    const userPosts = await UserModel.getUserPosts(userID);
-    res.status(200).json(userPosts);
-  }
-  catch (error) {
-    console.log(error);
-    res.sendStatus(500);
-  }
-}
-
-export const uploadImages = async function (req: express.Request, res: express.Response) {
-  try{
-    const files = req.files as { [fieldname: string]: Express.Multer.File[] };
-    // @ts-ignore
-    const imagePaths = req.files.map((file) => `C:\Users\kiava\MyFiles\Software Engineering\Codeworks\Main Course\Projects\Solo Project\Umami\Server\\${file.path}`)
-    res.status(201).json(imagePaths);
-  }
-  catch (error) {
-    console.log(error);
-    res.sendStatus(500);
-  }
-}
-
-export const createNewPost = async function (req: express.Request, res: express.Response) {
-  try {
-    const newPostID = new Types.ObjectId();
-    const postData = req.body;
-    const { restaurant } = postData;
-    const updatedRestaurant = await RestaurantModel.addPostToRestaurant({ name: restaurant, postID: newPostID} );
-    let newPost;
-
-    if (updatedRestaurant) {
-      newPost = await PostModel.createNewPost({ ...postData, id: newPostID, restaurantID: updatedRestaurant._id });
-    }
-    else {
-      const newRestaurant = await RestaurantModel.createNewRestaurant({ name: restaurant, posts: [newPostID] });
-      newPost = await PostModel.createNewPost({...postData, id: newPostID, restaurantID: newRestaurant._id });
-    }
-
-    const userID = postData.author;
-    const postID = newPostID;
-    await UserModel.addPostToUser( {userID, postID} );
-    res.status(201).json(newPost);
-  }
-  catch (error) {
-    console.log(error);
-    res.sendStatus(500);
-  }
-}

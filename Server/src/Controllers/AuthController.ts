@@ -1,13 +1,23 @@
-import express from "express";
+// import express from "express";
+import { Request } from "express";
+import { ParamsDictionary } from "express-serve-static-core";
 
 import { hashPassword, comparePasswords, createJWT } from "../Modules/auth";
 import * as UserModel from "../Models/User";
 import { RequestHandler } from "express";
-import { NewUserDetailsPostHash, NewUserDetailsPreHash } from "../types/types";
+import {
+  NewUserDetailsPostHash,
+  NewUserDetailsPreHash,
+  UserCredentials
+} from "../types/types";
 
-export const createNewUser: RequestHandler = async function (req, res, next) {
+export const createNewUser: RequestHandler = async function (
+  req: Request<ParamsDictionary, any, NewUserDetailsPreHash>,
+  res,
+  next
+) {
   try {
-    const newUserDetailsPreHash: NewUserDetailsPreHash = req.body;
+    const newUserDetailsPreHash = req.body;
     const passwordHash = await hashPassword(newUserDetailsPreHash.password);
     const { password, ...rest } = newUserDetailsPreHash;
     const newUserDetailsPostHash: NewUserDetailsPostHash = {
@@ -18,7 +28,7 @@ export const createNewUser: RequestHandler = async function (req, res, next) {
       newUserDetailsPostHash
     );
     // TODO: Should account containing the passwordHash be returned? perhaps better to not expose that property to the client
-    res.status(201).json({
+    res.status(200).json({
       data: {
         createdAccount: {
           ...newUserAccount.toObject(),
@@ -39,10 +49,14 @@ export const createNewUser: RequestHandler = async function (req, res, next) {
   }
 };
 
-export const loginUser: RequestHandler = async function (req, res, next) {
+export const loginUser: RequestHandler = async function (
+  req: Request<ParamsDictionary, any, UserCredentials>,
+  res,
+  next
+) {
   try {
     const { email, password } = req.body;
-    const account = await UserModel.findUser(email);
+    const account = await UserModel.findUserByEmail(email);
     if (!account || !(await comparePasswords(password, account.passwordHash))) {
       res.status(401).json({ message: "invalid details" });
     } else {

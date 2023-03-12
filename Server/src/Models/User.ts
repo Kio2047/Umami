@@ -2,8 +2,9 @@ import { mongoose } from "./index";
 import {
   NewDummyUserDetails,
   NewUserDetailsPostHash,
-  QueryResult,
-  RawUserDocument
+  FindOnePromise,
+  RawUserDocument,
+  CreateOnePromise
 } from "../types/types";
 import { UserCredentials, UserAndPostIDs } from "../types/types";
 import { userSchema } from "./schemas";
@@ -13,7 +14,7 @@ const User = mongoose.model<RawUserDocument>("User", userSchema);
 
 export const createNewUser = async function (
   newUserDetails: NewUserDetailsPostHash
-): Promise<HydratedDocument<RawUserDocument>> {
+): CreateOnePromise<RawUserDocument> {
   const newUser = await User.create({
     ...newUserDetails
   });
@@ -22,7 +23,7 @@ export const createNewUser = async function (
 
 export const findUserByEmail = async function (
   email: string
-): QueryResult<RawUserDocument> {
+): FindOnePromise<RawUserDocument> {
   const account = await User.findOne({
     email: email
   });
@@ -32,7 +33,7 @@ export const findUserByEmail = async function (
 // For use in DB seeder only
 export const createNewDummyUser = async function (
   newDummyUserDetails: NewDummyUserDetails
-): Promise<HydratedDocument<RawUserDocument>> {
+): CreateOnePromise<RawUserDocument> {
   const newDummyUser = await User.create({
     ...newDummyUserDetails
   });

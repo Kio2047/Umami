@@ -1,6 +1,6 @@
 import { mongoose } from "./index";
 import {
-  QueryResult,
+  FindOnePromise,
   RawRestaurantDocument,
   RestaurantNewPost
 } from "../types/types";
@@ -8,27 +8,25 @@ import { restaurantSchema } from "./schemas";
 
 const Restaurant = mongoose.model("Restaurant", restaurantSchema);
 
-// Will need to be restructured once the places api is integrated with the front-end
+// Will need to be restructured once the places api is integrated with the front end
+
+export const createNewRestaurant = async function (
+  newRestaurantDetails: RawRestaurantDocument
+) {
+  const newRestaurant = await Restaurant.create({
+    // _id: id ? id : new mongoose.Types.ObjectId(),
+    // name,
+    ...newRestaurantDetails
+  });
+  return newRestaurant;
+};
 
 export const findRestaurantByID = async function (
   id: mongoose.Types.ObjectId
-): QueryResult<RawRestaurantDocument> {
+): FindOnePromise<RawRestaurantDocument> {
   const restaurant = await Restaurant.findById(id);
   return restaurant;
 };
-
-// export const createNewRestaurant = async function ({
-//   id,
-//   name,
-//   posts
-// }: RestaurantData) {
-//   const newRestaurant = await Restaurant.create({
-//     _id: id ? id : new mongoose.Types.ObjectId(),
-//     name,
-//     posts
-//   });
-//   return newRestaurant;
-// };
 
 // export const addPostToRestaurant = async function ({
 //   name,
