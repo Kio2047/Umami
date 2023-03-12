@@ -6,17 +6,17 @@ type Nullable<T> = T | null;
 export type QueryResult<T> = Promise<Nullable<HydratedDocument<T>>>;
 
 export interface RawUserDocument {
-  _id: Types.ObjectId;
+  // _id: Types.ObjectId;
   email: string;
   passwordHash: string;
   name: string;
   profilePictureURL: string;
-  posts: Types.ObjectId[];
+  // TODO: consider using virtuals and an intermediary collection for many-many friends relationship
   friends: Types.ObjectId[];
 }
 
 export interface RawPostDocument {
-  id: Types.ObjectId;
+  // _id: Types.ObjectId;
   author: Types.ObjectId;
   restaurant: Types.ObjectId;
   ratings: number[];
@@ -24,20 +24,15 @@ export interface RawPostDocument {
   title: string;
   text: string;
   timestamp: Date;
-  others?: Types.ObjectId[];
+  others: Types.ObjectId[];
 }
 
 export interface RawRestaurantDocument {
-  id: Types.ObjectId;
+  // _id: Types.ObjectId;
   name: string;
-  posts: Types.ObjectId[];
 }
 
 export interface NewUserDetails {
-  // The ID is provided in our DB seeder to make cross-collection referencing with dummy data easier.
-  // In practice, users cannot provide the ID for their own account as our sanitization
-  // would remove the ID if it was to be included in the request body
-  _id?: Types.ObjectId;
   email: string;
   name: string;
   profilePictureURL: string;
@@ -49,6 +44,13 @@ export interface NewUserDetailsPreHash extends NewUserDetails {
 
 export interface NewUserDetailsPostHash extends NewUserDetails {
   passwordHash: string;
+}
+
+export interface NewDummyUserDetails extends NewUserDetails {
+  _id: Types.ObjectId;
+  passwordHash: string;
+  posts: Types.ObjectId[];
+  friends: Types.ObjectId[];
 }
 
 export interface UserCredentials {

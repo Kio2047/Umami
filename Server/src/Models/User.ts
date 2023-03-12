@@ -1,5 +1,6 @@
 import { mongoose } from "./index";
 import {
+  NewDummyUserDetails,
   NewUserDetailsPostHash,
   QueryResult,
   RawUserDocument
@@ -13,22 +14,29 @@ const User = mongoose.model<RawUserDocument>("User", userSchema);
 export const createNewUser = async function (
   newUserDetails: NewUserDetailsPostHash
 ): Promise<HydratedDocument<RawUserDocument>> {
-  if (!newUserDetails.hasOwnProperty("_id")) {
-    newUserDetails._id = new mongoose.Types.ObjectId();
-  }
   const newUser = await User.create({
     ...newUserDetails
   });
   return newUser;
 };
 
-export const findUser = async function (
+export const findUserByEmail = async function (
   email: string
 ): QueryResult<RawUserDocument> {
   const account = await User.findOne({
     email: email
   });
   return account;
+};
+
+// For use in DB seeder only
+export const createNewDummyUser = async function (
+  newDummyUserDetails: NewDummyUserDetails
+): Promise<HydratedDocument<RawUserDocument>> {
+  const newDummyUser = await User.create({
+    ...newDummyUserDetails
+  });
+  return newDummyUser;
 };
 
 // export const searchForUser = async function (name: string) {
