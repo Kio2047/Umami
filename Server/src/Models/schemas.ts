@@ -3,7 +3,7 @@
 
 import { Schema } from "mongoose";
 
-import { RawUserDocument } from "../types";
+import { RawUserDocument } from "../types/types";
 
 // TODO: Make the schema properties required where necessary
 // TODO: remove _id from schema and corresponding interface if you can

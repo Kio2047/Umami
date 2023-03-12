@@ -1,26 +1,18 @@
-import { comparePasswords } from "../Modules/auth";
-
 import { mongoose } from "./index";
-import { NewUserDetailsPostHash, RawUserDocument } from "../types";
-import { UserCredentials, UserAndPostIDs } from "../types";
+import {
+  NewUserDetailsPostHash,
+  QueryResult,
+  RawUserDocument
+} from "../types/types";
+import { UserCredentials, UserAndPostIDs } from "../types/types";
 import { userSchema } from "./schemas";
-import { HydratedDocument, Types } from "mongoose";
+import { HydratedDocument, NullExpression, Types } from "mongoose";
 
 const User = mongoose.model<RawUserDocument>("User", userSchema);
 
-// When registering, the app should perform an initial to see check if an account is already
-// associated with email before asking for more details such as their name and profilepicture
-// export const checkUserExists = async function (email) ...
-
-export const checkUserExists = async function (email: string) {
-  const account = await User.findOne({ email });
-  if (account) return true;
-  else return false;
-};
-
 export const createNewUser = async function (
   newUserDetails: NewUserDetailsPostHash
-) {
+): Promise<HydratedDocument<RawUserDocument>> {
   if (!newUserDetails.hasOwnProperty("_id")) {
     newUserDetails._id = new mongoose.Types.ObjectId();
   }
@@ -30,17 +22,19 @@ export const createNewUser = async function (
   return newUser;
 };
 
-// export const checkUserCredentials = async function ({
-//   email,
-//   password
-// }: UserCredentials) {
-//   const account: null | HydratedDocument<IUser> = await User.findOne({ email });
-//   console.log();
-//   if (await comparePasswords(password, account.passwordHash)) {
-//     return;
-//   }
-//   const { _id, name, profilePictureURL, posts, friends } = account;
-//   return { _id, name, profilePictureURL, posts, friends };
+export const findUser = async function (
+  email: string
+): QueryResult<RawUserDocument> {
+  const account = await User.findOne({
+    email: email
+  });
+  return account;
+};
+
+// export const searchForUser = async function (name: string) {
+//   const regex = new RegExp(`^${name}`, "i");
+//   const matchedUsers = await User.find({ name: { $regex: regex } });
+//   return matchedUsers;
 // };
 
 // export const addPostToUser = async function ({
@@ -52,12 +46,6 @@ export const createNewUser = async function (
 //   // @ts-ignore: Object ID bug
 //   account.posts.push(postID);
 //   await account.save();
-// };
-
-// export const searchForUser = async function (name: string) {
-//   const regex = new RegExp(`^${name}`, "i");
-//   const matchedUsers = await User.find({ name: { $regex: regex } });
-//   return matchedUsers;
 // };
 
 // export const getFeedPosts = async function (userID: Types.ObjectId) {

@@ -1,6 +1,9 @@
 // import { ObjectId } from "bson"
-import { Types } from "mongoose";
-import { Request, Response } from "express";
+import { HydratedDocument, Types } from "mongoose";
+
+type Nullable<T> = T | null;
+
+export type QueryResult<T> = Promise<Nullable<HydratedDocument<T>>>;
 
 export interface RawUserDocument {
   _id: Types.ObjectId;
@@ -31,7 +34,7 @@ export interface RawRestaurantDocument {
 }
 
 export interface NewUserDetails {
-  // The ID is provided in our DB seeder to make cross-collection referencing either.
+  // The ID is provided in our DB seeder to make cross-collection referencing with dummy data easier.
   // In practice, users cannot provide the ID for their own account as our sanitization
   // would remove the ID if it was to be included in the request body
   _id?: Types.ObjectId;

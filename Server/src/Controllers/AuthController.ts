@@ -1,20 +1,9 @@
 import express from "express";
 
-import { hashPassword, createJWT } from "../Modules/auth";
+import { hashPassword, comparePasswords, createJWT } from "../Modules/auth";
 import * as UserModel from "../Models/User";
 import { RequestHandler } from "express";
-import { NewUserDetailsPostHash, NewUserDetailsPreHash } from "../types";
-
-// export const checkUserExists: RequestHandler = async function (req, res) {
-//   try {
-//     const { email } = req.body;
-//     const doesExist = await UserModel.checkUserExists(email);
-//     res.status(200).json(doesExist);
-//   } catch (err) {
-//     console.log(err);
-//     res.sendStatus(500);
-//   }
-// };
+import { NewUserDetailsPostHash, NewUserDetailsPreHash } from "../types/types";
 
 export const createNewUser: RequestHandler = async function (req, res, next) {
   try {
@@ -25,20 +14,20 @@ export const createNewUser: RequestHandler = async function (req, res, next) {
       ...rest,
       passwordHash
     };
-    const newUserProfile = await UserModel.createNewUser(
+    const newUserAccount = await UserModel.createNewUser(
       newUserDetailsPostHash
     );
-    // TODO: Should profile containing the passwordHash be returned? seems better to not expose that property to the client
+    // TODO: Should account containing the passwordHash be returned? perhaps better to not expose that property to the client
     res.status(201).json({
       data: {
-        createdProfile: {
-          ...newUserProfile.toObject(),
+        createdAccount: {
+          ...newUserAccount.toObject(),
           // Setting this property to undefined removes it from the JSON response body,
           // so the hash is not sent back to the client
           passwordHash: undefined,
           password
         },
-        token: createJWT(newUserProfile)
+        token: createJWT(newUserAccount)
       }
     });
   } catch (err) {
@@ -52,15 +41,14 @@ export const createNewUser: RequestHandler = async function (req, res, next) {
 
 export const loginUser: RequestHandler = async function (req, res, next) {
   try {
-    const credentials = req.body;
-    const account = await UserModel.checkUserCredentials(credentials);
-    if (!account) {
-      res.status(401).json("invalid details");
+    const { email, password } = req.body;
+    const account = await UserModel.findUser(email);
+    if (!account || !(await comparePasswords(password, account.passwordHash))) {
+      res.status(401).json({ message: "invalid details" });
     } else {
-      res.status(200).send(account);
+      res.status(200).json({ token: createJWT(account) });
     }
   } catch (err) {
-    console.log(err);
-    res.sendStatus(500);
+    next(err);
   }
 };
