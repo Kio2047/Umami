@@ -1,22 +1,20 @@
 import { mongoose } from "./index";
-import {
-  NewDummyUserDetails,
-  NewUserDetailsPostHash,
-  FindOnePromise,
-  RawUserDocument,
-  CreateOnePromise
-} from "../types/types";
-import { UserCredentials, UserAndPostIDs } from "../types/types";
+import { RawUserDocument } from "../types/UserTypes";
+import { FindOnePromise, CreateOnePromise } from "../types/MongooseCRUDTypes";
+
+import { ProcessedNewUserData } from "../types/UserTypes";
+import { NewDummyUserData } from "../types/SeedTypes";
+// import { UserCredentials, UserAndPostIDs } from "../types/types";
 import { userSchema } from "./schemas";
 import { HydratedDocument, NullExpression, Types } from "mongoose";
 
 const User = mongoose.model<RawUserDocument>("User", userSchema);
 
 export const createNewUser = async function (
-  newUserDetails: NewUserDetailsPostHash
+  newUserData: ProcessedNewUserData
 ): CreateOnePromise<RawUserDocument> {
   const newUser = await User.create({
-    ...newUserDetails
+    ...newUserData
   });
   return newUser;
 };
@@ -28,16 +26,6 @@ export const findUserByEmail = async function (
     email: email
   });
   return account;
-};
-
-// For use in DB seeder only
-export const createNewDummyUser = async function (
-  newDummyUserDetails: NewDummyUserDetails
-): CreateOnePromise<RawUserDocument> {
-  const newDummyUser = await User.create({
-    ...newDummyUserDetails
-  });
-  return newDummyUser;
 };
 
 // export const searchForUser = async function (name: string) {
@@ -162,3 +150,13 @@ export const createNewDummyUser = async function (
 // })
 
 // for (let attr of requiredAttrs) { schema[attr].required = true; }
+
+// For use in DB seeder only
+export const createNewDummyUser = async function (
+  newDummyUserData: NewDummyUserData
+): CreateOnePromise<RawUserDocument> {
+  const newDummyUser = await User.create({
+    ...newDummyUserData
+  });
+  return newDummyUser;
+};

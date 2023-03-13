@@ -50,7 +50,6 @@ const seedDB = async function () {
     name: "Sam Kay",
     profilePictureURL:
       "https://scontent.flhr4-4.fna.fbcdn.net/v/t1.6435-9/48409102_2348750308533685_7597051252538605568_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=5OuOo6Qma64AX_UaslZ&_nc_ht=scontent.flhr4-4.fna&oh=00_AT_zHie6NJLu2qk1jWnekcTrM_ThkRzHm-xNIelC_HzslA&oe=630A4F9D",
-    posts: [post1ID, post4ID],
     friends: [user2ID, user3ID, user4ID]
   });
 
@@ -61,7 +60,6 @@ const seedDB = async function () {
     name: "Kit Shirley",
     profilePictureURL:
       "https://scontent.flhr4-4.fna.fbcdn.net/v/t1.6435-9/158877325_10225919781286340_1086636940453703433_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=IulWt2mClmYAX-PX96X&tn=dY5o1Wc_Aecggq7F&_nc_ht=scontent.flhr4-4.fna&oh=00_AT87IGvn3O4hKLZrLOlx--nx7qeRbBlVhCawBRtrNU6jpA&oe=630A20A7",
-    posts: [post2ID],
     friends: [user1ID, user3ID, user4ID]
   });
 
@@ -72,7 +70,6 @@ const seedDB = async function () {
     name: "Sajjad Irvani",
     profilePictureURL:
       "https://scontent.flhr4-3.fna.fbcdn.net/v/t39.30808-6/271156934_2604480466362629_2547902713314809487_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=SDJUkvKG_f4AX_RpBea&_nc_ht=scontent.flhr4-3.fna&oh=00_AT8orRv86gpNjbhpt_GxQGTPpk61O2WHDyoO8zJ-l5Qzrw&oe=62EA9333",
-    posts: [post3ID],
     friends: [user1ID, user2ID, user4ID]
   });
 
@@ -83,7 +80,6 @@ const seedDB = async function () {
     name: "Kio Shirazpour",
     profilePictureURL:
       "https://pps.whatsapp.net/v/t61.24694-24/294839335_732040164522381_3909308128657133963_n.jpg?ccb=11-4&oh=01_AVzN1nRf9nQK2qmEC4KneDbfSBLITOIbUqja1VW4jN6Y6Q&oe=62F43B42",
-    posts: [],
     friends: [user1ID, user2ID, user3ID]
   });
 
@@ -94,13 +90,12 @@ const seedDB = async function () {
     name: "Jamie Gareh",
     profilePictureURL:
       "https://scontent.flhr4-4.fna.fbcdn.net/v/t1.6435-9/28959335_1715538841837554_6317846194622038016_n.jpg?_nc_cat=108&ccb=1-7&_nc_sid=cdbe9c&_nc_ohc=nQ6aNkcRu98AX-zIDHJ&_nc_ht=scontent.flhr4-4.fna&oh=00_AT_4kRin09WZVeno8CAiQE9HUpbJODAIq7kfndsVJBzV0A&oe=630C2857",
-    posts: [],
     friends: []
   });
 
   // Create 5 dummy posts
   const post1 = await createNewPost({
-    id: post1ID,
+    _id: post1ID,
     author: user1ID,
     restaurant: restaurant1ID,
     ratings: [4.5, 3.5, 3],
@@ -116,7 +111,7 @@ const seedDB = async function () {
   });
 
   const post2 = await createNewPost({
-    id: post2ID,
+    _id: post2ID,
     author: user2ID,
     restaurant: restaurant2ID,
     ratings: [5, 4, 5],
@@ -132,7 +127,7 @@ const seedDB = async function () {
   });
 
   const post3 = await createNewPost({
-    id: post3ID,
+    _id: post3ID,
     author: user3ID,
     restaurant: restaurant3ID,
     ratings: [4.5, 4, 5],
@@ -148,7 +143,7 @@ const seedDB = async function () {
   });
 
   const post4 = await createNewPost({
-    id: post4ID,
+    _id: post4ID,
     author: user1ID,
     restaurant: restaurant4ID,
     ratings: [4.5, 4.5, 4],
@@ -165,25 +160,25 @@ const seedDB = async function () {
 
   // Create 5 dummy restaurants
   const restaurant1 = await createNewRestaurant({
-    id: restaurant1ID,
+    _id: restaurant1ID,
     name: "Antillean",
     posts: [post1ID]
   });
 
   const restaurant2 = await createNewRestaurant({
-    id: restaurant2ID,
+    _id: restaurant2ID,
     name: "Pino's Warung",
     posts: [post2ID]
   });
 
   const restaurant3 = await createNewRestaurant({
-    id: restaurant3ID,
+    _id: restaurant3ID,
     name: "Charro de Rio",
     posts: [post3ID]
   });
 
   const restaurant4 = await createNewRestaurant({
-    id: restaurant4ID,
+    _id: restaurant4ID,
     name: "Bosco Pizzeria",
     posts: [post4ID]
   });

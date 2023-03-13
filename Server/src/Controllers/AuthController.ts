@@ -6,27 +6,25 @@ import { hashPassword, comparePasswords, createJWT } from "../Modules/auth";
 import * as UserModel from "../Models/User";
 import { RequestHandler } from "express";
 import {
-  NewUserDetailsPostHash,
-  NewUserDetailsPreHash,
+  ProcessedNewUserData,
+  ReceivedNewUserData,
   UserCredentials
-} from "../types/types";
+} from "../types/UserTypes";
 
 export const createNewUser: RequestHandler = async function (
-  req: Request<ParamsDictionary, any, NewUserDetailsPreHash>,
+  req: Request<ParamsDictionary, any, ReceivedNewUserData>,
   res,
   next
 ) {
   try {
-    const newUserDetailsPreHash = req.body;
-    const passwordHash = await hashPassword(newUserDetailsPreHash.password);
-    const { password, ...rest } = newUserDetailsPreHash;
-    const newUserDetailsPostHash: NewUserDetailsPostHash = {
+    const newUserDataPreHash = req.body;
+    const passwordHash = await hashPassword(newUserDataPreHash.password);
+    const { password, ...rest } = newUserDataPreHash;
+    const newUserDataPostHash: ProcessedNewUserData = {
       ...rest,
       passwordHash
     };
-    const newUserAccount = await UserModel.createNewUser(
-      newUserDetailsPostHash
-    );
+    const newUserAccount = await UserModel.createNewUser(newUserDataPostHash);
     // TODO: Should account containing the passwordHash be returned? perhaps better to not expose that property to the client
     res.status(200).json({
       data: {

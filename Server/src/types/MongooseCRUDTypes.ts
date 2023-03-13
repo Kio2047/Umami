@@ -1,8 +1,6 @@
-import { HydratedDocument } from "mongoose";
+import { HydratedDocument, Types } from "mongoose";
 
 type Nullable<T> = T | null;
-
-// export type Result<T> = Promise<Nullable<HydratedDocument<T>>>;
 
 export type FindOneResult<T> = Nullable<HydratedDocument<T>>;
 

@@ -1,22 +1,26 @@
 import { mongoose } from "./index";
 import {
   FindOnePromise,
-  RawRestaurantDocument,
-  RestaurantNewPost
-} from "../types/types";
+  RawRestaurantDocument
+} from "../types/MongooseCRUDTypes";
+import { RestaurantNewPost } from "../types/types";
 import { restaurantSchema } from "./schemas";
+import { NewDummyRestaurantData } from "../types/SeedTypes";
 
-const Restaurant = mongoose.model("Restaurant", restaurantSchema);
+const Restaurant = mongoose.model<RawRestaurantDocument>(
+  "Restaurant",
+  restaurantSchema
+);
 
 // Will need to be restructured once the places api is integrated with the front end
 
 export const createNewRestaurant = async function (
-  newRestaurantDetails: RawRestaurantDocument
+  newRestaurantData: RawRestaurantDocument
 ) {
   const newRestaurant = await Restaurant.create({
     // _id: id ? id : new mongoose.Types.ObjectId(),
     // name,
-    ...newRestaurantDetails
+    ...newRestaurantData
   });
   return newRestaurant;
 };
@@ -45,3 +49,13 @@ export const findRestaurantByID = async function (
 // //   const matchedRestaurants = await Restaurant.find({ name: {$regex: regex} });
 // //   return matchedRestaurants;
 // // };
+
+// For use in DB seeder only
+export const createNewDummyRestaurant = async function (
+  newDummyRestaurantData: NewDummyRestaurantData
+) {
+  const newDummyRestaurant = await Restaurant.create({
+    ...newDummyRestaurantData
+  });
+  return newDummyRestaurant;
+};

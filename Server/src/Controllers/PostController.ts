@@ -6,13 +6,48 @@ import * as PostModel from "../Models/Post";
 import * as RestaurantModel from "../Models/Restaurant";
 import mongoose, { HydratedDocument, Types } from "mongoose";
 import express, { RequestHandler } from "express";
-import {
-  CreateOneResult,
-  FindOneResult,
-  NewPostData,
-  RawPostDocument,
-  RawRestaurantDocument
-} from "../types/types";
+import { CreateOneResult, FindOneResult } from "../types/MongooseCRUDTypes";
+
+import { RawPostDocument } from "../types/PostTypes";
+import { RawRestaurantDocument } from "../types/RestaurantTypes";
+import { ReceivedNewPostData } from "../types/PostTypes";
+
+export const createNewPost: RequestHandler = async function (
+  req: Request<ParamsDictionary, any, ReceivedNewPostData>,
+  res,
+  next
+) {
+  try {
+    const newPostData = req.body;
+    let restaurant: FindOneResult<RawRestaurantDocument>;
+    let newPost: CreateOneResult<RawPostDocument>;
+
+    if (newPostData.restaurantID !== undefined) {
+      restaurant = await RestaurantModel.findRestaurantByID(
+        newPostData.restaurantID
+      );
+      if (!restaurant) {
+        res.status(404).json({ message: "invalid restaurant ID" });
+        return;
+      } else {
+        newPost = await PostModel.createNewPost(newPostData);
+      }
+    } else {
+      const newRestaurant = await RestaurantModel.createNewRestaurant({
+        name: newPostData.newRestaurantName
+      });
+      const { newRestaurantName, ...rest } = newPostData;
+      newPost = await PostModel.createNewPost({
+        ...rest,
+        restaurantID: newRestaurant._id
+      });
+    }
+    res.status(200).json({ data: newPost });
+  } catch (error) {
+    console.log(error);
+    res.sendStatus(500);
+  }
+};
 
 // export const getFeedPosts = async function (req: express.Request, res: express.Response) {
 //   try {
@@ -51,39 +86,3 @@ import {
 //     res.sendStatus(500);
 //   }
 // }
-
-export const createNewPost: RequestHandler = async function (
-  req: Request<ParamsDictionary, any, NewPostData>,
-  res,
-  next
-) {
-  try {
-    const newPostData = req.body;
-    let newPost: CreateOneResult<RawPostDocument>;
-
-    if (newPostData.restaurantID !== undefined) {
-      const restaurant = await RestaurantModel.findRestaurantByID(
-        newPostData.restaurantID
-      );
-      if (!restaurant) {
-        res.status(404).json({ message: "invalid restaurant ID" });
-        return;
-      } else {
-        newPost = await PostModel.createNewPost(newPostData);
-      }
-    } else {
-      const newRestaurant = await RestaurantModel.createNewRestaurant({
-        name: newPostData.newRestaurantName
-      });
-      const { newRestaurantName, ...rest } = newPostData;
-      newPost = await PostModel.createNewPost({
-        ...rest,
-        restaurantID: newRestaurant._id
-      });
-    }
-    res.status(200).json({ data: newPost });
-  } catch (error) {
-    console.log(error);
-    res.sendStatus(500);
-  }
-};
