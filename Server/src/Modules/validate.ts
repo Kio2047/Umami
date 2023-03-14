@@ -1,6 +1,7 @@
-import { body, validationResult, matchedData } from "express-validator";
-
+import { body, validationResult, matchedData, check } from "express-validator";
 import { RequestHandler } from "express";
+import { Types } from "mongoose";
+const { ObjectId } = Types;
 
 export const validateRequest: RequestHandler = (req, res, next) => {
   const errors = validationResult(req);
@@ -15,6 +16,12 @@ export const validateRequest: RequestHandler = (req, res, next) => {
     req.body = filteredBody;
     next();
   }
+};
+
+const isValidObjectID = (str: string) => {
+  if (Types.ObjectId.isValid(str) && String(new ObjectId(str)) === str)
+    return true;
+  else throw new Error("invalid ObjectID");
 };
 
 export const createNewUserValidations = [
@@ -45,4 +52,24 @@ export const loginUserValidations = [
   body("password").exists().isString()
 ];
 
-export const createNewPostValidations = [];
+export const createNewPostValidations = [
+  // add validation to ensure that restaurantID and newRestaurantName don't both exist
+  body("ratings").exists().isArray({
+    max: 3,
+    min: 3
+  }),
+  body("ratings.*")
+    .isFloat({
+      min: 0,
+      max: 5
+    })
+    .isDivisibleBy(0.5),
+  body("imageURLs").exists().isArray(),
+  body("imageURLs.*").matches(/^https:\/\/res.cloudinary.com\/di3penpbh/),
+  body("others").exists().isArray(),
+  body("others.*").isString().custom(isValidObjectID),
+  body("title").exists().isString().isLength({ max: 60 }),
+  body("text").exists().isString(),
+  body("newRestaurantName").optional().isString(),
+  body("restaurantID").optional().custom(isValidObjectID)
+];

@@ -4,13 +4,16 @@ import { body } from "express-validator";
 import * as AuthController from "./Controllers/AuthController";
 import * as PostController from "./Controllers/PostController";
 import * as ImageUploadController from "./Controllers/ImageUploadController";
-import {
-  createNewUserValidations,
-  loginUserValidations,
-  validateRequest
-} from "./Modules/validate";
+import { createNewPostValidations, validateRequest } from "./Modules/validate";
 
 const protectedRouter = Router();
+
+protectedRouter.post(
+  "/posts",
+  createNewPostValidations,
+  validateRequest,
+  PostController.createNewPost
+);
 
 // router.post("/session", AuthController.checkUserExists);
 // router.post(
