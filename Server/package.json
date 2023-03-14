@@ -24,6 +24,6 @@
   },
   "scripts": {
     "start": "nodemon ./src/index.ts",
-    "seed": "npx ts-node ./src/seed/dbSeeder.ts"
+    "seed": "npx ts-node ./src/seeder/dbSeeder.ts"
   }
 }

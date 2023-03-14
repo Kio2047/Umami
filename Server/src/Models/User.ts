@@ -1,6 +1,10 @@
 import { mongoose } from "./index";
 import { RawUserDocument } from "../types/UserTypes";
-import { FindOnePromise, CreateOnePromise } from "../types/MongooseCRUDTypes";
+import {
+  FindOnePromise,
+  CreateOnePromise,
+  UpdateOnePromise
+} from "../types/MongooseCRUDTypes";
 
 import { ProcessedNewUserData } from "../types/UserTypes";
 import { NewDummyUserData } from "../types/SeedTypes";
@@ -26,6 +30,46 @@ export const findUserByEmail = async function (
     email: email
   });
   return account;
+};
+
+export const findUserByID = async function (
+  id: string
+): FindOnePromise<RawUserDocument> {
+  const account = await User.findOne({
+    _id: new mongoose.Types.ObjectId(id)
+  });
+  return account;
+};
+
+//TODO: change from save to updateOne for atomicity?
+
+const appendUserFollowers = async function (
+  user: HydratedDocument<RawUserDocument>,
+  newFollowerID: mongoose.Types.ObjectId
+): UpdateOnePromise<RawUserDocument> {
+  user.followers.push(new mongoose.Types.ObjectId(newFollowerID));
+  await user.save();
+  return user;
+};
+
+const appendUserFollowing = async function (
+  user: HydratedDocument<RawUserDocument>,
+  newFollowedID: mongoose.Types.ObjectId
+): UpdateOnePromise<RawUserDocument> {
+  user.following.push(new mongoose.Types.ObjectId(newFollowedID));
+  await user.save();
+  return user;
+};
+
+export const updateFollowingBidirectionally = async function (
+  follower: HydratedDocument<RawUserDocument>,
+  followed: HydratedDocument<RawUserDocument>
+): Promise<HydratedDocument<RawUserDocument>[]> {
+  const [updatedFollower, updatedFollowed] = await Promise.all([
+    appendUserFollowing(follower, followed._id),
+    appendUserFollowers(followed, follower._id)
+  ]);
+  return [updatedFollower, updatedFollowed];
 };
 
 // export const searchForUser = async function (name: string) {

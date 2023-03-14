@@ -6,8 +6,9 @@ export interface RawUserDocument {
   passwordHash: string;
   name: string;
   profilePictureURL: string;
-  // TODO: consider using virtuals and an intermediary collection for many-many friends relationship
-  friends: Types.ObjectId[];
+  // TODO: consider using virtuals and an intermediary collection for many-many following / followers relationship
+  following: Types.ObjectId[];
+  followers: Types.ObjectId[];
 }
 
 export interface NewUserData {

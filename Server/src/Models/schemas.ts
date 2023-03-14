@@ -20,7 +20,8 @@ export const userSchema = new Schema<RawUserDocument>({
   passwordHash: { type: String, required: true },
   name: { type: String, required: true },
   profilePictureURL: { type: String, required: true },
-  friends: [{ type: Schema.Types.ObjectId, ref: "User" }]
+  following: [{ type: Schema.Types.ObjectId, ref: "User" }],
+  followers: [{ type: Schema.Types.ObjectId, ref: "User" }]
 });
 
 export const postSchema = new Schema<RawPostDocument>({

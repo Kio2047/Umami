@@ -6,7 +6,8 @@ import { RawRestaurantDocument } from "./RestaurantTypes";
 
 export interface NewDummyUserData extends ProcessedNewUserData {
   _id: Types.ObjectId;
-  friends: Types.ObjectId[];
+  following: Types.ObjectId[];
+  followers: Types.ObjectId[];
 }
 
 export interface NewDummyPostData extends ProcessedNewPostData {

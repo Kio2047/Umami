@@ -8,7 +8,10 @@ import {
   loginUserValidations,
   validateRequest
 } from "./Modules/validate";
-import { createNewUser, loginUser } from "./Controllers/AuthController";
+import {
+  createNewUser,
+  loginUser
+} from "./Controllers/AuthenticationController";
 import { authenticate } from "./Modules/auth";
 import protectedRouter from "./router";
 

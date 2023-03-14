@@ -21,7 +21,7 @@ export const createNewPost: RequestHandler = async function (
 ) {
   try {
     const newPostData = req.body;
-    const userID = res.locals.decryptedPayload.sub;
+    const userID = res.locals.tokenPayload.sub;
 
     let restaurant: FindOneResult<RawRestaurantDocument>;
     let newPost: CreateOneResult<RawPostDocument>;

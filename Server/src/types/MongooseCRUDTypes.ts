@@ -9,3 +9,7 @@ export type FindOnePromise<T> = Promise<FindOneResult<T>>;
 export type CreateOneResult<T> = HydratedDocument<T>;
 
 export type CreateOnePromise<T> = Promise<CreateOneResult<T>>;
+
+export type UpdateOneResult<T> = CreateOneResult<T>;
+
+export type UpdateOnePromise<T> = CreateOnePromise<T>;

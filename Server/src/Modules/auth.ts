@@ -47,10 +47,23 @@ export const authenticate: RequestHandler = (req, res, next) => {
 
   const token = authHeader.split(" ")[1];
   try {
-    const decryptedPayload = jwt.verify(token, process.env.JWT_SECRET);
-    res.locals.decryptedPayload = decryptedPayload;
+    const tokenPayload = jwt.verify(token, process.env.JWT_SECRET);
+    res.locals.tokenPayload = tokenPayload;
+    next();
   } catch (err) {
     err.cause = "invalid jwt";
     next(err);
+  }
+};
+
+// TODO: Move this to middleware (would require knowing requiredID prior to any DB lookups)
+export const errorIfUnauthorised = (
+  requiredID: string,
+  tokenPayloadUserID: string
+) => {
+  if (requiredID !== tokenPayloadUserID) {
+    throw new Error("User not authorised to perform this action", {
+      cause: "not authorised"
+    });
   }
 };

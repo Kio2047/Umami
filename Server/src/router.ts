@@ -1,10 +1,11 @@
 import { Router } from "express";
 import { body } from "express-validator";
 
-import * as AuthController from "./Controllers/AuthController";
+import * as AuthController from "./Controllers/AuthenticationController";
 import * as PostController from "./Controllers/PostController";
 import * as ImageUploadController from "./Controllers/ImageUploadController";
 import { createNewPostValidations, validateRequest } from "./Modules/validate";
+import * as UserController from "./Controllers/UserController";
 
 const protectedRouter = Router();
 
@@ -13,6 +14,13 @@ protectedRouter.post(
   createNewPostValidations,
   validateRequest,
   PostController.createNewPost
+);
+
+protectedRouter.patch(
+  "/users/:id/following",
+  // followUserValidations,
+  validateRequest,
+  UserController.createFollowConnection
 );
 
 // router.post("/session", AuthController.checkUserExists);
