@@ -2,14 +2,25 @@ import express, { ErrorRequestHandler } from "express";
 // import cors from "cors";
 import morgan from "morgan";
 
-import router from "./router";
 import { backupErrorHandler } from "./Modules/errorHandlers";
+import {
+  createNewUserValidations,
+  loginUserValidations,
+  validateRequest
+} from "./Modules/validate";
+import { createNewUser, loginUser } from "./Controllers/AuthController";
+import { authenticate } from "./Modules/auth";
+import protectedRouter from "./router";
 
 const app = express();
 app.use(morgan("dev"));
 // app.use(cors());
 app.use(express.json());
-app.use(router);
+
+app.post("/user", createNewUserValidations, validateRequest, createNewUser);
+app.post("/session", loginUserValidations, validateRequest, loginUser);
+app.use(authenticate, protectedRouter);
+
 app.use(backupErrorHandler);
 
 export default app;

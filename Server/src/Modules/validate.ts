@@ -44,3 +44,5 @@ export const loginUserValidations = [
   body("email").exists().isString().isEmail().normalizeEmail(),
   body("password").exists().isString()
 ];
+
+export const createNewPostValidations = [];

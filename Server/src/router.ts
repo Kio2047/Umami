@@ -10,20 +10,7 @@ import {
   validateRequest
 } from "./Modules/validate";
 
-const router = Router();
-
-router.post(
-  "/user",
-  createNewUserValidations,
-  validateRequest,
-  AuthController.createNewUser
-);
-router.post(
-  "/session",
-  loginUserValidations,
-  validateRequest,
-  AuthController.loginUser
-);
+const protectedRouter = Router();
 
 // router.post("/session", AuthController.checkUserExists);
 // router.post(
@@ -46,4 +33,4 @@ router.post(
 //   PostController.uploadImages
 // );
 
-export default router;
+export default protectedRouter;
