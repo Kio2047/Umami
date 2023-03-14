@@ -16,7 +16,7 @@ import { RawRestaurantDocument } from "../types/RestaurantTypes";
 
 export const userSchema = new Schema<RawUserDocument>({
   // _id: Schema.Types.ObjectId,
-  email: { type: String, required: true, unique: true },
+  email: { type: String, required: true, unique: true, index: true },
   passwordHash: { type: String, required: true },
   name: { type: String, required: true },
   profilePictureURL: { type: String, required: true },
@@ -25,11 +25,17 @@ export const userSchema = new Schema<RawUserDocument>({
 
 export const postSchema = new Schema<RawPostDocument>({
   // _id: Schema.Types.ObjectId,
-  author: { type: Schema.Types.ObjectId, ref: "User", required: true },
+  author: {
+    type: Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
+    index: true
+  },
   restaurant: {
     type: Schema.Types.ObjectId,
     ref: "Restaurant",
-    required: true
+    required: true,
+    index: true
   },
   ratings: [Number],
   imageURLs: [String],

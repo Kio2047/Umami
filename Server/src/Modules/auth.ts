@@ -23,7 +23,7 @@ export const createJWT = (user: HydratedDocument<RawUserDocument>): string => {
   }
   const token = jwt.sign(
     {
-      sub: user.email,
+      sub: user._id,
       iat: Date.now()
     },
     process.env.JWT_SECRET

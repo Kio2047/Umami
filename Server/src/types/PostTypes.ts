@@ -13,7 +13,6 @@ export interface RawPostDocument {
 }
 
 interface NewPostDataBase {
-  author: Types.ObjectId;
   ratings: [number, number, number];
   imageURLs: string[];
   title: string;
@@ -36,6 +35,7 @@ export type ReceivedNewPostData =
   | NewPostDataWithRestaurantID;
 
 export interface ProcessedNewPostData extends NewPostDataBase {
+  author: Types.ObjectId;
   restaurant: Types.ObjectId;
   timestamp: string;
 }

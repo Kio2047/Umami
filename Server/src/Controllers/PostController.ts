@@ -10,6 +10,9 @@ import { CreateOneResult, FindOneResult } from "../types/MongooseCRUDTypes";
 import { RawPostDocument } from "../types/PostTypes";
 import { RawRestaurantDocument } from "../types/RestaurantTypes";
 import { ReceivedNewPostData } from "../types/PostTypes";
+import { Types } from "mongoose";
+
+// TODO: add type declaration for res.locals (scoped to the protected router endpoints only)
 
 export const createNewPost: RequestHandler = async function (
   req: Request<ParamsDictionary, any, ReceivedNewPostData>,
@@ -18,6 +21,8 @@ export const createNewPost: RequestHandler = async function (
 ) {
   try {
     const newPostData = req.body;
+    const userID = res.locals.decryptedPayload.sub;
+
     let restaurant: FindOneResult<RawRestaurantDocument>;
     let newPost: CreateOneResult<RawPostDocument>;
 
@@ -38,7 +43,8 @@ export const createNewPost: RequestHandler = async function (
     newPost = await PostModel.createNewPost({
       ...rest,
       restaurant: restaurant._id,
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
+      author: new Types.ObjectId(userID)
     });
     res.status(200).json({ data: newPost });
   } catch (err) {
