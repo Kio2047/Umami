@@ -25,19 +25,23 @@ export const userSchema = new Schema<RawUserDocument>({
 
 export const postSchema = new Schema<RawPostDocument>({
   // _id: Schema.Types.ObjectId,
-  author: { type: Schema.Types.ObjectId, ref: "User" },
-  restaurant: { type: Schema.Types.ObjectId, ref: "Restaurant" },
+  author: { type: Schema.Types.ObjectId, ref: "User", required: true },
+  restaurant: {
+    type: Schema.Types.ObjectId,
+    ref: "Restaurant",
+    required: true
+  },
   ratings: [Number],
   imageURLs: [String],
-  timestamp: Date,
-  title: String,
-  text: String,
+  timestamp: { type: Date, required: true },
+  title: { type: String, required: true },
+  text: { type: String, required: true },
   others: [{ type: Schema.Types.ObjectId, ref: "User" }]
 });
 
 export const restaurantSchema = new Schema<RawRestaurantDocument>({
   // _id: Schema.Types.ObjectId,
-  name: String
+  name: { type: String, required: true }
   // cuisine: [String],
   // averageScore: Number,
   // location: String

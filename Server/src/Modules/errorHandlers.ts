@@ -9,12 +9,12 @@ export const backupErrorHandler: ErrorRequestHandler = function (
 ) {
   console.error(err);
   // TODO: use switch statement
-  if (err.type === "duplicate value") {
+  if (err.cause === "duplicate value") {
     res.status(400).json({ message: `duplicate ${err.duplicateKey}` });
-  } else if (err.type === "auth") {
+  } else if (err.cause === "auth") {
     res.status(403);
     res.json({ message: "Not authorized" });
-  } else if (err.type === "input") {
+  } else if (err.cause === "input") {
     res.status(400);
     res.json({ message: "Invalid input" });
   } else {

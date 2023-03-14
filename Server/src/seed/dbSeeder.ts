@@ -1,7 +1,10 @@
+import * as dotenv from "dotenv";
+dotenv.config({ path: "./.env" });
+
 import { mongoose, connectDBClient } from "../Models/index";
 import { createNewDummyUser } from "../Models/User";
-import { createNewPost } from "../Models/Post";
-import { createNewRestaurant } from "../Models/Restaurant";
+import { createNewDummyPost } from "../Models/Post";
+import { createNewDummyRestaurant } from "../Models/Restaurant";
 import { hashPassword } from "../Modules/auth";
 
 const seedDB = async function () {
@@ -94,7 +97,7 @@ const seedDB = async function () {
   });
 
   // Create 5 dummy posts
-  const post1 = await createNewPost({
+  const post1 = await createNewDummyPost({
     _id: post1ID,
     author: user1ID,
     restaurant: restaurant1ID,
@@ -106,11 +109,11 @@ const seedDB = async function () {
     ],
     title: "Next level Caribbean food that will break the bank",
     text: "Had the scallop ceviche and the octopus, crab and mackerel small plates which were all amazing. For mains we had the crab curry, tamarind chicken and the lamb cutlets, the curry was probably the best but all of these were totally sublime. To finish we had the plantain tarte tatin, chocolate torte and carrot cake with pineapple, all nice but not at the level of the starters. We washed them all down with a selection of ‘tropical’ cocktails as it’s 24/7 happy hour for July / August. It's far from cheap though - I'll probably be living off of baked beans and toast for the foreseeable future. Worth it? Not sure, but the food was wicked",
-    timestamp: new Date(Date.now() - 10800000),
+    timestamp: new Date(Date.now() - 10800000).toISOString(),
     others: [user2ID]
   });
 
-  const post2 = await createNewPost({
+  const post2 = await createNewDummyPost({
     _id: post2ID,
     author: user2ID,
     restaurant: restaurant2ID,
@@ -122,11 +125,11 @@ const seedDB = async function () {
     ],
     title: "Best Indonesian Satay Chicken in London!!",
     text: "If you haven’t already tasted the Satay Chicken, you need to try them they are finger licking delicious!!! If you're in London and looking for authentic Indonesian street food, THIS IS the place to go! Highly highly recommended - this place is deffo worth a visit. The portions are quiet big for the price you pay. Hit me up if you're ever planning on going to this place 😂",
-    timestamp: new Date(Date.now() - 86400000),
+    timestamp: new Date(Date.now() - 86400000).toISOString(),
     others: []
   });
 
-  const post3 = await createNewPost({
+  const post3 = await createNewDummyPost({
     _id: post3ID,
     author: user3ID,
     restaurant: restaurant3ID,
@@ -138,11 +141,11 @@ const seedDB = async function () {
     ],
     title: "I may never need to eat again",
     text: "An all you can eat rodizio grill? Are you for real? Everybody needs to embrace their inner glutton with a feast at this place. We were lucky enough to get a table without a booking last night, and the food was unreal - brisket, fillet steak, wagyu steak, minted lamb, teriyaki chicken, paprika chicken were among some of the many, including a wonderful selection of salads and homemade goulash. Service was top notch, and we loved the addition of hot water bottles to keep us warm - great touch! We can't wait to go back soon 😋😋 - just don't bring your veggie friends!",
-    timestamp: new Date(Date.now() - 86400000),
+    timestamp: new Date(Date.now() - 86400000).toISOString(),
     others: [user1ID]
   });
 
-  const post4 = await createNewPost({
+  const post4 = await createNewDummyPost({
     _id: post4ID,
     author: user1ID,
     restaurant: restaurant4ID,
@@ -154,34 +157,32 @@ const seedDB = async function () {
     ],
     title: "Close your eyes and you're in Italy!",
     text: "The aranacini and pizza are next level. Salads are great too. Ambience is lovely, it's got that Italian hustle and bustle. Love this place.",
-    timestamp: new Date(Date.now() - 86400000 * 2),
+    timestamp: new Date(Date.now() - 86400000 * 2).toISOString(),
     others: []
   });
 
   // Create 5 dummy restaurants
-  const restaurant1 = await createNewRestaurant({
+  const restaurant1 = await createNewDummyRestaurant({
     _id: restaurant1ID,
-    name: "Antillean",
-    posts: [post1ID]
+    name: "Antillean"
   });
 
-  const restaurant2 = await createNewRestaurant({
+  const restaurant2 = await createNewDummyRestaurant({
     _id: restaurant2ID,
-    name: "Pino's Warung",
-    posts: [post2ID]
+    name: "Pino's Warung"
   });
 
-  const restaurant3 = await createNewRestaurant({
+  const restaurant3 = await createNewDummyRestaurant({
     _id: restaurant3ID,
-    name: "Charro de Rio",
-    posts: [post3ID]
+    name: "Charro de Rio"
   });
 
-  const restaurant4 = await createNewRestaurant({
+  const restaurant4 = await createNewDummyRestaurant({
     _id: restaurant4ID,
-    name: "Bosco Pizzeria",
-    posts: [post4ID]
+    name: "Bosco Pizzeria"
   });
+
+  console.log("DB successfully seeded");
 
   mongoose.connection.close();
 };

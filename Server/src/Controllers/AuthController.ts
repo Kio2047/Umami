@@ -40,7 +40,7 @@ export const createNewUser: RequestHandler = async function (
     });
   } catch (err) {
     if (err.code === 11000 && err.keyValue?.email === req.body.email) {
-      err.type = "duplicate value";
+      err.cause = "duplicate value";
       err.duplicateKey = "email";
     }
     next(err);

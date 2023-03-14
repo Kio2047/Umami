@@ -11,6 +11,10 @@ export type UserAndPostIDs = {
   postID: Types.ObjectId;
 };
 
+export interface ErrorWithType extends Error {
+  type: string;
+}
+
 //TODO - next type can also be the error handler which has different arguments
 
 // export type ExpressErrorHandler

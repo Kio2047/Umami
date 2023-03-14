@@ -1,8 +1,6 @@
 import { mongoose } from "./index";
-import {
-  FindOnePromise,
-  RawRestaurantDocument
-} from "../types/MongooseCRUDTypes";
+import { CreateOnePromise, FindOnePromise } from "../types/MongooseCRUDTypes";
+import { RawRestaurantDocument } from "../types/RestaurantTypes";
 import { RestaurantNewPost } from "../types/types";
 import { restaurantSchema } from "./schemas";
 import { NewDummyRestaurantData } from "../types/SeedTypes";
@@ -16,7 +14,7 @@ const Restaurant = mongoose.model<RawRestaurantDocument>(
 
 export const createNewRestaurant = async function (
   newRestaurantData: RawRestaurantDocument
-) {
+): CreateOnePromise<RawRestaurantDocument> {
   const newRestaurant = await Restaurant.create({
     // _id: id ? id : new mongoose.Types.ObjectId(),
     // name,

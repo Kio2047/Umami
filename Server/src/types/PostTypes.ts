@@ -16,7 +16,6 @@ interface NewPostDataBase {
   author: Types.ObjectId;
   ratings: [number, number, number];
   imageURLs: string[];
-  restaurant: Types.ObjectId;
   title: string;
   text: string;
   others: Types.ObjectId[];
@@ -38,4 +37,5 @@ export type ReceivedNewPostData =
 
 export interface ProcessedNewPostData extends NewPostDataBase {
   restaurant: Types.ObjectId;
+  timestamp: string;
 }

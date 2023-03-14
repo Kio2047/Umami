@@ -4,8 +4,7 @@ import { ParamsDictionary } from "express-serve-static-core";
 import * as UserModel from "../Models/User";
 import * as PostModel from "../Models/Post";
 import * as RestaurantModel from "../Models/Restaurant";
-import mongoose, { HydratedDocument, Types } from "mongoose";
-import express, { RequestHandler } from "express";
+import { RequestHandler } from "express";
 import { CreateOneResult, FindOneResult } from "../types/MongooseCRUDTypes";
 
 import { RawPostDocument } from "../types/PostTypes";
@@ -29,23 +28,21 @@ export const createNewPost: RequestHandler = async function (
       if (!restaurant) {
         res.status(404).json({ message: "invalid restaurant ID" });
         return;
-      } else {
-        newPost = await PostModel.createNewPost(newPostData);
       }
     } else {
-      const newRestaurant = await RestaurantModel.createNewRestaurant({
+      restaurant = await RestaurantModel.createNewRestaurant({
         name: newPostData.newRestaurantName
       });
-      const { newRestaurantName, ...rest } = newPostData;
-      newPost = await PostModel.createNewPost({
-        ...rest,
-        restaurantID: newRestaurant._id
-      });
     }
+    const { restaurantID, newRestaurantName, ...rest } = newPostData;
+    newPost = await PostModel.createNewPost({
+      ...rest,
+      restaurant: restaurant._id,
+      timestamp: new Date().toISOString()
+    });
     res.status(200).json({ data: newPost });
-  } catch (error) {
-    console.log(error);
-    res.sendStatus(500);
+  } catch (err) {
+    next(err);
   }
 };
 
