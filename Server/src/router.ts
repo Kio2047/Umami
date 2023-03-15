@@ -4,7 +4,11 @@ import { body } from "express-validator";
 import * as AuthController from "./Controllers/AuthenticationController";
 import * as PostController from "./Controllers/PostController";
 import * as ImageUploadController from "./Controllers/ImageUploadController";
-import { createNewPostValidations, validateRequest } from "./Modules/validate";
+import {
+  createNewPostValidations,
+  followUserValidations,
+  validateRequest
+} from "./Modules/validations";
 import * as UserController from "./Controllers/UserController";
 
 const protectedRouter = Router();
@@ -18,9 +22,14 @@ protectedRouter.post(
 
 protectedRouter.patch(
   "/users/:id/following",
-  // followUserValidations,
+  followUserValidations,
   validateRequest,
   UserController.createFollowConnection
+);
+
+protectedRouter.get(
+  "/media-upload-signature/profile-image",
+  ImageUploadController.generateMediaUploadSignature
 );
 
 // router.post("/session", AuthController.checkUserExists);

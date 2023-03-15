@@ -25,6 +25,12 @@ export const backupErrorHandler: ErrorRequestHandler = function (
   } else if (err.cause === "user-to-follow id not valid") {
     res.status(404);
     res.json({ message: "invalid user-to-follow id" });
+  } else if (err.cause === "no cloudinary API secret") {
+    res.status(502);
+    res.json({ message: "internal server error. that one's on us :(" });
+  } else if (err.cause === "no jwt secret") {
+    res.status(500);
+    res.json({ message: "internal server error. that one's on us :(" });
   } else {
     res.status(500);
     res.json({ message: "internal server error. that one's on us :(" });

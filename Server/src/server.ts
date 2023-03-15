@@ -7,7 +7,7 @@ import {
   createNewUserValidations,
   loginUserValidations,
   validateRequest
-} from "./Modules/validate";
+} from "./Modules/validations";
 import {
   createNewUser,
   loginUser

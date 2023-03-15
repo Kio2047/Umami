@@ -73,3 +73,7 @@ export const createNewPostValidations = [
   body("newRestaurantName").optional().isString(),
   body("restaurantID").optional().custom(isValidObjectID)
 ];
+
+export const followUserValidations = [
+  body("userToFollowID").exists().isString().custom(isValidObjectID)
+];
