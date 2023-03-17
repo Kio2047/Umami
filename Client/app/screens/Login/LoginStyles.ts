@@ -6,11 +6,13 @@ export default StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.backgroundColor,
-    alignItems: "center"
+    alignItems: "center",
+    justifyContent: "center"
   },
   logo: {
     width: 200,
-    height: 200
+    height: 200,
+    marginBottom: 25
   },
   input: {
     color: colors.primaryFontColor,
@@ -21,7 +23,7 @@ export default StyleSheet.create({
     marginBottom: 15,
     borderRadius: 3
   },
-  invalidDetailsText: {
+  loginErrorText: {
     color: "red",
     marginTop: -10,
     marginBottom: -11,
@@ -32,30 +34,11 @@ export default StyleSheet.create({
     width: 330,
     height: 50,
     backgroundColor: colors.defaultButtonColor,
-    borderRadius: 7
-    // marginTop: 20
+    borderRadius: 7,
+    marginTop: 20
   },
   buttonText: {
     textAlign: "center",
     color: colors.primaryFontColor
-  },
-  bottomTab: {
-    position: "absolute",
-    bottom: 0,
-    justifyContent: "center",
-    alignItems: "center",
-    width: "100%",
-    height: 50,
-    backgroundColor: colors.backgroundColor,
-    borderTopColor: colors.bottomTabBorderColor,
-    borderTopWidth: 1
-  },
-  bottomTabText: {
-    color: colors.primaryFontColor
-  },
-  registerLink: {
-    color: colors.primaryFontColor,
-    textDecorationLine: "underline",
-    fontWeight: "bold"
   }
 });

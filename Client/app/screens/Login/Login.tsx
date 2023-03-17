@@ -14,20 +14,32 @@ import { CommonActions } from "@react-navigation/native";
 import { useQuery } from "@tanstack/react-query";
 
 import styles from "./LoginStyles";
-import { LoginScreenProps, UserCredentials } from "../../types";
+import { RootStackParamList } from "../../Types/NavigationTypes";
+import { UserCredentials } from "../../types";
 import logo from "../../assets/logo.png";
 import colors from "../../colors";
 import { createSessionToken } from "../../api/apiClientService";
-// import { useRef } from "react";
+import { StackScreenProps } from "../../Types/NavigationTypes";
+import BottomTab from "../../components/BottomTab/BottomTab";
+import { FailedRequestError } from "../../api/APIUtils";
 
-const Login = ({ navigation }: LoginScreenProps) => {
+const Login = ({
+  navigation
+}: {
+  navigation: StackScreenProps<"Login">["navigation"];
+}) => {
   const [userCredentials, setUserCredentials] = useState<UserCredentials>({
     email: "",
     password: ""
   });
-  const [invalidCredentials, setInvalidCredentials] = useState<boolean>(false);
-  const [isFocused, setIsFocused] = useState<boolean>(false);
-  const { data, refetch, isError, error } = useQuery(
+  const [requestErrorCause, setRequestErrorCause] = useState<
+    Record<"invalidCredentials" | "applicationError", boolean>
+  >({
+    invalidCredentials: false,
+    applicationError: false
+  });
+  const [isFocusedOnInput, setIsFocusedOnInput] = useState<boolean>(false);
+  const { data, refetch, isError, error, isSuccess } = useQuery(
     ["sessionToken", userCredentials],
     createSessionToken,
     {
@@ -36,104 +48,109 @@ const Login = ({ navigation }: LoginScreenProps) => {
   );
   useEffect(() => {
     Keyboard.addListener("keyboardDidShow", () => {
-      setIsFocused(true);
+      setIsFocusedOnInput(true);
     });
     Keyboard.addListener("keyboardDidHide", () => {
-      setIsFocused(false);
+      setIsFocusedOnInput(false);
     });
     return () => {
       Keyboard.removeAllListeners("keyboardDidShow");
       Keyboard.removeAllListeners("keyboardDidHide");
     };
   }, []);
-  // const [emailInput, passwordInput] = [
-  //   useRef<TextInput>(null),
-  //   useRef<TextInput>(null)
-  // ];
 
-  // const inputChangeHandler = (
-  //   event: NativeSyntheticEvent<TextInputChangeEventData>,
-  //   field: string
-  // ): void => {
-  //   setLoginForm({
-  //     ...loginForm,
-  //     [field]: event.nativeEvent.text
-  //   });
-  // };
-
-  // const submitCredentialsHandler = () => {
-  //   setUserCredentials({
-  //     email: emailInput.current._lastNativetext
-  //   });
-  //   refetch();
-  // };
+  if (isError && error instanceof Error) {
+    if (error instanceof TypeError) {
+      setRequestErrorCause({
+        invalidCredentials: false,
+        applicationError: true
+      });
+    } else if (error instanceof FailedRequestError) {
+      setRequestErrorCause({
+        invalidCredentials: true,
+        applicationError: false
+      });
+    }
+  }
+  if (isSuccess) {
+    navigation.dispatch(
+      CommonActions.reset({
+        index: 0,
+        routes: [
+          {
+            name: "Feed",
+            params: {
+              feedUserInfo: ""
+            }
+          }
+        ]
+      })
+    );
+  }
 
   return (
     <SafeAreaView
-      style={[
-        styles.container,
-        { justifyContent: isFocused ? "flex-start" : "center" },
-        { paddingTop: isFocused ? 10 : 0 }
-      ]}
+      style={
+        styles.container
+        // { justifyContent: isFocusedOnInput ? "flex-start" : "center" },
+        // { paddingTop: isFocusedOnInput ? 0 : 0 }
+      }
     >
       {/* fadeDuration={0} */}
       <Image
-        style={[styles.logo, { marginBottom: isFocused ? 20 : 30 }]}
+        style={[styles.logo, { marginBottom: isFocusedOnInput ? 20 : 30 }]}
         source={logo}
         resizeMode="contain"
       />
       <View>
         <TextInput
           style={styles.input}
-          // ref={emailInput}
           placeholder="Email address"
-          // placeholder="Email address"
           placeholderTextColor={colors.formPlaceholderColor}
           // value={loginForm.email}
           keyboardType="email-address"
           onChangeText={(text) =>
-            setUserCredentials((prevState) => ({ ...prevState, email: text }))
+            setUserCredentials((state) => ({ ...state, email: text }))
           }
-          // value={loginForm.identity}
-          // onChange={(event) => inputChangeHandler(event, "identity")}
         />
         <TextInput
           style={styles.input}
-          // ref={passwordInput}
           placeholder="Password"
           placeholderTextColor={colors.formPlaceholderColor}
           // value={loginForm.password}
           secureTextEntry={true}
           onChangeText={(text) =>
-            setUserCredentials((prevState) => ({
-              ...prevState,
+            setUserCredentials((state) => ({
+              ...state,
               password: text
             }))
           }
         />
-        {invalidCredentials && (
-          <Text style={styles.invalidDetailsText}>Invalid login details</Text>
+        {requestErrorCause.invalidCredentials && (
+          <Text style={styles.loginErrorText}>Invalid login details</Text>
+        )}
+        {requestErrorCause.applicationError && (
+          <Text style={styles.loginErrorText}>
+            There was a problem trying to log you in. Please try again later
+          </Text>
         )}
         <TouchableOpacity
-          style={[styles.loginButton, { marginTop: isFocused ? 20 : 20 }]}
+          style={[
+            styles.loginButton
+            // { marginTop: isFocusedOnInput ? 20 : 20 }
+          ]}
           activeOpacity={0.5}
           onPress={() => refetch()}
         >
           <Text style={styles.buttonText}>Login</Text>
         </TouchableOpacity>
       </View>
-      {!isFocused && (
-        <View style={styles.bottomTab}>
-          <Text style={styles.bottomTabText}>
-            Don't have an account yet? Create one&nbsp;
-            <Text
-              style={styles.registerLink}
-              onPress={() => navigation.navigate("Register")}
-            >
-              here
-            </Text>
-          </Text>
-        </View>
+      {!isFocusedOnInput && (
+        <BottomTab
+          message="Don't have an account yet? Create one&nbsp;"
+          navigation={navigation}
+          navigateTo="Register"
+        />
       )}
     </SafeAreaView>
   );

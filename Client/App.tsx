@@ -8,7 +8,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { Provider } from "react-redux";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
-import type { RootStackParamsList } from "./app/types";
+import type { RootStackParamList } from "./app/Types/NavigationTypes";
 import colors from "./app/colors";
 import LandingPage from "./app/screens/LandingPage/LandingPage";
 import Login from "./app/screens/Login/Login";
@@ -24,7 +24,7 @@ import { store } from "./app/redux/store";
 
 NavigationBar.setBackgroundColorAsync(colors.backgroundColor);
 
-const RootStack = createStackNavigator<RootStackParamsList>();
+const RootStack = createStackNavigator<RootStackParamList>();
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
