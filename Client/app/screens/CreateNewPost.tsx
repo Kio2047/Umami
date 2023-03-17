@@ -20,7 +20,7 @@ import { CreateNewPostScreenProps } from "../types";
 import { SafeAreaView } from "react-native-safe-area-context";
 import colors from "../colors";
 import type { NewPost, formTextFields, formRatingFields } from "../types";
-import { sendNewPost, uploadImages } from "../apiClientService";
+import { sendNewPost, uploadImages } from "../api/apiClientService";
 
 const CreateNewPost = ({ navigation, route }: CreateNewPostScreenProps) => {
   const { profilePictureURL, authorID, setRefreshCount } = route.params;

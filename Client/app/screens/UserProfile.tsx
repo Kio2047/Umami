@@ -14,7 +14,7 @@ import { useEffect, useState } from "react";
 import Post from "../components/Post";
 import type { UserProfileScreenProps, Post as PostType } from "../types";
 import colors from "../colors";
-import { getPostsByUser } from "../apiClientService";
+import { getPostsByUser } from "../api/apiClientService";
 
 const UserProfile = ({ route, navigation }: UserProfileScreenProps) => {
   // Rather than filtering the posts from the original feed, this should make another fetch using the userID and get posts from the user's posts field
