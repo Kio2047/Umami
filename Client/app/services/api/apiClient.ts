@@ -4,18 +4,23 @@ import { Platform } from "react-native";
 
 // type ObjectId = Types.ObjectId;
 
-import type { UserCredentials, NewPost, Post } from "../types";
-import { FailedRequestError, sendPostRequest } from "./APIUtils";
+import type { UserCredentials, NewPost, Post } from "../../types";
+import { CreateSessionTokenResponse } from "../../Types/APIResponseTypes";
+import { sendPostRequest } from "./APIUtils";
 
-const baseURL = "https://6c05-82-163-118-2.eu.ngrok.io";
+const baseURL =
+  "https://ec49-2a00-23c8-5999-8f01-7cc4-6311-b816-d65f.eu.ngrok.io";
 
 export const createSessionToken = async ({
   queryKey
 }: {
   queryKey: [string, UserCredentials];
-}): Promise<Response> => {
-  const credentialData = queryKey[1];
-  return await sendPostRequest(`${baseURL}/session`, credentialData);
+}): Promise<CreateSessionTokenResponse> => {
+  const userCredentials = queryKey[1];
+  return sendPostRequest<CreateSessionTokenResponse>(
+    `${baseURL}/session`,
+    userCredentials
+  );
 };
 
 // export const getFeedPosts = async function (userID: string) {

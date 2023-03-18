@@ -27,7 +27,9 @@ export default StyleSheet.create({
     color: "red",
     marginTop: -10,
     marginBottom: -11,
-    padding: 0
+    padding: 0,
+    maxWidth: 330,
+    textAlign: "center"
   },
   loginButton: {
     justifyContent: "center",
@@ -39,6 +41,7 @@ export default StyleSheet.create({
   },
   buttonText: {
     textAlign: "center",
-    color: colors.primaryFontColor
+    color: colors.primaryFontColor,
+    fontWeight: "500"
   }
 });

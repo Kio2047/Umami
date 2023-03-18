@@ -14,7 +14,7 @@ import { Ionicons } from "@expo/vector-icons";
 
 import Post from "../components/Post";
 import type { Post as PostType, FeedScreenProps } from "../types";
-import { getFeedPosts } from "../api/apiClientService";
+import { getFeedPosts } from "../services/api/apiClient";
 import colors from "../colors";
 
 const Feed = ({ route, navigation }: FeedScreenProps) => {

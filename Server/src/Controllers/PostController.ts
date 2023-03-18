@@ -54,7 +54,6 @@ export const createNewPost: RequestHandler = async function (
 
 // export const getFeedPosts = async function (req: express.Request, res: express.Response) {
 //   try {
-//     console.log("yo")
 //     const userID = new mongoose.Types.ObjectId(req.params.userID);
 //     const feedPosts = await UserModel.getFeedPosts(userID);
 //     res.status(200).json(feedPosts);

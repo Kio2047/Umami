@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -14,14 +14,15 @@ import { CommonActions } from "@react-navigation/native";
 import { useQuery } from "@tanstack/react-query";
 
 import styles from "./LoginStyles";
-import { RootStackParamList } from "../../Types/NavigationTypes";
-import { UserCredentials } from "../../types";
 import logo from "../../assets/logo.png";
 import colors from "../../colors";
-import { createSessionToken } from "../../api/apiClientService";
-import { StackScreenProps } from "../../Types/NavigationTypes";
 import BottomTab from "../../components/BottomTab/BottomTab";
-import { FailedRequestError } from "../../api/APIUtils";
+import { createSessionToken } from "../../services/api/apiClient";
+import { FailedRequestError } from "../../services/api/APIUtils";
+import { saveJWT } from "../../services/deviceStorageClient";
+import { UserCredentials } from "../../types";
+import { StackScreenProps } from "../../Types/NavigationTypes";
+import { CreateSessionTokenResponse } from "../../Types/APIResponseTypes";
 
 const Login = ({
   navigation
@@ -43,8 +44,28 @@ const Login = ({
     ["sessionToken", userCredentials],
     createSessionToken,
     {
-      enabled: false
+      enabled: false,
+      retry: false
     }
+  );
+  const handleLogin = useCallback(
+    async (responseBody: CreateSessionTokenResponse) => {
+      await saveJWT(responseBody.token);
+      navigation.dispatch(
+        CommonActions.reset({
+          index: 0,
+          routes: [
+            {
+              name: "Feed",
+              params: {
+                feedUserInfo: ""
+              }
+            }
+          ]
+        })
+      );
+    },
+    []
   );
   useEffect(() => {
     Keyboard.addListener("keyboardDidShow", () => {
@@ -60,32 +81,32 @@ const Login = ({
   }, []);
 
   if (isError && error instanceof Error) {
-    if (error instanceof TypeError) {
-      setRequestErrorCause({
-        invalidCredentials: false,
-        applicationError: true
-      });
-    } else if (error instanceof FailedRequestError) {
-      setRequestErrorCause({
-        invalidCredentials: true,
-        applicationError: false
-      });
-    }
+    if (
+      error instanceof TypeError ||
+      (error instanceof FailedRequestError && error.statusClass !== "4xx")
+    ) {
+      if (!requestErrorCause.applicationError) {
+        setRequestErrorCause({
+          invalidCredentials: false,
+          applicationError: true
+        });
+      }
+    } else if (
+      error instanceof FailedRequestError &&
+      error.statusClass === "4xx"
+    )
+      if (!requestErrorCause.invalidCredentials) {
+        {
+          setRequestErrorCause({
+            invalidCredentials: true,
+            applicationError: false
+          });
+        }
+      }
   }
+
   if (isSuccess) {
-    navigation.dispatch(
-      CommonActions.reset({
-        index: 0,
-        routes: [
-          {
-            name: "Feed",
-            params: {
-              feedUserInfo: ""
-            }
-          }
-        ]
-      })
-    );
+    handleLogin(data);
   }
 
   return (
@@ -131,7 +152,7 @@ const Login = ({
         )}
         {requestErrorCause.applicationError && (
           <Text style={styles.loginErrorText}>
-            There was a problem trying to log you in. Please try again later
+            Server issue — please try again later
           </Text>
         )}
         <TouchableOpacity
@@ -140,7 +161,17 @@ const Login = ({
             // { marginTop: isFocusedOnInput ? 20 : 20 }
           ]}
           activeOpacity={0.5}
-          onPress={() => refetch()}
+          onPress={() => {
+            let preventFetch = false;
+            if (!userCredentials.email) {
+              preventFetch = true;
+            }
+            if (!userCredentials.password) {
+              preventFetch = true;
+            }
+            if (preventFetch) return;
+            refetch();
+          }}
         >
           <Text style={styles.buttonText}>Login</Text>
         </TouchableOpacity>

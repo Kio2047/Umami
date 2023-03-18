@@ -12,10 +12,14 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { CommonActions } from "@react-navigation/native";
 
 import styles from "./LandingPageStyles";
-import type { LandingPageScreenProps } from "../../types";
 import logo from "../../assets/logo.png";
+import { StackScreenProps } from "../../Types/NavigationTypes";
 
-const LandingPage = ({ navigation }: LandingPageScreenProps) => {
+const LandingPage = ({
+  navigation
+}: {
+  navigation: StackScreenProps<"LandingPage">["navigation"];
+}) => {
   return (
     <SafeAreaView style={styles.container}>
       {/* fadeDuration={0} */}

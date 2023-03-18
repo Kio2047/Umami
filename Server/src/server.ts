@@ -1,5 +1,5 @@
 import express, { ErrorRequestHandler } from "express";
-// import cors from "cors";
+import cors from "cors";
 import morgan from "morgan";
 
 import { backupErrorHandler } from "./Modules/errorHandlers";
@@ -17,7 +17,7 @@ import protectedRouter from "./router";
 
 const app = express();
 app.use(morgan("dev"));
-// app.use(cors());
+app.use(cors());
 app.use(express.json());
 
 app.post("/user", createNewUserValidations, validateRequest, createNewUser);

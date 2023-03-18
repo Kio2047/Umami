@@ -1,24 +1,26 @@
 export class FailedRequestError extends Error {
-  public statusCode?: number;
   public responseBody?: any;
+  public statusCode?: number;
+  public statusClass?: string;
   constructor(
     message?: string,
     optionalData?: {
-      statusCode?: number;
       responseBody?: any;
+      statusCode?: number;
     }
   ) {
     super(message);
-    this.statusCode = optionalData?.statusCode;
     this.responseBody = optionalData?.responseBody;
+    this.statusCode = optionalData?.statusCode;
+    this.statusClass = optionalData?.statusCode?.toString()[0] + "xx";
     this.name = "FailedRequestError";
   }
 }
 
-export const sendPostRequest = async (
+export const sendPostRequest = async <ResponseBodyShape>(
   URL: string,
   body: Record<string, any>
-): Promise<Response> => {
+): Promise<ResponseBodyShape> => {
   const response = await fetch(URL, {
     method: "POST",
     headers: {
@@ -33,5 +35,5 @@ export const sendPostRequest = async (
       responseBody: await response.json()
     });
   }
-  return response;
+  return response.json() as Promise<ResponseBodyShape>;
 };
