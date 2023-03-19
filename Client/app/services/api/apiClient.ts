@@ -4,17 +4,17 @@ import { Platform } from "react-native";
 
 // type ObjectId = Types.ObjectId;
 
-import type { UserCredentials, NewPost, Post } from "../../types";
+import type { LoginCredentials, NewPost, Post } from "../../types";
 import { CreateSessionTokenResponse } from "../../Types/APIResponseTypes";
 import { sendPostRequest } from "./APIUtils";
 
 const baseURL =
-  "https://ec49-2a00-23c8-5999-8f01-7cc4-6311-b816-d65f.eu.ngrok.io";
+  "https://4758-2a00-23c8-5999-8f01-7cc4-6311-b816-d65f.eu.ngrok.io";
 
 export const createSessionToken = async ({
   queryKey
 }: {
-  queryKey: [string, UserCredentials];
+  queryKey: [string, LoginCredentials];
 }): Promise<CreateSessionTokenResponse> => {
   const userCredentials = queryKey[1];
   return sendPostRequest<CreateSessionTokenResponse>(

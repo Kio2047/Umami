@@ -5,7 +5,7 @@ import ReadMore from "react-native-read-more-text";
 
 import type { Post as PostType } from "../types";
 import colors from "../colors";
-import { calculatePostTimestamp } from "../utils";
+import { calculatePostTimestamp } from "../utils/utils";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { PostNavigationProp } from "../types";
 

@@ -6,8 +6,8 @@ export default StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.backgroundColor,
-    alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
+    alignItems: "center"
   },
   logo: {
     width: 200,
@@ -15,13 +15,14 @@ export default StyleSheet.create({
     marginBottom: 25
   },
   input: {
-    color: colors.primaryFontColor,
     backgroundColor: colors.formInputBackgroundColor,
     width: 330,
     height: 50,
     padding: 10,
     marginBottom: 15,
-    borderRadius: 3
+    borderRadius: 3,
+    // borderColor: "red",
+    borderWidth: 0.5
   },
   loginErrorText: {
     color: "red",

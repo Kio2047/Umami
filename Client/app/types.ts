@@ -37,8 +37,15 @@ export type User = {
   friends: string[];
 };
 
-export type UserCredentials = {
+export type LoginCredentials = {
+  identity: string;
+  password: string;
+};
+
+export type NewUserCredentials = {
   email: string;
+  name: string;
+  username: string;
   password: string;
 };
 

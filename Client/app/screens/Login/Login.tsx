@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import {
   View,
   Text,
@@ -20,7 +20,7 @@ import BottomTab from "../../components/BottomTab/BottomTab";
 import { createSessionToken } from "../../services/api/apiClient";
 import { FailedRequestError } from "../../services/api/APIUtils";
 import { saveJWT } from "../../services/deviceStorageClient";
-import { UserCredentials } from "../../types";
+import { LoginCredentials } from "../../types";
 import { StackScreenProps } from "../../Types/NavigationTypes";
 import { CreateSessionTokenResponse } from "../../Types/APIResponseTypes";
 
@@ -29,8 +29,8 @@ const Login = ({
 }: {
   navigation: StackScreenProps<"Login">["navigation"];
 }) => {
-  const [userCredentials, setUserCredentials] = useState<UserCredentials>({
-    email: "",
+  const [loginCredentials, setLoginCredentials] = useState<LoginCredentials>({
+    identity: "",
     password: ""
   });
   const [requestErrorCause, setRequestErrorCause] = useState<
@@ -39,9 +39,8 @@ const Login = ({
     invalidCredentials: false,
     applicationError: false
   });
-  const [isFocusedOnInput, setIsFocusedOnInput] = useState<boolean>(false);
-  const { data, refetch, isError, error, isSuccess } = useQuery(
-    ["sessionToken", userCredentials],
+  const { refetch, isFetching, isError, isSuccess, error, data } = useQuery(
+    ["sessionToken", loginCredentials],
     createSessionToken,
     {
       enabled: false,
@@ -67,6 +66,7 @@ const Login = ({
     },
     []
   );
+  const [isFocusedOnInput, setIsFocusedOnInput] = useState<boolean>(false);
   useEffect(() => {
     Keyboard.addListener("keyboardDidShow", () => {
       setIsFocusedOnInput(true);
@@ -79,6 +79,8 @@ const Login = ({
       Keyboard.removeAllListeners("keyboardDidHide");
     };
   }, []);
+
+  console.log(isFetching);
 
   if (isError && error instanceof Error) {
     if (
@@ -123,59 +125,59 @@ const Login = ({
         source={logo}
         resizeMode="contain"
       />
-      <View>
-        <TextInput
-          style={styles.input}
-          placeholder="Email address"
-          placeholderTextColor={colors.formPlaceholderColor}
-          // value={loginForm.email}
-          keyboardType="email-address"
-          onChangeText={(text) =>
-            setUserCredentials((state) => ({ ...state, email: text }))
+      <TextInput
+        style={[styles.input]}
+        placeholder="Username or Email"
+        placeholderTextColor={colors.formPlaceholderColor}
+        // placeholderTextColor={"red"}
+        // value={loginForm.email}
+        keyboardType="default"
+        onChangeText={(text) =>
+          setLoginCredentials((state) => ({ ...state, identity: text }))
+        }
+      />
+      <TextInput
+        style={styles.input}
+        placeholder="Password"
+        placeholderTextColor={colors.formPlaceholderColor}
+        // value={loginForm.password}
+        secureTextEntry={true}
+        onChangeText={(text) =>
+          setLoginCredentials((state) => ({
+            ...state,
+            password: text
+          }))
+        }
+      />
+      {requestErrorCause.invalidCredentials && (
+        <Text style={styles.loginErrorText}>Invalid login details</Text>
+      )}
+      {requestErrorCause.applicationError && (
+        <Text style={styles.loginErrorText}>
+          Server issue — please try again later
+        </Text>
+      )}
+      <TouchableOpacity
+        style={[
+          styles.loginButton
+          // { marginTop: isFocusedOnInput ? 20 : 20 }
+        ]}
+        disabled={isFetching ? true : false}
+        activeOpacity={0.5}
+        onPress={() => {
+          let preventFetch = false;
+          if (!loginCredentials.identity) {
+            preventFetch = true;
           }
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Password"
-          placeholderTextColor={colors.formPlaceholderColor}
-          // value={loginForm.password}
-          secureTextEntry={true}
-          onChangeText={(text) =>
-            setUserCredentials((state) => ({
-              ...state,
-              password: text
-            }))
+          if (!loginCredentials.password) {
+            preventFetch = true;
           }
-        />
-        {requestErrorCause.invalidCredentials && (
-          <Text style={styles.loginErrorText}>Invalid login details</Text>
-        )}
-        {requestErrorCause.applicationError && (
-          <Text style={styles.loginErrorText}>
-            Server issue — please try again later
-          </Text>
-        )}
-        <TouchableOpacity
-          style={[
-            styles.loginButton
-            // { marginTop: isFocusedOnInput ? 20 : 20 }
-          ]}
-          activeOpacity={0.5}
-          onPress={() => {
-            let preventFetch = false;
-            if (!userCredentials.email) {
-              preventFetch = true;
-            }
-            if (!userCredentials.password) {
-              preventFetch = true;
-            }
-            if (preventFetch) return;
-            refetch();
-          }}
-        >
-          <Text style={styles.buttonText}>Login</Text>
-        </TouchableOpacity>
-      </View>
+          if (preventFetch) return;
+          refetch();
+        }}
+      >
+        <Text style={styles.buttonText}>Login</Text>
+      </TouchableOpacity>
       {!isFocusedOnInput && (
         <BottomTab
           message="Don't have an account yet? Create one&nbsp;"
