@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -19,6 +19,8 @@ import colors from "../../colors";
 import { registerScreenConstants } from "../../constants/constants";
 import BottomTab from "../../components/BottomTab/BottomTab";
 import { useInputFocusTracker } from "../../utils/customHooks";
+import { createNewUser } from "../../services/api/apiClient";
+import { useQuery } from "@tanstack/react-query";
 
 const Register = ({
   navigation
@@ -27,11 +29,28 @@ const Register = ({
 }) => {
   const [newUserCredentials, setNewUserCredentials] =
     useState<NewUserCredentials>({
-      email: "string",
-      name: "string",
-      username: "string",
-      password: "string"
+      email: "",
+      name: "",
+      username: "",
+      password: ""
     });
+  const { refetch, isFetching, isError, isSuccess, error, data } = useQuery(
+    ["sessionToken", newUserCredentials],
+    createNewUser,
+    {
+      enabled: false,
+      retry: false
+    }
+  );
+  const textInputChangeHandler = useCallback(
+    (formField: keyof NewUserCredentials) => (text: string) => {
+      setNewUserCredentials((state) => ({
+        ...state,
+        [formField]: text
+      }));
+    },
+    []
+  );
   const isFocusedOnInput = useInputFocusTracker();
 
   return (
@@ -47,19 +66,14 @@ const Register = ({
             placeholderTextColor={colors.formPlaceholderColor}
             placeholder={
               formFieldConstants.placeholder ??
-              formFieldConstants.field.charAt(0).toUpperCase() +
-                formFieldConstants.field.substring(1)
+              formFieldConstants.formField.charAt(0).toUpperCase() +
+                formFieldConstants.formField.substring(1)
             }
-            key={formFieldConstants.field}
+            key={formFieldConstants.formField}
             // value={loginForm.email}
             keyboardType={formFieldConstants.keyboardType ?? "default"}
             secureTextEntry={formFieldConstants.secureTextEntry ?? false}
-            onChangeText={(text) =>
-              setNewUserCredentials((state) => ({
-                ...state,
-                [formFieldConstants.field]: text
-              }))
-            }
+            onChangeText={textInputChangeHandler(formFieldConstants.formField)}
           />
         );
       })}
@@ -68,19 +82,15 @@ const Register = ({
           styles.signUpButton
           // { marginTop: isFocusedOnInput ? 20 : 20 }
         ]}
-        // disabled={isLoading ? true : false}
+        disabled={isFetching ? true : false}
         activeOpacity={0.5}
-        //   onPress={() => {
-        //     let preventFetch = false;
-        //     if (!loginCredentials.identity) {
-        //       preventFetch = true;
-        //     }
-        //     if (!loginCredentials.password) {
-        //       preventFetch = true;
-        //     }
-        //     if (preventFetch) return;
-        //     refetch();
-        //   }}
+        onPress={() => {
+          if (Object.values(newUserCredentials).includes("")) {
+            // tell them to fill in empty field
+            return;
+          }
+          refetch();
+        }}
       >
         <Text style={styles.buttonText}>Sign up</Text>
       </TouchableOpacity>

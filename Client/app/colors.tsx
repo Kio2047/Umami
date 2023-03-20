@@ -4,7 +4,7 @@ export default {
   defaultButtonColor: "#3897f1",
   formInputBackgroundColor: "#212121",
   formPlaceholderColor: "#9e9e9e",
+  formHighlightedBorderColor: "#ff4d27",
   bottomTabBorderColor: "#2b2b2b",
-  ratingsColor: "#ff9d0a",
-  testColor: "violet"
+  ratingsColor: "#ff9d0a"
 };

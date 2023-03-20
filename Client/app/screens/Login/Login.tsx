@@ -16,12 +16,12 @@ import styles from "./LoginStyles";
 import logo from "../../assets/logo.png";
 import colors from "../../colors";
 import BottomTab from "../../components/BottomTab/BottomTab";
-import { createSessionToken } from "../../services/api/apiClient";
+import { loginUser } from "../../services/api/apiClient";
 import { FailedRequestError } from "../../services/api/APIUtils";
 import { saveJWT } from "../../services/deviceStorageClient";
 import { LoginCredentials } from "../../types";
 import { StackScreenProps } from "../../Types/NavigationTypes";
-import { CreateSessionTokenResponse } from "../../Types/APIResponseTypes";
+import { LoginUserResponse } from "../../Types/APIResponseTypes";
 import { useInputFocusTracker } from "../../utils/customHooks";
 import { loginScreenConstants } from "../../constants/constants";
 
@@ -34,6 +34,12 @@ const Login = ({
     "username or email": "",
     password: ""
   });
+  const [highlightInput, setHighlightInput] = useState<{
+    [k in keyof LoginCredentials]: boolean;
+  }>({
+    "username or email": false,
+    password: false
+  });
   const [requestErrorCause, setRequestErrorCause] = useState<
     Record<"invalidCredentials" | "applicationError", boolean>
   >({
@@ -42,35 +48,49 @@ const Login = ({
   });
   const { refetch, isFetching, isError, isSuccess, error, data } = useQuery(
     ["sessionToken", loginCredentials],
-    createSessionToken,
+    loginUser,
     {
       enabled: false,
       retry: false
     }
   );
-  const handleLogin = useCallback(
-    async (responseBody: CreateSessionTokenResponse) => {
-      await saveJWT(responseBody.token);
-      navigation.dispatch(
-        CommonActions.reset({
-          index: 0,
-          routes: [
-            {
-              name: "Feed",
-              params: {
-                feedUserInfo: ""
-              }
-            }
-          ]
-        })
-      );
+
+  const textInputChangeHandler = useCallback(
+    (formField: keyof LoginCredentials) => (text: string) => {
+      if (highlightInput[formField]) {
+        setHighlightInput((state) => ({
+          ...state,
+          [formField]: false
+        }));
+      }
+      setLoginCredentials((state) => ({
+        ...state,
+        [formField]: text
+      }));
     },
-    []
+    [highlightInput]
   );
+
+  const handleLogin = useCallback(async (responseBody: LoginUserResponse) => {
+    await saveJWT(responseBody.token);
+    navigation.dispatch(
+      CommonActions.reset({
+        index: 0,
+        routes: [
+          {
+            name: "Feed",
+            params: {
+              feedUserInfo: ""
+            }
+          }
+        ]
+      })
+    );
+  }, []);
 
   const isFocusedOnInput = useInputFocusTracker();
 
-  console.log(isFetching);
+  // console.log(isFetching);
 
   if (isError && error instanceof Error) {
     if (
@@ -118,23 +138,26 @@ const Login = ({
       {loginScreenConstants.inputConstants.map((formFieldConstants) => {
         return (
           <TextInput
-            style={styles.input}
-            placeholderTextColor={colors.formPlaceholderColor}
+            style={
+              highlightInput[formFieldConstants.formField]
+                ? styles.highlightedInput
+                : styles.input
+            }
+            placeholderTextColor={
+              highlightInput[formFieldConstants.formField]
+                ? colors.formHighlightedBorderColor
+                : colors.formPlaceholderColor
+            }
             placeholder={
               formFieldConstants.placeholder ??
-              formFieldConstants.field.charAt(0).toUpperCase() +
-                formFieldConstants.field.substring(1)
+              formFieldConstants.formField.charAt(0).toUpperCase() +
+                formFieldConstants.formField.substring(1)
             }
-            key={formFieldConstants.field}
+            key={formFieldConstants.formField}
             // value={loginForm.email}
             keyboardType={formFieldConstants.keyboardType ?? "default"}
             secureTextEntry={formFieldConstants.secureTextEntry ?? false}
-            onChangeText={(text) =>
-              setLoginCredentials((state) => ({
-                ...state,
-                [formFieldConstants.field]: text
-              }))
-            }
+            onChangeText={textInputChangeHandler(formFieldConstants.formField)}
           />
         );
       })}
@@ -152,22 +175,17 @@ const Login = ({
           styles.loginButton
           // { marginTop: isFocusedOnInput ? 20 : 20 }
         ]}
-        disabled={
-          Object.values(loginCredentials).includes("") || isFetching
-            ? true
-            : false
-        }
+        disabled={isFetching ? true : false}
         activeOpacity={0.5}
         onPress={() => {
-          let preventFetch = false;
-          if (!loginCredentials["username or email"]) {
-            preventFetch = true;
+          if (Object.values(loginCredentials).includes("")) {
+            const highlightInputEntries = Object.entries(loginCredentials).map(
+              ([field, value]) => [field, value === "" ? true : false]
+            );
+            setHighlightInput(Object.fromEntries(highlightInputEntries));
+          } else {
+            refetch();
           }
-          if (!loginCredentials.password) {
-            preventFetch = true;
-          }
-          if (preventFetch) return;
-          refetch();
         }}
       >
         <Text style={styles.buttonText}>Login</Text>

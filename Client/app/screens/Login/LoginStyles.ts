@@ -25,6 +25,17 @@ export default StyleSheet.create({
     // borderColor: "red",
     borderWidth: 0.5
   },
+  highlightedInput: {
+    color: colors.primaryFontColor,
+    backgroundColor: colors.formInputBackgroundColor,
+    width: 330,
+    height: 50,
+    padding: 10,
+    marginBottom: 15,
+    borderRadius: 3,
+    borderColor: colors.formHighlightedBorderColor,
+    borderWidth: 0.5
+  },
   loginErrorText: {
     color: "red",
     marginTop: -10,

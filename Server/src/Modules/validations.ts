@@ -35,10 +35,15 @@ export const createNewUserValidations = [
   body("name")
     .exists()
     .isString()
-    .matches(/[\w ]+/)
+    .matches(/[\w ]+/i)
     // Name doesn't contain more than one whitespace character in a row
     .not()
     .matches(/\s{2,}/),
+  body("username")
+    .exists()
+    .isString()
+    .isLength({ min: 1, max: 20 })
+    .matches(/^[\w.]+$/),
   body("password")
     .exists()
     .isString()

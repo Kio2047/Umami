@@ -4,20 +4,20 @@ import { LoginCredentials, NewUserCredentials } from "../types";
 export const loginScreenConstants: LoginScreenConstants = {
   inputConstants: [
     {
-      field: "username or email",
+      formField: "username or email",
       placeholder: "Username or Email",
       keyboardType: "email-address"
     },
-    { field: "password", secureTextEntry: true }
+    { formField: "password", secureTextEntry: true }
   ]
 };
 
 export const registerScreenConstants: RegisterScreenConstants = {
   inputConstants: [
-    { field: "email", keyboardType: "email-address" },
-    { field: "name" },
-    { field: "username" },
-    { field: "password", secureTextEntry: true }
+    { formField: "email", keyboardType: "email-address" },
+    { formField: "name" },
+    { formField: "username" },
+    { formField: "password", secureTextEntry: true }
   ]
 };
 
@@ -29,7 +29,7 @@ interface RegisterScreenConstants {
 }
 
 interface InputConstants<T> {
-  field: keyof T;
+  formField: keyof T;
   placeholder?: string;
   keyboardType?: KeyboardTypeOptions;
   secureTextEntry?: true;
