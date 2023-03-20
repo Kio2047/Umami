@@ -38,7 +38,7 @@ export type User = {
 };
 
 export type LoginCredentials = {
-  identity: string;
+  "username or email": string;
   password: string;
 };
 

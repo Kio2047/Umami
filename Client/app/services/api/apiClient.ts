@@ -8,8 +8,7 @@ import type { LoginCredentials, NewPost, Post } from "../../types";
 import { CreateSessionTokenResponse } from "../../Types/APIResponseTypes";
 import { sendPostRequest } from "./APIUtils";
 
-const baseURL =
-  "https://4758-2a00-23c8-5999-8f01-7cc4-6311-b816-d65f.eu.ngrok.io";
+const baseURL = "https://d5a8-2a00-23c8-5999-8f01-172-8f95-c79-6eb.eu.ngrok.io";
 
 export const createSessionToken = async ({
   queryKey

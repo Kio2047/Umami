@@ -15,6 +15,7 @@ export default StyleSheet.create({
     marginBottom: 25
   },
   input: {
+    color: colors.primaryFontColor,
     backgroundColor: colors.formInputBackgroundColor,
     width: 330,
     height: 50,

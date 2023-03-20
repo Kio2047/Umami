@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useCallback, useState } from "react";
 import {
   View,
   Text,
@@ -6,8 +6,7 @@ import {
   TextInput,
   TouchableOpacity,
   NativeSyntheticEvent,
-  TextInputChangeEventData,
-  Keyboard
+  TextInputChangeEventData
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { CommonActions } from "@react-navigation/native";
@@ -23,6 +22,8 @@ import { saveJWT } from "../../services/deviceStorageClient";
 import { LoginCredentials } from "../../types";
 import { StackScreenProps } from "../../Types/NavigationTypes";
 import { CreateSessionTokenResponse } from "../../Types/APIResponseTypes";
+import { useInputFocusTracker } from "../../utils/customHooks";
+import { loginScreenConstants } from "../../constants/constants";
 
 const Login = ({
   navigation
@@ -30,7 +31,7 @@ const Login = ({
   navigation: StackScreenProps<"Login">["navigation"];
 }) => {
   const [loginCredentials, setLoginCredentials] = useState<LoginCredentials>({
-    identity: "",
+    "username or email": "",
     password: ""
   });
   const [requestErrorCause, setRequestErrorCause] = useState<
@@ -66,19 +67,8 @@ const Login = ({
     },
     []
   );
-  const [isFocusedOnInput, setIsFocusedOnInput] = useState<boolean>(false);
-  useEffect(() => {
-    Keyboard.addListener("keyboardDidShow", () => {
-      setIsFocusedOnInput(true);
-    });
-    Keyboard.addListener("keyboardDidHide", () => {
-      setIsFocusedOnInput(false);
-    });
-    return () => {
-      Keyboard.removeAllListeners("keyboardDidShow");
-      Keyboard.removeAllListeners("keyboardDidHide");
-    };
-  }, []);
+
+  const isFocusedOnInput = useInputFocusTracker();
 
   console.log(isFetching);
 
@@ -125,30 +115,30 @@ const Login = ({
         source={logo}
         resizeMode="contain"
       />
-      <TextInput
-        style={[styles.input]}
-        placeholder="Username or Email"
-        placeholderTextColor={colors.formPlaceholderColor}
-        // placeholderTextColor={"red"}
-        // value={loginForm.email}
-        keyboardType="default"
-        onChangeText={(text) =>
-          setLoginCredentials((state) => ({ ...state, identity: text }))
-        }
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Password"
-        placeholderTextColor={colors.formPlaceholderColor}
-        // value={loginForm.password}
-        secureTextEntry={true}
-        onChangeText={(text) =>
-          setLoginCredentials((state) => ({
-            ...state,
-            password: text
-          }))
-        }
-      />
+      {loginScreenConstants.inputConstants.map((formFieldConstants) => {
+        return (
+          <TextInput
+            style={styles.input}
+            placeholderTextColor={colors.formPlaceholderColor}
+            placeholder={
+              formFieldConstants.placeholder ??
+              formFieldConstants.field.charAt(0).toUpperCase() +
+                formFieldConstants.field.substring(1)
+            }
+            key={formFieldConstants.field}
+            // value={loginForm.email}
+            keyboardType={formFieldConstants.keyboardType ?? "default"}
+            secureTextEntry={formFieldConstants.secureTextEntry ?? false}
+            onChangeText={(text) =>
+              setLoginCredentials((state) => ({
+                ...state,
+                [formFieldConstants.field]: text
+              }))
+            }
+          />
+        );
+      })}
+
       {requestErrorCause.invalidCredentials && (
         <Text style={styles.loginErrorText}>Invalid login details</Text>
       )}
@@ -162,11 +152,15 @@ const Login = ({
           styles.loginButton
           // { marginTop: isFocusedOnInput ? 20 : 20 }
         ]}
-        disabled={isFetching ? true : false}
+        disabled={
+          Object.values(loginCredentials).includes("") || isFetching
+            ? true
+            : false
+        }
         activeOpacity={0.5}
         onPress={() => {
           let preventFetch = false;
-          if (!loginCredentials.identity) {
+          if (!loginCredentials["username or email"]) {
             preventFetch = true;
           }
           if (!loginCredentials.password) {

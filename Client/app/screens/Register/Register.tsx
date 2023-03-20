@@ -18,6 +18,7 @@ import { NewUserCredentials } from "../../types";
 import colors from "../../colors";
 import { registerScreenConstants } from "../../constants/constants";
 import BottomTab from "../../components/BottomTab/BottomTab";
+import { useInputFocusTracker } from "../../utils/customHooks";
 
 const Register = ({
   navigation
@@ -31,10 +32,13 @@ const Register = ({
       username: "string",
       password: "string"
     });
+  const isFocusedOnInput = useInputFocusTracker();
 
   return (
     <SafeAreaView style={styles.container}>
-      <Image style={styles.logo} source={logo} resizeMode="contain" />
+      {!isFocusedOnInput && (
+        <Image style={styles.logo} source={logo} resizeMode="contain" />
+      )}
 
       {registerScreenConstants.inputConstants.map((formFieldConstants) => {
         return (
@@ -42,8 +46,9 @@ const Register = ({
             style={styles.input}
             placeholderTextColor={colors.formPlaceholderColor}
             placeholder={
+              formFieldConstants.placeholder ??
               formFieldConstants.field.charAt(0).toUpperCase() +
-              formFieldConstants.field.substring(1)
+                formFieldConstants.field.substring(1)
             }
             key={formFieldConstants.field}
             // value={loginForm.email}
@@ -79,11 +84,13 @@ const Register = ({
       >
         <Text style={styles.buttonText}>Sign up</Text>
       </TouchableOpacity>
-      <BottomTab
-        message="Already have an account? Sign in&nbsp;"
-        navigation={navigation}
-        navigateTo="Login"
-      />
+      {!isFocusedOnInput && (
+        <BottomTab
+          message="Already have an account? Sign in&nbsp;"
+          navigation={navigation}
+          navigateTo="Login"
+        />
+      )}
     </SafeAreaView>
   );
 };

@@ -1,5 +1,16 @@
 import { KeyboardTypeOptions } from "react-native/types";
-import { NewUserCredentials } from "../types";
+import { LoginCredentials, NewUserCredentials } from "../types";
+
+export const loginScreenConstants: LoginScreenConstants = {
+  inputConstants: [
+    {
+      field: "username or email",
+      placeholder: "Username or Email",
+      keyboardType: "email-address"
+    },
+    { field: "password", secureTextEntry: true }
+  ]
+};
 
 export const registerScreenConstants: RegisterScreenConstants = {
   inputConstants: [
@@ -10,10 +21,16 @@ export const registerScreenConstants: RegisterScreenConstants = {
   ]
 };
 
+interface LoginScreenConstants {
+  inputConstants: InputConstants<LoginCredentials>[];
+}
 interface RegisterScreenConstants {
-  inputConstants: {
-    field: keyof NewUserCredentials;
-    keyboardType?: KeyboardTypeOptions;
-    secureTextEntry?: true;
-  }[];
+  inputConstants: InputConstants<NewUserCredentials>[];
+}
+
+interface InputConstants<T> {
+  field: keyof T;
+  placeholder?: string;
+  keyboardType?: KeyboardTypeOptions;
+  secureTextEntry?: true;
 }
