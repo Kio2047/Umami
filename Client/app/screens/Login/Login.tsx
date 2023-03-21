@@ -35,18 +35,21 @@ const Login = ({
     "username or email": "",
     password: ""
   });
+
   const [highlightInput, setHighlightInput] = useState<{
     [k in keyof LoginCredentials]: boolean;
   }>({
     "username or email": false,
     password: false
   });
+
   const [requestErrorCause, setRequestErrorCause] = useState<
     Record<"invalidCredentials" | "applicationError", boolean>
   >({
     invalidCredentials: false,
     applicationError: false
   });
+
   const { refetch, isFetching, isError, isSuccess, error, data } = useQuery(
     ["sessionToken", loginCredentials],
     loginUser,
@@ -56,24 +59,36 @@ const Login = ({
     }
   );
 
+  const isFocusedOnInput = useInputFocusTracker();
+
   const handleLogin = useCallback(async (responseBody: LoginUserResponse) => {
     await saveJWT(responseBody.token);
-    navigation.dispatch(
-      CommonActions.reset({
-        index: 0,
-        routes: [
-          {
-            name: "Feed",
-            params: {
-              feedUserInfo: ""
-            }
+    navigation.reset({
+      index: 0,
+      routes: [
+        {
+          name: "Feed",
+          params: {
+            feedUserInfo: ""
           }
-        ]
-      })
-    );
-  }, []);
+        }
+      ]
+    });
 
-  const isFocusedOnInput = useInputFocusTracker();
+    //   dispatch(
+    //     CommonActions.reset({
+    //       index: 0,
+    //       routes: [
+    //         {
+    //           name: "Feed",
+    //           params: {
+    //             feedUserInfo: ""
+    //           }
+    //         }
+    //       ]
+    //     })
+    //   );
+  }, []);
 
   // console.log(isFetching);
 

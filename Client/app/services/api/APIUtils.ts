@@ -37,3 +37,21 @@ export const sendPostRequest = async <ResponseBodyShape>(
   }
   return response.json() as Promise<ResponseBodyShape>;
 };
+
+export const sendGetRequest = async <ResponseBodyShape>(
+  URL: string
+): Promise<ResponseBodyShape> => {
+  const response = await fetch(URL, {
+    method: "GET",
+    headers: {
+      Accept: "application/json"
+    }
+  });
+  if (!response.ok) {
+    throw new FailedRequestError(`GET request to ${URL} failed`, {
+      statusCode: response.status,
+      responseBody: await response.json()
+    });
+  }
+  return response.json() as Promise<ResponseBodyShape>;
+};

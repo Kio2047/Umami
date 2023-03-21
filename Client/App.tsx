@@ -19,6 +19,7 @@ import CreateNewPost from "./app/screens/CreateNewPost";
 import UserProfile from "./app/screens/UserProfile";
 import RestaurantProfile from "./app/screens/RestaurantProfile";
 import { store } from "./app/redux/store";
+import AddProfilePicture from "./app/screens/AddProfilePicture/AddProfilePicture";
 
 // import DetailedPost from "./app/components/Post";
 
@@ -43,13 +44,19 @@ export default function App() {
         <Provider store={store}>
           <NavigationContainer theme={DarkTheme}>
             <RootStack.Navigator
-              initialRouteName="LandingPage"
+              // initialRouteName="LandingPage"
+              initialRouteName="AddProfilePicture"
               screenOptions={{ headerShown: false }}
             >
               {/* initialParams={{user: "Dan"}} */}
               <RootStack.Screen name="LandingPage" component={LandingPage} />
               <RootStack.Screen name="Login" component={Login} />
               <RootStack.Screen name="Register" component={Register} />
+              <RootStack.Screen
+                name="AddProfilePicture"
+                component={AddProfilePicture}
+                initialParams={{ newUserName: "Kio Shiraz" }}
+              />
               <RootStack.Screen name="Feed" component={Feed} />
               {/* <RootStack.Screen name="DetailedPost" component={DetailedPost} /> */}
               <RootStack.Screen

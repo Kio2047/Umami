@@ -22,6 +22,8 @@ import { useInputFocusTracker } from "../../utils/customHooks";
 import { createNewUser } from "../../services/api/apiClient";
 import { useQuery } from "@tanstack/react-query";
 import CredentialTextInput from "../../components/CredentialTextInput/CredentialTextInput";
+import { CreateNewUserResponse } from "../../Types/APIResponseTypes";
+import { saveJWT } from "../../services/deviceStorageClient";
 
 const Register = ({
   navigation
@@ -35,6 +37,7 @@ const Register = ({
       username: "",
       password: ""
     });
+
   const [highlightInput, setHighlightInput] = useState<{
     [k in keyof NewUserCredentials]: boolean;
   }>({
@@ -43,6 +46,7 @@ const Register = ({
     username: false,
     password: false
   });
+
   const { refetch, isFetching, isError, isSuccess, error, data } = useQuery(
     ["sessionToken", newUserCredentials],
     createNewUser,
@@ -51,16 +55,29 @@ const Register = ({
       retry: false
     }
   );
-  const textInputChangeHandler = useCallback(
-    (formField: keyof NewUserCredentials) => (text: string) => {
-      setNewUserCredentials((state) => ({
-        ...state,
-        [formField]: text
-      }));
+
+  const isFocusedOnInput = useInputFocusTracker();
+
+  const handleSignup = useCallback(
+    async (responseBody: CreateNewUserResponse) => {
+      await saveJWT(responseBody.token);
+      navigation.reset({
+        index: 0,
+        routes: [
+          {
+            name: "AddProfilePicture",
+            params: {
+              newUserName: responseBody.createdAccount.name
+            }
+          }
+        ]
+      });
     },
     []
   );
-  const isFocusedOnInput = useInputFocusTracker();
+  if (isSuccess) {
+    handleSignup(data);
+  }
 
   return (
     <SafeAreaView style={styles.container}>

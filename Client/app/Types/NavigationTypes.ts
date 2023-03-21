@@ -9,6 +9,7 @@ export type RootStackParamList = {
   LandingPage: undefined;
   Login: undefined;
   Register: undefined;
+  AddProfilePicture: { newUserName: string };
   Feed: { feedUserInfo: User };
   DetailedImage: { imageURL: string };
   CreateNewPost: {
