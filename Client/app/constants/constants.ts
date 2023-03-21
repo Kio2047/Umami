@@ -28,8 +28,8 @@ interface RegisterScreenConstants {
   inputConstants: InputConstants<NewUserCredentials>[];
 }
 
-interface InputConstants<T> {
-  formField: keyof T;
+export interface InputConstants<T extends Record<string, string>> {
+  formField: Extract<keyof T, string>;
   placeholder?: string;
   keyboardType?: KeyboardTypeOptions;
   secureTextEntry?: true;

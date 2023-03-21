@@ -8,17 +8,17 @@ interface BottomTabPropsBase {
   message: string;
 }
 
-interface BottomTabLoginPage extends BottomTabPropsBase {
+interface BottomTabLoginPageProps extends BottomTabPropsBase {
   navigation: StackScreenProps<"Login">["navigation"];
   navigateTo: "Register";
 }
 
-interface BottomTabRegisterPage extends BottomTabPropsBase {
+interface BottomTabRegisterPageProps extends BottomTabPropsBase {
   navigation: StackScreenProps<"Register">["navigation"];
   navigateTo: "Login";
 }
 
-type BottomTabProps = BottomTabLoginPage | BottomTabRegisterPage;
+type BottomTabProps = BottomTabLoginPageProps | BottomTabRegisterPageProps;
 
 const BottomTab = ({ navigation, message, navigateTo }: BottomTabProps) => {
   return (

@@ -24,6 +24,7 @@ import { StackScreenProps } from "../../Types/NavigationTypes";
 import { LoginUserResponse } from "../../Types/APIResponseTypes";
 import { useInputFocusTracker } from "../../utils/customHooks";
 import { loginScreenConstants } from "../../constants/constants";
+import CredentialTextInput from "../../components/CredentialTextInput/CredentialTextInput";
 
 const Login = ({
   navigation
@@ -53,22 +54,6 @@ const Login = ({
       enabled: false,
       retry: false
     }
-  );
-
-  const textInputChangeHandler = useCallback(
-    (formField: keyof LoginCredentials) => (text: string) => {
-      if (highlightInput[formField]) {
-        setHighlightInput((state) => ({
-          ...state,
-          [formField]: false
-        }));
-      }
-      setLoginCredentials((state) => ({
-        ...state,
-        [formField]: text
-      }));
-    },
-    [highlightInput]
   );
 
   const handleLogin = useCallback(async (responseBody: LoginUserResponse) => {
@@ -137,27 +122,12 @@ const Login = ({
       />
       {loginScreenConstants.inputConstants.map((formFieldConstants) => {
         return (
-          <TextInput
-            style={
-              highlightInput[formFieldConstants.formField]
-                ? styles.highlightedInput
-                : styles.input
-            }
-            placeholderTextColor={
-              highlightInput[formFieldConstants.formField]
-                ? colors.formHighlightedBorderColor
-                : colors.formPlaceholderColor
-            }
-            placeholder={
-              formFieldConstants.placeholder ??
-              formFieldConstants.formField.charAt(0).toUpperCase() +
-                formFieldConstants.formField.substring(1)
-            }
+          <CredentialTextInput
+            formFieldConstants={formFieldConstants}
+            highlightInput={highlightInput}
+            setHighlightInput={setHighlightInput}
+            setCredentials={setLoginCredentials}
             key={formFieldConstants.formField}
-            // value={loginForm.email}
-            keyboardType={formFieldConstants.keyboardType ?? "default"}
-            secureTextEntry={formFieldConstants.secureTextEntry ?? false}
-            onChangeText={textInputChangeHandler(formFieldConstants.formField)}
           />
         );
       })}

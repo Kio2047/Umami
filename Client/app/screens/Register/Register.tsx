@@ -21,6 +21,7 @@ import BottomTab from "../../components/BottomTab/BottomTab";
 import { useInputFocusTracker } from "../../utils/customHooks";
 import { createNewUser } from "../../services/api/apiClient";
 import { useQuery } from "@tanstack/react-query";
+import CredentialTextInput from "../../components/CredentialTextInput/CredentialTextInput";
 
 const Register = ({
   navigation
@@ -34,6 +35,14 @@ const Register = ({
       username: "",
       password: ""
     });
+  const [highlightInput, setHighlightInput] = useState<{
+    [k in keyof NewUserCredentials]: boolean;
+  }>({
+    email: false,
+    name: false,
+    username: false,
+    password: false
+  });
   const { refetch, isFetching, isError, isSuccess, error, data } = useQuery(
     ["sessionToken", newUserCredentials],
     createNewUser,
@@ -61,19 +70,12 @@ const Register = ({
 
       {registerScreenConstants.inputConstants.map((formFieldConstants) => {
         return (
-          <TextInput
-            style={styles.input}
-            placeholderTextColor={colors.formPlaceholderColor}
-            placeholder={
-              formFieldConstants.placeholder ??
-              formFieldConstants.formField.charAt(0).toUpperCase() +
-                formFieldConstants.formField.substring(1)
-            }
+          <CredentialTextInput
+            formFieldConstants={formFieldConstants}
+            highlightInput={highlightInput}
+            setHighlightInput={setHighlightInput}
+            setCredentials={setNewUserCredentials}
             key={formFieldConstants.formField}
-            // value={loginForm.email}
-            keyboardType={formFieldConstants.keyboardType ?? "default"}
-            secureTextEntry={formFieldConstants.secureTextEntry ?? false}
-            onChangeText={textInputChangeHandler(formFieldConstants.formField)}
           />
         );
       })}
@@ -86,10 +88,13 @@ const Register = ({
         activeOpacity={0.5}
         onPress={() => {
           if (Object.values(newUserCredentials).includes("")) {
-            // tell them to fill in empty field
-            return;
+            const highlightInputEntries = Object.entries(
+              newUserCredentials
+            ).map(([field, value]) => [field, value === "" ? true : false]);
+            setHighlightInput(Object.fromEntries(highlightInputEntries));
+          } else {
+            refetch();
           }
-          refetch();
         }}
       >
         <Text style={styles.buttonText}>Sign up</Text>
