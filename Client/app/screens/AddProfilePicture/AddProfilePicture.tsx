@@ -26,7 +26,7 @@ const AddProfilePicture = ({
     null
   );
 
-  const { jwt, userID, ready } = useLocalStorageAuthData();
+  const { jwt, userID, status } = useLocalStorageAuthData();
 
   const { refetch: getCloudinarySignature } = useQuery(
     ["profileImageUploadSignature", jwt!],
@@ -47,7 +47,7 @@ const AddProfilePicture = ({
       }
     }
   );
-  // try using usemutate to see if there's an optimistic way of updating the profile picture url in the db before the image has been uploaded to cloudinary
+  // TODO: try useMutate to see optimistically update the profile picture url in the DB before the image has been uploaded to Cloudinary
   const uploadImage = useMutation(uploadCloudinaryMedia, {
     onSuccess(data) {
       updateUserProfileImage.mutate({
@@ -99,7 +99,7 @@ const AddProfilePicture = ({
         </Text>
       </View>
 
-      {/* TODO: Replace icon with user's profile picture upon selection */}
+      {/* TODO: replace icon with user's profile picture upon selection */}
       <TouchableOpacity
         style={styles.addPictureButton}
         onPress={pickImage}
@@ -123,7 +123,7 @@ const AddProfilePicture = ({
               // { marginTop: isFocusedOnInput ? 20 : 20 }
             ]}
             activeOpacity={0.5}
-            disabled={!ready}
+            disabled={!(status === "success")}
             onPress={() => {
               getCloudinarySignature();
             }}

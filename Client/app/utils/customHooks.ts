@@ -22,16 +22,12 @@ export const useInputFocusTracker = () => {
 
 export const useLocalStorageAuthData = () => {
   const [authData, setAuthData] = useState<
-    | { jwt: null; userID: null; ready: false }
-    | {
-        jwt: string;
-        userID: string;
-        ready: true;
-      }
+    | { jwt: null; userID: null; status: "loading" | "failed" }
+    | { jwt: string; userID: string; status: "success" }
   >({
     jwt: null,
     userID: null,
-    ready: false
+    status: "loading"
   });
   useEffect(() => {
     (async () => {
@@ -40,12 +36,16 @@ export const useLocalStorageAuthData = () => {
         await getUserID()
       ]);
       if (!jwt || !userID) {
-        throw new Error("Bearer token not present");
+        setAuthData({
+          jwt: null,
+          userID: null,
+          status: "failed"
+        });
       } else {
         setAuthData({
           jwt,
           userID,
-          ready: true
+          status: "success"
         });
       }
     })();

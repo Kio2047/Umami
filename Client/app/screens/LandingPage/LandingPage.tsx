@@ -14,6 +14,7 @@ import { CommonActions } from "@react-navigation/native";
 import styles from "./LandingPageStyles";
 import logo from "../../assets/logo.png";
 import { StackScreenProps } from "../../Types/NavigationTypes";
+import { useLocalStorageAuthData } from "../../utils/customHooks";
 
 const LandingPage = ({
   navigation

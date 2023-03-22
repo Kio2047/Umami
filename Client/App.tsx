@@ -20,6 +20,7 @@ import UserProfile from "./app/screens/UserProfile";
 import RestaurantProfile from "./app/screens/RestaurantProfile";
 import { store } from "./app/redux/store";
 import AddProfilePicture from "./app/screens/AddProfilePicture/AddProfilePicture";
+import { useLocalStorageAuthData } from "./app/utils/customHooks";
 
 // import DetailedPost from "./app/components/Post";
 
@@ -36,6 +37,13 @@ const queryClient = new QueryClient({
 });
 
 export default function App() {
+  const { status } = useLocalStorageAuthData();
+
+  if (status === "loading") {
+    // TODO: add loading screen
+    return <></>;
+  }
+
   return (
     <QueryClientProvider client={queryClient}>
       <SafeAreaProvider>
@@ -45,7 +53,7 @@ export default function App() {
           <NavigationContainer theme={DarkTheme}>
             <RootStack.Navigator
               // initialRouteName="LandingPage"
-              initialRouteName="AddProfilePicture"
+              initialRouteName={status === "success" ? "Feed" : "LandingPage"}
               screenOptions={{ headerShown: false }}
             >
               {/* initialParams={{user: "Dan"}} */}
