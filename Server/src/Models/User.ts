@@ -41,6 +41,14 @@ export const findUserByID = async function (
   return account;
 };
 
+export const replaceUserProfilePictureURL = async function (
+  user: HydratedDocument<RawUserDocument>,
+  newURL: string
+) {
+  user.profilePictureURL = newURL;
+  user.save();
+};
+
 //TODO: change from save to updateOne for atomicity?
 
 const appendUserFollowers = async function (

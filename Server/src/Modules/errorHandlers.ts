@@ -19,12 +19,9 @@ export const backupErrorHandler: ErrorRequestHandler = function (
     // } else if (err.cause === "input") {
     //   res.status(400);
     //   res.json({ message: "Invalid input" });
-  } else if (err.cause === "user id not valid") {
+  } else if (err.cause === "invalid user id") {
     res.status(404);
-    res.json({ message: "invalid user id" });
-  } else if (err.cause === "user-to-follow id not valid") {
-    res.status(404);
-    res.json({ message: "invalid user-to-follow id" });
+    res.json({ message: "invalid user id provided" });
   } else if (err.cause === "no cloudinary API secret") {
     res.status(502);
     res.json({ message: "internal server error. that one's on us :(" });

@@ -24,7 +24,7 @@ protectedRouter.patch(
   "/users/:id/following",
   followUserValidations,
   validateRequest,
-  UserController.createFollowConnection
+  UserController.updateUser
 );
 
 protectedRouter.get(
