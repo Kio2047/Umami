@@ -46,9 +46,24 @@ export default StyleSheet.create({
   },
   skipButtonText: {
     color: colors.defaultButtonColor,
-    fontSize: 18,
+    fontSize: 15,
     fontWeight: "500",
     textAlign: "center"
     // marginTop: 40
+  },
+  continueButton: {
+    justifyContent: "center",
+    width: 330,
+    height: 50,
+    backgroundColor: colors.defaultButtonColor,
+    borderRadius: 7,
+    marginTop: 20,
+    marginBottom: 12
+  },
+  continueButtonText: {
+    textAlign: "center",
+    color: colors.primaryFontColor,
+    fontWeight: "500",
+    fontSize: 15
   }
 });

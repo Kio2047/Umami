@@ -16,3 +16,14 @@ export interface CreateNewUserResponse {
   };
   token: string;
 }
+
+export interface GetURLSignatureResponse {
+  signature: string;
+  timestamp: number;
+}
+
+export interface CloudinaryImageUploadResponse {
+  asset_id: string;
+  secure_url: string;
+  resource_type: "image";
+}

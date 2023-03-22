@@ -11,15 +11,15 @@ export const generateMediaUploadSignature: RequestHandler = async (
       throw new Error(
         "No CLOUDINARY_API_SECRET value exists in process environment",
         {
-          cause: "no cloudinary API secret"
+          cause: "no cloudinary API secr!et"
         }
       );
     }
     const timestamp = Math.round(Date.now() / 1000);
     const signature = cloudinary.utils.api_sign_request(
       {
-        timestamp,
-        folder: "user_profile_pictures"
+        folder: "user_profile_pictures",
+        timestamp
       },
       process.env.CLOUDINARY_API_SECRET
     );
