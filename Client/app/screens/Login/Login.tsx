@@ -18,7 +18,7 @@ import colors from "../../colors";
 import BottomTab from "../../components/BottomTab/BottomTab";
 import { loginUser } from "../../services/api/apiClient";
 import { FailedRequestError } from "../../services/api/APIUtils";
-import { saveJWT } from "../../services/deviceStorageClient";
+import { setJWT } from "../../services/deviceStorageClient";
 import { LoginCredentials } from "../../types";
 import { StackScreenProps } from "../../Types/NavigationTypes";
 import { LoginUserResponse } from "../../Types/APIResponseTypes";
@@ -62,7 +62,7 @@ const Login = ({
   const isFocusedOnInput = useInputFocusTracker();
 
   const handleLogin = useCallback(async (responseBody: LoginUserResponse) => {
-    await saveJWT(responseBody.token);
+    await setJWT(responseBody.token);
     navigation.reset({
       index: 0,
       routes: [

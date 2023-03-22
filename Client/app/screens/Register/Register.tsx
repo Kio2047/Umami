@@ -23,7 +23,7 @@ import { createNewUser } from "../../services/api/apiClient";
 import { useQuery } from "@tanstack/react-query";
 import CredentialTextInput from "../../components/CredentialTextInput/CredentialTextInput";
 import { CreateNewUserResponse } from "../../Types/APIResponseTypes";
-import { saveJWT } from "../../services/deviceStorageClient";
+import { setJWT, setUserID } from "../../services/deviceStorageClient";
 
 const Register = ({
   navigation
@@ -60,7 +60,10 @@ const Register = ({
 
   const handleSignup = useCallback(
     async (responseBody: CreateNewUserResponse) => {
-      await saveJWT(responseBody.token);
+      await Promise.all([
+        setJWT(responseBody.token),
+        setUserID(responseBody.createdAccount._id)
+      ]);
       navigation.reset({
         index: 0,
         routes: [

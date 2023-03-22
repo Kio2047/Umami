@@ -45,13 +45,14 @@ export const createNewUser: QueryFunction<
 
 export const getURLSignature: QueryFunction<
   GetURLSignatureResponse,
-  [string, string | null]
+  [string, string]
 > = async ({ queryKey }) => {
   const jwt = queryKey[1];
-  if (jwt === null) {
-    throw new Error("No bearer token on device");
-  }
-  return sendGetRequest<GetURLSignatureResponse>(`${baseURL}/session`, jwt);
+
+  return sendGetRequest<GetURLSignatureResponse>(
+    `${baseURL}/media-upload-signature/profile-image`,
+    jwt
+  );
 };
 
 export const uploadCloudinaryMedia: MutationFunction<

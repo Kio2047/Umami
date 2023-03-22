@@ -13,10 +13,10 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import {
   getURLSignature,
   updateUserProfileImageURL,
-  uploadCloudinaryMedia,
-  uploadImage
+  uploadCloudinaryMedia
 } from "../../services/api/apiClient";
 import { ImagePickerAsset } from "expo-image-picker";
+import { useLocalStorageAuthData } from "../../utils/customHooks";
 
 const AddProfilePicture = ({
   navigation,
@@ -26,22 +26,16 @@ const AddProfilePicture = ({
     null
   );
 
-  const jwt = useRef<string | null>(null);
-
-  useEffect(() => {
-    (async () => {
-      jwt.current = await getJWT();
-    })();
-  }, []);
+  const { jwt, userID, ready } = useLocalStorageAuthData();
 
   const { refetch: getCloudinarySignature } = useQuery(
-    ["cloudinarySignature", jwt.current],
+    ["profileImageUploadSignature", jwt!],
     getURLSignature,
     {
       enabled: false,
       retry: false,
-      staleTime: Infinity,
-      cacheTime: Infinity,
+      staleTime: 60 * 60 * 1000,
+      cacheTime: 60 * 60 * 1000,
       onSuccess(data) {
         uploadImage.mutate({
           base64Image: `data:image/jpg;base64,${profileImage!.base64}`,
@@ -54,31 +48,31 @@ const AddProfilePicture = ({
     }
   );
   // try using usemutate to see if there's an optimistic way of updating the profile picture url in the db before the image has been uploaded to cloudinary
-  const uploadImage = useMutation(uploadCloudinaryMedia, {});
+  const uploadImage = useMutation(uploadCloudinaryMedia, {
+    onSuccess(data) {
+      updateUserProfileImage.mutate({
+        userID: userID!,
+        newImageURL: data.secure_url,
+        jwt: jwt!
+      });
+    }
+  });
 
-  // const { data, isSuccess: uploadImageSuccess } = useQuery(
-  //   [
-  //     "uploadedImageData",
-  //     {
-  //       base64Image: `data:image/jpg;base64,${profileImage!.base64}`,
-  //       signature: CloudinarySignature!.signature,
-  //       timestamp: CloudinarySignature!.timestamp,
-  //       api_key: 374689837836396,
-  //       folder: "user_profile_pictures"
-  //     }
-  //   ],
-  //   uploadCloudinaryMedia,
-  //   {
-  //     enabled: !!CloudinarySignature && !!profileImage,
-  //     retry: false,
-  //     cacheTime: 0
-  //   }
-  // );
-
-  // if (getCloudinarySignatureSuccess && profileImage) {
-  //   const base64Image = ;
-
-  // }
+  const updateUserProfileImage = useMutation(updateUserProfileImageURL, {
+    onSuccess() {
+      navigation.reset({
+        index: 0,
+        routes: [
+          {
+            name: "Feed",
+            params: {
+              feedUserInfo: ""
+            }
+          }
+        ]
+      });
+    }
+  });
 
   const pickImage = async () => {
     const result = await ImagePicker.launchImageLibraryAsync({
@@ -129,6 +123,7 @@ const AddProfilePicture = ({
               // { marginTop: isFocusedOnInput ? 20 : 20 }
             ]}
             activeOpacity={0.5}
+            disabled={!ready}
             onPress={() => {
               getCloudinarySignature();
             }}
@@ -138,20 +133,19 @@ const AddProfilePicture = ({
         )}
         <TouchableOpacity
           activeOpacity={0.5}
-          // onPress={() => {
-          //   navigation.reset({
-          //     index: 0,
-          //     routes: [
-          //       {
-          //         name: "Feed",
-          //         params: {
-          //           feedUserInfo: ""
-          //         }
-          //       }
-          //     ]
-          //   });
-          // }}
-          onPress={() => setProfileImage((state) => state + "w")}
+          onPress={() => {
+            navigation.reset({
+              index: 0,
+              routes: [
+                {
+                  name: "Feed",
+                  params: {
+                    feedUserInfo: ""
+                  }
+                }
+              ]
+            });
+          }}
         >
           <Text style={styles.skipButtonText}>Skip{" >"}</Text>
         </TouchableOpacity>

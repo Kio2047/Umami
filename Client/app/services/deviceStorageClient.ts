@@ -1,7 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { CreateNewUserResponse } from "../Types/APIResponseTypes";
 
-export const saveJWT = async (token: CreateNewUserResponse["token"]) => {
+export const setJWT = async (token: string) => {
   // try {
   AsyncStorage.setItem("sessionToken", token);
   // } catch (err) {
@@ -17,12 +17,10 @@ export const getJWT = async () => {
   // }
 };
 
-export const setUserInfo = async (
-  userProfile: CreateNewUserResponse["createdAccount"]
-) => {
-  AsyncStorage.setItem("userInfo", JSON.stringify(userProfile));
+export const setUserID = async (userProfile: string) => {
+  AsyncStorage.setItem("userID", JSON.stringify(userProfile));
 };
 
-export const getUserInfo = async () => {
-  AsyncStorage.getItem("userInfo");
+export const getUserID = async () => {
+  return AsyncStorage.getItem("userID");
 };
