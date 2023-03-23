@@ -1,4 +1,11 @@
-import { body, validationResult, matchedData, check } from "express-validator";
+import {
+  body,
+  validationResult,
+  matchedData,
+  check,
+  CustomValidator,
+  oneOf
+} from "express-validator";
 import { RequestHandler } from "express";
 import { Types } from "mongoose";
 const { ObjectId } = Types;
@@ -23,6 +30,16 @@ const isValidObjectID = (str: string) => {
   if (Types.ObjectId.isValid(str) && String(new ObjectId(str)) === str)
     return true;
   else throw new Error("invalid ObjectID");
+};
+
+const isValidCloudinaryImageURL = (requiredFolder: string) => {
+  return (url: string) => {
+    const expressionToMatch = new RegExp(
+      `^https://res.cloudinary.com/di3penpbh/image/upload/v[\d]+/${requiredFolder}/`
+    );
+    if (url.match(expressionToMatch)) return true;
+    else throw new Error("invalid Cloudinary image URL");
+  };
 };
 
 export const createNewUserValidations = [
@@ -80,6 +97,42 @@ export const createNewPostValidations = [
   body("restaurantID").optional().custom(isValidObjectID)
 ];
 
-export const followUserValidations = [
-  body("userToFollowID").exists().isString().custom(isValidObjectID)
+// export const followUserValidations = [
+//   body("userToFollowID").exists().isString().custom(isValidObjectID)
+// ];
+
+const pathIsEmail: CustomValidator = (value, { req }) => {
+  return req.body.path === "/email";
+};
+const pathIsPassword: CustomValidator = (value, { req }) => {
+  return req.body.path === "/password";
+};
+const pathIsName: CustomValidator = (value, { req }) => {
+  return req.body.path === "/name";
+};
+const pathIsUsername: CustomValidator = (value, { req }) => {
+  return req.body.path === "/username";
+};
+const pathIsProfilePictureURL: CustomValidator = (value, { req }) => {
+  return req.body.path === "/profilePictureURL";
+};
+const pathIsFollowing: CustomValidator = (value, { req }) => {
+  return req.body.path === "/following";
+};
+
+export const updateUserValidations = [
+  body("operation").exists().isString().isIn(["add", "remove", "replace"]),
+  body("path")
+    .exists()
+    .isString()
+    .isIn([
+      "/email, /password, /name, /username, /profilePictureURL, /following"
+    ]),
+  oneOf([
+    body("value").if(pathIsEmail).isEmail().normalizeEmail(),
+    body("value").if(pathIsFollowing).custom(isValidObjectID),
+    body("value")
+      .if(pathIsProfilePictureURL)
+      .custom(isValidCloudinaryImageURL("user_profile_pictures"))
+  ])
 ];

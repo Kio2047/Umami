@@ -22,7 +22,7 @@ export const useInputFocusTracker = () => {
 
 export const useLocalStorageAuthData = () => {
   const [authData, setAuthData] = useState<
-    | { jwt: null; userID: null; status: "loading" | "failed" }
+    | { jwt: null; userID: null; status: "loading" | "failure" }
     | { jwt: string; userID: string; status: "success" }
   >({
     jwt: null,
@@ -39,7 +39,7 @@ export const useLocalStorageAuthData = () => {
         setAuthData({
           jwt: null,
           userID: null,
-          status: "failed"
+          status: "failure"
         });
       } else {
         setAuthData({
