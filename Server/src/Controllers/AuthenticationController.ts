@@ -21,7 +21,9 @@ export const createNewUser: RequestHandler = async function (
     const { password, ...rest } = newUserDataPreHash;
     const newUserDataPostHash: ProcessedNewUserData = {
       ...rest,
-      passwordHash
+      passwordHash,
+      profileImageURL:
+        "https://res.cloudinary.com/di3penpbh/image/upload/v1678286761/user_profile_pictures/1200px-Default_pfp.svg_ewo17q.png"
     };
     const newUserAccount = await UserModel.createNewUser(newUserDataPostHash);
     // TODO: Should account containing the passwordHash be returned? perhaps better to not expose that property to the client

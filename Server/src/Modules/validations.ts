@@ -32,23 +32,21 @@ const isValidObjectID = (str: string) => {
   else throw new Error("invalid ObjectID");
 };
 
-const isValidCloudinaryImageURL = (requiredFolder: string) => {
+const isValidCloudinaryImageURL = (
+  requiredFolder: "user_profile_images" | "user_post_images"
+) => {
+  // TODO: add check to see if the image actually exists in Cloudinary
   return (url: string) => {
     const expressionToMatch = new RegExp(
       `^https://res.cloudinary.com/di3penpbh/image/upload/v[\d]+/${requiredFolder}/`
     );
-    if (url.match(expressionToMatch)) return true;
+    if (expressionToMatch.test(url)) return true;
     else throw new Error("invalid Cloudinary image URL");
   };
 };
 
 export const createNewUserValidations = [
   body("email").exists().isString().isEmail().normalizeEmail(),
-  body("profilePictureURL")
-    .exists()
-    .isString()
-    // TODO: Add check to see if the image actually exists in Cloudinary
-    .matches(/^https:\/\/res.cloudinary.com\/di3penpbh/),
   body("name")
     .exists()
     .isString()
@@ -76,7 +74,7 @@ export const loginUserValidations = [
 ];
 
 export const createNewPostValidations = [
-  // add validation to ensure that restaurantID and newRestaurantName don't both exist
+  // TODO: add validation to ensure that restaurantID and newRestaurantName don't both exist
   body("ratings").exists().isArray({
     max: 3,
     min: 3
@@ -97,10 +95,6 @@ export const createNewPostValidations = [
   body("restaurantID").optional().custom(isValidObjectID)
 ];
 
-// export const followUserValidations = [
-//   body("userToFollowID").exists().isString().custom(isValidObjectID)
-// ];
-
 const pathIsEmail: CustomValidator = (value, { req }) => {
   return req.body.path === "/email";
 };
@@ -113,8 +107,8 @@ const pathIsName: CustomValidator = (value, { req }) => {
 const pathIsUsername: CustomValidator = (value, { req }) => {
   return req.body.path === "/username";
 };
-const pathIsProfilePictureURL: CustomValidator = (value, { req }) => {
-  return req.body.path === "/profilePictureURL";
+const pathIsprofileImageURL: CustomValidator = (value, { req }) => {
+  return req.body.path === "/profileImageURL";
 };
 const pathIsFollowing: CustomValidator = (value, { req }) => {
   return req.body.path === "/following";
@@ -126,13 +120,14 @@ export const updateUserValidations = [
     .exists()
     .isString()
     .isIn([
-      "/email, /password, /name, /username, /profilePictureURL, /following"
+      "/email, /password, /name, /username, /profileImageURL, /following"
     ]),
+  body("value").exists(),
   oneOf([
     body("value").if(pathIsEmail).isEmail().normalizeEmail(),
-    body("value").if(pathIsFollowing).custom(isValidObjectID),
+    body("value").if(pathIsFollowing).isString().custom(isValidObjectID),
     body("value")
-      .if(pathIsProfilePictureURL)
-      .custom(isValidCloudinaryImageURL("user_profile_pictures"))
+      .if(pathIsprofileImageURL)
+      .custom(isValidCloudinaryImageURL("user_profile_images"))
   ])
 ];

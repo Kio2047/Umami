@@ -18,13 +18,13 @@ export const generateMediaUploadSignature: RequestHandler = async (
     const timestamp = Math.round(Date.now() / 1000);
     const signature = cloudinary.utils.api_sign_request(
       {
-        folder: "user_profile_pictures",
+        folder: "user_profile_images",
         timestamp
       },
       process.env.CLOUDINARY_API_SECRET
     );
 
-    res.json({ timestamp, signature });
+    res.status(200).json({ timestamp, signature });
   } catch (err) {
     next(err);
   }

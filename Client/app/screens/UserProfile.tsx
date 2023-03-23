@@ -18,7 +18,7 @@ import { getPostsByUser } from "../services/api/apiClient";
 
 const UserProfile = ({ route, navigation }: UserProfileScreenProps) => {
   // Rather than filtering the posts from the original feed, this should make another fetch using the userID and get posts from the user's posts field
-  let { profileUserID, profileUserProfilePictureURL, profileUserName } =
+  let { profileUserID, profileUserprofileImageURL, profileUserName } =
     route.params;
 
   const [posts, setPosts] = useState<PostType[]>([]);
@@ -41,7 +41,7 @@ const UserProfile = ({ route, navigation }: UserProfileScreenProps) => {
             <View style={styles.feedBannerTop}>
               <Image
                 style={styles.profilePicture}
-                source={{ uri: profileUserProfilePictureURL }}
+                source={{ uri: profileUserprofileImageURL }}
               ></Image>
               <Text style={styles.name}>{profileUserName}</Text>
               <TouchableOpacity style={styles.removeFriendButton}>

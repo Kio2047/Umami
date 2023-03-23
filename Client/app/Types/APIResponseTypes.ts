@@ -7,7 +7,7 @@ export interface CreateNewUserResponse {
     email: string;
     name: string;
     username: string;
-    profilePictureURL: string;
+    profileImageURL: string;
     following: string[];
     followers: string[];
     _id: string;
@@ -27,3 +27,8 @@ export interface CloudinaryImageUploadResponse {
   secure_url: string;
   resource_type: "image";
 }
+
+export type GetUserInfoResponse = Omit<
+  CreateNewUserResponse["createdAccount"],
+  "password" | "__v" | "_id"
+>;

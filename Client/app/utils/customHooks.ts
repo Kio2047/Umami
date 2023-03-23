@@ -20,11 +20,15 @@ export const useInputFocusTracker = () => {
   return isFocusedOnInput;
 };
 
-export const useLocalStorageAuthData = () => {
-  const [authData, setAuthData] = useState<
-    | { jwt: null; userID: null; status: "loading" | "failure" }
-    | { jwt: string; userID: string; status: "success" }
-  >({
+export type AuthData =
+  | { jwt: null; userID: null; status: "loading" | "failure" }
+  | { jwt: string; userID: string; status: "success" };
+
+export const useLocalStorageAuthData = (): [
+  AuthData,
+  React.Dispatch<React.SetStateAction<AuthData>>
+] => {
+  const [authData, setAuthData] = useState<AuthData>({
     jwt: null,
     userID: null,
     status: "loading"
@@ -51,5 +55,5 @@ export const useLocalStorageAuthData = () => {
     })();
   }, []);
 
-  return authData;
+  return [authData, setAuthData];
 };

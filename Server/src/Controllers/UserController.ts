@@ -4,6 +4,23 @@ import { ParamsDictionary } from "express-serve-static-core";
 import { errorIfUnauthorised } from "../Modules/auth";
 import * as UserModel from "../Models/User";
 
+export const getUserInfo: RequestHandler = async (req, res, next) => {
+  try {
+    const [paramsUserID, userID] = [req.params.id, res.locals.tokenPayload.sub];
+    errorIfUnauthorised(paramsUserID, userID);
+    const user = await UserModel.findUserByID(userID);
+    if (!user) {
+      throw new Error(`No matching user document for the provided id`, {
+        cause: "invalid user id"
+      });
+    }
+    const { _id, __v, passwordHash, ...requiredInfo } = user;
+    res.status(200).json(requiredInfo);
+  } catch (err) {
+    next(err);
+  }
+};
+
 export const updateUser: RequestHandler = async (
   req: Request<
     ParamsDictionary,
@@ -29,8 +46,8 @@ export const updateUser: RequestHandler = async (
       case path === "/following" && operation === "add":
         await createFollowConnection(userID, value);
         break;
-      case path === "/profilePictureURL" && operation === "replace":
-        UserModel.replaceUserProfilePictureURL(user, value);
+      case path === "/profileImageURL" && operation === "replace":
+        UserModel.replaceUserprofileImageURL(user, value);
         break;
       default:
         res.status(400).json({ message: "PATCH action not supported" });

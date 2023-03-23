@@ -7,7 +7,7 @@ import * as ImagePicker from "expo-image-picker";
 import { v2 as cloudinary } from "cloudinary";
 
 import { StackScreenProps } from "../../Types/NavigationTypes";
-import styles from "./AddProfilePictureStyles";
+import styles from "./AddProfileImageStyles";
 import { getJWT } from "../../services/deviceStorageClient";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import {
@@ -18,10 +18,10 @@ import {
 import { ImagePickerAsset } from "expo-image-picker";
 import { useLocalStorageAuthData } from "../../utils/customHooks";
 
-const AddProfilePicture = ({
+const AddProfileImage = ({
   navigation,
   route
-}: StackScreenProps<"AddProfilePicture">) => {
+}: StackScreenProps<"AddProfileImage">) => {
   const [profileImage, setProfileImage] = useState<ImagePickerAsset | null>(
     null
   );
@@ -42,12 +42,12 @@ const AddProfilePicture = ({
           signature: data.signature,
           timestamp: data.timestamp,
           api_key: 374689837836396,
-          folder: "user_profile_pictures"
+          folder: "user_profile_images"
         });
       }
     }
   );
-  // TODO: try useMutate to see optimistically update the profile picture url in the DB before the image has been uploaded to Cloudinary
+  // TODO: try useMutate to see optimistically update the profile image url in the DB before the image has been uploaded to Cloudinary
   const uploadImage = useMutation(uploadCloudinaryMedia, {
     onSuccess(data) {
       updateUserProfileImage.mutate({
@@ -154,4 +154,4 @@ const AddProfilePicture = ({
   );
 };
 
-export default AddProfilePicture;
+export default AddProfileImage;

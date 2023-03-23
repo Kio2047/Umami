@@ -9,7 +9,7 @@ export type PostRestaurant = {
 export type OtherPerson = {
   _id: string;
   name: string;
-  profilePictureURL: string;
+  profileImageURL: string;
 };
 
 // TODO Rename restaurant ID to 'restaurant', as we're populating this field
@@ -26,13 +26,12 @@ export type Post = {
   text: string;
   others: OtherPerson[];
   authorName: string;
-  authorProfilePictureURL: string;
+  authorprofileImageURL: string;
 };
 
 export type User = {
-  _id: string;
   name: string;
-  profilePictureURL: string;
+  profileImageURL: string;
   posts: string[];
   friends: string[];
 };

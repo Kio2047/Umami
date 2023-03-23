@@ -23,7 +23,7 @@ import type { NewPost, formTextFields, formRatingFields } from "../types";
 import { sendNewPost, uploadImages } from "../services/api/apiClient";
 
 const CreateNewPost = ({ navigation, route }: CreateNewPostScreenProps) => {
-  const { profilePictureURL, authorID, setRefreshCount } = route.params;
+  const { profileImageURL, authorID, setRefreshCount } = route.params;
 
   const [formEntries, setFormEntries] = useState<NewPost>({
     authorID,
@@ -102,7 +102,7 @@ const CreateNewPost = ({ navigation, route }: CreateNewPostScreenProps) => {
           <Text style={styles.newPostBannerText}>New Post</Text>
           <Image
             style={styles.newPostBannerImage}
-            source={{ uri: profilePictureURL }}
+            source={{ uri: profileImageURL }}
           ></Image>
         </View>
 

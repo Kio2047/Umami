@@ -29,7 +29,7 @@ const Post = ({
     text,
     others,
     authorName,
-    authorProfilePictureURL
+    authorprofileImageURL
   } = postData;
 
   const renderedimageURLs = imageURLs.slice(0, 3);
@@ -43,14 +43,14 @@ const Post = ({
             onPress={() =>
               navigation.navigate("UserProfile", {
                 profileUserID: author,
-                profileUserProfilePictureURL: authorProfilePictureURL,
+                profileUserprofileImageURL: authorprofileImageURL,
                 profileUserName: authorName
               })
             }
           >
             <Image
               style={styles.profilePicture}
-              source={{ uri: authorProfilePictureURL }}
+              source={{ uri: authorprofileImageURL }}
             ></Image>
           </TouchableOpacity>
           <View style={styles.postBannerTextContainer}>

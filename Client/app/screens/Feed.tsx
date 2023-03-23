@@ -16,9 +16,14 @@ import Post from "../components/Post";
 import type { Post as PostType, FeedScreenProps } from "../types";
 import { getFeedPosts } from "../services/api/apiClient";
 import colors from "../colors";
+import { StackScreenProps } from "../Types/NavigationTypes";
 
-const Feed = ({ route, navigation }: FeedScreenProps) => {
-  let { _id, name, profilePictureURL, posts, friends } =
+const Feed = ({
+  navigation
+}: {
+  navigation: StackScreenProps<"Feed">["navigation"];
+}) => {
+  let { _id, name, profileImageURL, posts, friends } =
     route.params.feedUserInfo;
   const firstName = name.match(/[a-z]+/i);
 
@@ -53,13 +58,13 @@ const Feed = ({ route, navigation }: FeedScreenProps) => {
             <View style={styles.newPostField}>
               <Image
                 style={styles.userProfilePicture}
-                source={{ uri: profilePictureURL }}
+                source={{ uri: profileImageURL }}
               ></Image>
               <TouchableOpacity
                 // style={styles.makePostButtonV2}
                 onPress={() =>
                   navigation.navigate("CreateNewPost", {
-                    profilePictureURL,
+                    profileImageURL,
                     authorID: _id,
                     setRefreshCount
                   })

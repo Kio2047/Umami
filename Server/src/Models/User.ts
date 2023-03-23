@@ -14,6 +14,8 @@ import { HydratedDocument, NullExpression, Types } from "mongoose";
 
 const User = mongoose.model<RawUserDocument>("User", userSchema);
 
+// TODO: either give each query function a lean boolean argument which if true makes them return a POJO, or create a lean copy of each query function
+
 export const createNewUser = async function (
   newUserData: ProcessedNewUserData
 ): CreateOnePromise<RawUserDocument> {
@@ -41,11 +43,11 @@ export const findUserByID = async function (
   return account;
 };
 
-export const replaceUserProfilePictureURL = async function (
+export const replaceUserprofileImageURL = async function (
   user: HydratedDocument<RawUserDocument>,
   newURL: string
 ) {
-  user.profilePictureURL = newURL;
+  user.profileImageURL = newURL;
   user.save();
 };
 
@@ -110,7 +112,7 @@ export const updateFollowingBidirectionally = async function (
 //         },
 //         {
 //           path: "others",
-//           select: "_id name profilePictureURL"
+//           select: "_id name profileImageURL"
 //         }
 //       ]
 //     })
@@ -125,7 +127,7 @@ export const updateFollowingBidirectionally = async function (
 //           },
 //           {
 //             path: "others",
-//             select: "_id name profilePictureURL"
+//             select: "_id name profileImageURL"
 //           }
 //         ]
 //       }
@@ -136,7 +138,7 @@ export const updateFollowingBidirectionally = async function (
 //       // @ts-ignore: Object ID bug
 //       ...post.toObject(),
 //       authorName: account.name,
-//       authorProfilePictureURL: account.profilePictureURL
+//       authorprofileImageURL: account.profileImageURL
 //     });
 //   }
 
@@ -148,7 +150,7 @@ export const updateFollowingBidirectionally = async function (
 //       feedPosts.push({
 //         ...post.toObject(),
 //         authorName: friend.name,
-//         authorProfilePictureURL: friend.profilePictureURL
+//         authorprofileImageURL: friend.profileImageURL
 //       });
 //     }
 //   }
@@ -166,7 +168,7 @@ export const updateFollowingBidirectionally = async function (
 //       },
 //       {
 //         path: "others",
-//         select: "_id name profilePictureURL"
+//         select: "_id name profileImageURL"
 //       }
 //     ]
 //     // next commit: feat: implemented FE and BE logic for fetching posts by user
@@ -180,7 +182,7 @@ export const updateFollowingBidirectionally = async function (
 //       // @ts-ignore: Object ID bug
 //       ...post.toObject(),
 //       authorName: user.name,
-//       authorProfilePictureURL: user.profilePictureURL
+//       authorprofileImageURL: user.profileImageURL
 //     };
 //   });
 //   // console.log("The user's posts after:", userPosts);
@@ -195,7 +197,7 @@ export const updateFollowingBidirectionally = async function (
 
 // Cleaner way of making them required below
 
-// var requiredAttrs = ['name', 'profilePictureURL', "posts", "friends"];
+// var requiredAttrs = ['name', 'profileImageURL', "posts", "friends"];
 
 // requiredAttrs.forEach((attr) => {
 //   schema[attr].required! = true;

@@ -20,7 +20,7 @@ export const userSchema = new Schema<RawUserDocument>({
   passwordHash: { type: String, required: true },
   name: { type: String, required: true },
   username: { type: String, required: true, unique: true, index: true },
-  profilePictureURL: { type: String, required: true },
+  profileImageURL: { type: String, required: true },
   following: [{ type: Schema.Types.ObjectId, ref: "User" }],
   followers: [{ type: Schema.Types.ObjectId, ref: "User" }]
 });

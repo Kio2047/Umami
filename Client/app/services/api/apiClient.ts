@@ -15,11 +15,12 @@ import {
   CloudinaryImageUploadResponse,
   CreateNewUserResponse,
   GetURLSignatureResponse,
+  GetUserInfoResponse,
   LoginUserResponse
 } from "../../Types/APIResponseTypes";
 import { sendPostRequest, sendGetRequest, sendPatchRequest } from "./APIUtils";
 
-const baseURL = "https://d5a8-2a00-23c8-5999-8f01-172-8f95-c79-6eb.eu.ngrok.io";
+const baseURL = "https://c9f7-86-130-8-199.eu.ngrok.io";
 
 export const loginUser: QueryFunction<
   LoginUserResponse,
@@ -79,12 +80,17 @@ export const updateUserProfileImageURL: MutationFunction<
     `${baseURL}/user/${userID}`,
     {
       operation: "replace",
-      path: "/profilePictureURL",
+      path: "/profileImageURL",
       value: newImageURL
     },
     jwt
   );
 };
+
+export const getUserInfo: QueryFunction<
+  GetUserInfoResponse,
+  [string, string]
+> = async ({ queryKey }) => {};
 
 // export const getFeedPosts = async function (userID: string) {
 //   const response = await fetch(`${baseURL}/user/get-feed-posts/${userID}`);

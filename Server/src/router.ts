@@ -6,7 +6,7 @@ import * as PostController from "./Controllers/PostController";
 import * as ImageUploadController from "./Controllers/ImageUploadController";
 import {
   createNewPostValidations,
-  followUserValidations,
+  updateUserValidations,
   validateRequest
 } from "./Modules/validations";
 import * as UserController from "./Controllers/UserController";
@@ -22,7 +22,7 @@ protectedRouter.post(
 
 protectedRouter.patch(
   "/users/:id/following",
-  followUserValidations,
+  updateUserValidations,
   validateRequest,
   UserController.updateUser
 );
@@ -31,6 +31,8 @@ protectedRouter.get(
   "/media-upload-signature/profile-image",
   ImageUploadController.generateMediaUploadSignature
 );
+
+protectedRouter.get("/user/:id", UserController.getUserInfo);
 
 // router.post("/session", AuthController.checkUserExists);
 // router.post(

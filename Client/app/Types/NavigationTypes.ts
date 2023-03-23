@@ -9,17 +9,17 @@ export type RootStackParamList = {
   LandingPage: undefined;
   Login: undefined;
   Register: undefined;
-  AddProfilePicture: { newUserName: string };
+  AddProfileImage: { newUserName: string };
   Feed: { feedUserInfo: User };
   DetailedImage: { imageURL: string };
   CreateNewPost: {
-    profilePictureURL: string;
+    profileImageURL: string;
     authorID: string;
     setRefreshCount: React.Dispatch<React.SetStateAction<number>>;
   };
   UserProfile: {
     profileUserID: string;
-    profileUserProfilePictureURL: string;
+    profileUserprofileImageURL: string;
     profileUserName: string;
   };
   RestaurantProfile: { restaurantID: string; restaurantName: string };

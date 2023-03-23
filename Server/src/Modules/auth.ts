@@ -56,7 +56,7 @@ export const authenticate: RequestHandler = (req, res, next) => {
   }
 };
 
-// TODO: Move this to middleware (would require knowing requiredID prior to any DB lookups)
+// TODO: move this to middleware (would require knowing requiredID prior to any DB lookups)
 export const errorIfUnauthorised = (
   requiredID: string,
   tokenPayloadUserID: string

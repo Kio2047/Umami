@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -24,12 +24,15 @@ import { useQuery } from "@tanstack/react-query";
 import CredentialTextInput from "../../components/CredentialTextInput/CredentialTextInput";
 import { CreateNewUserResponse } from "../../Types/APIResponseTypes";
 import { setJWT, setUserID } from "../../services/deviceStorageClient";
+import { AuthContext } from "../../../App";
 
 const Register = ({
   navigation
 }: {
   navigation: StackScreenProps<"Register">["navigation"];
 }) => {
+  const setAuthStatus = useContext(AuthContext)[1];
+
   const [newUserCredentials, setNewUserCredentials] =
     useState<NewUserCredentials>({
       email: "",
@@ -60,15 +63,21 @@ const Register = ({
 
   const handleSignup = useCallback(
     async (responseBody: CreateNewUserResponse) => {
-      await Promise.all([
-        setJWT(responseBody.token),
-        setUserID(responseBody.createdAccount._id)
-      ]);
+      const [jwt, userID] = [
+        responseBody.token,
+        responseBody.createdAccount._id
+      ];
+      await Promise.all([setJWT(jwt), setUserID(userID)]);
+      setAuthStatus({
+        jwt,
+        userID,
+        status: "success"
+      });
       navigation.reset({
         index: 0,
         routes: [
           {
-            name: "AddProfilePicture",
+            name: "AddProfileImage",
             params: {
               newUserName: responseBody.createdAccount.name
             }
