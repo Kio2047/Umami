@@ -1,25 +1,32 @@
 export interface LoginUserResponse {
-  token: string;
+  data: {
+    userID: string;
+    token: string;
+  };
 }
 
 export interface CreateNewUserResponse {
-  createdAccount: {
-    email: string;
-    name: string;
-    username: string;
-    profileImageURL: string;
-    following: string[];
-    followers: string[];
-    _id: string;
-    __v: number;
-    password: string;
+  data: {
+    createdAccount: {
+      email: string;
+      name: string;
+      username: string;
+      profileImageURL: string;
+      following: string[];
+      followers: string[];
+      _id: string;
+      __v: number;
+      password: string;
+    };
+    token: string;
   };
-  token: string;
 }
 
 export interface GetURLSignatureResponse {
-  signature: string;
-  timestamp: number;
+  data: {
+    signature: string;
+    timestamp: number;
+  };
 }
 
 export interface CloudinaryImageUploadResponse {

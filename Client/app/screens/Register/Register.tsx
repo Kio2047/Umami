@@ -20,18 +20,18 @@ import { registerScreenConstants } from "../../constants/constants";
 import BottomTab from "../../components/BottomTab/BottomTab";
 import { useInputFocusTracker } from "../../utils/customHooks";
 import { createNewUser } from "../../services/api/apiClient";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import CredentialTextInput from "../../components/CredentialTextInput/CredentialTextInput";
 import { CreateNewUserResponse } from "../../Types/APIResponseTypes";
 import { setJWT, setUserID } from "../../services/deviceStorageClient";
-import { AuthContext } from "../../../App";
+import { AuthContext } from "../../utils/appContext";
 
 const Register = ({
   navigation
 }: {
   navigation: StackScreenProps<"Register">["navigation"];
 }) => {
-  const setAuthStatus = useContext(AuthContext)[1];
+  const setAuthData = useContext(AuthContext)[1];
 
   const [newUserCredentials, setNewUserCredentials] =
     useState<NewUserCredentials>({
@@ -50,25 +50,25 @@ const Register = ({
     password: false
   });
 
-  const { refetch, isFetching, isError, isSuccess, error, data } = useQuery(
-    ["sessionToken", newUserCredentials],
-    createNewUser,
-    {
-      enabled: false,
-      retry: false
-    }
-  );
+  const [disableButton, setDisableButton] = useState(false);
 
   const isFocusedOnInput = useInputFocusTracker();
+
+  const { mutate, isError, error } = useMutation(createNewUser, {
+    retry: false,
+    onSuccess: (data) =>
+      handleSignup(data).catch(() => setDisableButton(false)),
+    onError: () => setDisableButton(false)
+  });
 
   const handleSignup = useCallback(
     async (responseBody: CreateNewUserResponse) => {
       const [jwt, userID] = [
-        responseBody.token,
-        responseBody.createdAccount._id
+        responseBody.data.token,
+        responseBody.data.createdAccount._id
       ];
       await Promise.all([setJWT(jwt), setUserID(userID)]);
-      setAuthStatus({
+      setAuthData({
         jwt,
         userID,
         status: "success"
@@ -79,7 +79,7 @@ const Register = ({
           {
             name: "AddProfileImage",
             params: {
-              newUserName: responseBody.createdAccount.name
+              newUserName: responseBody.data.createdAccount.name
             }
           }
         ]
@@ -87,9 +87,6 @@ const Register = ({
     },
     []
   );
-  if (isSuccess) {
-    handleSignup(data);
-  }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -110,10 +107,11 @@ const Register = ({
       })}
       <TouchableOpacity
         style={[
-          styles.signUpButton
+          styles.signUpButton,
+          { opacity: disableButton ? 0.5 : 1 }
           // { marginTop: isFocusedOnInput ? 20 : 20 }
         ]}
-        disabled={isFetching ? true : false}
+        disabled={disableButton}
         activeOpacity={0.5}
         onPress={() => {
           if (Object.values(newUserCredentials).includes("")) {
@@ -122,7 +120,8 @@ const Register = ({
             ).map(([field, value]) => [field, value === "" ? true : false]);
             setHighlightInput(Object.fromEntries(highlightInputEntries));
           } else {
-            refetch();
+            setDisableButton(true);
+            mutate(newUserCredentials);
           }
         }}
       >

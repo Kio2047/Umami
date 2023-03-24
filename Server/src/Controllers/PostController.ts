@@ -31,7 +31,7 @@ export const createNewPost: RequestHandler = async function (
         newPostData.restaurantID
       );
       if (!restaurant) {
-        res.status(404).json({ message: "invalid restaurant ID" });
+        res.status(404).json({ error: { message: "invalid restaurant ID" } });
         return;
       }
     } else {
@@ -46,7 +46,7 @@ export const createNewPost: RequestHandler = async function (
       timestamp: new Date().toISOString(),
       author: new Types.ObjectId(userID)
     });
-    res.status(200).json({ data: newPost });
+    res.status(200).json({ data: { newPost } });
   } catch (err) {
     next(err);
   }

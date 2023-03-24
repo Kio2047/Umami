@@ -1,3 +1,5 @@
+import { getJWT } from "../deviceStorageClient";
+
 export class FailedRequestError extends Error {
   public responseBody?: any;
   public statusCode?: number;
@@ -19,15 +21,15 @@ export class FailedRequestError extends Error {
 
 export const sendPostRequest = async <ResponseBodyShape>(
   URL: string,
-  body: Record<string, any>,
-  jwt?: string
+  body: Record<string, any>
 ): Promise<ResponseBodyShape> => {
+  const jwt = await getJWT();
   const response = await fetch(URL, {
     method: "POST",
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
-      Authorization: jwt ? `Bearer ${jwt}` : ""
+      ...(jwt && { Authorization: `Bearer ${jwt}` })
     },
     body: JSON.stringify(body)
   });
@@ -41,14 +43,14 @@ export const sendPostRequest = async <ResponseBodyShape>(
 };
 
 export const sendGetRequest = async <ResponseBodyShape>(
-  URL: string,
-  jwt?: string
+  URL: string
 ): Promise<ResponseBodyShape> => {
+  const jwt = await getJWT();
   const response = await fetch(URL, {
     method: "GET",
     headers: {
       Accept: "application/json",
-      Authorization: jwt ? `Bearer ${jwt}` : ""
+      ...(jwt && { Authorization: `Bearer ${jwt}` })
     }
   });
   if (!response.ok) {
@@ -66,15 +68,16 @@ export const sendPatchRequest = async <ResponseBodyShape>(
     operation: "add" | "remove" | "replace";
     path: string;
     value: any;
-  },
-  jwt?: string
+  }
 ): Promise<ResponseBodyShape> => {
+  const jwt = await getJWT();
+
   const response = await fetch(URL, {
     method: "PATCH",
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
-      Authorization: jwt ? `Bearer ${jwt}` : ""
+      ...(jwt && { Authorization: `Bearer ${jwt}` })
     },
     body: JSON.stringify(body)
   });

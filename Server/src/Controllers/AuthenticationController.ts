@@ -55,11 +55,16 @@ export const loginUser: RequestHandler = async function (
 ) {
   try {
     const { email, password } = req.body;
-    const account = await UserModel.findUserByEmail(email);
-    if (!account || !(await comparePasswords(password, account.passwordHash))) {
-      res.status(401).json({ message: "invalid details" });
+    const user = await UserModel.findUserByEmail(email);
+    if (!user || !(await comparePasswords(password, user.passwordHash))) {
+      res.status(401).json({ error: { message: "invalid details" } });
     } else {
-      res.status(200).json({ token: createJWT(account) });
+      res.status(200).json({
+        data: {
+          userID: user._id,
+          token: createJWT(user)
+        }
+      });
     }
   } catch (err) {
     next(err);

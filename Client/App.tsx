@@ -22,6 +22,7 @@ import RestaurantProfile from "./app/screens/RestaurantProfile";
 import { store } from "./app/redux/store";
 import AddProfileImage from "./app/screens/AddProfileImage/AddProfileImage";
 import { useLocalStorageAuthData } from "./app/utils/customHooks";
+import { AuthContext } from "./app/utils/appContext";
 
 // import DetailedPost from "./app/components/Post";
 
@@ -36,17 +37,6 @@ const queryClient = new QueryClient({
     }
   }
 });
-
-export const AuthContext = createContext<
-  ReturnType<typeof useLocalStorageAuthData>
->([
-  {
-    jwt: null,
-    userID: null,
-    status: "loading"
-  },
-  () => {}
-]);
 
 export default function App() {
   const authData = useLocalStorageAuthData();

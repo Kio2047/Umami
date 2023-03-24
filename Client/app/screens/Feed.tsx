@@ -9,20 +9,30 @@ import {
   ScrollView
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
 
 import Post from "../components/Post";
 import type { Post as PostType, FeedScreenProps } from "../types";
-import { getFeedPosts } from "../services/api/apiClient";
+import { getFeedPosts, getUserInfo } from "../services/api/apiClient";
 import colors from "../colors";
 import { StackScreenProps } from "../Types/NavigationTypes";
+import { useLocalStorageAuthData } from "../utils/customHooks";
+import { useQuery } from "@tanstack/react-query";
+import { AuthContext } from "../../App";
 
 const Feed = ({
   navigation
 }: {
   navigation: StackScreenProps<"Feed">["navigation"];
 }) => {
+  // const { jwt, userID, status } = useContext(AuthContext)[0];
+
+  // if (status !== "success") throw new Error();
+  // jwt;
+
+  const getUserInfo = useQuery(["userInfo", id], getUserInfo);
+
   let { _id, name, profileImageURL, posts, friends } =
     route.params.feedUserInfo;
   const firstName = name.match(/[a-z]+/i);

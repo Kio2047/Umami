@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useContext, useState } from "react";
 import {
   View,
   Text,
@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { CommonActions } from "@react-navigation/native";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 
 import styles from "./LoginStyles";
 import logo from "../../assets/logo.png";
@@ -18,19 +18,22 @@ import colors from "../../colors";
 import BottomTab from "../../components/BottomTab/BottomTab";
 import { loginUser } from "../../services/api/apiClient";
 import { FailedRequestError } from "../../services/api/APIUtils";
-import { setJWT } from "../../services/deviceStorageClient";
+import { setJWT, setUserID } from "../../services/deviceStorageClient";
 import { LoginCredentials } from "../../types";
 import { StackScreenProps } from "../../Types/NavigationTypes";
 import { LoginUserResponse } from "../../Types/APIResponseTypes";
 import { useInputFocusTracker } from "../../utils/customHooks";
 import { loginScreenConstants } from "../../constants/constants";
 import CredentialTextInput from "../../components/CredentialTextInput/CredentialTextInput";
+import { AuthContext } from "../../utils/appContext";
 
 const Login = ({
   navigation
 }: {
   navigation: StackScreenProps<"Login">["navigation"];
 }) => {
+  const setAuthData = useContext(AuthContext)[1];
+
   const [loginCredentials, setLoginCredentials] = useState<LoginCredentials>({
     "username or email": "",
     password: ""
@@ -43,6 +46,8 @@ const Login = ({
     password: false
   });
 
+  const [disableButton, setDisableButton] = useState(false);
+
   const [requestErrorCause, setRequestErrorCause] = useState<
     Record<"invalidCredentials" | "applicationError", boolean>
   >({
@@ -50,19 +55,22 @@ const Login = ({
     applicationError: false
   });
 
-  const { refetch, isFetching, isError, isSuccess, error, data } = useQuery(
-    ["sessionToken", loginCredentials],
-    loginUser,
-    {
-      enabled: false,
-      retry: false
-    }
-  );
+  const { mutate, isError, error } = useMutation(loginUser, {
+    retry: false,
+    onSuccess: (data) => handleLogin(data).catch(() => setDisableButton(false)),
+    onError: () => setDisableButton(false)
+  });
 
   const isFocusedOnInput = useInputFocusTracker();
 
   const handleLogin = useCallback(async (responseBody: LoginUserResponse) => {
-    await setJWT(responseBody.token);
+    const [jwt, userID] = [responseBody.data.token, responseBody.data.userID];
+    await Promise.all([setJWT(jwt), setUserID(userID)]);
+    setAuthData({
+      jwt,
+      userID,
+      status: "success"
+    });
     navigation.reset({
       index: 0,
       routes: [
@@ -117,10 +125,6 @@ const Login = ({
       }
   }
 
-  if (isSuccess) {
-    handleLogin(data);
-  }
-
   return (
     <SafeAreaView
       style={
@@ -157,10 +161,11 @@ const Login = ({
       )}
       <TouchableOpacity
         style={[
-          styles.loginButton
+          styles.loginButton,
+          { opacity: disableButton ? 0.5 : 1 }
           // { marginTop: isFocusedOnInput ? 20 : 20 }
         ]}
-        disabled={isFetching ? true : false}
+        disabled={disableButton}
         activeOpacity={0.5}
         onPress={() => {
           if (Object.values(loginCredentials).includes("")) {
@@ -169,7 +174,8 @@ const Login = ({
             );
             setHighlightInput(Object.fromEntries(highlightInputEntries));
           } else {
-            refetch();
+            setDisableButton(true);
+            mutate(loginCredentials);
           }
         }}
       >

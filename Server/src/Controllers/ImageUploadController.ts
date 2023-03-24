@@ -24,7 +24,7 @@ export const generateMediaUploadSignature: RequestHandler = async (
       process.env.CLOUDINARY_API_SECRET
     );
 
-    res.status(200).json({ timestamp, signature });
+    res.status(200).json({ data: { timestamp, signature } });
   } catch (err) {
     next(err);
   }

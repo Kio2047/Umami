@@ -14,8 +14,8 @@ export const getUserInfo: RequestHandler = async (req, res, next) => {
         cause: "invalid user id"
       });
     }
-    const { _id, __v, passwordHash, ...requiredInfo } = user;
-    res.status(200).json(requiredInfo);
+    const { _id, passwordHash, ...requiredInfo } = user.toObject();
+    res.status(200).json({ data: { userInfo: requiredInfo } });
   } catch (err) {
     next(err);
   }
@@ -50,7 +50,9 @@ export const updateUser: RequestHandler = async (
         UserModel.replaceUserprofileImageURL(user, value);
         break;
       default:
-        res.status(400).json({ message: "PATCH action not supported" });
+        res
+          .status(400)
+          .json({ error: { message: "PATCH action not supported" } });
         return;
     }
     res.sendStatus(204);

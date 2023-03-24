@@ -18,29 +18,29 @@ import {
   GetUserInfoResponse,
   LoginUserResponse
 } from "../../Types/APIResponseTypes";
+import { getUserID } from "../deviceStorageClient";
 import { sendPostRequest, sendGetRequest, sendPatchRequest } from "./APIUtils";
 
-const baseURL = "https://c9f7-86-130-8-199.eu.ngrok.io";
+const baseURL =
+  "https://8f47-2a00-23c8-5999-8f01-142b-bc0d-ce7-7d3.eu.ngrok.io";
 
-export const loginUser: QueryFunction<
+export const loginUser: MutationFunction<
   LoginUserResponse,
-  [string, LoginCredentials]
-> = async ({ queryKey }) => {
-  const userCredentials = queryKey[1];
+  LoginCredentials
+> = async (userCredentials) => {
   return sendPostRequest<LoginUserResponse>(
     `${baseURL}/session`,
     userCredentials
   );
 };
 
-export const createNewUser: QueryFunction<
+export const createNewUser: MutationFunction<
   CreateNewUserResponse,
-  [string, NewUserCredentials]
-> = async ({ queryKey }) => {
-  const userCredentials = queryKey[1];
+  NewUserCredentials
+> = async (newUserCredentials) => {
   return sendPostRequest<CreateNewUserResponse>(
     `${baseURL}/session`,
-    userCredentials
+    newUserCredentials
   );
 };
 
@@ -48,11 +48,8 @@ export const getURLSignature: QueryFunction<
   GetURLSignatureResponse,
   [string, string]
 > = async ({ queryKey }) => {
-  const jwt = queryKey[1];
-
   return sendGetRequest<GetURLSignatureResponse>(
-    `${baseURL}/media-upload-signature/profile-image`,
-    jwt
+    `${baseURL}/media-upload-signature/profile-image`
   );
 };
 
@@ -74,23 +71,23 @@ export const uploadCloudinaryMedia: MutationFunction<
 
 export const updateUserProfileImageURL: MutationFunction<
   string,
-  { userID: string; newImageURL: string; jwt: string }
-> = async ({ userID, newImageURL, jwt }) => {
-  return sendPatchRequest<string>(
-    `${baseURL}/user/${userID}`,
-    {
-      operation: "replace",
-      path: "/profileImageURL",
-      value: newImageURL
-    },
-    jwt
-  );
+  {
+    newImageURL: string;
+  }
+> = async ({ newImageURL }) => {
+  return sendPatchRequest<string>(`${baseURL}/user/${await getUserID()}`, {
+    operation: "replace",
+    path: "/profileImageURL",
+    value: newImageURL
+  });
 };
 
-export const getUserInfo: QueryFunction<
-  GetUserInfoResponse,
-  [string, string]
-> = async ({ queryKey }) => {};
+// export const getUserInfo: QueryFunction<
+//   GetUserInfoResponse,
+//   [string]
+// > = async ({ queryKey }) => {
+//   const;
+// };
 
 // export const getFeedPosts = async function (userID: string) {
 //   const response = await fetch(`${baseURL}/user/get-feed-posts/${userID}`);

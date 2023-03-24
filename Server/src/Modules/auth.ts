@@ -41,7 +41,7 @@ export const authenticate: RequestHandler = (req, res, next) => {
   const authHeader = req.headers.authorization;
   if (!authHeader || !authHeader.split(" ")[1]) {
     res.status(401);
-    res.json({ message: "not authorised" });
+    res.json({ error: { message: "not authorised" } });
     return;
   }
 

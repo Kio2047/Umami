@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import { Keyboard } from "react-native";
 import { getJWT, getUserID } from "../services/deviceStorageClient";
 
@@ -33,6 +33,7 @@ export const useLocalStorageAuthData = (): [
     userID: null,
     status: "loading"
   });
+
   useEffect(() => {
     (async () => {
       const [jwt, userID] = await Promise.all([

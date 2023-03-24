@@ -1,32 +1,28 @@
 import { View, Text } from "react-native";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import * as ImagePicker from "expo-image-picker";
-import { v2 as cloudinary } from "cloudinary";
+import { useMutation, useQuery } from "@tanstack/react-query";
 
 import { StackScreenProps } from "../../Types/NavigationTypes";
 import styles from "./AddProfileImageStyles";
-import { getJWT } from "../../services/deviceStorageClient";
-import { useMutation, useQuery } from "@tanstack/react-query";
 import {
   getURLSignature,
   updateUserProfileImageURL,
   uploadCloudinaryMedia
 } from "../../services/api/apiClient";
-import { ImagePickerAsset } from "expo-image-picker";
-import { useLocalStorageAuthData } from "../../utils/customHooks";
+import { AuthContext } from "../../utils/appContext";
 
 const AddProfileImage = ({
   navigation,
   route
 }: StackScreenProps<"AddProfileImage">) => {
-  const [profileImage, setProfileImage] = useState<ImagePickerAsset | null>(
-    null
-  );
+  const [profileImage, setProfileImage] =
+    useState<ImagePicker.ImagePickerAsset | null>(null);
 
-  const { jwt, userID, status } = useLocalStorageAuthData();
+  const { jwt, userID } = useContext(AuthContext)[0];
 
   const { refetch: getCloudinarySignature } = useQuery(
     ["profileImageUploadSignature", jwt!],
@@ -51,9 +47,7 @@ const AddProfileImage = ({
   const uploadImage = useMutation(uploadCloudinaryMedia, {
     onSuccess(data) {
       updateUserProfileImage.mutate({
-        userID: userID!,
-        newImageURL: data.secure_url,
-        jwt: jwt!
+        newImageURL: data.secure_url
       });
     }
   });
@@ -123,7 +117,7 @@ const AddProfileImage = ({
               // { marginTop: isFocusedOnInput ? 20 : 20 }
             ]}
             activeOpacity={0.5}
-            disabled={!(status === "success")}
+            // disabled={!(status === "success")}
             onPress={() => {
               getCloudinarySignature();
             }}
