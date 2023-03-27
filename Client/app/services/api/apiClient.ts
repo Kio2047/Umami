@@ -39,14 +39,14 @@ export const createNewUser: MutationFunction<
   NewUserCredentials
 > = async (newUserCredentials) => {
   return sendPostRequest<CreateNewUserResponse>(
-    `${baseURL}/session`,
+    `${baseURL}/user`,
     newUserCredentials
   );
 };
 
 export const getURLSignature: QueryFunction<
   GetURLSignatureResponse,
-  [string, string]
+  [string]
 > = async ({ queryKey }) => {
   return sendGetRequest<GetURLSignatureResponse>(
     `${baseURL}/media-upload-signature/profile-image`

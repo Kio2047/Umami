@@ -56,5 +56,6 @@ export const useLocalStorageAuthData = (): [
     })();
   }, []);
 
+  // return [authData, setAuthData];
   return [authData, setAuthData];
 };

@@ -36,6 +36,6 @@ export interface CloudinaryImageUploadResponse {
 }
 
 export type GetUserInfoResponse = Omit<
-  CreateNewUserResponse["createdAccount"],
+  CreateNewUserResponse["data"]["createdAccount"],
   "password" | "__v" | "_id"
 >;

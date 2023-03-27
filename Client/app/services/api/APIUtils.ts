@@ -19,6 +19,8 @@ export class FailedRequestError extends Error {
   }
 }
 
+// TODO: access the JWT value from context cache in request functions (without passing in as params via the query key) to avoid repeated grabs from local storage
+
 export const sendPostRequest = async <ResponseBodyShape>(
   URL: string,
   body: Record<string, any>

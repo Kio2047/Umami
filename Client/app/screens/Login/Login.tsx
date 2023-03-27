@@ -58,7 +58,10 @@ const Login = ({
   const { mutate, isError, error } = useMutation(loginUser, {
     retry: false,
     onSuccess: (data) => handleLogin(data).catch(() => setDisableButton(false)),
-    onError: () => setDisableButton(false)
+    onError: () => {
+      console.log(error);
+      setDisableButton(false);
+    }
   });
 
   const isFocusedOnInput = useInputFocusTracker();
@@ -82,20 +85,6 @@ const Login = ({
         }
       ]
     });
-
-    //   dispatch(
-    //     CommonActions.reset({
-    //       index: 0,
-    //       routes: [
-    //         {
-    //           name: "Feed",
-    //           params: {
-    //             feedUserInfo: ""
-    //           }
-    //         }
-    //       ]
-    //     })
-    //   );
   }, []);
 
   // console.log(isFetching);

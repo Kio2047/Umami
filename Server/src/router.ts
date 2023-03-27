@@ -21,7 +21,7 @@ protectedRouter.post(
 );
 
 protectedRouter.patch(
-  "/users/:id/following",
+  "/users/:id",
   updateUserValidations,
   validateRequest,
   UserController.updateUser
@@ -34,13 +34,14 @@ protectedRouter.get(
 
 protectedRouter.get("/user/:id", UserController.getUserInfo);
 
+// protectedRouter.get("/user/get-feed-posts/:userID", PostController.getFeedPosts);
+
 // router.post("/session", AuthController.checkUserExists);
 // router.post(
 //   "/authenticate/check-user-credentials",
 //   AuthController.checkUserCredentials
 // );
 
-// router.get("/user/get-feed-posts/:userID", PostController.getFeedPosts);
 // router.get("/user/get-posts/:userID", PostController.getUserPosts);
 
 // router.post("/user/create-new-post", (req, res) => {

@@ -25,18 +25,18 @@ const AddProfileImage = ({
   const { jwt, userID } = useContext(AuthContext)[0];
 
   const { refetch: getCloudinarySignature } = useQuery(
-    ["profileImageUploadSignature", jwt!],
+    ["profileImageUploadSignature"],
     getURLSignature,
     {
       enabled: false,
       retry: false,
       staleTime: 60 * 60 * 1000,
       cacheTime: 60 * 60 * 1000,
-      onSuccess(data) {
+      onSuccess: (data) => {
         uploadImage.mutate({
           base64Image: `data:image/jpg;base64,${profileImage!.base64}`,
-          signature: data.signature,
-          timestamp: data.timestamp,
+          signature: data.data.signature,
+          timestamp: data.data.timestamp,
           api_key: 374689837836396,
           folder: "user_profile_images"
         });
@@ -45,7 +45,7 @@ const AddProfileImage = ({
   );
   // TODO: try useMutate to see optimistically update the profile image url in the DB before the image has been uploaded to Cloudinary
   const uploadImage = useMutation(uploadCloudinaryMedia, {
-    onSuccess(data) {
+    onSuccess: (data) => {
       updateUserProfileImage.mutate({
         newImageURL: data.secure_url
       });
@@ -53,7 +53,7 @@ const AddProfileImage = ({
   });
 
   const updateUserProfileImage = useMutation(updateUserProfileImageURL, {
-    onSuccess() {
+    onSuccess: () => {
       navigation.reset({
         index: 0,
         routes: [

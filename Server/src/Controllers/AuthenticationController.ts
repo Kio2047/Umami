@@ -16,6 +16,7 @@ export const createNewUser: RequestHandler = async function (
   next
 ) {
   try {
+    console.log(req.body);
     const newUserDataPreHash = req.body;
     const passwordHash = await hashPassword(newUserDataPreHash.password);
     const { password, ...rest } = newUserDataPreHash;
@@ -40,9 +41,9 @@ export const createNewUser: RequestHandler = async function (
       }
     });
   } catch (err) {
-    if (err.code === 11000 && err.keyValue?.email === req.body.email) {
+    if (err.name === "MongoServerError" && err.code === 11000) {
       err.cause = "duplicate value";
-      err.duplicateKey = "email";
+      err.duplicateKey = Object.keys(err.keyPattern)[0];
     }
     next(err);
   }

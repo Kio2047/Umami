@@ -14,7 +14,7 @@ import colors from "./app/colors";
 import LandingPage from "./app/screens/LandingPage/LandingPage";
 import Login from "./app/screens/Login/Login";
 import Register from "./app/screens/Register/Register";
-import Feed from "./app/screens/Feed";
+import Feed from "./app/screens/Feed/Feed";
 import DetailedImage from "./app/screens/DetailedImage";
 import CreateNewPost from "./app/screens/CreateNewPost";
 import UserProfile from "./app/screens/UserProfile";
@@ -48,6 +48,7 @@ export default function App() {
 
   return (
     <QueryClientProvider client={queryClient}>
+      {/* context currently redundant - see API utils to do*/}
       <AuthContext.Provider value={authData}>
         <SafeAreaProvider>
           {/* <SafeAreaView style={styles.appContainer}> */}
@@ -55,10 +56,10 @@ export default function App() {
           <Provider store={store}>
             <NavigationContainer theme={DarkTheme}>
               <RootStack.Navigator
-                // initialRouteName="LandingPage"
-                initialRouteName={
-                  authData[0].status === "success" ? "Feed" : "LandingPage"
-                }
+                initialRouteName="Feed"
+                // initialRouteName={
+                //   authData[0].status === "success" ? "Feed" : "LandingPage"
+                // }
                 screenOptions={{ headerShown: false }}
               >
                 {/* initialParams={{user: "Dan"}} */}
