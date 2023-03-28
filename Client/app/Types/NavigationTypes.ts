@@ -10,7 +10,8 @@ export type RootStackParamList = {
   Login: undefined;
   Register: undefined;
   AddProfileImage: { newUserName: string };
-  Feed: { feedUserInfo: User };
+  // Feed: { feedUserInfo: User };
+  AppTabs: undefined;
   DetailedImage: { imageURL: string };
   CreateNewPost: {
     profileImageURL: string;

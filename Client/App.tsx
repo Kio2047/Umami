@@ -3,26 +3,33 @@ import "react-native-gesture-handler";
 import * as NavigationBar from "expo-navigation-bar";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { StatusBar, Platform } from "react-native";
-import { NavigationContainer, DarkTheme } from "@react-navigation/native";
+import {
+  NavigationContainer,
+  DarkTheme,
+  DefaultTheme
+} from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { Provider } from "react-redux";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { createContext } from "react";
+import ThemeProvider from "@react-navigation/native";
 
 import type { RootStackParamList } from "./app/Types/NavigationTypes";
 import colors from "./app/colors";
 import LandingPage from "./app/screens/LandingPage/LandingPage";
 import Login from "./app/screens/Login/Login";
 import Register from "./app/screens/Register/Register";
-import Feed from "./app/screens/Feed/Feed";
+// import Feed from "./app/screens/Feed/Feed";
 import DetailedImage from "./app/screens/DetailedImage";
 import CreateNewPost from "./app/screens/CreateNewPost";
 import UserProfile from "./app/screens/UserProfile";
 import RestaurantProfile from "./app/screens/RestaurantProfile";
-import { store } from "./app/redux/store";
 import AddProfileImage from "./app/screens/AddProfileImage/AddProfileImage";
+import AppTabs from "./app/components/AppTabs/AppTabs";
+import { store } from "./app/redux/store";
 import { useLocalStorageAuthData } from "./app/utils/customHooks";
 import { AuthContext } from "./app/utils/appContext";
+
+import { Provider as PaperProvider } from "react-native-paper";
 
 // import DetailedPost from "./app/components/Post";
 
@@ -38,6 +45,15 @@ const queryClient = new QueryClient({
   }
 });
 
+const MyTheme = {
+  ...DefaultTheme,
+  colors: {
+    ...DefaultTheme.colors,
+    primary: "rgb(255, 45, 85)",
+    secondaryContainer: "transparent"
+  }
+};
+
 export default function App() {
   const authData = useLocalStorageAuthData();
 
@@ -48,15 +64,18 @@ export default function App() {
 
   return (
     <QueryClientProvider client={queryClient}>
+      {/* <PaperProvider> */}
       {/* context currently redundant - see API utils to do*/}
       <AuthContext.Provider value={authData}>
         <SafeAreaProvider>
           {/* <SafeAreaView style={styles.appContainer}> */}
           <StatusBar></StatusBar>
           <Provider store={store}>
-            <NavigationContainer theme={DarkTheme}>
+            <NavigationContainer theme={MyTheme}>
+              {/* <NavigationContainer> */}
               <RootStack.Navigator
-                initialRouteName="Feed"
+                initialRouteName="AppTabs"
+                // initialRouteName="AppTabs"
                 // initialRouteName={
                 //   authData[0].status === "success" ? "Feed" : "LandingPage"
                 // }
@@ -71,7 +90,12 @@ export default function App() {
                   component={AddProfileImage}
                   initialParams={{ newUserName: "Kio Shiraz" }}
                 />
-                <RootStack.Screen name="Feed" component={Feed} />
+                {/* <RootStack.Screen name="Feed" component={Feed} /> */}
+                <RootStack.Screen
+                  name="AppTabs"
+                  component={AppTabs}
+                  options={{ headerShown: false }}
+                />
                 {/* <RootStack.Screen name="DetailedPost" component={DetailedPost} /> */}
                 <RootStack.Screen
                   name="DetailedImage"
@@ -92,6 +116,7 @@ export default function App() {
           {/* </SafeAreaView> */}
         </SafeAreaProvider>
       </AuthContext.Provider>
+      {/* </PaperProvider> */}
     </QueryClientProvider>
   );
 }

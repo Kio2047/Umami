@@ -14,6 +14,8 @@ import { Ionicons } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
 
+import { useTheme } from "@react-navigation/native";
+
 import Post from "../../components/Post";
 // import type { Post as PostType, FeedScreenProps } from "../../types";
 // import { getFeedPosts, getUserInfo } from "../../services/api/apiClient";
@@ -25,11 +27,13 @@ import styles from "./FeedStyles";
 import { GetUserInfoResponse } from "../../Types/APIResponseTypes";
 import FeedHeader from "../../components/FeedHeader/FeedHeader";
 
-const Feed = ({
-  navigation
-}: {
-  navigation: StackScreenProps<"Feed">["navigation"];
+const Feed = ({}: // navigation
+{
+  // navigation: StackScreenProps<"Feed">["navigation"];
 }) => {
+  // const { colors } = useTheme();
+  // console.log(colors);
+  // console.log("hey");
   const { userID } = useContext(AuthContext)[0];
 
   // const userInfo = useQuery(["userInfo", userID], getUserInfo);
@@ -76,13 +80,13 @@ const Feed = ({
   if (!posts.length) {
     return (
       <SafeAreaView style={styles.container}>
-        <FeedHeader
+        {/* <FeedHeader
           navigation={navigation}
           userInfo={{
             name: userDetails.name,
             profileImageURL: userDetails.profileImageURL
           }}
-        />
+        /> */}
         <View style={styles.noPostsContainer}>
           <View style={styles.eatSleepRepeatIconsContainer}>
             <Ionicons name="fast-food-outline" size={60} color="white" />
@@ -114,9 +118,9 @@ const Feed = ({
         ListHeaderComponent={FeedHeader}
         contentContainerStyle={styles.postsContainer}
         data={posts}
-        renderItem={({ item }) => (
-          <Post postData={item} navigation={navigation}></Post>
-        )}
+        // renderItem={({ item }) => (
+        //   // <Post postData={item} navigation={navigation}></Post>
+        // )}
       />
     </SafeAreaView>
   );
