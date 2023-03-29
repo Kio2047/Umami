@@ -15,6 +15,7 @@ import colors from "../../colors";
 import { useQuery } from "@tanstack/react-query";
 import { AppTabProps } from "../../Types/NavigationTypes";
 import { searchForUsers } from "../../services/api/apiClient";
+import UserSearchResult from "../../components/UserSearchResult/UserSearchResult";
 
 const Search = ({
   navigation
@@ -28,6 +29,7 @@ const Search = ({
     staleTime: 0,
     cacheTime: 1000 * 60 * 5
   });
+  console.log(searchResults.data);
   // const isFocused = useIsFocused();
 
   // if (!isFocused) return null;
@@ -63,13 +65,22 @@ const Search = ({
         </TouchableOpacity>
       </View>
       <FlatList
-        // style={styles.searchResultsList}
-        // ListHeaderComponent={}
-        // contentContainerStyle={styles.postsContainer}
-        data={searchResults.data}
+        style={styles.resultsList}
+        ListHeaderComponent={
+          <View>
+            <Text style={{ color: "white" }}>Hello</Text>
+          </View>
+        }
+        contentContainerStyle={styles.resultsContainer}
+        data={searchResults.data?.data.matchedUsers}
         renderItem={({ item }) => (
-          <View></View>
-          // <Post postData={item} navigation={navigation}></Post>
+          // <Text style={{ color: "white" }}>Bye Bye!</Text>
+          <UserSearchResult
+            profileImageURL={item.profileImageURL}
+            username={item.username}
+            name={item.name}
+            key={item._id}
+          />
         )}
       />
     </SafeAreaView>

@@ -4,7 +4,7 @@ import colors from "../../colors";
 export default StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "flex-start",
+    alignItems: "center",
     paddingTop: 15,
     // paddingHorizontal: 10,
     backgroundColor: colors.backgroundColor
@@ -40,5 +40,15 @@ export default StyleSheet.create({
   },
   cancelButtontext: {
     color: colors.primaryFontColor
+  },
+  resultsList: {
+    width: "97%",
+    borderBottomLeftRadius: 10,
+    borderBottomRightRadius: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 10
+  },
+  resultsContainer: {
+    alignItems: "center"
   }
 });

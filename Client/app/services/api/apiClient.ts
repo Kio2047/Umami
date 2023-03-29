@@ -24,7 +24,7 @@ import { getUserID } from "../deviceStorageClient";
 import { sendPostRequest, sendGetRequest, sendPatchRequest } from "./APIUtils";
 
 const baseURL =
-  "https://8f47-2a00-23c8-5999-8f01-142b-bc0d-ce7-7d3.eu.ngrok.io";
+  "https://c26d-2a00-23c8-5999-8f01-f10d-8c22-7319-37e9.eu.ngrok.io";
 
 export const loginUser: MutationFunction<
   LoginUserResponse,

@@ -18,7 +18,7 @@ export const userSchema = new Schema<RawUserDocument>({
   // _id: Schema.Types.ObjectId,
   email: { type: String, required: true, unique: true, index: true },
   passwordHash: { type: String, required: true },
-  name: { type: String, required: true },
+  name: { type: String, required: true, index: true },
   username: { type: String, required: true, unique: true, index: true },
   profileImageURL: { type: String, required: true },
   following: [{ type: Schema.Types.ObjectId, ref: "User" }],

@@ -4,22 +4,22 @@ import { ParamsDictionary } from "express-serve-static-core";
 import { errorIfUnauthorised } from "../Modules/auth";
 import * as UserModel from "../Models/User";
 
-export const getUserInfo: RequestHandler = async (req, res, next) => {
-  try {
-    const [paramsUserID, userID] = [req.params.id, res.locals.tokenPayload.sub];
-    errorIfUnauthorised(paramsUserID, userID);
-    const user = await UserModel.findUserByID(userID);
-    if (!user) {
-      throw new Error(`No matching user document for the provided id`, {
-        cause: "invalid user id"
-      });
-    }
-    const { _id, passwordHash, ...requiredInfo } = user.toObject();
-    res.status(200).json({ data: { userInfo: requiredInfo } });
-  } catch (err) {
-    next(err);
-  }
-};
+// export const getUserInfo: RequestHandler = async (req, res, next) => {
+//   try {
+//     const [paramsUserID, userID] = [req.params.id, res.locals.tokenPayload.sub];
+//     errorIfUnauthorised(paramsUserID, userID);
+//     const user = await UserModel.findUserByID(userID);
+//     if (!user) {
+//       throw new Error(`No matching user document for the provided id`, {
+//         cause: "invalid user id"
+//       });
+//     }
+//     const { _id, passwordHash, ...requiredInfo } = user.toObject();
+//     res.status(200).json({ data: { userInfo: requiredInfo } });
+//   } catch (err) {
+//     next(err);
+//   }
+// };
 
 export const updateUser: RequestHandler = async (
   req: Request<
@@ -82,4 +82,22 @@ const createFollowConnection = async (
   }
 
   await UserModel.updateFollowingBidirectionally(currentUser, userToFollow);
+};
+
+export const findUsersByQuery: RequestHandler = async (
+  req: Request<ParamsDictionary, any, {}, { q: string }>,
+  res,
+  next
+) => {
+  try {
+    const query = req.query.q;
+    const matchedUsers = await UserModel.findUsersByQuery(query);
+    res.status(200).json({
+      data: {
+        matchedUsers
+      }
+    });
+  } catch (err) {
+    next(err);
+  }
 };

@@ -82,11 +82,17 @@ export const updateFollowingBidirectionally = async function (
   return [updatedFollower, updatedFollowed];
 };
 
-// export const searchForUser = async function (name: string) {
-//   const regex = new RegExp(`^${name}`, "i");
-//   const matchedUsers = await User.find({ name: { $regex: regex } });
-//   return matchedUsers;
-// };
+export const findUsersByQuery = async function (query: string) {
+  const usernameRegex = new RegExp(`(^|_)${query}`, "i");
+  const nameRegex = new RegExp(`(^|\s)${query}`, "i");
+  const matchedUsers = await User.find({
+    $or: [
+      { username: { $regex: usernameRegex } },
+      { name: { $regex: nameRegex } }
+    ]
+  });
+  return matchedUsers;
+};
 
 // export const addPostToUser = async function ({
 //   userID,
