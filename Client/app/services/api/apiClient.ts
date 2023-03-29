@@ -15,8 +15,10 @@ import {
   CloudinaryImageUploadResponse,
   CreateNewUserResponse,
   GetURLSignatureResponse,
-  GetUserInfoResponse,
-  LoginUserResponse
+  GetUserCardInfoResponse,
+  GetUserResultsResponse,
+  LoginUserResponse,
+  UserSearchResultsResponse
 } from "../../Types/APIResponseTypes";
 import { getUserID } from "../deviceStorageClient";
 import { sendPostRequest, sendGetRequest, sendPatchRequest } from "./APIUtils";
@@ -75,15 +77,36 @@ export const updateUserProfileImageURL: MutationFunction<
     newImageURL: string;
   }
 > = async ({ newImageURL }) => {
-  return sendPatchRequest<string>(`${baseURL}/user/${await getUserID()}`, {
+  return sendPatchRequest<string>(`${baseURL}/users/${await getUserID()}`, {
     operation: "replace",
     path: "/profileImageURL",
     value: newImageURL
   });
 };
 
+export const searchForUsers: QueryFunction<
+  UserSearchResultsResponse,
+  ["users", string]
+> = async ({ queryKey }) => {
+  const query = queryKey[1];
+  return sendGetRequest<UserSearchResultsResponse>(
+    `${baseURL}/users?q=${query}`
+  );
+};
+
+// export const getUser: QueryFunction<
+//   GetUserResultsResponse,
+//   ["users", string]
+// > = async ({ queryKey }) => {
+//   return sendGetRequest<string>(`${baseURL}/users/${await getUserID()}`, {
+//     operation: "replace",
+//     path: "/profileImageURL",
+//     value: newImageURL
+//   });
+// };
+
 // export const getUserInfo: QueryFunction<
-//   GetUserInfoResponse,
+//   GetUserCardInfoResponse,
 //   [string]
 // > = async ({ queryKey }) => {
 //   const;

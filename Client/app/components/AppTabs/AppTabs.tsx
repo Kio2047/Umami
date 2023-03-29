@@ -1,4 +1,4 @@
-import { View, Text } from "react-native";
+import { View, Text, SafeAreaView } from "react-native";
 import React from "react";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 
@@ -8,12 +8,15 @@ import styles from "./AppTabsStyles";
 import Feed from "../../screens/Feed/Feed";
 import { StackScreenProps } from "../../Types/NavigationTypes";
 import App from "../../../App";
+import Search from "../../screens/Search/Search";
 
 const Tab = createMaterialBottomTabNavigator();
 
 const AppTabs = ({ navigation, route }: StackScreenProps<"AppTabs">) => {
   return (
+    // <SafeAreaView>
     <Tab.Navigator
+      opti
       // labeled={false}
       shifting={true}
       backBehavior="initialRoute"
@@ -27,6 +30,7 @@ const AppTabs = ({ navigation, route }: StackScreenProps<"AppTabs">) => {
         name="Feed"
         component={Feed}
         options={{
+          // unmountOnBlur: true,
           tabBarLabel: undefined,
           tabBarIcon: ({ color, focused }) => (
             <MaterialCommunityIcons
@@ -68,7 +72,7 @@ const AppTabs = ({ navigation, route }: StackScreenProps<"AppTabs">) => {
       />
       <Tab.Screen
         name="Search"
-        component={Feed}
+        component={Search}
         options={{
           tabBarLabel: undefined,
           tabBarIcon: ({ color, focused }) => (
@@ -95,8 +99,10 @@ const AppTabs = ({ navigation, route }: StackScreenProps<"AppTabs">) => {
         }}
       />
     </Tab.Navigator>
+    // </SafeAreaView>
   );
 };
+
 // <Tab.Navigator
 //   // initialRouteName="Feed"
 //   activeColor="#f0edf6"

@@ -20,16 +20,17 @@ import Post from "../../components/Post";
 // import type { Post as PostType, FeedScreenProps } from "../../types";
 // import { getFeedPosts, getUserInfo } from "../../services/api/apiClient";
 import colors from "../../colors";
-import { StackScreenProps } from "../../Types/NavigationTypes";
+import { AppTabProps, StackScreenProps } from "../../Types/NavigationTypes";
 import { useLocalStorageAuthData } from "../../utils/customHooks";
 import { AuthContext } from "../../utils/appContext";
 import styles from "./FeedStyles";
-import { GetUserInfoResponse } from "../../Types/APIResponseTypes";
+import { GetUserCardInfoResponse } from "../../Types/APIResponseTypes";
 import FeedHeader from "../../components/FeedHeader/FeedHeader";
 
-const Feed = ({}: // navigation
-{
-  // navigation: StackScreenProps<"Feed">["navigation"];
+const Feed = ({
+  navigation
+}: {
+  navigation: AppTabProps<"Feed">["navigation"];
 }) => {
   // const { colors } = useTheme();
   // console.log(colors);
@@ -43,10 +44,10 @@ const Feed = ({}: // navigation
   //   route.params.feedUserInfo;
   // const firstName = name.match(/[a-z]+/i);
 
-  const [userDetails, setUserDetails] = useState<GetUserInfoResponse>({
-    email: "heyo",
-    followers: [],
-    following: [],
+  const [userDetails, setUserDetails] = useState<GetUserCardInfoResponse>({
+    // email: "heyo",
+    // followers: [],
+    // following: [],
     name: "Kio Shiraz",
     profileImageURL:
       "https://scontent.flhr4-3.fna.fbcdn.net/v/t31.18172-8/10450103_513118792154440_1378950822863431258_o.jpg?_nc_cat=101&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=rBWtA6N7D9EAX91YHpj&_nc_ht=scontent.flhr4-3.fna&oh=00_AfC3_mWZtocBh9PPXfvgf2lJeRYOaOnzIb_uyj55R8JQdg&oe=644931C5",
@@ -80,13 +81,12 @@ const Feed = ({}: // navigation
   if (!posts.length) {
     return (
       <SafeAreaView style={styles.container}>
-        {/* <FeedHeader
-          navigation={navigation}
+        <FeedHeader
           userInfo={{
             name: userDetails.name,
             profileImageURL: userDetails.profileImageURL
           }}
-        /> */}
+        />
         <View style={styles.noPostsContainer}>
           <View style={styles.eatSleepRepeatIconsContainer}>
             <Ionicons name="fast-food-outline" size={60} color="white" />
@@ -102,6 +102,7 @@ const Feed = ({}: // navigation
           <TouchableOpacity
             style={styles.findFriendsButton}
             activeOpacity={0.5}
+            onPress={() => navigation.navigate("Search")}
           >
             <Ionicons name="search" size={24} color="white" />
             <Text style={styles.findFriendsButtonText}>Find your friends</Text>
@@ -118,9 +119,10 @@ const Feed = ({}: // navigation
         ListHeaderComponent={FeedHeader}
         contentContainerStyle={styles.postsContainer}
         data={posts}
-        // renderItem={({ item }) => (
-        //   // <Post postData={item} navigation={navigation}></Post>
-        // )}
+        renderItem={({ item }) => (
+          <View></View>
+          // <Post postData={item} navigation={navigation}></Post>
+        )}
       />
     </SafeAreaView>
   );

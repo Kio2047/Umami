@@ -1,8 +1,10 @@
 import { RouteProp } from "@react-navigation/core";
+import { StackNavigationProp } from "@react-navigation/stack";
 import {
-  StackNavigationProp
-  // StackScreenProps as StackProps
-} from "@react-navigation/stack";
+  BottomTabScreenProps,
+  BottomTabNavigationProp
+} from "@react-navigation/bottom-tabs";
+
 import { User } from "../types";
 
 export type RootStackParamList = {
@@ -32,6 +34,17 @@ export type StackScreenProps<screen extends keyof RootStackParamList> = {
   navigation: StackNavigationProp<RootStackParamList, screen>;
   route: RouteProp<RootStackParamList, screen>;
 };
+
+type AppTabsParamlist = {
+  Feed: undefined;
+  Search: undefined;
+};
+
+export type AppTabProps<tab extends keyof AppTabsParamlist> = {
+  navigation: StackNavigationProp<AppTabsParamlist, tab>;
+  route: RouteProp<AppTabsParamlist, tab>;
+};
+
 // export type StackScreenProps<screen extends keyof RootStackParamList> = {
 //   navigation: StackScreenNavigationProp<screen>;
 //   route: StackScreenRouteProp<screen>;
@@ -56,29 +69,29 @@ export type StackScreenProps<screen extends keyof RootStackParamList> = {
 //   navigation: StackScreenNavigationProp<"Register">;
 // };
 
-export type FeedScreenProps = StackScreenProps<"Feed">;
-//______________________________________________
-export type PostNavigationProp =
-  | StackNavigationProp<RootStackParamList, "Feed">
-  | StackNavigationProp<RootStackParamList, "UserProfile">;
-export type DetailedImageScreenProps = StackScreenProps<
-  RootStackParamList,
-  "DetailedImage"
->;
-export type CreateNewPostScreenProps = StackScreenProps<
-  RootStackParamList,
-  "CreateNewPost"
->;
-export type UserProfileScreenProps = StackScreenProps<
-  RootStackParamList,
-  "UserProfile"
->;
-export type RestaurantProfileScreenProps = StackScreenProps<
-  RootStackParamList,
-  "RestaurantProfile"
->;
+// export type FeedScreenProps = StackScreenProps<"Feed">;
+// //______________________________________________
+// export type PostNavigationProp =
+//   | StackNavigationProp<RootStackParamList, "Feed">
+//   | StackNavigationProp<RootStackParamList, "UserProfile">;
+// export type DetailedImageScreenProps = StackScreenProps<
+//   RootStackParamList,
+//   "DetailedImage"
+// >;
+// export type CreateNewPostScreenProps = StackScreenProps<
+//   RootStackParamList,
+//   "CreateNewPost"
+// >;
+// export type UserProfileScreenProps = StackScreenProps<
+//   RootStackParamList,
+//   "UserProfile"
+// >;
+// export type RestaurantProfileScreenProps = StackScreenProps<
+//   RootStackParamList,
+//   "RestaurantProfile"
+// >;
 
-// export type PostScreenProps = StackScreenProps<RootStackParamList, "Post">
-// export type AboutScreenProps = StackScreenProps<RootStackParamList, 'About'>;
-// type SignInScreenRouteAndNavigationProps = StackNavigationProp<RootStackParamList, 'SignIn'>;
-// export type FeedScreenRouteAndNavigationProps = StackScreenProps<RootStackParamList, 'Feed'>;
+// // export type PostScreenProps = StackScreenProps<RootStackParamList, "Post">
+// // export type AboutScreenProps = StackScreenProps<RootStackParamList, 'About'>;
+// // type SignInScreenRouteAndNavigationProps = StackNavigationProp<RootStackParamList, 'SignIn'>;
+// // export type FeedScreenRouteAndNavigationProps = StackScreenProps<RootStackParamList, 'Feed'>;

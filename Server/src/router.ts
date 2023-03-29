@@ -32,7 +32,7 @@ protectedRouter.get(
   ImageUploadController.generateMediaUploadSignature
 );
 
-protectedRouter.get("/user/:id", UserController.getUserInfo);
+protectedRouter.get("/users/:id", UserController.getUserInfo);
 
 // protectedRouter.get("/user/get-feed-posts/:userID", PostController.getFeedPosts);
 

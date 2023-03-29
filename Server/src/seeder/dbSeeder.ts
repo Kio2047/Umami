@@ -53,7 +53,7 @@ const seedDB = async function () {
     name: "Sam Kay",
     username: "sgk_99",
     profileImageURL:
-      "https://scontent.flhr4-4.fna.fbcdn.net/v/t1.6435-9/48409102_2348750308533685_7597051252538605568_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=5OuOo6Qma64AX_UaslZ&_nc_ht=scontent.flhr4-4.fna&oh=00_AT_zHie6NJLu2qk1jWnekcTrM_ThkRzHm-xNIelC_HzslA&oe=630A4F9D",
+      "https://scontent.flhr4-4.fna.fbcdn.net/v/t1.6435-9/48409102_2348750308533685_7597051252538605568_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=Kwl0R9MnQmwAX9FpySt&_nc_ht=scontent.flhr4-4.fna&oh=00_AfAEQVM-Wja6iWzygsIwS-63nG2PI2-8127fBWC1JJvA9w&oe=644B54DD",
     following: [user2ID, user3ID, user4ID],
     followers: [user2ID, user3ID, user4ID]
   });
@@ -65,7 +65,7 @@ const seedDB = async function () {
     name: "Kit Shirley",
     username: "halloumi_queen",
     profileImageURL:
-      "https://scontent.flhr4-4.fna.fbcdn.net/v/t1.6435-9/158877325_10225919781286340_1086636940453703433_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=IulWt2mClmYAX-PX96X&tn=dY5o1Wc_Aecggq7F&_nc_ht=scontent.flhr4-4.fna&oh=00_AT87IGvn3O4hKLZrLOlx--nx7qeRbBlVhCawBRtrNU6jpA&oe=630A20A7",
+      "https://scontent.flhr4-4.fna.fbcdn.net/v/t1.6435-9/158877325_10225919781286340_1086636940453703433_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=3XOxzktIpqAAX-z8H64&_nc_ht=scontent.flhr4-4.fna&oh=00_AfDX-4H0QQOliIQztab08H2FRlcjKx1X67xx1ChcrM27Bg&oe=644B5E27",
     following: [user1ID, user3ID, user4ID],
     followers: [user1ID, user3ID, user4ID]
   });
@@ -77,7 +77,7 @@ const seedDB = async function () {
     name: "Sajjad Irvani",
     username: "sushi_samurai_99",
     profileImageURL:
-      "https://scontent.flhr4-3.fna.fbcdn.net/v/t39.30808-6/271156934_2604480466362629_2547902713314809487_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=SDJUkvKG_f4AX_RpBea&_nc_ht=scontent.flhr4-3.fna&oh=00_AT8orRv86gpNjbhpt_GxQGTPpk61O2WHDyoO8zJ-l5Qzrw&oe=62EA9333",
+      "https://scontent.flhr4-3.fna.fbcdn.net/v/t39.30808-6/271156934_2604480466362629_2547902713314809487_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=lV4wS04xW8MAX-wChi5&_nc_ht=scontent.flhr4-3.fna&oh=00_AfA5rspHwgSIcfvg8ULId8U52N3P3BsYBgfOU6weAIfkwg&oe=6428F573",
     following: [user1ID, user2ID, user4ID],
     followers: [user1ID, user2ID, user4ID]
   });
@@ -89,7 +89,7 @@ const seedDB = async function () {
     name: "Kio Shirazpour",
     username: "kio_shiraz",
     profileImageURL:
-      "https://pps.whatsapp.net/v/t61.24694-24/294839335_732040164522381_3909308128657133963_n.jpg?ccb=11-4&oh=01_AVzN1nRf9nQK2qmEC4KneDbfSBLITOIbUqja1VW4jN6Y6Q&oe=62F43B42",
+      "https://pps.whatsapp.net/v/t61.24694-24/294839335_732040164522381_3909308128657133963_n.jpg?ccb=11-4&oh=01_AdRSOjX_h3jXO4Z0b5aozxE5aEEkv3kGqejfaME9sBPRDQ&oe=643113C2",
     following: [user1ID, user2ID, user3ID],
     followers: [user1ID, user2ID, user3ID]
   });
@@ -101,7 +101,7 @@ const seedDB = async function () {
     name: "Jamie Gareh",
     username: "keep_it_kosher",
     profileImageURL:
-      "https://scontent.flhr4-4.fna.fbcdn.net/v/t1.6435-9/28959335_1715538841837554_6317846194622038016_n.jpg?_nc_cat=108&ccb=1-7&_nc_sid=cdbe9c&_nc_ohc=nQ6aNkcRu98AX-zIDHJ&_nc_ht=scontent.flhr4-4.fna&oh=00_AT_4kRin09WZVeno8CAiQE9HUpbJODAIq7kfndsVJBzV0A&oe=630C2857",
+      "https://scontent.flhr4-3.fna.fbcdn.net/v/t31.18172-8/14258212_1134776443266692_4951971376847035652_o.jpg?_nc_cat=101&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=-HrwR1YWfSEAX-vb8gG&_nc_ht=scontent.flhr4-3.fna&oh=00_AfAHpopYZYxd4zRqpyFR-uTbhgEqvuq8GerNX74QdYQJjQ&oe=644B665A",
     following: [],
     followers: []
   });

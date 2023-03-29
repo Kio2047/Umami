@@ -2,8 +2,9 @@ import { StyleSheet } from "react-native";
 
 export default StyleSheet.create({
   tabNavigatorStyles: {
-    backgroundColor: "#2a2a2a",
+    backgroundColor: "#1f1f1f",
     alignItems: "flex-end",
-    padding: 0
+    padding: 0,
+    height: 75
   }
 });

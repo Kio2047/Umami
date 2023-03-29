@@ -58,7 +58,7 @@ const AddProfileImage = ({
         index: 0,
         routes: [
           {
-            name: "Feed",
+            name: "AppTabs",
             params: {
               feedUserInfo: ""
             }
@@ -132,7 +132,7 @@ const AddProfileImage = ({
               index: 0,
               routes: [
                 {
-                  name: "Feed",
+                  name: "AppTabs",
                   params: {
                     feedUserInfo: ""
                   }

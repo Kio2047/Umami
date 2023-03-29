@@ -35,7 +35,11 @@ export interface CloudinaryImageUploadResponse {
   resource_type: "image";
 }
 
-export type GetUserInfoResponse = Omit<
+export type UserSearchResultsResponse = Pick<
   CreateNewUserResponse["data"]["createdAccount"],
-  "password" | "__v" | "_id"
->;
+  "_id" | "name" | "username" | "profileImageURL"
+>[];
+// export type GetUser = Omit<
+//   CreateNewUserResponse["data"]["createdAccount"],
+//   "password" | "__v" | "_id" | "followers" | "following" | "email"
+// >;

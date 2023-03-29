@@ -7,10 +7,8 @@ import { StackScreenProps } from "../../Types/NavigationTypes";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 const FeedHeader = ({
-  navigation,
   userInfo
 }: {
-  navigation: StackScreenProps<"Feed">["navigation"];
   userInfo: { name: string; profileImageURL: string };
 }) => {
   return (
@@ -18,7 +16,9 @@ const FeedHeader = ({
       <Text style={styles.userGreeting}>
         Good evening, {userInfo.name.split(" ")[0]}
       </Text>
-      <Ionicons name="settings-outline" size={26} color="white" />
+      <TouchableOpacity activeOpacity={0.5}>
+        <Ionicons name="settings-outline" size={26} color="white" />
+      </TouchableOpacity>
       {/* <View style={styles.feedBannerTop}>
 
       </View> */}
