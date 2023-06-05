@@ -3,6 +3,8 @@ import { ParamsDictionary } from "express-serve-static-core";
 
 import { errorIfUnauthorised } from "../Modules/auth";
 import * as UserModel from "../Models/User";
+import { NonNullFindOneResult } from "../types/MongooseCRUDTypes";
+import { RawUserDocument } from "../types/UserTypes";
 
 // export const getUserInfo: RequestHandler = async (req, res, next) => {
 //   try {
@@ -37,9 +39,12 @@ export const updateUser: RequestHandler = async (
     const { path, operation, value } = req.body;
     const user = await UserModel.getUserByID(userID);
     if (!user) {
-      throw new Error(`No matching user document for the provided id`, {
-        cause: "invalid user id"
-      });
+      throw new Error(
+        `No matching user document for the provided id (requesting user)`,
+        {
+          cause: "invalid user id"
+        }
+      );
     }
 
     switch (true) {
@@ -62,26 +67,26 @@ export const updateUser: RequestHandler = async (
 };
 
 const createFollowConnection = async (
-  userID: string,
+  user: NonNullFindOneResult<RawUserDocument>,
   userToFollowID: string
-) => {
-  const [currentUser, userToFollow] = await Promise.all([
-    UserModel.getUserByID(userID, { fields: ["following"] }),
-    UserModel.getUserByID(userToFollowID, { fields: ["followers"] })
-  ]);
-
-  if (!currentUser || !userToFollow) {
-    const bothInvalid =
-      [currentUser, userToFollow].filter((user) => !user).length === 2;
+): Promise<void> => {
+  const userToFollow = await UserModel.getUserByID(userToFollowID, {
+    fields: ["followers"]
+  });
+  if (!userToFollow) {
     throw new Error(
-      `No matching user document for the provided id${bothInvalid ? "" : "s"}`,
+      `No matching user document for the provided id (user to follow)`,
       {
         cause: "invalid user id"
       }
     );
   }
-
-  await UserModel.updateFollowingBidirectionally(currentUser, userToFollow);
+  // TODO: prevent users from following self:
+  // if (follower._id === followed._id) throw new Error()
+  const [updatedFollower, updatedFollowed] = await Promise.all([
+    UserModel.appendUserFollowing(user, userToFollow._id),
+    UserModel.appendUserFollowers(userToFollow, user._id)
+  ]);
 };
 
 export const getUserByID: RequestHandler = async (
@@ -99,11 +104,8 @@ export const getUserByID: RequestHandler = async (
     const user = await UserModel.getUserByID(paramsUserID, {
       fields: ["name"]
     });
-    if (!user) {
-      res.json("no user");
-      return;
-    } else res.json({ name: user });
-    console.log(user);
+    if (!user) res.json("no user");
+    else res.json({ name: user });
   } catch (err) {}
 };
 

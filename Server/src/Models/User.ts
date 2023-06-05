@@ -30,6 +30,7 @@ export const createNewUser = async function (
 };
 
 export const getUserByID = async <
+  // TODO: password hash will be required for resetPassword endpoint
   Fields extends Exclude<keyof RawUserDocument, "passwordHash"> = Exclude<
     keyof RawUserDocument,
     "passwordHash"
@@ -72,7 +73,7 @@ export const replaceUserprofileImageURL = async function (
 
 //TODO: change from save to updateOne for atomicity?
 
-const appendUserFollowers = async function (
+export const appendUserFollowers = async function (
   user: NonNullFindOneResult<RawUserDocument, "followers">,
   newFollowerID: mongoose.Types.ObjectId
 ): UpdateOnePromise<RawUserDocument, "followers"> {
@@ -81,31 +82,13 @@ const appendUserFollowers = async function (
   return user;
 };
 
-const appendUserFollowing = async function (
+export const appendUserFollowing = async function (
   user: NonNullFindOneResult<RawUserDocument, "following">,
   newFollowedID: mongoose.Types.ObjectId
 ): UpdateOnePromise<RawUserDocument, "following"> {
   user.following.push(new mongoose.Types.ObjectId(newFollowedID));
   await user.save();
   return user;
-};
-
-export const updateFollowingBidirectionally = async function (
-  follower: NonNullFindOneResult<RawUserDocument, "following">,
-  followed: NonNullFindOneResult<RawUserDocument, "followers">
-): Promise<
-  [
-    NonNullFindOneResult<RawUserDocument, "following">,
-    NonNullFindOneResult<RawUserDocument, "followers">
-  ]
-> {
-  // TODO: prevent users from following self:
-  // if (follower._id === followed._id) throw new Error()
-  const [updatedFollower, updatedFollowed] = await Promise.all([
-    appendUserFollowing(follower, followed._id),
-    appendUserFollowers(followed, follower._id)
-  ]);
-  return [updatedFollower, updatedFollowed];
 };
 
 export const getUsersByQuery = async function (query: string) {
