@@ -16,7 +16,6 @@ export const createNewUser: RequestHandler = async function (
   next
 ) {
   try {
-    console.log(req.body);
     const newUserDataPreHash = req.body;
     const passwordHash = await hashPassword(newUserDataPreHash.password);
     const { password, ...rest } = newUserDataPreHash;
@@ -32,8 +31,7 @@ export const createNewUser: RequestHandler = async function (
       data: {
         createdAccount: {
           ...newUserAccount.toObject(),
-          // Setting this property to undefined removes it from the JSON response body,
-          // so the hash is not sent back to the client
+          // Setting this property to undefined removes it from the JSON response body so the hash isn't sent back to the client
           passwordHash: undefined,
           password
         },
@@ -56,7 +54,7 @@ export const loginUser: RequestHandler = async function (
 ) {
   try {
     const { email, password } = req.body;
-    const user = await UserModel.findUserByEmail(email);
+    const user = await UserModel.getUserByEmail(email);
     if (!user || !(await comparePasswords(password, user.passwordHash))) {
       res.status(401).json({ error: { message: "invalid details" } });
     } else {

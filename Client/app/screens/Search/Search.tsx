@@ -16,6 +16,7 @@ import { useQuery } from "@tanstack/react-query";
 import { AppTabProps } from "../../Types/NavigationTypes";
 import { searchForUsers } from "../../services/api/apiClient";
 import UserSearchResult from "../../components/UserSearchResult/UserSearchResult";
+import { getJWT, setJWT } from "../../services/deviceStorageClient";
 
 const Search = ({
   navigation
@@ -31,6 +32,10 @@ const Search = ({
   });
   console.log(searchResults.data);
   // const isFocused = useIsFocused();
+
+  // setJWT(
+  //   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NDEwNGVkMzFhZGQ0MDJiYTdmOWVjYjkiLCJpYXQiOjE2Nzg4MTE1MTA2NDl9.7yiqOTXVnu1wVApAgcTh8t1aZCbuIt-7HaFPdvGa1YY"
+  // );
 
   // if (!isFocused) return null;
 
@@ -66,20 +71,21 @@ const Search = ({
       </View>
       <FlatList
         style={styles.resultsList}
-        ListHeaderComponent={
-          <View>
-            <Text style={{ color: "white" }}>Hello</Text>
-          </View>
-        }
+        // ListHeaderComponent={
+        //   <View>
+        //     <Text style={{ color: "white" }}>Hello</Text>
+        //   </View>
+        // }
         contentContainerStyle={styles.resultsContainer}
         data={searchResults.data?.data.matchedUsers}
         renderItem={({ item }) => (
           // <Text style={{ color: "white" }}>Bye Bye!</Text>
           <UserSearchResult
-            profileImageURL={item.profileImageURL}
-            username={item.username}
-            name={item.name}
-            key={item._id}
+          profileImageURL={item.profileImageURL}
+          username={item.username}
+          name={item.name}
+          followed={follo}
+          key={item._id}
           />
         )}
       />

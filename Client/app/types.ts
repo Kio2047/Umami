@@ -29,11 +29,16 @@ export type Post = {
   authorprofileImageURL: string;
 };
 
-export type User = {
+export type CompleteUserDocument = {
+  _id: string;
+  email: string;
+  passwordHash: string;
   name: string;
+  username: string;
   profileImageURL: string;
-  posts: string[];
-  friends: string[];
+  // TODO: consider using virtuals and an intermediary collection for many-many following / followers relationship
+  following: string[];
+  followers: string[];
 };
 
 export type LoginCredentials = {

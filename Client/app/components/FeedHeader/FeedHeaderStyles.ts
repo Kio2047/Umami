@@ -18,6 +18,10 @@ export default StyleSheet.create({
     color: colors.primaryFontColor,
     fontSize: 23,
     fontWeight: "500"
+  },
+  feedIconsContainer: {
+    flexDirection: "row",
+    gap: 10
   }
   // newPostField: {
   //   flexDirection: "row",

@@ -1,9 +1,12 @@
 import { mongoose } from "./index";
 import { RawUserDocument } from "../types/UserTypes";
+// import { RawUserDocument, RawUserDocumentWithID } from "../types/UserTypes";
 import {
   FindOnePromise,
   CreateOnePromise,
-  UpdateOnePromise
+  UpdateOnePromise,
+  FindOneResult,
+  NonNullFindOneResult
 } from "../types/MongooseCRUDTypes";
 
 import { ProcessedNewUserData } from "../types/UserTypes";
@@ -11,6 +14,7 @@ import { NewDummyUserData } from "../types/SeedTypes";
 // import { UserCredentials, UserAndPostIDs } from "../types/types";
 import { userSchema } from "./schemas";
 import { HydratedDocument, NullExpression, Types } from "mongoose";
+import { typeSafeSelect } from "../utils";
 
 const User = mongoose.model<RawUserDocument>("User", userSchema);
 
@@ -25,7 +29,31 @@ export const createNewUser = async function (
   return newUser;
 };
 
-export const findUserByEmail = async function (
+export const getUserByID = async <
+  Fields extends Exclude<keyof RawUserDocument, "passwordHash"> = Exclude<
+    keyof RawUserDocument,
+    "passwordHash"
+  >
+>(
+  id: string,
+  options?: {
+    fields: Fields[];
+  }
+): FindOnePromise<RawUserDocument, Fields> => {
+  let account: FindOneResult<RawUserDocument, Fields>;
+  if (options?.fields) {
+    account = await User.findById(id).select(options.fields.join(" "));
+  } else {
+    account = await User.findById(id).select("-passwordHash");
+  }
+  return account;
+
+  // <
+  //   fields extends Extract<keyof RawUserDocumentWithID, string>
+  // >
+};
+
+export const getUserByEmail = async function (
   email: string
 ): FindOnePromise<RawUserDocument> {
   const account = await User.findOne({
@@ -34,17 +62,8 @@ export const findUserByEmail = async function (
   return account;
 };
 
-export const findUserByID = async function (
-  id: string
-): FindOnePromise<RawUserDocument> {
-  const account = await User.findOne({
-    _id: new mongoose.Types.ObjectId(id)
-  });
-  return account;
-};
-
 export const replaceUserprofileImageURL = async function (
-  user: HydratedDocument<RawUserDocument>,
+  user: Omit<HydratedDocument<RawUserDocument>, "passwordHash">,
   newURL: string
 ) {
   user.profileImageURL = newURL;
@@ -54,27 +73,34 @@ export const replaceUserprofileImageURL = async function (
 //TODO: change from save to updateOne for atomicity?
 
 const appendUserFollowers = async function (
-  user: HydratedDocument<RawUserDocument>,
+  user: NonNullFindOneResult<RawUserDocument, "followers">,
   newFollowerID: mongoose.Types.ObjectId
-): UpdateOnePromise<RawUserDocument> {
+): UpdateOnePromise<RawUserDocument, "followers"> {
   user.followers.push(new mongoose.Types.ObjectId(newFollowerID));
   await user.save();
   return user;
 };
 
 const appendUserFollowing = async function (
-  user: HydratedDocument<RawUserDocument>,
+  user: NonNullFindOneResult<RawUserDocument, "following">,
   newFollowedID: mongoose.Types.ObjectId
-): UpdateOnePromise<RawUserDocument> {
+): UpdateOnePromise<RawUserDocument, "following"> {
   user.following.push(new mongoose.Types.ObjectId(newFollowedID));
   await user.save();
   return user;
 };
 
 export const updateFollowingBidirectionally = async function (
-  follower: HydratedDocument<RawUserDocument>,
-  followed: HydratedDocument<RawUserDocument>
-): Promise<HydratedDocument<RawUserDocument>[]> {
+  follower: NonNullFindOneResult<RawUserDocument, "following">,
+  followed: NonNullFindOneResult<RawUserDocument, "followers">
+): Promise<
+  [
+    NonNullFindOneResult<RawUserDocument, "following">,
+    NonNullFindOneResult<RawUserDocument, "followers">
+  ]
+> {
+  // TODO: prevent users from following self:
+  // if (follower._id === followed._id) throw new Error()
   const [updatedFollower, updatedFollowed] = await Promise.all([
     appendUserFollowing(follower, followed._id),
     appendUserFollowers(followed, follower._id)
@@ -82,15 +108,15 @@ export const updateFollowingBidirectionally = async function (
   return [updatedFollower, updatedFollowed];
 };
 
-export const findUsersByQuery = async function (query: string) {
+export const getUsersByQuery = async function (query: string) {
   const usernameRegex = new RegExp(`(^|_)${query}`, "i");
-  const nameRegex = new RegExp(`(^|\s)${query}`, "i");
+  const nameRegex = new RegExp(`(^| )${query}`, "i");
   const matchedUsers = await User.find({
     $or: [
       { username: { $regex: usernameRegex } },
       { name: { $regex: nameRegex } }
     ]
-  });
+  }).select("_id name username profileImageURL");
   return matchedUsers;
 };
 

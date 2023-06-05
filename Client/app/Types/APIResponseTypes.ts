@@ -43,7 +43,8 @@ export interface UserSearchResultsResponse {
     >[];
   };
 }
-// export type GetUser = Omit<
-//   CreateNewUserResponse["data"]["createdAccount"],
-//   "password" | "__v" | "_id" | "followers" | "following" | "email"
-// >;
+
+export type GetUserInfo = Omit<
+  CreateNewUserResponse["data"]["createdAccount"],
+  "password" | "__v" | "_id" | "followers" | "following" | "email"
+>;

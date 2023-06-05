@@ -17,7 +17,7 @@ export default StyleSheet.create({
     height: 50,
     borderRadius: 50
   },
-
+  namesContainer: {},
   usernameText: {
     color: "white",
     fontWeight: "600"

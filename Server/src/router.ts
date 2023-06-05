@@ -32,8 +32,9 @@ protectedRouter.get(
   ImageUploadController.generateMediaUploadSignature
 );
 
-// protectedRouter.get("/users/:id", UserController.getUserInfo);
-protectedRouter.get("/users", UserController.findUsersByQuery);
+protectedRouter.get("/users/:id", UserController.getUserByID);
+
+protectedRouter.get("/users", UserController.getUsersByQuery);
 
 // protectedRouter.get("/user/get-feed-posts/:userID", PostController.getFeedPosts);
 

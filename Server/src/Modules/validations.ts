@@ -113,6 +113,9 @@ const pathIsprofileImageURL: CustomValidator = (value, { req }) => {
 const pathIsFollowing: CustomValidator = (value, { req }) => {
   return req.body.path === "/following";
 };
+// const followIdIsNotOwn: CustomValidator = (value, { req }) => {
+//   return;
+// };
 
 export const updateUserValidations = [
   body("operation").exists().isString().isIn(["add", "remove", "replace"]),
@@ -131,3 +134,6 @@ export const updateUserValidations = [
       .custom(isValidCloudinaryImageURL("user_profile_images"))
   ])
 ];
+
+//TODO: add validations to ensure request fields which aren't part of the user document cannot be added to the url
+// const getUserValidations;

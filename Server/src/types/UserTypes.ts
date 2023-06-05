@@ -1,7 +1,6 @@
 import { Types } from "mongoose";
 
 export interface RawUserDocument {
-  // _id: Types.ObjectId;
   email: string;
   passwordHash: string;
   name: string;
@@ -11,6 +10,10 @@ export interface RawUserDocument {
   following: Types.ObjectId[];
   followers: Types.ObjectId[];
 }
+
+// export interface RawUserDocumentWithID extends RawUserDocument {
+//   _id: Types.ObjectId;
+// }
 
 export interface NewUserData {
   email: string;

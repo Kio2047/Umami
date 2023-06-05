@@ -16,9 +16,14 @@ const FeedHeader = ({
       <Text style={styles.userGreeting}>
         Good evening, {userInfo.name.split(" ")[0]}
       </Text>
-      <TouchableOpacity activeOpacity={0.5}>
-        <Ionicons name="settings-outline" size={26} color="white" />
-      </TouchableOpacity>
+      <View style={styles.feedIconsContainer}>
+        <TouchableOpacity activeOpacity={0.5}>
+          <Ionicons name="notifications-outline" size={26} color="white" />
+        </TouchableOpacity>
+        <TouchableOpacity activeOpacity={0.5}>
+          <Ionicons name="settings-outline" size={26} color="white" />
+        </TouchableOpacity>
+      </View>
       {/* <View style={styles.feedBannerTop}>
 
       </View> */}

@@ -24,7 +24,7 @@ import { getUserID } from "../deviceStorageClient";
 import { sendPostRequest, sendGetRequest, sendPatchRequest } from "./APIUtils";
 
 const baseURL =
-  "https://c26d-2a00-23c8-5999-8f01-f10d-8c22-7319-37e9.eu.ngrok.io";
+  "https://20e8-2a00-23c8-5999-8f01-f504-e714-e9cf-68da.eu.ngrok.io";
 
 export const loginUser: MutationFunction<
   LoginUserResponse,
@@ -94,16 +94,15 @@ export const searchForUsers: QueryFunction<
   );
 };
 
-// export const getUser: QueryFunction<
-//   GetUserResultsResponse,
-//   ["users", string]
-// > = async ({ queryKey }) => {
-//   return sendGetRequest<string>(`${baseURL}/users/${await getUserID()}`, {
-//     operation: "replace",
-//     path: "/profileImageURL",
-//     value: newImageURL
-//   });
-// };
+export const getLoggedInUserInfo: QueryFunction<>
+
+export const getUserInfo: QueryFunction<
+  GetUserResultsResponse,
+  ["users", string]
+> = async ({ queryKey }) => {
+  const userID = queryKey[1];
+  return sendGetRequest<string>(`${baseURL}/users/${userID}`);
+};
 
 // export const getUserInfo: QueryFunction<
 //   GetUserCardInfoResponse,
