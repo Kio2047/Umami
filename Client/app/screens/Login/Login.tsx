@@ -25,24 +25,24 @@ import { LoginUserResponse } from "../../Types/APIResponseTypes";
 import { useInputFocusTracker } from "../../utils/customHooks";
 import { loginScreenConstants } from "../../constants/constants";
 import CredentialTextInput from "../../components/CredentialTextInput/CredentialTextInput";
-import { AuthContext } from "../../utils/appContext";
+import { AppContext } from "../../utils/appContext";
 
 const Login = ({
   navigation
 }: {
   navigation: StackScreenProps<"Login">["navigation"];
 }) => {
-  const setAuthData = useContext(AuthContext)[1];
+  const setAuthData = useContext(AppContext).auth[1];
 
   const [loginCredentials, setLoginCredentials] = useState<LoginCredentials>({
-    "username or email": "",
+    usernameOrEmail: "",
     password: ""
   });
 
   const [highlightInput, setHighlightInput] = useState<{
     [k in keyof LoginCredentials]: boolean;
   }>({
-    "username or email": false,
+    usernameOrEmail: false,
     password: false
   });
 
@@ -86,8 +86,6 @@ const Login = ({
       ]
     });
   }, []);
-
-  // console.log(isFetching);
 
   if (isError && error instanceof Error) {
     if (
@@ -151,8 +149,8 @@ const Login = ({
       <TouchableOpacity
         style={[
           styles.loginButton,
-          { opacity: disableButton ? 0.5 : 1 }
-          // { marginTop: isFocusedOnInput ? 20 : 20 }
+          { opacity: disableButton ? 0.5 : 1 },
+          { marginTop: isFocusedOnInput ? 10 : 20 }
         ]}
         disabled={disableButton}
         activeOpacity={0.5}

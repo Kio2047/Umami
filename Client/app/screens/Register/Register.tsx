@@ -1,18 +1,7 @@
-import React, {
-  useCallback,
-  useContext,
-  useEffect,
-  useRef,
-  useState
-} from "react";
+import React, { useCallback, useContext, useState } from "react";
 import {
-  View,
   Text,
   Image,
-  TextInput,
-  NativeSyntheticEvent,
-  TextInputChangeEventData,
-  Keyboard,
   TouchableOpacity,
   KeyboardAvoidingView
 } from "react-native";
@@ -122,6 +111,7 @@ const Register = ({
             );
           }
         )}
+        {/* TODO: make the displayed text change with the focused textinput (e.g., when focused on username box state permitted characters) */}
         {isFocusedOnInput && (
           <Text
             style={[

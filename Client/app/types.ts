@@ -42,7 +42,7 @@ export type CompleteUserDocument = {
 };
 
 export type LoginCredentials = {
-  "username or email": string;
+  usernameOrEmail: string;
   password: string;
 };
 

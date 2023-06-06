@@ -6,9 +6,11 @@ import * as UserModel from "../Models/User";
 import { RequestHandler } from "express";
 import {
   ProcessedNewUserData,
+  RawUserDocument,
   ReceivedNewUserData,
   UserCredentials
 } from "../types/UserTypes";
+// import { FindOneResult } from "../types/MongooseCRUDTypes";
 
 export const createNewUser: RequestHandler = async function (
   req: Request<ParamsDictionary, any, ReceivedNewUserData>,
@@ -53,8 +55,13 @@ export const loginUser: RequestHandler = async function (
   next
 ) {
   try {
-    const { email, password } = req.body;
-    const user = await UserModel.getUserByEmail(email);
+    const { usernameOrEmail, password } = req.body;
+    let user: Awaited<ReturnType<typeof UserModel.getUserByEmail>>;
+    if (usernameOrEmail.includes("@")) {
+      user = await UserModel.getUserByEmail(usernameOrEmail);
+    } else {
+      user = await UserModel.getUserByUsername(usernameOrEmail);
+    }
     if (!user || !(await comparePasswords(password, user.passwordHash))) {
       res.status(401).json({ error: { message: "invalid details" } });
     } else {

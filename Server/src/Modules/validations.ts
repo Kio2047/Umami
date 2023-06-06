@@ -69,7 +69,13 @@ export const createNewUserValidations = [
 ];
 
 export const loginUserValidations = [
-  body("email").exists().isString().isEmail().normalizeEmail(),
+  body("usernameOrEmail").exists().isString(),
+  oneOf([
+    body("usernameOrEmail").isEmail().normalizeEmail(),
+    body("usernameOrEmail")
+      .not()
+      .matches(/[^\w\.]/)
+  ]),
   body("password").exists().isString()
 ];
 

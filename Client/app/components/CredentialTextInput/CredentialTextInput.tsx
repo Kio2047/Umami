@@ -1,9 +1,6 @@
 import React, { useCallback } from "react";
 import {
-  View,
-  Text,
   TextInput,
-  KeyboardTypeOptions,
   NativeSyntheticEvent,
   TextInputFocusEventData
 } from "react-native";

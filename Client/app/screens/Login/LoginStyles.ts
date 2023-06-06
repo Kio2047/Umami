@@ -27,8 +27,7 @@ export default StyleSheet.create({
     width: 330,
     height: 50,
     backgroundColor: colors.defaultButtonColor,
-    borderRadius: 7,
-    marginTop: 20
+    borderRadius: 7
   },
   buttonText: {
     textAlign: "center",

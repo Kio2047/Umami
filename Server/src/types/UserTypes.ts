@@ -31,6 +31,6 @@ export interface ProcessedNewUserData extends NewUserData {
 }
 
 export interface UserCredentials {
-  email: string;
+  usernameOrEmail: string;
   password: string;
 }

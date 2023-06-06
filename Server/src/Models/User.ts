@@ -63,6 +63,15 @@ export const getUserByEmail = async function (
   return account;
 };
 
+export const getUserByUsername = async function (
+  username: string
+): FindOnePromise<RawUserDocument> {
+  const account = await User.findOne({
+    username: username
+  });
+  return account;
+};
+
 export const replaceUserprofileImageURL = async function (
   user: Omit<HydratedDocument<RawUserDocument>, "passwordHash">,
   newURL: string
