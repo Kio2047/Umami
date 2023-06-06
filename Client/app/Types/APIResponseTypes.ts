@@ -15,7 +15,6 @@ export interface CreateNewUserResponse {
       following: string[];
       followers: string[];
       _id: string;
-      __v: number;
       password: string;
     };
     token: string;
@@ -46,5 +45,5 @@ export interface UserSearchResultsResponse {
 
 export type GetUserInfo = Omit<
   CreateNewUserResponse["data"]["createdAccount"],
-  "password" | "__v" | "_id" | "followers" | "following" | "email"
+  "password" | "_id" | "followers" | "following" | "email"
 >;

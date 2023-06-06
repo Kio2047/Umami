@@ -7,7 +7,8 @@ import {
   NativeSyntheticEvent,
   TextInputChangeEventData,
   Keyboard,
-  TouchableOpacity
+  TouchableOpacity,
+  KeyboardAvoidingView
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -24,14 +25,14 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import CredentialTextInput from "../../components/CredentialTextInput/CredentialTextInput";
 import { CreateNewUserResponse } from "../../Types/APIResponseTypes";
 import { setJWT, setUserID } from "../../services/deviceStorageClient";
-import { AuthContext } from "../../utils/appContext";
+import { AppContext } from "../../utils/appContext";
 
 const Register = ({
   navigation
 }: {
   navigation: StackScreenProps<"Register">["navigation"];
 }) => {
-  const setAuthData = useContext(AuthContext)[1];
+  const setAuthData = useContext(AppContext).auth[1];
 
   const [newUserCredentials, setNewUserCredentials] =
     useState<NewUserCredentials>({
@@ -93,40 +94,41 @@ const Register = ({
       {!isFocusedOnInput && (
         <Image style={styles.logo} source={logo} resizeMode="contain" />
       )}
-
-      {registerScreenConstants.inputConstants.map((formFieldConstants) => {
-        return (
-          <CredentialTextInput
-            formFieldConstants={formFieldConstants}
-            highlightInput={highlightInput}
-            setHighlightInput={setHighlightInput}
-            setCredentials={setNewUserCredentials}
-            key={formFieldConstants.formField}
-          />
-        );
-      })}
-      <TouchableOpacity
-        style={[
-          styles.signUpButton,
-          { opacity: disableButton ? 0.5 : 1 }
-          // { marginTop: isFocusedOnInput ? 20 : 20 }
-        ]}
-        disabled={disableButton}
-        activeOpacity={0.5}
-        onPress={() => {
-          if (Object.values(newUserCredentials).includes("")) {
-            const highlightInputEntries = Object.entries(
-              newUserCredentials
-            ).map(([field, value]) => [field, value === "" ? true : false]);
-            setHighlightInput(Object.fromEntries(highlightInputEntries));
-          } else {
-            setDisableButton(true);
-            mutate(newUserCredentials);
-          }
-        }}
-      >
-        <Text style={styles.buttonText}>Sign up</Text>
-      </TouchableOpacity>
+      <KeyboardAvoidingView>
+        {registerScreenConstants.inputConstants.map((formFieldConstants) => {
+          return (
+            <CredentialTextInput
+              formFieldConstants={formFieldConstants}
+              highlightInput={highlightInput}
+              setHighlightInput={setHighlightInput}
+              setCredentials={setNewUserCredentials}
+              key={formFieldConstants.formField}
+            />
+          );
+        })}
+        <TouchableOpacity
+          style={[
+            styles.signUpButton,
+            { opacity: disableButton ? 0.5 : 1 }
+            // { marginTop: isFocusedOnInput ? 20 : 20 }
+          ]}
+          disabled={disableButton}
+          activeOpacity={0.5}
+          onPress={() => {
+            if (Object.values(newUserCredentials).includes("")) {
+              const highlightInputEntries = Object.entries(
+                newUserCredentials
+              ).map(([field, value]) => [field, value === "" ? true : false]);
+              setHighlightInput(Object.fromEntries(highlightInputEntries));
+            } else {
+              setDisableButton(true);
+              mutate(newUserCredentials);
+            }
+          }}
+        >
+          <Text style={styles.buttonText}>Sign up</Text>
+        </TouchableOpacity>
+      </KeyboardAvoidingView>
       {!isFocusedOnInput && (
         <BottomTab
           message="Already have an account? Sign in&nbsp;"

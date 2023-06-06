@@ -32,7 +32,7 @@ export type Post = {
 export type CompleteUserDocument = {
   _id: string;
   email: string;
-  passwordHash: string;
+  // passwordHash: string;
   name: string;
   username: string;
   profileImageURL: string;

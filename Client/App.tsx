@@ -24,12 +24,13 @@ import CreateNewPost from "./app/screens/CreateNewPost";
 import UserProfile from "./app/screens/UserProfile";
 import RestaurantProfile from "./app/screens/RestaurantProfile";
 import AddProfileImage from "./app/screens/AddProfileImage/AddProfileImage";
-import AppTabs from "./app/components/AppTabs/AppTabs";
+// import AppTabs from "./app/components/AppTabs/AppTabs";
 import { store } from "./app/redux/store";
 import { useLocalStorageAuthData } from "./app/utils/customHooks";
-import { AuthContext } from "./app/utils/appContext";
+import { AppContext } from "./app/utils/appContext";
 
 import { Provider as PaperProvider } from "react-native-paper";
+import { useEffect } from "react";
 
 // import DetailedPost from "./app/components/Post";
 
@@ -50,6 +51,7 @@ const MyTheme = {
   colors: {
     ...DefaultTheme.colors,
     primary: "rgb(255, 45, 85)",
+    background: "#000000",
     secondaryContainer: "transparent"
   }
 };
@@ -66,7 +68,7 @@ export default function App() {
     <QueryClientProvider client={queryClient}>
       {/* <PaperProvider> */}
       {/* context currently redundant - see API utils to do*/}
-      <AuthContext.Provider value={authData}>
+      <AppContext.Provider value={{ auth: authData }}>
         <SafeAreaProvider>
           {/* <SafeAreaView style={styles.appContainer}> */}
           <StatusBar></StatusBar>
@@ -91,11 +93,11 @@ export default function App() {
                   initialParams={{ newUserName: "Kio Shiraz" }}
                 />
                 {/* <RootStack.Screen name="Feed" component={Feed} /> */}
-                <RootStack.Screen
+                {/* <RootStack.Screen
                   name="AppTabs"
                   component={AppTabs}
                   options={{ headerShown: false }}
-                />
+                /> */}
                 {/* <RootStack.Screen name="DetailedPost" component={DetailedPost} /> */}
                 <RootStack.Screen
                   name="DetailedImage"
@@ -115,7 +117,7 @@ export default function App() {
           </Provider>
           {/* </SafeAreaView> */}
         </SafeAreaProvider>
-      </AuthContext.Provider>
+      </AppContext.Provider>
       {/* </PaperProvider> */}
     </QueryClientProvider>
   );

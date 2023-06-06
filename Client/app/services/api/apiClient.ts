@@ -15,8 +15,8 @@ import {
   CloudinaryImageUploadResponse,
   CreateNewUserResponse,
   GetURLSignatureResponse,
-  GetUserCardInfoResponse,
-  GetUserResultsResponse,
+  // GetUserCardInfoResponse,
+  // GetUserResultsResponse,
   LoginUserResponse,
   UserSearchResultsResponse
 } from "../../Types/APIResponseTypes";
@@ -94,15 +94,15 @@ export const searchForUsers: QueryFunction<
   );
 };
 
-export const getLoggedInUserInfo: QueryFunction<>
+// export const getLoggedInUserInfo: QueryFunction<>
 
-export const getUserInfo: QueryFunction<
-  GetUserResultsResponse,
-  ["users", string]
-> = async ({ queryKey }) => {
-  const userID = queryKey[1];
-  return sendGetRequest<string>(`${baseURL}/users/${userID}`);
-};
+// export const getUserInfo: QueryFunction<
+//   GetUserResultsResponse,
+//   ["users", string]
+// > = async ({ queryKey }) => {
+//   const userID = queryKey[1];
+//   return sendGetRequest<string>(`${baseURL}/users/${userID}`);
+// };
 
 // export const getUserInfo: QueryFunction<
 //   GetUserCardInfoResponse,

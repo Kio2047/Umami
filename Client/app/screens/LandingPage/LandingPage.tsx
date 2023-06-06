@@ -27,7 +27,7 @@ const LandingPage = ({
       <Image style={styles.logo} source={logo} resizeMode="contain" />
 
       <View style={styles.buttonContainer}>
-        {/* add accessibility to the touchable opacities */}
+        {/* TODO: add accessibility to the touchable opacities */}
         <TouchableOpacity
           style={styles.topButton}
           activeOpacity={0.5}
