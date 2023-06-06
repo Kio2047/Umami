@@ -1,4 +1,10 @@
-import React, { useCallback, useContext, useEffect, useState } from "react";
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState
+} from "react";
 import {
   View,
   Text,
@@ -53,6 +59,8 @@ const Register = ({
 
   const [disableButton, setDisableButton] = useState(false);
 
+  const [showPasswordReqs, setShowPasswordReqs] = useState(false);
+
   const isFocusedOnInput = useInputFocusTracker();
 
   const { mutate, isError, error } = useMutation(createNewUser, {
@@ -95,22 +103,42 @@ const Register = ({
         <Image style={styles.logo} source={logo} resizeMode="contain" />
       )}
       <KeyboardAvoidingView>
-        {registerScreenConstants.inputConstants.map((formFieldConstants) => {
-          return (
-            <CredentialTextInput
-              formFieldConstants={formFieldConstants}
-              highlightInput={highlightInput}
-              setHighlightInput={setHighlightInput}
-              setCredentials={setNewUserCredentials}
-              key={formFieldConstants.formField}
-            />
-          );
-        })}
+        {registerScreenConstants.inputConstants.map(
+          (formFieldConstants, index) => {
+            return (
+              <CredentialTextInput
+                formFieldConstants={formFieldConstants}
+                highlightInput={highlightInput}
+                setHighlightInput={setHighlightInput}
+                setCredentials={setNewUserCredentials}
+                key={formFieldConstants.formField}
+                innerOnFocus={
+                  index === 3 ? () => setShowPasswordReqs(true) : undefined
+                }
+                innerOnBlur={
+                  index === 3 ? () => setShowPasswordReqs(false) : undefined
+                }
+              />
+            );
+          }
+        )}
+        {isFocusedOnInput && (
+          <Text
+            style={[
+              styles.passwordStrengthText,
+              { color: showPasswordReqs ? colors.primaryFontColor : "#000000" }
+            ]}
+          >
+            Password must include:{"\n"}• one number {"\n"}• one special
+            character
+          </Text>
+        )}
         <TouchableOpacity
           style={[
             styles.signUpButton,
-            { opacity: disableButton ? 0.5 : 1 }
-            // { marginTop: isFocusedOnInput ? 20 : 20 }
+            { opacity: disableButton ? 0.5 : 1 },
+            { marginBottom: isFocusedOnInput ? 10 : undefined }
+            // { marginTop: isFocusedOnInput ? 40 : 20 }
           ]}
           disabled={disableButton}
           activeOpacity={0.5}
@@ -120,6 +148,11 @@ const Register = ({
                 newUserCredentials
               ).map(([field, value]) => [field, value === "" ? true : false]);
               setHighlightInput(Object.fromEntries(highlightInputEntries));
+            } else if (
+              !/[0-9]/.test(newUserCredentials.password) ||
+              !/[^A-Za-z0-9]/.test(newUserCredentials.password)
+            ) {
+              setHighlightInput({ ...highlightInput, password: true });
             } else {
               setDisableButton(true);
               mutate(newUserCredentials);

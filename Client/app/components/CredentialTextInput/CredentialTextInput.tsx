@@ -1,5 +1,12 @@
 import React, { useCallback } from "react";
-import { View, Text, TextInput, KeyboardTypeOptions } from "react-native";
+import {
+  View,
+  Text,
+  TextInput,
+  KeyboardTypeOptions,
+  NativeSyntheticEvent,
+  TextInputFocusEventData
+} from "react-native";
 
 import styles from "./CredentialTextInputStyles";
 import { LoginCredentials, NewUserCredentials } from "../../types";
@@ -19,13 +26,17 @@ interface CredentialTextInputProps<
     }>
   >;
   setCredentials: React.Dispatch<React.SetStateAction<T>>;
+  innerOnFocus?: (e: NativeSyntheticEvent<TextInputFocusEventData>) => void;
+  innerOnBlur?: (e: NativeSyntheticEvent<TextInputFocusEventData>) => void;
 }
 
 const CredentialTextInput = <T extends LoginCredentials | NewUserCredentials>({
   formFieldConstants,
   highlightInput,
   setHighlightInput,
-  setCredentials
+  setCredentials,
+  innerOnFocus,
+  innerOnBlur
 }: CredentialTextInputProps<T>) => {
   const textInputChangeHandler = useCallback(
     (formField: keyof T) => (text: string) => {
@@ -65,6 +76,8 @@ const CredentialTextInput = <T extends LoginCredentials | NewUserCredentials>({
       keyboardType={formFieldConstants.keyboardType ?? "default"}
       secureTextEntry={formFieldConstants.secureTextEntry ?? false}
       onChangeText={textInputChangeHandler(formFieldConstants.formField)}
+      onFocus={innerOnFocus}
+      onBlur={innerOnBlur}
     />
   );
 };
