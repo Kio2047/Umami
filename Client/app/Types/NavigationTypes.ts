@@ -5,7 +5,7 @@ import {
   BottomTabNavigationProp
 } from "@react-navigation/bottom-tabs";
 
-import { User } from "../types";
+import { User } from "./SharedTypes";
 
 export type RootStackParamList = {
   LandingPage: undefined;

@@ -11,7 +11,7 @@ export const hashPassword = (password: string): Promise<string> => {
 export const comparePasswords = (
   password: string,
   hash: string
-): Promise<Boolean> => {
+): Promise<boolean> => {
   return bcrypt.compare(password, hash);
 };
 

@@ -1,5 +1,5 @@
 import { createContext } from "react";
-import { CompleteUserDocument } from "../types";
+import { CompleteUserDocument } from "../Types/SharedTypes";
 import { AuthData, useLocalStorageAuthData } from "./customHooks";
 
 export const AppContext =

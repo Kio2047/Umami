@@ -12,7 +12,10 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useEffect, useState } from "react";
 
 import Post from "../components/Post";
-import type { UserProfileScreenProps, Post as PostType } from "../types";
+import type {
+  UserProfileScreenProps,
+  Post as PostType
+} from "../Types/SharedTypes";
 import colors from "../colors";
 import { getPostsByUser } from "../services/api/apiClient";
 

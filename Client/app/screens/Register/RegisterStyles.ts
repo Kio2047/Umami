@@ -23,11 +23,6 @@ export default StyleSheet.create({
     marginBottom: 15,
     borderRadius: 3
   },
-  passwordStrengthText: {
-    marginTop: -12,
-    fontSize: 12,
-    width: 330
-  },
   signUpButton: {
     justifyContent: "center",
     width: 330,

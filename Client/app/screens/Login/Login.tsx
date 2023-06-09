@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useState } from "react";
+import React, { useCallback, useContext, useReducer, useState } from "react";
 import {
   View,
   Text,
@@ -19,13 +19,14 @@ import BottomTab from "../../components/BottomTab/BottomTab";
 import { loginUser } from "../../services/api/apiClient";
 import { FailedRequestError } from "../../services/api/APIUtils";
 import { setJWT, setUserID } from "../../services/deviceStorageClient";
-import { LoginCredentials } from "../../types";
+import { Entries, LoginCredentials } from "../../Types/SharedTypes";
 import { StackScreenProps } from "../../Types/NavigationTypes";
 import { LoginUserResponse } from "../../Types/APIResponseTypes";
 import { useInputFocusTracker } from "../../utils/customHooks";
 import { loginScreenConstants } from "../../constants/constants";
 import CredentialTextInput from "../../components/CredentialTextInput/CredentialTextInput";
 import { AppContext } from "../../utils/appContext";
+import { initialState, reducer } from "./formStateReducer";
 
 const Login = ({
   navigation
@@ -34,17 +35,7 @@ const Login = ({
 }) => {
   const setAuthData = useContext(AppContext).auth[1];
 
-  const [loginCredentials, setLoginCredentials] = useState<LoginCredentials>({
-    usernameOrEmail: "",
-    password: ""
-  });
-
-  const [highlightInput, setHighlightInput] = useState<{
-    [k in keyof LoginCredentials]: boolean;
-  }>({
-    usernameOrEmail: false,
-    password: false
-  });
+  const [formFieldState, dispatch] = useReducer(reducer, initialState);
 
   const [disableButton, setDisableButton] = useState(false);
 
@@ -126,13 +117,14 @@ const Login = ({
         source={logo}
         resizeMode="contain"
       />
-      {loginScreenConstants.inputConstants.map((formFieldConstants) => {
+      {loginScreenConstants.map((formFieldConstants) => {
         return (
           <CredentialTextInput
             formFieldConstants={formFieldConstants}
-            highlightInput={highlightInput}
-            setHighlightInput={setHighlightInput}
-            setCredentials={setLoginCredentials}
+            highlightInput={
+              formFieldState[formFieldConstants.formField].highlight
+            }
+            formActionDispatcher={dispatch}
             key={formFieldConstants.formField}
           />
         );
@@ -155,14 +147,29 @@ const Login = ({
         disabled={disableButton}
         activeOpacity={0.5}
         onPress={() => {
-          if (Object.values(loginCredentials).includes("")) {
-            const highlightInputEntries = Object.entries(loginCredentials).map(
-              ([field, value]) => [field, value === "" ? true : false]
-            );
-            setHighlightInput(Object.fromEntries(highlightInputEntries));
-          } else {
+          const emptyFields = Object.entries(formFieldState).filter(
+            ([field, properties]) => properties.value === ""
+          ) as Entries<typeof formFieldState>;
+          if (emptyFields.length !== 0) {
+            dispatch({
+              type: "highlight_fields",
+              fields: emptyFields.map(([field, properties]) => field)
+            });
+            return;
+          }
+          const formValid = Object.values(formFieldState).every(
+            (field) => field.valid
+          );
+          if (formValid) {
             setDisableButton(true);
-            mutate(loginCredentials);
+            const userCredentials = (
+              Object.entries(formFieldState) as Entries<typeof formFieldState>
+            ).reduce((accumulator, [field, properties]) => {
+              accumulator[field] = properties.value;
+              return accumulator;
+            }, {} as Record<keyof typeof formFieldState, string>);
+            mutate(userCredentials);
+          } else {
           }
         }}
       >

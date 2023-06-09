@@ -10,7 +10,7 @@ import type {
   NewUserCredentials,
   NewPost,
   Post
-} from "../../types";
+} from "../../Types/SharedTypes";
 import {
   CloudinaryImageUploadResponse,
   CreateNewUserResponse,

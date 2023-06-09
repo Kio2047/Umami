@@ -10,7 +10,10 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import Post from "../components/Post";
-import type { RestaurantProfileScreenProps, Post as PostType } from "../types";
+import type {
+  RestaurantProfileScreenProps,
+  Post as PostType
+} from "../Types/SharedTypes";
 import colors from "../colors";
 
 const RestaurantProfile = ({

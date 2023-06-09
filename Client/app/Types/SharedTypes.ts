@@ -1,5 +1,45 @@
-import { StackScreenProps } from "@react-navigation/stack";
-import { StackNavigationProp } from "@react-navigation/stack";
+// import { StackScreenProps } from "@react-navigation/stack";
+// import { StackNavigationProp } from "@react-navigation/stack";
+
+// Form Types
+
+export type LoginFormField = "usernameOrEmail" | "password";
+export type RegisterFormField = "email" | "name" | "username" | "password";
+
+type FormAction<T extends LoginFormField | RegisterFormField> =
+  | {
+      type: "highlight_fields";
+      fields: T[];
+    }
+  | {
+      type: "focus_field";
+      field: T;
+    }
+  | {
+      type: "blur_field";
+      field: T;
+    }
+  | {
+      type: "update_and_validate_field";
+      field: T;
+      value: string;
+    };
+
+export type LoginFormAction = FormAction<LoginFormField>;
+export type RegisterFormAction = FormAction<RegisterFormField>;
+
+type FormState<T extends string> = Record<
+  T,
+  {
+    value: string;
+    valid: boolean;
+    highlight: boolean;
+    focused: boolean;
+  }
+>;
+
+export type RegisterFormState = FormState<RegisterFormField>;
+export type LoginFormState = FormState<LoginFormField>;
 
 export type PostRestaurant = {
   _id: string;
@@ -66,3 +106,10 @@ export type NewPost = {
 
 export type formTextFields = "restaurantName" | "title" | "text";
 export type formRatingFields = "food" | "vibes" | "value";
+
+// Util types
+
+// Only to be used when certain no excess properties are present in object
+export type Entries<T> = {
+  [K in keyof T]: [K, T[K]];
+}[keyof T][];

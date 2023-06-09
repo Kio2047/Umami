@@ -1,65 +1,37 @@
-import React, { useCallback } from "react";
-import {
-  TextInput,
-  NativeSyntheticEvent,
-  TextInputFocusEventData
-} from "react-native";
+import React from "react";
+import { TextInput } from "react-native";
 
 import styles from "./CredentialTextInputStyles";
-import { LoginCredentials, NewUserCredentials } from "../../types";
+import {
+  RegisterFormAction,
+  LoginFormAction,
+  LoginCredentials,
+  NewUserCredentials
+} from "../../Types/SharedTypes";
 import colors from "../../colors";
 import { InputConstants } from "../../constants/constants";
 
 interface CredentialTextInputProps<
-  T extends LoginCredentials | NewUserCredentials
+  T extends LoginFormAction | RegisterFormAction
 > {
-  formFieldConstants: InputConstants<T>;
-  highlightInput: {
-    [k in keyof T]: boolean;
-  };
-  setHighlightInput: React.Dispatch<
-    React.SetStateAction<{
-      [k in keyof T]: boolean;
-    }>
+  formActionDispatcher: React.Dispatch<T>;
+  formFieldConstants: InputConstants<
+    T extends LoginFormAction ? LoginCredentials : NewUserCredentials
   >;
-  setCredentials: React.Dispatch<React.SetStateAction<T>>;
-  innerOnFocus?: (e: NativeSyntheticEvent<TextInputFocusEventData>) => void;
-  innerOnBlur?: (e: NativeSyntheticEvent<TextInputFocusEventData>) => void;
+  highlightInput: boolean;
 }
 
-const CredentialTextInput = <T extends LoginCredentials | NewUserCredentials>({
+const CredentialTextInput = <T extends LoginFormAction | RegisterFormAction>({
   formFieldConstants,
   highlightInput,
-  setHighlightInput,
-  setCredentials,
-  innerOnFocus,
-  innerOnBlur
-}: CredentialTextInputProps<T>) => {
-  const textInputChangeHandler = useCallback(
-    (formField: keyof T) => (text: string) => {
-      if (highlightInput[formField]) {
-        setHighlightInput((state) => ({
-          ...state,
-          [formField]: false
-        }));
-      }
-      setCredentials((state) => ({
-        ...state,
-        [formField]: text
-      }));
-    },
-    [highlightInput]
-  );
 
+  formActionDispatcher
+}: CredentialTextInputProps<T>) => {
   return (
     <TextInput
-      style={
-        highlightInput[formFieldConstants.formField]
-          ? styles.highlightedInput
-          : styles.input
-      }
+      style={highlightInput ? styles.highlightedInput : styles.input}
       placeholderTextColor={
-        highlightInput[formFieldConstants.formField]
+        highlightInput
           ? colors.formHighlightedBorderColor
           : colors.formPlaceholderColor
       }
@@ -72,9 +44,28 @@ const CredentialTextInput = <T extends LoginCredentials | NewUserCredentials>({
       // value={loginForm.email}
       keyboardType={formFieldConstants.keyboardType ?? "default"}
       secureTextEntry={formFieldConstants.secureTextEntry ?? false}
-      onChangeText={textInputChangeHandler(formFieldConstants.formField)}
-      onFocus={innerOnFocus}
-      onBlur={innerOnBlur}
+      onChangeText={(text: string) => {
+        // if (formFieldConstants)
+        formActionDispatcher({
+          type: "update_and_validate_field",
+          field: formFieldConstants.formField
+          // TODO: get TS to infer this as to avoid casting
+        } as T);
+      }}
+      onFocus={() => {
+        formActionDispatcher({
+          type: "focus_field",
+          field: formFieldConstants.formField
+          // TODO: get TS to infer this as to avoid casting
+        } as T);
+      }}
+      onBlur={() =>
+        formActionDispatcher({
+          type: "blur_field",
+          field: formFieldConstants.formField
+          // TODO: get TS to infer this as to avoid c asting
+        } as T)
+      }
     />
   );
 };

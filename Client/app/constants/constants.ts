@@ -1,36 +1,34 @@
 import { KeyboardTypeOptions } from "react-native/types";
-import { LoginCredentials, NewUserCredentials } from "../types";
+import { LoginCredentials, NewUserCredentials } from "../Types/SharedTypes";
 
-export const loginScreenConstants: LoginScreenConstants = {
-  inputConstants: [
-    {
-      formField: "username or email",
-      placeholder: "Username or Email",
-      keyboardType: "email-address"
-    },
-    { formField: "password", secureTextEntry: true }
-  ]
-};
-
-export const registerScreenConstants: RegisterScreenConstants = {
-  inputConstants: [
-    { formField: "email", keyboardType: "email-address" },
-    { formField: "name" },
-    { formField: "username" },
-    { formField: "password", secureTextEntry: true }
-  ]
-};
-
-interface LoginScreenConstants {
-  inputConstants: InputConstants<LoginCredentials>[];
-}
-interface RegisterScreenConstants {
-  inputConstants: InputConstants<NewUserCredentials>[];
-}
-
-export interface InputConstants<T extends Record<string, string>> {
-  formField: Extract<keyof T, string>;
+export interface InputConstants<
+  T extends LoginCredentials | NewUserCredentials
+> {
+  // formField: Extract<keyof T, string>;
+  formField: T extends LoginCredentials
+    ? keyof LoginCredentials
+    : keyof NewUserCredentials;
   placeholder?: string;
   keyboardType?: KeyboardTypeOptions;
   secureTextEntry?: true;
 }
+
+type LoginScreenConstants = InputConstants<LoginCredentials>[];
+
+type RegisterScreenConstants = InputConstants<NewUserCredentials>[];
+
+export const loginScreenConstants: LoginScreenConstants = [
+  {
+    formField: "usernameOrEmail",
+    placeholder: "Username or Email",
+    keyboardType: "email-address"
+  },
+  { formField: "password", secureTextEntry: true }
+];
+
+export const registerScreenConstants: RegisterScreenConstants = [
+  { formField: "email", keyboardType: "email-address" },
+  { formField: "name" },
+  { formField: "username" },
+  { formField: "password", secureTextEntry: true }
+];
