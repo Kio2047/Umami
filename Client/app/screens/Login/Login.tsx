@@ -14,26 +14,26 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 
 import styles from "./LoginStyles";
 import logo from "../../assets/logo.png";
-import colors from "../../colors";
 import BottomTab from "../../components/BottomTab/BottomTab";
 import { loginUser } from "../../services/api/apiClient";
 import { FailedRequestError } from "../../services/api/APIUtils";
 import { setJWT, setUserID } from "../../services/deviceStorageClient";
-import { Entries, LoginCredentials } from "../../Types/SharedTypes";
+import { LoginCredentials } from "../../Types/SharedTypes";
+import { Entries } from "../../Types/utilTypes";
 import { StackScreenProps } from "../../Types/NavigationTypes";
 import { LoginUserResponse } from "../../Types/APIResponseTypes";
-import { useInputFocusTracker } from "../../utils/customHooks";
+import { useInputFocusTracker } from "../../hooks/useInputFocusTracker";
 import { loginScreenConstants } from "../../constants/constants";
 import CredentialTextInput from "../../components/CredentialTextInput/CredentialTextInput";
-import { AppContext } from "../../utils/appContext";
 import { initialState, reducer } from "./formStateReducer";
+import { useAuthContext } from "../../hooks/useAuthContext";
 
 const Login = ({
   navigation
 }: {
   navigation: StackScreenProps<"Login">["navigation"];
 }) => {
-  const setAuthData = useContext(AppContext).auth[1];
+  const setAuthData = useAuthContext()[1];
 
   const [formFieldState, dispatch] = useReducer(reducer, initialState);
 
@@ -120,12 +120,14 @@ const Login = ({
       {loginScreenConstants.map((formFieldConstants) => {
         return (
           <CredentialTextInput
-            formFieldConstants={formFieldConstants}
+            formActionDispatcher={dispatch}
+            formField={formFieldConstants.formField}
             highlightInput={
               formFieldState[formFieldConstants.formField].highlight
             }
-            formActionDispatcher={dispatch}
-            key={formFieldConstants.formField}
+            secureTextEntry={formFieldConstants.secureTextEntry}
+            keyboardType={formFieldConstants.keyboardType}
+            placeholder={formFieldConstants.placeholder}
           />
         );
       })}

@@ -9,7 +9,7 @@ import {
   DefaultTheme
 } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import { Provider } from "react-redux";
+// import { Provider } from "react-redux";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import ThemeProvider from "@react-navigation/native";
 
@@ -25,12 +25,9 @@ import UserProfile from "./app/screens/UserProfile";
 import RestaurantProfile from "./app/screens/RestaurantProfile";
 import AddProfileImage from "./app/screens/AddProfileImage/AddProfileImage";
 // import AppTabs from "./app/components/AppTabs/AppTabs";
-import { store } from "./app/redux/store";
-import { useLocalStorageAuthData } from "./app/utils/customHooks";
-import { AppContext } from "./app/utils/appContext";
+import { AuthContextProvider } from "./app/contexts/providers/AuthContextProvider";
 
 import { Provider as PaperProvider } from "react-native-paper";
-import { useEffect } from "react";
 
 // import DetailedPost from "./app/components/Post";
 
@@ -57,67 +54,60 @@ const MyTheme = {
 };
 
 export default function App() {
-  const authData = useLocalStorageAuthData();
-
-  if (authData[0].status === "loading") {
-    // TODO: add loading screen
-    return <></>;
-  }
-
   return (
     <QueryClientProvider client={queryClient}>
       {/* <PaperProvider> */}
       {/* context currently redundant - see API utils to do*/}
-      <AppContext.Provider value={{ auth: authData }}>
+      <AuthContextProvider>
         <SafeAreaProvider>
           {/* <SafeAreaView style={styles.appContainer}> */}
           <StatusBar></StatusBar>
-          <Provider store={store}>
-            <NavigationContainer theme={MyTheme}>
-              {/* <NavigationContainer> */}
-              <RootStack.Navigator
-                initialRouteName="AppTabs"
-                // initialRouteName="AppTabs"
-                // initialRouteName={
-                //   authData[0].status === "success" ? "Feed" : "LandingPage"
-                // }
-                screenOptions={{ headerShown: false }}
-              >
-                {/* initialParams={{user: "Dan"}} */}
-                <RootStack.Screen name="LandingPage" component={LandingPage} />
-                <RootStack.Screen name="Login" component={Login} />
-                <RootStack.Screen name="Register" component={Register} />
-                <RootStack.Screen
-                  name="AddProfileImage"
-                  component={AddProfileImage}
-                  initialParams={{ newUserName: "Kio Shiraz" }}
-                />
-                {/* <RootStack.Screen name="Feed" component={Feed} /> */}
-                {/* <RootStack.Screen
+          {/* <Provider store={store}> */}
+          <NavigationContainer theme={MyTheme}>
+            {/* <NavigationContainer> */}
+            <RootStack.Navigator
+              initialRouteName="AppTabs"
+              // initialRouteName="AppTabs"
+              // initialRouteName={
+              //   authData[0].status === "success" ? "Feed" : "LandingPage"
+              // }
+              screenOptions={{ headerShown: false }}
+            >
+              {/* initialParams={{user: "Dan"}} */}
+              <RootStack.Screen name="LandingPage" component={LandingPage} />
+              <RootStack.Screen name="Login" component={Login} />
+              <RootStack.Screen name="Register" component={Register} />
+              <RootStack.Screen
+                name="AddProfileImage"
+                component={AddProfileImage}
+                initialParams={{ newUserName: "Kio Shiraz" }}
+              />
+              {/* <RootStack.Screen name="Feed" component={Feed} /> */}
+              {/* <RootStack.Screen
                   name="AppTabs"
                   component={AppTabs}
                   options={{ headerShown: false }}
                 /> */}
-                {/* <RootStack.Screen name="DetailedPost" component={DetailedPost} /> */}
-                <RootStack.Screen
-                  name="DetailedImage"
-                  component={DetailedImage}
-                />
-                <RootStack.Screen
-                  name="CreateNewPost"
-                  component={CreateNewPost}
-                />
-                <RootStack.Screen name="UserProfile" component={UserProfile} />
-                <RootStack.Screen
-                  name="RestaurantProfile"
-                  component={RestaurantProfile}
-                />
-              </RootStack.Navigator>
-            </NavigationContainer>
-          </Provider>
+              {/* <RootStack.Screen name="DetailedPost" component={DetailedPost} /> */}
+              <RootStack.Screen
+                name="DetailedImage"
+                component={DetailedImage}
+              />
+              <RootStack.Screen
+                name="CreateNewPost"
+                component={CreateNewPost}
+              />
+              <RootStack.Screen name="UserProfile" component={UserProfile} />
+              <RootStack.Screen
+                name="RestaurantProfile"
+                component={RestaurantProfile}
+              />
+            </RootStack.Navigator>
+          </NavigationContainer>
+          {/* </Provider> */}
           {/* </SafeAreaView> */}
         </SafeAreaProvider>
-      </AppContext.Provider>
+      </AuthContextProvider>
       {/* </PaperProvider> */}
     </QueryClientProvider>
   );

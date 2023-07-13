@@ -1,21 +1,22 @@
 import { KeyboardTypeOptions } from "react-native/types";
-import { LoginCredentials, NewUserCredentials } from "../Types/SharedTypes";
+import {
+  LoginCredentials,
+  LoginFormField,
+  NewUserCredentials,
+  RegisterFormField
+} from "../Types/SharedTypes";
 
-export interface InputConstants<
-  T extends LoginCredentials | NewUserCredentials
-> {
+interface InputConstants<T extends LoginFormField | RegisterFormField> {
   // formField: Extract<keyof T, string>;
-  formField: T extends LoginCredentials
-    ? keyof LoginCredentials
-    : keyof NewUserCredentials;
+  formField: T;
   placeholder?: string;
   keyboardType?: KeyboardTypeOptions;
   secureTextEntry?: true;
 }
 
-type LoginScreenConstants = InputConstants<LoginCredentials>[];
+type LoginScreenConstants = InputConstants<LoginFormField>[];
 
-type RegisterScreenConstants = InputConstants<NewUserCredentials>[];
+type RegisterScreenConstants = InputConstants<RegisterFormField>[];
 
 export const loginScreenConstants: LoginScreenConstants = [
   {

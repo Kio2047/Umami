@@ -10,17 +10,18 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import styles from "./RegisterStyles";
 import logo from "../../assets/logo.png";
 import { StackScreenProps } from "../../Types/NavigationTypes";
-import { Entries, NewUserCredentials } from "../../Types/SharedTypes";
+import { NewUserCredentials } from "../../Types/SharedTypes";
+import { Entries } from "../../Types/utilTypes";
 import colors from "../../colors";
 import { registerScreenConstants } from "../../constants/constants";
 import BottomTab from "../../components/BottomTab/BottomTab";
-import { useInputFocusTracker } from "../../utils/customHooks";
+import { useInputFocusTracker } from "../../hooks/useInputFocusTracker";
 import { createNewUser } from "../../services/api/apiClient";
 import { useMutation } from "@tanstack/react-query";
 import CredentialTextInput from "../../components/CredentialTextInput/CredentialTextInput";
 import { CreateNewUserResponse } from "../../Types/APIResponseTypes";
 import { setJWT, setUserID } from "../../services/deviceStorageClient";
-import { AppContext } from "../../utils/appContext";
+import { useAuthContext } from "../../hooks/useAuthContext";
 import { initialState, reducer } from "./formStateReducer";
 
 const Register = ({
@@ -28,16 +29,11 @@ const Register = ({
 }: {
   navigation: StackScreenProps<"Register">["navigation"];
 }) => {
-  const setAuthData = useContext(AppContext).auth[1];
-
+  const setAuthData = useAuthContext()[1];
   const [formFieldState, dispatch] = useReducer(reducer, initialState);
-
-  //TODO: make is formfieldvalid a state (update with each change to textinput, and pass into passwordrequirements for props etc)
-
   const [disableButton, setDisableButton] = useState(false);
-
+  //TODO: make is formfieldvalid a state (update with each change to textinput, and pass into passwordrequirements for props etc)
   const [showPasswordReqs, setShowPasswordReqs] = useState(false);
-
   const isFocusedOnInput = useInputFocusTracker();
 
   const { mutate, isError, error } = useMutation(createNewUser, {
@@ -83,14 +79,14 @@ const Register = ({
         {registerScreenConstants.map((formFieldConstants) => {
           return (
             <CredentialTextInput
-              formFieldConstants={formFieldConstants}
+              formActionDispatcher={dispatch}
+              formField={formFieldConstants.formField}
               highlightInput={
                 formFieldState[formFieldConstants.formField].highlight
               }
-              // setHighlightInput={setHighlightInput}
-              // setCredentials={setNewUserCredentials}
-              formActionDispatcher={dispatch}
-              key={formFieldConstants.formField}
+              secureTextEntry={formFieldConstants.secureTextEntry}
+              keyboardType={formFieldConstants.keyboardType}
+              placeholder={formFieldConstants.placeholder}
             />
           );
         })}
