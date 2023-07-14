@@ -5,8 +5,8 @@ import styles from "./PasswordRequirementsStyles";
 
 const PasswordRequirements = ({ password }: { password: string }) => {
   const [fulfilledRequirements, setFulfilledRequirements] = useState<{
-    numberAdded: Boolean;
-    specialAdded: Boolean;
+    numberAdded: boolean;
+    specialAdded: boolean;
   }>({ numberAdded: false, specialAdded: false });
   return (
     <View>

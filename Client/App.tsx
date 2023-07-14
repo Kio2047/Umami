@@ -1,3 +1,4 @@
+import React from "react";
 import "react-native-gesture-handler";
 // import { StatusBar } from "expo-status-bar";
 import * as NavigationBar from "expo-navigation-bar";
@@ -26,7 +27,6 @@ import RestaurantProfile from "./app/screens/RestaurantProfile";
 import AddProfileImage from "./app/screens/AddProfileImage/AddProfileImage";
 // import AppTabs from "./app/components/AppTabs/AppTabs";
 import { AuthContextProvider } from "./app/contexts/providers/AuthContextProvider";
-
 import { Provider as PaperProvider } from "react-native-paper";
 
 // import DetailedPost from "./app/components/Post";

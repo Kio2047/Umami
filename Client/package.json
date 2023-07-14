@@ -7,7 +7,8 @@
     "android": "npx expo start --android",
     "ios": "npx expo start --ios",
     "web": "npx expo start --web",
-    "eject": "npx expo eject"
+    "eject": "npx expo eject",
+    "lint": "eslint ."
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "1.17.11",
@@ -41,6 +42,14 @@
     "@types/react": "~18.0.27",
     "@types/react-native": "~0.66.13",
     "@types/uuid": "^8.3.4",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "eslint": "^8.44.0",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-plugin-prettier": "^5.0.0",
+    "eslint-plugin-react": "^7.32.2",
+    "eslint-plugin-react-native": "^4.0.0",
+    "prettier": "^3.0.0",
     "typescript": "^4.9.4"
   },
   "private": true
