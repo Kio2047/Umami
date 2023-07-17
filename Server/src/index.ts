@@ -2,7 +2,7 @@ import * as dotenv from "dotenv";
 dotenv.config({ path: "./.env" });
 
 import app from "./server";
-import { connectDBClient } from "./Models";
+import { connectDBClient } from "./models";
 
 (async () => {
   try {

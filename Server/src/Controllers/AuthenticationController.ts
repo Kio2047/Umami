@@ -1,8 +1,8 @@
 import { Request } from "express";
 import { ParamsDictionary } from "express-serve-static-core";
 
-import { hashPassword, comparePasswords, createJWT } from "../Modules/auth";
-import * as UserModel from "../Models/User";
+import { hashPassword, comparePasswords, createJWT } from "../modules/auth";
+import * as UserModel from "../models/User";
 import { RequestHandler } from "express";
 import {
   ProcessedNewUserData,

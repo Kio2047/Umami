@@ -16,5 +16,5 @@
   "env": {
     "node": true
   },
-  "ignorePatterns": ["!**/*.{js,ts}"]
+  "ignorePatterns": ["!**/*.{js,ts}", "dist/"]
 }

@@ -1,23 +1,39 @@
 import * as dotenv from "dotenv";
 dotenv.config({ path: "./.env" });
 
-import { mongoose, connectDBClient } from "../Models/index";
-import { createNewDummyUser } from "../Models/User";
-import { createNewDummyPost } from "../Models/Post";
-import { createNewDummyRestaurant } from "../Models/Restaurant";
-import { hashPassword } from "../Modules/auth";
+import { mongoose, connectDBClient } from "../../models/index";
+import { createNewDummyUser } from "../../models/User";
+import { createNewDummyPost } from "../../models/Post";
+import { createNewDummyRestaurant } from "../../models/Restaurant";
+import { hashPassword } from "../../modules/auth";
+
+let retryCount = 0;
 
 const seedDB = async function () {
-  if (mongoose.connection.readyState !== 0) {
-    console.log("Only seed the DB when the server is not running");
+  if (retryCount === 10) {
+    console.log(
+      "Multiple unsuccessful attempts to connect to the DB were made. Please review error logs"
+    );
     return;
   }
+
+  // if (mongoose.connection.readyState !== 0) {
+  //   console.log("Do not seed the DB whilst the server is running");
+  //   return;
+  // }
 
   try {
     await connectDBClient();
   } catch (err) {
     console.log("An error occurred whilst attempting to connect to the DB");
     console.log(err);
+    // Reattempt seed function if connection error is not authentication related
+    if (err.code !== 8000) {
+      console.log("Reattempting to connect to DB in 5 seconds");
+      setTimeout(seedDB, 5000);
+      retryCount++;
+    }
+    return;
   }
 
   try {
@@ -25,7 +41,9 @@ const seedDB = async function () {
   } catch (err) {
     console.log("An error occurred whilst attempting to clear the database");
     console.log(err);
+    return;
   }
+  console.log("Successfully cleared DB");
 
   const user1ID = new mongoose.Types.ObjectId();
   const user2ID = new mongoose.Types.ObjectId();
@@ -48,7 +66,7 @@ const seedDB = async function () {
   // Create 5 dummy users
   const user1 = await createNewDummyUser({
     _id: user1ID,
-    email: "samkay1@aol.com",
+    email: "samkay123@aol.com",
     passwordHash: await hashPassword("ilovecheese&77"),
     name: "Sam Kay",
     username: "sgk_99",
@@ -60,7 +78,7 @@ const seedDB = async function () {
 
   const user2 = await createNewDummyUser({
     _id: user2ID,
-    email: "kitshirley97@gmail.com",
+    email: "kshirley88@gmail.com",
     passwordHash: await hashPassword("Myfavouritepassword8*"),
     name: "Kit Shirley",
     username: "halloumi_queen",
@@ -72,7 +90,7 @@ const seedDB = async function () {
 
   const user3 = await createNewDummyUser({
     _id: user3ID,
-    email: "sajjadirvani@gmail.com",
+    email: "sajirvani@gmail.com",
     passwordHash: await hashPassword("Myleastfavouritepassword6^"),
     name: "Sajjad Irvani",
     username: "sushi_samurai_99",
@@ -84,7 +102,7 @@ const seedDB = async function () {
 
   const user4 = await createNewDummyUser({
     _id: user4ID,
-    email: "kiavash90@gmail.com",
+    email: "kshiraz77@live.co.uk",
     passwordHash: await hashPassword("ultra_5ecure_PW"),
     name: "Kio Shirazpour",
     username: "kio_shiraz",
@@ -192,9 +210,11 @@ const seedDB = async function () {
     name: "Bosco Pizzeria"
   });
 
-  console.log("DB successfully seeded");
+  console.log("Successfully seeded DB");
 
   mongoose.connection.close();
+
+  console.log("Succesfully closed connection with DB");
 };
 
 seedDB();

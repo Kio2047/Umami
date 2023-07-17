@@ -2,17 +2,17 @@ import express, { ErrorRequestHandler } from "express";
 import cors from "cors";
 import morgan from "morgan";
 
-import { backupErrorHandler } from "./Modules/errorHandlers";
+import { backupErrorHandler } from "./modules/errorHandlers";
 import {
   createNewUserValidations,
   loginUserValidations,
   validateRequest
-} from "./Modules/validations";
+} from "./modules/validations";
 import {
   createNewUser,
   loginUser
-} from "./Controllers/AuthenticationController";
-import { authenticate } from "./Modules/auth";
+} from "./controllers/AuthenticationController";
+import { authenticate } from "./modules/auth";
 import protectedRouter from "./router";
 
 const app = express();

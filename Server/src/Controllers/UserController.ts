@@ -1,8 +1,8 @@
 import { Request, RequestHandler } from "express";
 import { ParamsDictionary } from "express-serve-static-core";
 
-import { errorIfUnauthorised } from "../Modules/auth";
-import * as UserModel from "../Models/User";
+import { errorIfUnauthorised } from "../modules/auth";
+import * as UserModel from "../models/User";
 import { NonNullFindOneResult } from "../types/MongooseCRUDTypes";
 import { RawUserDocument } from "../types/UserTypes";
 

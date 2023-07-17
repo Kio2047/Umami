@@ -1,9 +1,9 @@
 import { Request } from "express";
 import { ParamsDictionary } from "express-serve-static-core";
 
-import * as UserModel from "../Models/User";
-import * as PostModel from "../Models/Post";
-import * as RestaurantModel from "../Models/Restaurant";
+import * as UserModel from "../models/User";
+import * as PostModel from "../models/Post";
+import * as RestaurantModel from "../models/Restaurant";
 import { RequestHandler } from "express";
 import { CreateOneResult, FindOneResult } from "../types/MongooseCRUDTypes";
 
@@ -69,19 +69,6 @@ export const createNewPost: RequestHandler = async function (
 //     const userID = new mongoose.Types.ObjectId(req.params.userID);
 //     const userPosts = await UserModel.getUserPosts(userID);
 //     res.status(200).json(userPosts);
-//   }
-//   catch (error) {
-//     console.log(error);
-//     res.sendStatus(500);
-//   }
-// }
-
-// export const uploadImages = async function (req: express.Request, res: express.Response) {
-//   try{
-//     const files = req.files as { [fieldname: string]: Express.Multer.File[] };
-//     // @ts-ignore
-//     const imagePaths = req.files.map((file) => `C:\Users\kiava\MyFiles\Software Engineering\Codeworks\Main Course\Projects\Solo Project\Umami\Server\\${file.path}`)
-//     res.status(201).json(imagePaths);
 //   }
 //   catch (error) {
 //     console.log(error);

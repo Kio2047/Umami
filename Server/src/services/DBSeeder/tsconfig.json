@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    // "skipLibCheck": true,
+    "module": "commonjs",
+    "strictNullChecks": true,
+    "esModuleInterop": true,
+    "target": "ES2022",
+    "noImplicitAny": true,
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "outDir": "../../../dist/",
+    "baseUrl": ".",
+    "paths": {
+      "*": ["node_modules/*"]
+    },
+    "typeRoots": ["./node_modules/@types"]
+  },
+  "include": ["./seedDB.ts"]
+  // "exclude": ["src/types/environment.d.ts"]
+}
