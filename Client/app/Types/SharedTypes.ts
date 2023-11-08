@@ -6,7 +6,7 @@
 export type LoginFormField = "usernameOrEmail" | "password";
 export type RegisterFormField = "email" | "name" | "username" | "password";
 
-type FormAction<T extends LoginFormField | RegisterFormField> =
+export type FormAction<T extends LoginFormField | RegisterFormField> =
   | {
       type: "highlight_fields";
       fields: T[];
@@ -24,9 +24,6 @@ type FormAction<T extends LoginFormField | RegisterFormField> =
       field: T;
       value: string;
     };
-
-export type LoginFormAction = FormAction<LoginFormField>;
-export type RegisterFormAction = FormAction<RegisterFormField>;
 
 type FormState<T extends string> = Record<
   T,

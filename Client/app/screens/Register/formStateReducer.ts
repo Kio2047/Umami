@@ -1,9 +1,13 @@
-import { RegisterFormAction, RegisterFormState } from "../../Types/SharedTypes";
+import {
+  FormAction,
+  RegisterFormField,
+  RegisterFormState
+} from "../../Types/SharedTypes";
 import { formValidations } from "../../utils/utils";
 
 export const reducer = (
   state: RegisterFormState,
-  action: RegisterFormAction
+  action: FormAction<RegisterFormField>
 ): RegisterFormState => {
   switch (action.type) {
     case "highlight_fields":
@@ -30,7 +34,7 @@ export const reducer = (
         }
       };
 
-    case "focus_field":
+    case "focus_field": {
       const updatedState = { ...state };
       let field: keyof typeof state;
       for (field in updatedState) {
@@ -38,6 +42,7 @@ export const reducer = (
         else updatedState[field].focused = false;
       }
       return updatedState;
+    }
 
     case "blur_field":
       return {

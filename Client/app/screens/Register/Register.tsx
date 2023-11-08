@@ -12,7 +12,6 @@ import logo from "../../assets/logo.png";
 import { StackScreenProps } from "../../Types/NavigationTypes";
 import { NewUserCredentials } from "../../Types/SharedTypes";
 import { Entries } from "../../Types/utilTypes";
-import colors from "../../colors";
 import { registerScreenConstants } from "../../constants/constants";
 import BottomTab from "../../components/BottomTab/BottomTab";
 import { useInputFocusTracker } from "../../hooks/useInputFocusTracker";
@@ -79,6 +78,7 @@ const Register = ({
         {registerScreenConstants.map((formFieldConstants) => {
           return (
             <CredentialTextInput
+              key={formFieldConstants.formField}
               formActionDispatcher={dispatch}
               formField={formFieldConstants.formField}
               highlightInput={
@@ -130,10 +130,13 @@ const Register = ({
               // let formFieldValues:
               const newUserCredentials = (
                 Object.entries(formFieldState) as Entries<typeof formFieldState>
-              ).reduce((accumulator, [field, properties]) => {
-                accumulator[field] = properties.value;
-                return accumulator;
-              }, {} as Record<keyof typeof formFieldState, string>);
+              ).reduce(
+                (accumulator, [field, properties]) => {
+                  accumulator[field] = properties.value;
+                  return accumulator;
+                },
+                {} as Record<keyof typeof formFieldState, string>
+              );
               mutate(newUserCredentials);
             } else {
               if (!formFieldState.password.valid) {

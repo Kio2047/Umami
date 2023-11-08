@@ -21,7 +21,7 @@ import Post from "../../components/Post";
 // import { getFeedPosts, getUserInfo } from "../../services/api/apiClient";
 import colors from "../../colors";
 import { AppTabProps, StackScreenProps } from "../../Types/NavigationTypes";
-import { AuthContext } from "../../contexts/AuthContext";
+import { AuthContext } from "../../contexts/AuthContext/AuthContext";
 import styles from "./FeedStyles";
 import { GetUserCardInfoResponse } from "../../Types/APIResponseTypes";
 import FeedHeader from "../../components/FeedHeader/FeedHeader";

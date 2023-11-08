@@ -4,6 +4,7 @@
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
     "start": "npx expo start",
+    "start-tunnel": "npx expo start --tunnel",
     "android": "npx expo start --android",
     "ios": "npx expo start --ios",
     "web": "npx expo start --web",
@@ -24,7 +25,7 @@
     "expo-status-bar": "~1.4.4",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "react-native": "0.71.8",
+    "react-native": "0.71.14",
     "react-native-gesture-handler": "~2.9.0",
     "react-native-paper": "^5.5.2",
     "react-native-ratings": "^8.1.0",
@@ -35,7 +36,8 @@
     "react-native-web": "~0.18.10",
     "react-redux": "^8.0.2",
     "uuid": "^8.3.2",
-    "validator": "^13.9.0"
+    "validator": "^13.9.0",
+    "@expo/ngrok": "^4.1.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",

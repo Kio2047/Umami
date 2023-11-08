@@ -1,7 +1,6 @@
 import {
   View,
   Text,
-  StyleSheet,
   Image,
   TouchableOpacity,
   Platform,
@@ -14,7 +13,7 @@ import { CommonActions } from "@react-navigation/native";
 import styles from "./LandingPageStyles";
 import logo from "../../assets/logo.png";
 import { StackScreenProps } from "../../Types/NavigationTypes";
-import { useLocalStorageAuthData } from "../../utils/customHooks";
+import { useLocalStorageAuthData } from "../../hooks/useLocalStorageAuthData";
 
 const LandingPage = ({
   navigation

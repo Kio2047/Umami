@@ -13,7 +13,7 @@ import {
   updateUserProfileImageURL,
   uploadCloudinaryMedia
 } from "../../services/api/apiClient";
-import { AuthContext } from "../../contexts/AuthContext";
+import { AuthContext } from "../../contexts/AuthContext/AuthContext";
 
 const AddProfileImage = ({
   navigation,

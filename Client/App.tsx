@@ -26,7 +26,7 @@ import UserProfile from "./app/screens/UserProfile";
 import RestaurantProfile from "./app/screens/RestaurantProfile";
 import AddProfileImage from "./app/screens/AddProfileImage/AddProfileImage";
 // import AppTabs from "./app/components/AppTabs/AppTabs";
-import { AuthContextProvider } from "./app/contexts/providers/AuthContextProvider";
+import { AuthContextProvider } from "./app/contexts/AuthContext/AuthContextProvider";
 import { Provider as PaperProvider } from "react-native-paper";
 
 // import DetailedPost from "./app/components/Post";

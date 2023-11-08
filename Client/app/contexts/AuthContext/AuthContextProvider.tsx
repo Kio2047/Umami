@@ -1,5 +1,5 @@
 import { useLocalStorageAuthData } from "../../hooks/useLocalStorageAuthData";
-import { AuthContext } from "../AuthContext";
+import { AuthContext } from "./AuthContext";
 
 export const AuthContextProvider = ({
   children
