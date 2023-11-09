@@ -14,15 +14,6 @@ export default StyleSheet.create({
     height: 200,
     marginBottom: 30
   },
-  input: {
-    color: colors.primaryFontColor,
-    backgroundColor: colors.formInputBackgroundColor,
-    width: 330,
-    height: 50,
-    padding: 10,
-    marginBottom: 15,
-    borderRadius: 3
-  },
   signUpButton: {
     justifyContent: "center",
     width: 330,

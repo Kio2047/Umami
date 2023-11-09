@@ -2,8 +2,10 @@ import React, { useCallback, useContext, useReducer, useState } from "react";
 import {
   Text,
   Image,
+  Keyboard,
   TouchableOpacity,
-  KeyboardAvoidingView
+  KeyboardAvoidingView,
+  Pressable
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -12,7 +14,7 @@ import logo from "../../assets/logo.png";
 import { StackScreenProps } from "../../Types/NavigationTypes";
 import { NewUserCredentials } from "../../Types/SharedTypes";
 import { Entries } from "../../Types/utilTypes";
-import { registerScreenConstants } from "../../constants/constants";
+import { registerScreenFormConstants } from "../../constants/constants";
 import BottomTab from "../../components/BottomTab/BottomTab";
 import { useInputFocusTracker } from "../../hooks/useInputFocusTracker";
 import { createNewUser } from "../../services/api/apiClient";
@@ -22,6 +24,7 @@ import { CreateNewUserResponse } from "../../Types/APIResponseTypes";
 import { setJWT, setUserID } from "../../services/deviceStorageClient";
 import { useAuthContext } from "../../hooks/useAuthContext";
 import { initialState, reducer } from "./formStateReducer";
+import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 
 const Register = ({
   navigation
@@ -29,10 +32,9 @@ const Register = ({
   navigation: StackScreenProps<"Register">["navigation"];
 }) => {
   const setAuthData = useAuthContext()[1];
-  const [formFieldState, dispatch] = useReducer(reducer, initialState);
+  const [formState, dispatch] = useReducer(reducer, initialState);
   const [disableButton, setDisableButton] = useState(false);
   //TODO: make is formfieldvalid a state (update with each change to textinput, and pass into passwordrequirements for props etc)
-  const [showPasswordReqs, setShowPasswordReqs] = useState(false);
   const isFocusedOnInput = useInputFocusTracker();
 
   const { mutate, isError, error } = useMutation(createNewUser, {
@@ -70,28 +72,27 @@ const Register = ({
   );
 
   return (
-    <SafeAreaView style={styles.container}>
-      {!isFocusedOnInput && (
-        <Image style={styles.logo} source={logo} resizeMode="contain" />
-      )}
-      <KeyboardAvoidingView>
-        {registerScreenConstants.map((formFieldConstants) => {
-          return (
-            <CredentialTextInput
-              key={formFieldConstants.formField}
-              formActionDispatcher={dispatch}
-              formField={formFieldConstants.formField}
-              highlightInput={
-                formFieldState[formFieldConstants.formField].highlight
-              }
-              secureTextEntry={formFieldConstants.secureTextEntry}
-              keyboardType={formFieldConstants.keyboardType}
-              placeholder={formFieldConstants.placeholder}
-            />
-          );
-        })}
-        {/* TODO: make the displayed text change with the focused textinput (e.g., when focused on username box state permitted characters) */}
-        {/* {isFocusedOnInput && (
+    <Pressable onPress={Keyboard.dismiss} style={styles.container}>
+      <SafeAreaView style={styles.container}>
+        {!isFocusedOnInput && (
+          <Image style={styles.logo} source={logo} resizeMode="contain" />
+        )}
+        <KeyboardAvoidingView>
+          {registerScreenFormConstants.map((formFieldConstants) => {
+            return (
+              <CredentialTextInput
+                key={formFieldConstants.formField}
+                formFieldState={formState[formFieldConstants.formField]}
+                stateActionDispatcher={dispatch}
+                formField={formFieldConstants.formField}
+                secureTextEntry={formFieldConstants.secureTextEntry}
+                keyboardType={formFieldConstants.keyboardType}
+                placeholder={formFieldConstants.placeholder}
+              />
+            );
+          })}
+          {/* TODO: make the displayed text change with the focused textinput (e.g., when focused on username box state permitted characters) */}
+          {/* {isFocusedOnInput && (
           <Text
             style={[
               styles.passwordStrengthText,
@@ -102,61 +103,62 @@ const Register = ({
             character
           </Text>
         )} */}
-        <TouchableOpacity
-          style={[
-            styles.signUpButton,
-            { opacity: disableButton ? 0.5 : 1 }
-            // { marginBottom: isFocusedOnInput ? 10 : undefined }
-            // { marginTop: isFocusedOnInput ? 40 : 20 }
-          ]}
-          disabled={disableButton}
-          activeOpacity={0.5}
-          onPress={() => {
-            const emptyFields = Object.entries(formFieldState).filter(
-              ([field, properties]) => properties.value === ""
-            ) as Entries<typeof formFieldState>;
-            if (emptyFields.length !== 0) {
-              dispatch({
-                type: "highlight_fields",
-                fields: emptyFields.map(([field, properties]) => field)
-              });
-              return;
-            }
-            const formValid = Object.values(formFieldState).every(
-              (field) => field.valid
-            );
-            if (formValid) {
-              setDisableButton(true);
-              // let formFieldValues:
-              const newUserCredentials = (
-                Object.entries(formFieldState) as Entries<typeof formFieldState>
-              ).reduce(
-                (accumulator, [field, properties]) => {
-                  accumulator[field] = properties.value;
-                  return accumulator;
-                },
-                {} as Record<keyof typeof formFieldState, string>
-              );
-              mutate(newUserCredentials);
-            } else {
-              if (!formFieldState.password.valid) {
-                dispatch({ type: "highlight_fields", fields: ["password"] });
+          <TouchableOpacity
+            style={[
+              styles.signUpButton,
+              { opacity: disableButton ? 0.5 : 1 }
+              // { marginBottom: isFocusedOnInput ? 10 : undefined }
+              // { marginTop: isFocusedOnInput ? 40 : 20 }
+            ]}
+            disabled={disableButton}
+            activeOpacity={0.5}
+            onPress={() => {
+              const emptyFields = Object.entries(formState).filter(
+                ([field, properties]) => properties.value === ""
+              ) as Entries<typeof formState>;
+              if (emptyFields.length !== 0) {
+                dispatch({
+                  type: "highlight_fields",
+                  fields: emptyFields.map(([field, properties]) => field)
+                });
+                return;
               }
-              //TODO: highlight other fields if invalid
-            }
-          }}
-        >
-          <Text style={styles.buttonText}>Sign up</Text>
-        </TouchableOpacity>
-      </KeyboardAvoidingView>
-      {!isFocusedOnInput && (
-        <BottomTab
-          message="Already have an account? Sign in&nbsp;"
-          navigation={navigation}
-          navigateTo="Login"
-        />
-      )}
-    </SafeAreaView>
+              const formValid = Object.values(formState).every(
+                (field) => field.valid
+              );
+              if (formValid) {
+                setDisableButton(true);
+                // let formFieldValues:
+                const newUserCredentials = (
+                  Object.entries(formState) as Entries<typeof formState>
+                ).reduce(
+                  (accumulator, [field, properties]) => {
+                    accumulator[field] = properties.value;
+                    return accumulator;
+                  },
+                  {} as Record<keyof typeof formState, string>
+                );
+                mutate(newUserCredentials);
+              } else {
+                if (!formState.password.valid) {
+                  dispatch({ type: "highlight_fields", fields: ["password"] });
+                }
+                //TODO: highlight other fields if invalid
+              }
+            }}
+          >
+            <Text style={styles.buttonText}>Sign up</Text>
+          </TouchableOpacity>
+        </KeyboardAvoidingView>
+        {!isFocusedOnInput && (
+          <BottomTab
+            message="Already have an account? Sign in&nbsp;"
+            navigation={navigation}
+            navigateTo="Login"
+          />
+        )}
+      </SafeAreaView>
+    </Pressable>
   );
 };
 

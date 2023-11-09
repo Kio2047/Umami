@@ -1,71 +1,85 @@
 import React from "react";
-import { KeyboardTypeOptions, TextInput, Text } from "react-native";
+import { KeyboardTypeOptions, TextInput, Text, Keyboard } from "react-native";
 
 import styles from "./CredentialTextInputStyles";
 import {
   LoginFormField,
   RegisterFormField,
-  FormAction
+  FormAction,
+  FormFieldState
 } from "../../Types/SharedTypes";
 import colors from "../../colors";
+
+const getPlaceholderText = (field: string, placeholder?: string) =>
+  placeholder ?? field.charAt(0).toUpperCase() + field.substring(1);
 
 interface CredentialTextInputProps<
   T extends LoginFormField | RegisterFormField
 > {
-  formActionDispatcher: React.Dispatch<FormAction<T>>;
+  stateActionDispatcher: React.Dispatch<FormAction<T>>;
+  formFieldState: FormFieldState;
   formField: T;
-  highlightInput: boolean;
-  secureTextEntry?: true;
-  keyboardType?: KeyboardTypeOptions;
+  aidText?: string;
+  errorText?: string;
   placeholder?: string;
+  keyboardType?: KeyboardTypeOptions;
+  secureTextEntry?: boolean;
 }
 
 const CredentialTextInput = <T extends LoginFormField | RegisterFormField>({
-  formActionDispatcher,
+  stateActionDispatcher,
+  formFieldState,
   formField,
-  highlightInput,
-  secureTextEntry,
-  keyboardType,
-  placeholder
+  placeholder,
+  keyboardType = "default",
+  secureTextEntry = false
 }: CredentialTextInputProps<T>) => {
+  const placeholderText = getPlaceholderText(formField, placeholder);
+
+  const inputStyle = [
+    styles.input,
+    formFieldState.focused && styles.focusedInput,
+    formFieldState.highlight && styles.highlightedInput
+  ];
+  const placeholderTextColor = formFieldState.highlight
+    ? colors.fieldHighlightedPlaceholderColor
+    : formFieldState.focused
+    ? colors.fieldFocusedPlaceholderColor
+    : colors.fieldPlaceholderColor;
+
+  const changeTextHandler = (text: string) => {
+    stateActionDispatcher({
+      type: "update_and_validate_field",
+      field: formField,
+      value: text
+    });
+  };
+
+  const focusHandler = () => {
+    stateActionDispatcher({
+      type: "focus_field",
+      field: formField
+    });
+  };
+
+  const blurHandler = () =>
+    stateActionDispatcher({
+      type: "blur_field",
+      field: formField
+    });
+
   return (
-    <>
-      <TextInput
-        style={highlightInput ? styles.highlightedInput : styles.input}
-        placeholderTextColor={
-          highlightInput
-            ? colors.formHighlightedBorderColor
-            : colors.formPlaceholderColor
-        }
-        placeholder={
-          placeholder ??
-          formField.charAt(0).toUpperCase() + formField.substring(1)
-        }
-        key={formField}
-        keyboardType={keyboardType ?? "default"}
-        secureTextEntry={secureTextEntry ?? false}
-        onChangeText={(text: string) => {
-          formActionDispatcher({
-            type: "update_and_validate_field",
-            field: formField,
-            value: text
-          });
-        }}
-        onFocus={() => {
-          formActionDispatcher({
-            type: "focus_field",
-            field: formField
-          });
-        }}
-        onBlur={() =>
-          formActionDispatcher({
-            type: "blur_field",
-            field: formField
-          })
-        }
-      />
-      <Text></Text>
-    </>
+    <TextInput
+      style={inputStyle}
+      placeholderTextColor={placeholderTextColor}
+      placeholder={placeholderText}
+      keyboardType={keyboardType}
+      secureTextEntry={secureTextEntry}
+      onChangeText={changeTextHandler}
+      onFocus={focusHandler}
+      onBlur={blurHandler}
+      onSubmitEditing={Keyboard.dismiss}
+    />
   );
 };
 

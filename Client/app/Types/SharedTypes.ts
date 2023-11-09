@@ -25,15 +25,15 @@ export type FormAction<T extends LoginFormField | RegisterFormField> =
       value: string;
     };
 
-type FormState<T extends string> = Record<
-  T,
-  {
-    value: string;
-    valid: boolean;
-    highlight: boolean;
-    focused: boolean;
-  }
->;
+export type FormFieldState = {
+  value: string;
+  valid: boolean;
+  highlight: boolean;
+  focused: boolean;
+  error: boolean;
+};
+
+type FormState<T extends string> = Record<T, FormFieldState>;
 
 export type RegisterFormState = FormState<RegisterFormField>;
 export type LoginFormState = FormState<LoginFormField>;
