@@ -4,7 +4,7 @@ import {
   LoginFormField,
   NewUserCredentials,
   RegisterFormField
-} from "../Types/SharedTypes";
+} from "../Types/CredentialFormTypes";
 
 interface InputConstants<T extends LoginFormField | RegisterFormField> {
   // formField: Extract<keyof T, string>;
@@ -18,7 +18,7 @@ type LoginScreenConstants = InputConstants<LoginFormField>[];
 
 type RegisterScreenConstants = InputConstants<RegisterFormField>[];
 
-export const loginScreenConstants: LoginScreenConstants = [
+export const loginScreenFormConstants: LoginScreenConstants = [
   {
     formField: "usernameOrEmail",
     placeholder: "Username or Email",
@@ -27,7 +27,7 @@ export const loginScreenConstants: LoginScreenConstants = [
   { formField: "password", secureTextEntry: true }
 ];
 
-export const registerScreenConstants: RegisterScreenConstants = [
+export const registerScreenFormConstants: RegisterScreenConstants = [
   { formField: "email", keyboardType: "email-address" },
   { formField: "name" },
   { formField: "username" },

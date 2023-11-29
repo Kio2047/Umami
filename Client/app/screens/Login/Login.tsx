@@ -18,7 +18,7 @@ import BottomTab from "../../components/BottomTab/BottomTab";
 import { loginUser } from "../../services/api/apiClient";
 import { FailedRequestError } from "../../services/api/APIUtils";
 import { setJWT, setUserID } from "../../services/deviceStorageClient";
-import { LoginCredentials } from "../../Types/SharedTypes";
+import { LoginCredentials } from "../../Types/CredentialFormTypes";
 import { Entries } from "../../Types/utilTypes";
 import { StackScreenProps } from "../../Types/NavigationTypes";
 import { LoginUserResponse } from "../../Types/APIResponseTypes";
@@ -166,10 +166,13 @@ const Login = ({
             setDisableButton(true);
             const userCredentials = (
               Object.entries(formFieldState) as Entries<typeof formFieldState>
-            ).reduce((accumulator, [field, properties]) => {
-              accumulator[field] = properties.value;
-              return accumulator;
-            }, {} as Record<keyof typeof formFieldState, string>);
+            ).reduce(
+              (accumulator, [field, properties]) => {
+                accumulator[field] = properties.value;
+                return accumulator;
+              },
+              {} as Record<keyof typeof formFieldState, string>
+            );
             mutate(userCredentials);
           } else {
           }

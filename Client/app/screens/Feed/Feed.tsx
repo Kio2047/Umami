@@ -33,7 +33,6 @@ const Feed = ({
 }) => {
   // const { colors } = useTheme();
   // console.log(colors);
-  // console.log("hey");
   const { userID } = useContext(AuthContext)[0];
 
   // const userInfo = useQuery(["userInfo", userID], getUserInfo);

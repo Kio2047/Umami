@@ -5,7 +5,7 @@ import {
   BottomTabNavigationProp
 } from "@react-navigation/bottom-tabs";
 
-import { User } from "./SharedTypes";
+import { User } from "./CredentialFormTypes";
 
 export type RootStackParamList = {
   LandingPage: undefined;

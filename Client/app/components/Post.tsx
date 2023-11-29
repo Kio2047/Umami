@@ -3,11 +3,11 @@ import React from "react";
 import { Rating, AirbnbRating } from "react-native-ratings";
 import ReadMore from "react-native-read-more-text";
 
-import type { Post as PostType } from "../Types/SharedTypes";
+import type { Post as PostType } from "../Types/CredentialFormTypes";
 import colors from "../colors";
 import { calculatePostTimestamp } from "../utils/utils";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import { PostNavigationProp } from "../Types/SharedTypes";
+import { PostNavigationProp } from "../Types/CredentialFormTypes";
 
 const Post = ({
   postData,
@@ -16,8 +16,6 @@ const Post = ({
   postData: PostType;
   navigation: PostNavigationProp;
 }) => {
-  console.log("postDATAAA: ", postData);
-
   const {
     _id,
     author,

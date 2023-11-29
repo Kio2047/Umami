@@ -12,7 +12,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import styles from "./RegisterStyles";
 import logo from "../../assets/logo.png";
 import { StackScreenProps } from "../../Types/NavigationTypes";
-import { NewUserCredentials } from "../../Types/SharedTypes";
+import { NewUserCredentials } from "../../Types/CredentialFormTypes";
 import { Entries } from "../../Types/utilTypes";
 import { registerScreenFormConstants } from "../../constants/constants";
 import BottomTab from "../../components/BottomTab/BottomTab";
@@ -31,6 +31,11 @@ const Register = ({
 }: {
   navigation: StackScreenProps<"Register">["navigation"];
 }) => {
+  // pressableOnPress = () => {
+  //   Keyboard.dismiss();
+  //   dispatch
+  // }
+
   const setAuthData = useAuthContext()[1];
   const [formState, dispatch] = useReducer(reducer, initialState);
   const [disableButton, setDisableButton] = useState(false);

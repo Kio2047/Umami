@@ -10,7 +10,7 @@ import type {
   NewUserCredentials,
   NewPost,
   Post
-} from "../../Types/SharedTypes";
+} from "../../Types/CredentialFormTypes";
 import {
   CloudinaryImageUploadResponse,
   CreateNewUserResponse,

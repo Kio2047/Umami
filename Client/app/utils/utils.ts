@@ -2,7 +2,7 @@ import {
   LoginFormField,
   NewUserCredentials,
   RegisterFormField
-} from "../Types/SharedTypes";
+} from "../Types/CredentialFormTypes";
 
 export const calculatePostTimestamp = function (timestamp: Date) {
   timestamp = new Date(timestamp);

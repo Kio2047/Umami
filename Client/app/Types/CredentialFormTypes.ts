@@ -1,10 +1,13 @@
-// import { StackScreenProps } from "@react-navigation/stack";
-// import { StackNavigationProp } from "@react-navigation/stack";
-
-// Form Types
-
 export type LoginFormField = "usernameOrEmail" | "password";
 export type RegisterFormField = "email" | "name" | "username" | "password";
+
+export type FormFieldState = {
+  value: string;
+  valid: boolean;
+  highlight: boolean;
+  focused: boolean;
+  error: boolean;
+};
 
 export type FormAction<T extends LoginFormField | RegisterFormField> =
   | {
@@ -25,19 +28,12 @@ export type FormAction<T extends LoginFormField | RegisterFormField> =
       value: string;
     };
 
-export type FormFieldState = {
-  value: string;
-  valid: boolean;
-  highlight: boolean;
-  focused: boolean;
-  error: boolean;
-};
+export type FormState<T extends LoginFormField | RegisterFormField> = Record<
+  T,
+  FormFieldState
+>;
 
-type FormState<T extends string> = Record<T, FormFieldState>;
-
-export type RegisterFormState = FormState<RegisterFormField>;
-export type LoginFormState = FormState<LoginFormField>;
-
+// TODO: Move below types to appropriate new file
 export type PostRestaurant = {
   _id: string;
   name: string;

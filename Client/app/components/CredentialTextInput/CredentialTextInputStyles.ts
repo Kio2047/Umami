@@ -2,37 +2,37 @@ import { StyleSheet } from "react-native";
 import colors from "../../colors";
 
 export default StyleSheet.create({
-  input: {
-    color: colors.primaryFontColor,
-    backgroundColor: colors.formInputBackgroundColor,
+  container: {
+    height: 58,
     width: 330,
-    height: 50,
-    padding: 12,
-    marginBottom: 20,
+    marginBottom: 20
+  },
+  pressable: {
+    flex: 1,
+    backgroundColor: colors.formInputBackgroundColor,
     borderRadius: 6,
-    // borderColor: "red",
-    borderWidth: 0.5
+    borderWidth: 0.4
   },
-  highlightedInput: {
-    color: colors.primaryFontColor,
-    backgroundColor: colors.formInputBackgroundColor,
-    width: 330,
-    height: 50,
-    padding: 10,
-    marginBottom: 15,
-    borderRadius: 3,
-    borderColor: colors.fieldHighlightedBorderColor,
-    borderWidth: 0.5
+  placeholder: {
+    position: "absolute",
+    left: 12,
+    zIndex: 1
   },
-  focusedInput: {
+  highlightedPressable: {
     color: colors.primaryFontColor,
-    backgroundColor: colors.formInputBackgroundColor,
-    width: 330,
+    borderColor: colors.fieldHighlightedBorderColor
+  },
+  focusedPressable: {
+    color: colors.primaryFontColor,
+    borderColor: colors.fieldFocusedBorderColor
+  },
+  input: {
+    flex: 1,
     height: 50,
-    padding: 10,
-    marginBottom: 15,
-    borderRadius: 3,
-    borderColor: colors.fieldHighlightedBorderColor,
-    borderWidth: 0.5
+    position: "absolute",
+    padding: 12,
+    bottom: 0,
+    color: colors.primaryFontColor,
+    backgroundColor: "transparent"
   }
 });

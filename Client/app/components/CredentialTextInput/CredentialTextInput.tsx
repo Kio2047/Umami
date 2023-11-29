@@ -1,5 +1,14 @@
-import React from "react";
-import { KeyboardTypeOptions, TextInput, Text, Keyboard } from "react-native";
+import React, { useEffect, useRef } from "react";
+import {
+  Animated,
+  KeyboardTypeOptions,
+  TextInput,
+  Text,
+  Keyboard,
+  View,
+  Pressable,
+  Easing
+} from "react-native";
 
 import styles from "./CredentialTextInputStyles";
 import {
@@ -7,7 +16,7 @@ import {
   RegisterFormField,
   FormAction,
   FormFieldState
-} from "../../Types/SharedTypes";
+} from "../../Types/CredentialFormTypes";
 import colors from "../../colors";
 
 const getPlaceholderText = (field: string, placeholder?: string) =>
@@ -34,18 +43,49 @@ const CredentialTextInput = <T extends LoginFormField | RegisterFormField>({
   keyboardType = "default",
   secureTextEntry = false
 }: CredentialTextInputProps<T>) => {
+  const placeholderAnimationValue = useRef(
+    new Animated.Value(formFieldState.value ? 1 : 0)
+  ).current;
+  useEffect(() => {
+    Animated.timing(placeholderAnimationValue, {
+      toValue: formFieldState.focused || formFieldState.value ? 1 : 0,
+      duration: 100,
+      easing: Easing.inOut(Easing.ease), // Apply the easing function here
+      useNativeDriver: false
+    }).start();
+  }, [formFieldState.focused, formFieldState.value]);
+  const animatedStyle = {
+    top: placeholderAnimationValue.interpolate({
+      inputRange: [0, 1],
+      outputRange: [17, 5]
+    }),
+    fontSize: placeholderAnimationValue.interpolate({
+      inputRange: [0, 1],
+      outputRange: [14, 10]
+    }),
+    color: placeholderAnimationValue.interpolate({
+      inputRange: [0, 1],
+      outputRange: [
+        colors.fieldPlaceholderColor,
+        colors.fieldFocusedPlaceholderColor
+      ]
+    })
+  };
+
+  const textInputRef = useRef<TextInput | null>(null);
+
   const placeholderText = getPlaceholderText(formField, placeholder);
 
-  const inputStyle = [
-    styles.input,
-    formFieldState.focused && styles.focusedInput,
-    formFieldState.highlight && styles.highlightedInput
+  const pressableStyle = [
+    styles.pressable,
+    formFieldState.focused && styles.focusedPressable,
+    formFieldState.highlight && styles.highlightedPressable
   ];
-  const placeholderTextColor = formFieldState.highlight
-    ? colors.fieldHighlightedPlaceholderColor
-    : formFieldState.focused
-    ? colors.fieldFocusedPlaceholderColor
-    : colors.fieldPlaceholderColor;
+  // const placeholderTextColor = formFieldState.highlight
+  //   ? colors.fieldHighlightedPlaceholderColor
+  //   : formFieldState.focused
+  //   ? colors.fieldFocusedPlaceholderColor
+  //   : colors.fieldPlaceholderColor;
 
   const changeTextHandler = (text: string) => {
     stateActionDispatcher({
@@ -69,17 +109,26 @@ const CredentialTextInput = <T extends LoginFormField | RegisterFormField>({
     });
 
   return (
-    <TextInput
-      style={inputStyle}
-      placeholderTextColor={placeholderTextColor}
-      placeholder={placeholderText}
-      keyboardType={keyboardType}
-      secureTextEntry={secureTextEntry}
-      onChangeText={changeTextHandler}
-      onFocus={focusHandler}
-      onBlur={blurHandler}
-      onSubmitEditing={Keyboard.dismiss}
-    />
+    <View style={styles.container}>
+      <Pressable
+        style={pressableStyle}
+        onPress={() => textInputRef.current?.focus()}
+      >
+        <Animated.Text style={[styles.placeholder, animatedStyle]}>
+          {placeholderText}
+        </Animated.Text>
+        <TextInput
+          ref={textInputRef}
+          style={styles.input}
+          keyboardType={keyboardType}
+          secureTextEntry={secureTextEntry}
+          onChangeText={changeTextHandler}
+          onFocus={focusHandler}
+          onBlur={blurHandler}
+          onSubmitEditing={Keyboard.dismiss}
+        />
+      </Pressable>
+    </View>
   );
 };
 

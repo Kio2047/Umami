@@ -1,14 +1,14 @@
 import {
   FormAction,
   RegisterFormField,
-  RegisterFormState
-} from "../../Types/SharedTypes";
+  FormState
+} from "../../Types/CredentialFormTypes";
 import { formValidations } from "../../utils/utils";
 
 export const reducer = (
-  state: RegisterFormState,
+  state: FormState<RegisterFormField>,
   action: FormAction<RegisterFormField>
-): RegisterFormState => {
+): FormState<RegisterFormField> => {
   switch (action.type) {
     case "highlight_fields":
       return action.fields.reduce(
@@ -28,6 +28,7 @@ export const reducer = (
       return {
         ...state,
         [action.field]: {
+          ...state[action.field],
           value: action.value,
           valid: formValidations[action.field](action.value),
           highlight: false
@@ -47,34 +48,38 @@ export const reducer = (
     case "blur_field":
       return {
         ...state,
-        [action.field]: { ...state[action.field], focus: false }
+        [action.field]: { ...state[action.field], focused: false }
       };
   }
 };
 
-export const initialState: RegisterFormState = {
+export const initialState: FormState<RegisterFormField> = {
   email: {
     value: "",
     valid: false,
     highlight: false,
-    focused: false
+    focused: false,
+    error: false
   },
   name: {
     value: "",
     valid: false,
     highlight: false,
-    focused: false
+    focused: false,
+    error: false
   },
   username: {
     value: "",
     valid: false,
     highlight: false,
-    focused: false
+    focused: false,
+    error: false
   },
   password: {
     value: "",
     valid: false,
     highlight: false,
-    focused: false
+    focused: false,
+    error: false
   }
 };

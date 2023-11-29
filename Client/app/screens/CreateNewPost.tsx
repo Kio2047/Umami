@@ -16,14 +16,14 @@ import { Rating } from "react-native-ratings";
 import * as ImagePicker from "expo-image-picker";
 import { AntDesign } from "@expo/vector-icons";
 
-import { CreateNewPostScreenProps } from "../Types/SharedTypes";
+import { CreateNewPostScreenProps } from "../Types/CredentialFormTypes";
 import { SafeAreaView } from "react-native-safe-area-context";
 import colors from "../colors";
 import type {
   NewPost,
   formTextFields,
   formRatingFields
-} from "../Types/SharedTypes";
+} from "../Types/CredentialFormTypes";
 import { sendNewPost, uploadImages } from "../services/api/apiClient";
 
 const CreateNewPost = ({ navigation, route }: CreateNewPostScreenProps) => {

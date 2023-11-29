@@ -15,7 +15,7 @@ import Post from "../components/Post";
 import type {
   UserProfileScreenProps,
   Post as PostType
-} from "../Types/SharedTypes";
+} from "../Types/CredentialFormTypes";
 import colors from "../colors";
 import { getPostsByUser } from "../services/api/apiClient";
 

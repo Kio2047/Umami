@@ -47,7 +47,6 @@ protectedRouter.get("/users", UserController.getUsersByQuery);
 // router.get("/user/get-posts/:userID", PostController.getUserPosts);
 
 // router.post("/user/create-new-post", (req, res) => {
-//   console.log("hello")
 //   res.status(200).send([1,2,3,4]);
 // });
 
