@@ -1,4 +1,10 @@
-import React, { useCallback, useContext, useReducer, useState } from "react";
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useReducer,
+  useState
+} from "react";
 import {
   Text,
   Image,
@@ -31,16 +37,18 @@ const Register = ({
 }: {
   navigation: StackScreenProps<"Register">["navigation"];
 }) => {
-  // pressableOnPress = () => {
-  //   Keyboard.dismiss();
-  //   dispatch
-  // }
-
   const setAuthData = useAuthContext()[1];
   const [formState, dispatch] = useReducer(reducer, initialState);
   const [disableButton, setDisableButton] = useState(false);
-  //TODO: make is formfieldvalid a state (update with each change to textinput, and pass into passwordrequirements for props etc)
   const isFocusedOnInput = useInputFocusTracker();
+
+  useEffect(() => {
+    return () => {
+      dispatch({
+        type: "blur_field"
+      });
+    };
+  }, []);
 
   const { mutate, isError, error } = useMutation(createNewUser, {
     retry: false,

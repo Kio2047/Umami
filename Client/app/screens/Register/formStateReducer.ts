@@ -45,11 +45,26 @@ export const reducer = (
       return updatedState;
     }
 
-    case "blur_field":
-      return {
-        ...state,
-        [action.field]: { ...state[action.field], focused: false }
-      };
+    case "blur_field": {
+      if (action.field)
+        return {
+          ...state,
+          [action.field]: { ...state[action.field], focused: false }
+        };
+      const focusedEntry = Object.entries(state).find(
+        (entry) => entry[1].focused
+      );
+      if (focusedEntry) {
+        return {
+          ...state,
+          [focusedEntry[0]]: {
+            ...focusedEntry[1],
+            focused: false
+          }
+        };
+      }
+      return state;
+    }
   }
 };
 

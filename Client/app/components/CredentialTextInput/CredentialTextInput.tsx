@@ -49,7 +49,7 @@ const CredentialTextInput = <T extends LoginFormField | RegisterFormField>({
   useEffect(() => {
     Animated.timing(placeholderAnimationValue, {
       toValue: formFieldState.focused || formFieldState.value ? 1 : 0,
-      duration: 100,
+      duration: 150,
       easing: Easing.inOut(Easing.ease), // Apply the easing function here
       useNativeDriver: false
     }).start();
