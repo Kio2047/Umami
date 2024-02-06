@@ -39,31 +39,19 @@ export const reducer = (
       const updatedState = { ...state };
       let field: keyof typeof state;
       for (field in updatedState) {
-        if (field === action.field) updatedState[field].focused = true;
-        else updatedState[field].focused = false;
+        updatedState[field] = {
+          ...updatedState[field],
+          focused: field === action.field
+        };
       }
       return updatedState;
     }
 
     case "blur_field": {
-      if (action.field)
-        return {
-          ...state,
-          [action.field]: { ...state[action.field], focused: false }
-        };
-      const focusedEntry = Object.entries(state).find(
-        (entry) => entry[1].focused
-      );
-      if (focusedEntry) {
-        return {
-          ...state,
-          [focusedEntry[0]]: {
-            ...focusedEntry[1],
-            focused: false
-          }
-        };
-      }
-      return state;
+      return {
+        ...state,
+        [action.field]: { ...state[action.field], focused: false }
+      };
     }
   }
 };
