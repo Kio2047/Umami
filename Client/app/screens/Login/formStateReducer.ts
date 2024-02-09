@@ -30,7 +30,7 @@ export const reducer = (
         [action.field]: {
           ...state[action.field],
           value: action.value,
-          valid: formValidations[action.field](action.value),
+          // valid: formValidations[action.field](action.value),
           highlight: false
         }
       };

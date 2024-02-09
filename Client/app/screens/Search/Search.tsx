@@ -11,7 +11,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 import styles from "./SearchStyles";
-import colors from "../../colors";
+import colors from "../../constants/colors";
 import { useQuery } from "@tanstack/react-query";
 import { AppTabProps } from "../../Types/NavigationTypes";
 import { searchForUsers } from "../../services/api/apiClient";
@@ -81,11 +81,11 @@ const Search = ({
         renderItem={({ item }) => (
           // <Text style={{ color: "white" }}>Bye Bye!</Text>
           <UserSearchResult
-          profileImageURL={item.profileImageURL}
-          username={item.username}
-          name={item.name}
-          followed={follo}
-          key={item._id}
+            profileImageURL={item.profileImageURL}
+            username={item.username}
+            name={item.name}
+            followed={follo}
+            key={item._id}
           />
         )}
       />

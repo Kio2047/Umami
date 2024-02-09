@@ -9,6 +9,7 @@ import {
   Pressable,
   Easing
 } from "react-native";
+import { MaterialIcons } from "@expo/vector-icons";
 
 import styles from "./CredentialTextInputStyles";
 import {
@@ -17,7 +18,7 @@ import {
   FormAction,
   FormFieldState
 } from "../../Types/CredentialFormTypes";
-import colors from "../../colors";
+import colors from "../../constants/colors";
 
 const getPlaceholderText = (field: string, placeholder?: string) =>
   placeholder ?? field.charAt(0).toUpperCase() + field.substring(1);
@@ -28,9 +29,9 @@ interface CredentialTextInputProps<
   stateActionDispatcher: React.Dispatch<FormAction<T>>;
   formFieldState: FormFieldState;
   formField: T;
-  aidText?: string;
-  errorText?: string;
   placeholder?: string;
+  // aidText?: string;
+  errorText?: string;
   keyboardType?: KeyboardTypeOptions;
   secureTextEntry?: boolean;
 }
@@ -40,6 +41,8 @@ const CredentialTextInput = <T extends LoginFormField | RegisterFormField>({
   formFieldState,
   formField,
   placeholder,
+  // aidText,
+  errorText,
   keyboardType = "default",
   secureTextEntry = false
 }: CredentialTextInputProps<T>) => {
@@ -49,8 +52,8 @@ const CredentialTextInput = <T extends LoginFormField | RegisterFormField>({
   useEffect(() => {
     Animated.timing(placeholderAnimationValue, {
       toValue: formFieldState.focused || formFieldState.value ? 1 : 0,
-      duration: 150,
-      easing: Easing.inOut(Easing.ease), // Apply the easing function here
+      duration: 125,
+      easing: Easing.inOut(Easing.ease),
       useNativeDriver: false
     }).start();
   }, [formFieldState.focused, formFieldState.value]);
@@ -79,7 +82,8 @@ const CredentialTextInput = <T extends LoginFormField | RegisterFormField>({
   const pressableStyle = [
     styles.pressable,
     formFieldState.focused && styles.focusedPressable,
-    formFieldState.highlight && styles.highlightedPressable
+    !!errorText && styles.errorPressable
+    // formFieldState.highlight && styles.highlightedPressable
   ];
   // const placeholderTextColor = formFieldState.highlight
   //   ? colors.fieldHighlightedPlaceholderColor
@@ -89,7 +93,8 @@ const CredentialTextInput = <T extends LoginFormField | RegisterFormField>({
 
   const changeTextHandler = (text: string) => {
     stateActionDispatcher({
-      type: "update_and_validate_field",
+      // type: "update_and_validate_field",
+      type: "update_field",
       field: formField,
       value: text
     });
@@ -102,11 +107,12 @@ const CredentialTextInput = <T extends LoginFormField | RegisterFormField>({
     });
   };
 
-  const blurHandler = () =>
+  const blurHandler = () => {
     stateActionDispatcher({
       type: "blur_field",
       field: formField
     });
+  };
 
   return (
     <View style={styles.container}>
@@ -114,7 +120,13 @@ const CredentialTextInput = <T extends LoginFormField | RegisterFormField>({
         style={pressableStyle}
         onPress={() => textInputRef.current?.focus()}
       >
-        <Animated.Text style={[styles.placeholder, animatedStyle]}>
+        <Animated.Text
+          style={[
+            styles.placeholder,
+            animatedStyle,
+            !!errorText && { color: colors.errorColor }
+          ]}
+        >
           {placeholderText}
         </Animated.Text>
         <TextInput
@@ -126,8 +138,34 @@ const CredentialTextInput = <T extends LoginFormField | RegisterFormField>({
           onFocus={focusHandler}
           onBlur={blurHandler}
           onSubmitEditing={Keyboard.dismiss}
+          value={formFieldState.value}
         />
+        {errorText ? (
+          <MaterialIcons
+            style={styles.inputIcon}
+            name="error-outline"
+            size={28}
+            color={colors.errorColor}
+          />
+        ) : (
+          formFieldState.value && (
+            <Pressable
+              style={styles.inputIcon}
+              onPress={() => {
+                changeTextHandler("");
+              }}
+            >
+              <MaterialIcons
+                name="clear"
+                size={28}
+                color={colors.fieldFocusedBorderColor}
+              />
+            </Pressable>
+          )
+        )}
       </Pressable>
+      {/* {errorMessages?.length && formFieldState.focused && ( */}
+      {errorText && <Text style={styles.errorText}>{errorText}</Text>}
     </View>
   );
 };

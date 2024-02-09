@@ -16,14 +16,15 @@ export type FormAction<T extends LoginFormField | RegisterFormField> =
     }
   | {
       type: "blur_field";
-      field?: T;
+      field: T;
     }
   | {
       type: "focus_field";
       field: T;
     }
   | {
-      type: "update_and_validate_field";
+      // type: "update_and_validate_field";
+      type: "update_field";
       field: T;
       value: string;
     };

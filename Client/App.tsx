@@ -15,7 +15,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import ThemeProvider from "@react-navigation/native";
 
 import type { RootStackParamList } from "./app/Types/NavigationTypes";
-import colors from "./app/colors";
+import colors from "./app/constants/colors";
 import LandingPage from "./app/screens/LandingPage/LandingPage";
 import Login from "./app/screens/Login/Login";
 import Register from "./app/screens/Register/Register";

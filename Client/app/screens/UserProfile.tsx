@@ -16,7 +16,7 @@ import type {
   UserProfileScreenProps,
   Post as PostType
 } from "../Types/CredentialFormTypes";
-import colors from "../colors";
+import colors from "../constants/colors";
 import { getPostsByUser } from "../services/api/apiClient";
 
 const UserProfile = ({ route, navigation }: UserProfileScreenProps) => {

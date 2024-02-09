@@ -1,12 +1,10 @@
 import React, { useCallback, useContext, useReducer, useState } from "react";
 import {
-  View,
   Text,
   Image,
-  TextInput,
   TouchableOpacity,
-  NativeSyntheticEvent,
-  TextInputChangeEventData
+  Pressable,
+  Keyboard
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { CommonActions } from "@react-navigation/native";
@@ -19,11 +17,11 @@ import { loginUser } from "../../services/api/apiClient";
 import { FailedRequestError } from "../../services/api/APIUtils";
 import { setJWT, setUserID } from "../../services/deviceStorageClient";
 import { LoginCredentials } from "../../Types/CredentialFormTypes";
-import { Entries } from "../../Types/utilTypes";
+import { Entries } from "../../Types/UtilTypes";
 import { StackScreenProps } from "../../Types/NavigationTypes";
 import { LoginUserResponse } from "../../Types/APIResponseTypes";
 import { useInputFocusTracker } from "../../hooks/useInputFocusTracker";
-import { loginScreenConstants } from "../../constants/constants";
+import { loginScreenFormConstants } from "../../constants/credentialForms";
 import CredentialTextInput from "../../components/CredentialTextInput/CredentialTextInput";
 import { initialState, reducer } from "./formStateReducer";
 import { useAuthContext } from "../../hooks/useAuthContext";
@@ -34,17 +32,9 @@ const Login = ({
   navigation: StackScreenProps<"Login">["navigation"];
 }) => {
   const setAuthData = useAuthContext()[1];
-
-  const [formFieldState, dispatch] = useReducer(reducer, initialState);
-
+  const [formState, dispatch] = useReducer(reducer, initialState);
   const [disableButton, setDisableButton] = useState(false);
-
-  const [requestErrorCause, setRequestErrorCause] = useState<
-    Record<"invalidCredentials" | "applicationError", boolean>
-  >({
-    invalidCredentials: false,
-    applicationError: false
-  });
+  const isFocusedOnInput = useInputFocusTracker();
 
   const { mutate, isError, error } = useMutation(loginUser, {
     retry: false,
@@ -55,7 +45,12 @@ const Login = ({
     }
   });
 
-  const isFocusedOnInput = useInputFocusTracker();
+  // const [requestErrorCause, setRequestErrorCause] = useState<
+  //   Record<"invalidCredentials" | "applicationError", boolean>
+  // >({
+  //   invalidCredentials: false,
+  //   applicationError: false
+  // });
 
   const handleLogin = useCallback(async (responseBody: LoginUserResponse) => {
     const [jwt, userID] = [responseBody.data.token, responseBody.data.userID];
@@ -104,90 +99,91 @@ const Login = ({
   }
 
   return (
-    <SafeAreaView
-      style={
-        styles.container
-        // { justifyContent: isFocusedOnInput ? "flex-start" : "center" },
-        // { paddingTop: isFocusedOnInput ? 0 : 0 }
-      }
-    >
-      {/* fadeDuration={0} */}
-      <Image
-        style={[styles.logo, { marginBottom: isFocusedOnInput ? 20 : 30 }]}
-        source={logo}
-        resizeMode="contain"
-      />
-      {loginScreenConstants.map((formFieldConstants) => {
-        return (
-          <CredentialTextInput
-            formActionDispatcher={dispatch}
-            formField={formFieldConstants.formField}
-            highlightInput={
-              formFieldState[formFieldConstants.formField].highlight
-            }
-            secureTextEntry={formFieldConstants.secureTextEntry}
-            keyboardType={formFieldConstants.keyboardType}
-            placeholder={formFieldConstants.placeholder}
-          />
-        );
-      })}
-
-      {requestErrorCause.invalidCredentials && (
-        <Text style={styles.loginErrorText}>Invalid login details</Text>
-      )}
-      {requestErrorCause.applicationError && (
-        <Text style={styles.loginErrorText}>
-          Server issue — please try again later
-        </Text>
-      )}
-      <TouchableOpacity
-        style={[
-          styles.loginButton,
-          { opacity: disableButton ? 0.5 : 1 },
-          { marginTop: isFocusedOnInput ? 10 : 20 }
-        ]}
-        disabled={disableButton}
-        activeOpacity={0.5}
-        onPress={() => {
-          const emptyFields = Object.entries(formFieldState).filter(
-            ([field, properties]) => properties.value === ""
-          ) as Entries<typeof formFieldState>;
-          if (emptyFields.length !== 0) {
-            dispatch({
-              type: "highlight_fields",
-              fields: emptyFields.map(([field, properties]) => field)
-            });
-            return;
-          }
-          const formValid = Object.values(formFieldState).every(
-            (field) => field.valid
-          );
-          if (formValid) {
-            setDisableButton(true);
-            const userCredentials = (
-              Object.entries(formFieldState) as Entries<typeof formFieldState>
-            ).reduce(
-              (accumulator, [field, properties]) => {
-                accumulator[field] = properties.value;
-                return accumulator;
-              },
-              {} as Record<keyof typeof formFieldState, string>
-            );
-            mutate(userCredentials);
-          } else {
-          }
-        }}
+    <Pressable onPress={Keyboard.dismiss} style={styles.container}>
+      <SafeAreaView
+        style={
+          styles.container
+          // { justifyContent: isFocusedOnInput ? "flex-start" : "center" },
+          // { paddingTop: isFocusedOnInput ? 0 : 0 }
+        }
       >
-        <Text style={styles.buttonText}>Login</Text>
-      </TouchableOpacity>
-      {!isFocusedOnInput && (
-        <BottomTab
-          message="Don't have an account yet? Create one&nbsp;"
-          navigation={navigation}
-          navigateTo="Register"
+        {/* fadeDuration={0} */}
+        <Image
+          style={[styles.logo, { marginBottom: isFocusedOnInput ? 20 : 30 }]}
+          source={logo}
+          resizeMode="contain"
         />
-      )}
-    </SafeAreaView>
+        {loginScreenFormConstants.map((formFieldConstants) => {
+          return (
+            <CredentialTextInput
+              key={formFieldConstants.formField}
+              formFieldState={formState[formFieldConstants.formField]}
+              stateActionDispatcher={dispatch}
+              formField={formFieldConstants.formField}
+              secureTextEntry={formFieldConstants.secureTextEntry}
+              keyboardType={formFieldConstants.keyboardType}
+              placeholder={formFieldConstants.placeholder}
+            />
+          );
+        })}
+
+        {requestErrorCause.invalidCredentials && (
+          <Text style={styles.loginErrorText}>Invalid login details</Text>
+        )}
+        {requestErrorCause.applicationError && (
+          <Text style={styles.loginErrorText}>
+            Server issue — please try again later
+          </Text>
+        )}
+        <TouchableOpacity
+          style={[
+            styles.loginButton,
+            { opacity: disableButton ? 0.5 : 1 },
+            { marginTop: isFocusedOnInput ? 10 : 20 }
+          ]}
+          disabled={disableButton}
+          activeOpacity={0.5}
+          onPress={() => {
+            const emptyFields = Object.entries(formFieldState).filter(
+              ([field, properties]) => properties.value === ""
+            ) as Entries<typeof formFieldState>;
+            if (emptyFields.length !== 0) {
+              dispatch({
+                type: "highlight_fields",
+                fields: emptyFields.map(([field, properties]) => field)
+              });
+              return;
+            }
+            const formValid = Object.values(formFieldState).every(
+              (field) => field.valid
+            );
+            if (formValid) {
+              setDisableButton(true);
+              const userCredentials = (
+                Object.entries(formFieldState) as Entries<typeof formFieldState>
+              ).reduce(
+                (accumulator, [field, properties]) => {
+                  accumulator[field] = properties.value;
+                  return accumulator;
+                },
+                {} as Record<keyof typeof formFieldState, string>
+              );
+              mutate(userCredentials);
+            } else {
+            }
+          }}
+        >
+          <Text style={styles.buttonText}>Login</Text>
+        </TouchableOpacity>
+        {!isFocusedOnInput && (
+          <BottomTab
+            message="Don't have an account yet? Create one&nbsp;"
+            navigation={navigation}
+            navigateTo="Register"
+          />
+        )}
+      </SafeAreaView>
+    </Pressable>
   );
 };
 

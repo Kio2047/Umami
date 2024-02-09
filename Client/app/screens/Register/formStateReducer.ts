@@ -24,13 +24,14 @@ export const reducer = (
         { ...state }
       );
 
-    case "update_and_validate_field":
+    // case "update_and_validate_field":
+    case "update_field":
       return {
         ...state,
         [action.field]: {
           ...state[action.field],
           value: action.value,
-          valid: formValidations[action.field](action.value),
+          // valid: formValidations[action.field](action.value),
           highlight: false
         }
       };

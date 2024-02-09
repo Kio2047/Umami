@@ -8,4 +8,4 @@ declare module "*.jpg" {
   export = value;
 }
 
-declare module 'react-native-read-more-text';
+declare module "react-native-read-more-text";

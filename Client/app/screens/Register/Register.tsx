@@ -1,17 +1,12 @@
-import React, {
-  useCallback,
-  useContext,
-  useEffect,
-  useReducer,
-  useState
-} from "react";
+import React, { useCallback, useReducer, useState } from "react";
 import {
   Text,
   Image,
   Keyboard,
   TouchableOpacity,
   KeyboardAvoidingView,
-  Pressable
+  Pressable,
+  View
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -19,8 +14,8 @@ import styles from "./RegisterStyles";
 import logo from "../../assets/logo.png";
 import { StackScreenProps } from "../../Types/NavigationTypes";
 import { NewUserCredentials } from "../../Types/CredentialFormTypes";
-import { Entries } from "../../Types/utilTypes";
-import { registerScreenFormConstants } from "../../constants/constants";
+import { Entries } from "../../Types/UtilTypes";
+import { registerScreenFormConstants } from "../../constants/credentialForms";
 import BottomTab from "../../components/BottomTab/BottomTab";
 import { useInputFocusTracker } from "../../hooks/useInputFocusTracker";
 import { createNewUser } from "../../services/api/apiClient";
@@ -41,14 +36,6 @@ const Register = ({
   const [formState, dispatch] = useReducer(reducer, initialState);
   const [disableButton, setDisableButton] = useState(false);
   const isFocusedOnInput = useInputFocusTracker();
-
-  useEffect(() => {
-    return () => {
-      dispatch({
-        type: "blur_field"
-      });
-    };
-  }, []);
 
   const { mutate, isError, error } = useMutation(createNewUser, {
     retry: false,
@@ -87,12 +74,9 @@ const Register = ({
   return (
     <Pressable onPress={Keyboard.dismiss} style={styles.container}>
       <SafeAreaView style={styles.container}>
-        {!isFocusedOnInput && (
-          <Image style={styles.logo} source={logo} resizeMode="contain" />
-        )}
-        <KeyboardAvoidingView>
-          {registerScreenFormConstants.map((formFieldConstants) => {
-            return (
+        <KeyboardAvoidingView behavior="padding">
+          <View style={styles.inputList}>
+            {registerScreenFormConstants.map((formFieldConstants) => (
               <CredentialTextInput
                 key={formFieldConstants.formField}
                 formFieldState={formState[formFieldConstants.formField]}
@@ -101,9 +85,10 @@ const Register = ({
                 secureTextEntry={formFieldConstants.secureTextEntry}
                 keyboardType={formFieldConstants.keyboardType}
                 placeholder={formFieldConstants.placeholder}
+                errorText={formFieldConstants.errorText}
               />
-            );
-          })}
+            ))}
+          </View>
           {/* TODO: make the displayed text change with the focused textinput (e.g., when focused on username box state permitted characters) */}
           {/* {isFocusedOnInput && (
           <Text

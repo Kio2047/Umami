@@ -14,7 +14,7 @@ import type {
   RestaurantProfileScreenProps,
   Post as PostType
 } from "../Types/CredentialFormTypes";
-import colors from "../colors";
+import colors from "../constants/colors";
 
 const RestaurantProfile = ({
   route,

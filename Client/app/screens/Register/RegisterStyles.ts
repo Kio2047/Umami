@@ -1,13 +1,25 @@
 import { StyleSheet } from "react-native";
 
-import colors from "../../colors";
+import colors from "../../constants/colors";
 
 export default StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.backgroundColor,
-    justifyContent: "center",
+    // backgroundColor: colors.backgroundColor,
+    paddingTop: 70,
+    // justifyContent: "center",
     alignItems: "center"
+  },
+  // background: {
+  //   position: "absolute",
+  //   top: 0,
+  //   left: 0,
+  //   right: 0,
+  //   bottom: 0,
+  //   width: "100%"
+  // },
+  inputList: {
+    gap: 20
   },
   logo: {
     width: 200,
@@ -20,7 +32,7 @@ export default StyleSheet.create({
     height: 50,
     backgroundColor: colors.defaultButtonColor,
     borderRadius: 7,
-    marginTop: 20
+    marginTop: 40
   },
   buttonText: {
     textAlign: "center",
