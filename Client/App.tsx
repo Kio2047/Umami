@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "react-native-gesture-handler";
 // import { StatusBar } from "expo-status-bar";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import { StatusBar, Platform, Dimensions } from "react-native";
+import { StatusBar } from "react-native";
 import {
   NavigationContainer,
   DarkTheme,
@@ -28,6 +28,8 @@ import AddProfileImage from "./app/screens/AddProfileImage/AddProfileImage";
 // import AppTabs from "./app/components/AppTabs/AppTabs";
 import { AuthContextProvider } from "./app/contexts/AuthContext/AuthContextProvider";
 import { Provider as PaperProvider } from "react-native-paper";
+import useNavigationBarConfig from "./app/hooks/useNavigationBarConfig";
+import ScreenBackground from "./app/components/ScreenBackground/ScreenBackground";
 
 // import DetailedPost from "./app/components/Post";
 
@@ -46,24 +48,14 @@ const MyTheme = {
   colors: {
     ...DefaultTheme.colors,
     primary: "rgb(255, 45, 85)",
-    background: "#000000",
+    // background: "#000000",
+    background: "transparent",
     secondaryContainer: "transparent"
   }
 };
 
 export default function App() {
-  // Make navigation bar transparent on Android Devices
-  useEffect(() => {
-    (async () => {
-      try {
-        await NavigationBar.setPositionAsync("absolute");
-        await NavigationBar.setBackgroundColorAsync("#ffffff01");
-      } catch (error) {
-        console.error("NavigationBar configuration failed:", error);
-      }
-    })();
-  }, []);
-
+  const navigationBarHeight = useNavigationBarConfig();
   return (
     <>
       <StatusBar
@@ -79,47 +71,64 @@ export default function App() {
           <SafeAreaProvider>
             {/* <SafeAreaView style={styles.appContainer}> */}
             {/* <Provider store={store}> */}
-            <NavigationContainer theme={MyTheme}>
-              {/* <NavigationContainer> */}
-              <RootStack.Navigator
-                initialRouteName="AppTabs"
-                // initialRouteName="AppTabs"
-                // initialRouteName={
-                //   authData[0].status === "success" ? "Feed" : "LandingPage"
-                // }
-                screenOptions={{ headerShown: false }}
-              >
-                {/* initialParams={{user: "Dan"}} */}
-                <RootStack.Screen name="LandingPage" component={LandingPage} />
-                <RootStack.Screen name="Login" component={Login} />
-                <RootStack.Screen name="Register" component={Register} />
-                <RootStack.Screen
-                  name="AddProfileImage"
-                  component={AddProfileImage}
-                  initialParams={{ newUserName: "Kio Shiraz" }}
-                />
-                {/* <RootStack.Screen name="Feed" component={Feed} /> */}
-                {/* <RootStack.Screen
+            {/* <ScreenBackground styles={{}}> */}
+            <ScreenBackground
+              additionalStyles={{ paddingBottom: navigationBarHeight }}
+            >
+              <NavigationContainer theme={MyTheme}>
+                {/* <NavigationContainer> */}
+                <RootStack.Navigator
+                  initialRouteName="AppTabs"
+                  // initialRouteName="AppTabs"
+                  // initialRouteName={
+                  //   authData[0].status === "success" ? "Feed" : "LandingPage"
+                  // }
+                  screenOptions={{
+                    headerShown: false
+                    // cardStyle: {
+                    //   backgroundColor: "transparent"
+                    // }
+                  }}
+                >
+                  {/* initialParams={{user: "Dan"}} */}
+                  <RootStack.Screen
+                    name="LandingPage"
+                    component={LandingPage}
+                  />
+                  <RootStack.Screen name="Login" component={Login} />
+                  <RootStack.Screen name="Register" component={Register} />
+                  <RootStack.Screen
+                    name="AddProfileImage"
+                    component={AddProfileImage}
+                    initialParams={{ newUserName: "Kio Shiraz" }}
+                  />
+                  {/* <RootStack.Screen name="Feed" component={Feed} /> */}
+                  {/* <RootStack.Screen
                   name="AppTabs"
                   component={AppTabs}
                   options={{ headerShown: false }}
                 /> */}
-                {/* <RootStack.Screen name="DetailedPost" component={DetailedPost} /> */}
-                <RootStack.Screen
-                  name="DetailedImage"
-                  component={DetailedImage}
-                />
-                <RootStack.Screen
-                  name="CreateNewPost"
-                  component={CreateNewPost}
-                />
-                <RootStack.Screen name="UserProfile" component={UserProfile} />
-                <RootStack.Screen
-                  name="RestaurantProfile"
-                  component={RestaurantProfile}
-                />
-              </RootStack.Navigator>
-            </NavigationContainer>
+                  {/* <RootStack.Screen name="DetailedPost" component={DetailedPost} /> */}
+                  <RootStack.Screen
+                    name="DetailedImage"
+                    component={DetailedImage}
+                  />
+                  <RootStack.Screen
+                    name="CreateNewPost"
+                    component={CreateNewPost}
+                  />
+                  <RootStack.Screen
+                    name="UserProfile"
+                    component={UserProfile}
+                  />
+                  <RootStack.Screen
+                    name="RestaurantProfile"
+                    component={RestaurantProfile}
+                  />
+                </RootStack.Navigator>
+              </NavigationContainer>
+            </ScreenBackground>
+            {/* </ScreenBackground> */}
             {/* </Provider> */}
             {/* </SafeAreaView> */}
           </SafeAreaProvider>

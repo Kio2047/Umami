@@ -4,8 +4,7 @@ import colors from "../../constants/colors";
 export default StyleSheet.create({
   bottomTab: {
     position: "absolute",
-    // TODO: calculate the height of the navigation bar on android and add bottom global app padding
-    bottom: 50,
+    bottom: 0,
     justifyContent: "center",
     alignItems: "center",
     width: "100%",

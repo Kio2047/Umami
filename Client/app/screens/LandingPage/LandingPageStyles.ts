@@ -8,8 +8,6 @@ export default StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center"
-    // backgroundColor: colors.errorColor
-    // backgroundColor: colors.backgroundColor
   },
   logo: {
     width: 200,
