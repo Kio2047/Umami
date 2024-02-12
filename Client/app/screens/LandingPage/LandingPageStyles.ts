@@ -1,14 +1,15 @@
 import { StyleSheet } from "react-native";
 
-import colors from "../../colors";
+import colors from "../../constants/colors";
 
 export default StyleSheet.create({
   container: {
     paddingHorizontal: 30,
     flex: 1,
     justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: colors.backgroundColor
+    alignItems: "center"
+    // backgroundColor: colors.errorColor
+    // backgroundColor: colors.backgroundColor
   },
   logo: {
     width: 200,
@@ -30,7 +31,6 @@ export default StyleSheet.create({
     justifyContent: "center",
     width: 50,
     height: 50,
-    backgroundColor: colors.backgroundColor,
     marginBottom: 15,
     borderRadius: 7
   },

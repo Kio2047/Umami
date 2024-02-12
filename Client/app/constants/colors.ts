@@ -1,8 +1,8 @@
 export default {
   backgroundColor: "#000000",
   primaryFontColor: "#fcfcfc",
-  defaultButtonColor: "#2e7ec9",
-  formInputBackgroundColor: "#212121",
+  defaultButtonColor: "#1e4aba",
+  formInputBackgroundColor: "#101e24",
   fieldPlaceholderColor: "#9e9e9e",
   fieldFocusedPlaceholderColor: "#fcfcfc",
   fieldFocusedBorderColor: "#fcfcfc",
