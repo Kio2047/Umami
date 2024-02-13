@@ -2,20 +2,24 @@ import React, { useEffect, useState } from "react";
 import "react-native-gesture-handler";
 // import { StatusBar } from "expo-status-bar";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import { StatusBar } from "react-native";
+import { Animated, StatusBar } from "react-native";
 import {
   NavigationContainer,
   DarkTheme,
   DefaultTheme
 } from "@react-navigation/native";
 import * as NavigationBar from "expo-navigation-bar";
-import { createStackNavigator } from "@react-navigation/stack";
+import {
+  createStackNavigator,
+  CardStyleInterpolators,
+  TransitionPresets,
+  StackCardInterpolationProps,
+  StackCardInterpolatedStyle
+} from "@react-navigation/stack";
 // import { Provider } from "react-redux";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import ThemeProvider from "@react-navigation/native";
 
-import type { RootStackParamList } from "./app/Types/NavigationTypes";
-import colors from "./app/constants/colors";
 import LandingPage from "./app/screens/LandingPage/LandingPage";
 import Login from "./app/screens/Login/Login";
 import Register from "./app/screens/Register/Register";
@@ -28,12 +32,12 @@ import AddProfileImage from "./app/screens/AddProfileImage/AddProfileImage";
 // import AppTabs from "./app/components/AppTabs/AppTabs";
 import { AuthContextProvider } from "./app/contexts/AuthContext/AuthContextProvider";
 import { Provider as PaperProvider } from "react-native-paper";
+import { RootStack, stackScreenOptions } from "./app/navigators/RootStack";
 import useNavigationBarConfig from "./app/hooks/useNavigationBarConfig";
 import ScreenBackground from "./app/components/ScreenBackground/ScreenBackground";
 
 // import DetailedPost from "./app/components/Post";
 
-const RootStack = createStackNavigator<RootStackParamList>();
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -78,17 +82,12 @@ export default function App() {
               <NavigationContainer theme={MyTheme}>
                 {/* <NavigationContainer> */}
                 <RootStack.Navigator
-                  initialRouteName="AppTabs"
+                  initialRouteName="LandingPage"
                   // initialRouteName="AppTabs"
                   // initialRouteName={
                   //   authData[0].status === "success" ? "Feed" : "LandingPage"
                   // }
-                  screenOptions={{
-                    headerShown: false
-                    // cardStyle: {
-                    //   backgroundColor: "transparent"
-                    // }
-                  }}
+                  screenOptions={stackScreenOptions}
                 >
                   {/* initialParams={{user: "Dan"}} */}
                   <RootStack.Screen
