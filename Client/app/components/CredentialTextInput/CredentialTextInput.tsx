@@ -30,7 +30,6 @@ interface CredentialTextInputProps<
   formFieldState: FormFieldState;
   formField: T;
   placeholder?: string;
-  // aidText?: string;
   errorText?: string;
   keyboardType?: KeyboardTypeOptions;
   secureTextEntry?: boolean;
@@ -41,7 +40,6 @@ const CredentialTextInput = <T extends LoginFormField | RegisterFormField>({
   formFieldState,
   formField,
   placeholder,
-  // aidText,
   errorText,
   keyboardType = "default",
   secureTextEntry = false

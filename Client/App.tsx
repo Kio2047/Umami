@@ -1,21 +1,12 @@
-import React, { useEffect, useState } from "react";
 import "react-native-gesture-handler";
 // import { StatusBar } from "expo-status-bar";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import { Animated, StatusBar } from "react-native";
+import { StatusBar } from "react-native";
 import {
   NavigationContainer,
   DarkTheme,
   DefaultTheme
 } from "@react-navigation/native";
-import * as NavigationBar from "expo-navigation-bar";
-import {
-  createStackNavigator,
-  CardStyleInterpolators,
-  TransitionPresets,
-  StackCardInterpolationProps,
-  StackCardInterpolatedStyle
-} from "@react-navigation/stack";
 // import { Provider } from "react-redux";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import ThemeProvider from "@react-navigation/native";
@@ -35,6 +26,7 @@ import { Provider as PaperProvider } from "react-native-paper";
 import { RootStack, stackScreenOptions } from "./app/navigators/RootStack";
 import useNavigationBarConfig from "./app/hooks/useNavigationBarConfig";
 import ScreenBackground from "./app/components/ScreenBackground/ScreenBackground";
+import RegistrationEmail from "./app/screens/RegistrationEmail/RegistrationEmail";
 
 // import DetailedPost from "./app/components/Post";
 
@@ -57,6 +49,8 @@ const MyTheme = {
     secondaryContainer: "transparent"
   }
 };
+
+// TODO: add splash screen to application
 
 export default function App() {
   const navigationBarHeight = useNavigationBarConfig();
@@ -96,6 +90,10 @@ export default function App() {
                   />
                   <RootStack.Screen name="Login" component={Login} />
                   <RootStack.Screen name="Register" component={Register} />
+                  <RootStack.Screen
+                    name="RegistrationEmail"
+                    component={RegistrationEmail}
+                  />
                   <RootStack.Screen
                     name="AddProfileImage"
                     component={AddProfileImage}

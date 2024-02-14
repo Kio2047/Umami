@@ -75,8 +75,8 @@ export const stackScreenOptions: StackNavigationOptions = {
     display: "none"
   },
   headerLeftContainerStyle: {
-    marginTop: 20,
-    marginLeft: 30
+    marginTop: 3,
+    marginLeft: 4
   },
   headerTintColor: "#fff",
   headerBackTitleVisible: false,

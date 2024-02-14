@@ -15,7 +15,7 @@ import logo from "../../assets/logo.png";
 import { StackScreenProps } from "../../Types/NavigationTypes";
 import { NewUserCredentials } from "../../Types/CredentialFormTypes";
 import { Entries } from "../../Types/UtilTypes";
-import { registerScreenFormConstants } from "../../constants/credentialForms";
+import { registrationInputConstants } from "../../constants/registrationConstants";
 import BottomTab from "../../components/BottomTab/BottomTab";
 import { useInputFocusTracker } from "../../hooks/useInputFocusTracker";
 import { createNewUser } from "../../services/api/apiClient";
@@ -73,26 +73,25 @@ const Register = ({
   );
 
   return (
-    <BackgroundImage>
-      <Pressable onPress={Keyboard.dismiss} style={styles.container}>
-        <SafeAreaView style={styles.container}>
-          <KeyboardAvoidingView behavior="padding">
-            <View style={styles.inputList}>
-              {registerScreenFormConstants.map((formFieldConstants) => (
-                <CredentialTextInput
-                  key={formFieldConstants.formField}
-                  formFieldState={formState[formFieldConstants.formField]}
-                  stateActionDispatcher={dispatch}
-                  formField={formFieldConstants.formField}
-                  secureTextEntry={formFieldConstants.secureTextEntry}
-                  keyboardType={formFieldConstants.keyboardType}
-                  placeholder={formFieldConstants.placeholder}
-                  errorText={formFieldConstants.errorText}
-                />
-              ))}
-            </View>
-            {/* TODO: make the displayed text change with the focused textinput (e.g., when focused on username box state permitted characters) */}
-            {/* {isFocusedOnInput && (
+    <Pressable onPress={Keyboard.dismiss} style={styles.container}>
+      <SafeAreaView style={styles.container}>
+        <KeyboardAvoidingView behavior="padding">
+          <View style={styles.inputList}>
+            {registrationInputConstants.map((formFieldConstants) => (
+              <CredentialTextInput
+                key={formFieldConstants.formField}
+                formFieldState={formState[formFieldConstants.formField]}
+                stateActionDispatcher={dispatch}
+                formField={formFieldConstants.formField}
+                secureTextEntry={formFieldConstants.secureTextEntry}
+                keyboardType={formFieldConstants.keyboardType}
+                placeholder={formFieldConstants.placeholder}
+                errorText={formFieldConstants.errorText}
+              />
+            ))}
+          </View>
+          {/* TODO: make the displayed text change with the focused textinput (e.g., when focused on username box state permitted characters) */}
+          {/* {isFocusedOnInput && (
           <Text
             style={[
               styles.passwordStrengthText,
@@ -103,66 +102,63 @@ const Register = ({
             character
           </Text>
         )} */}
-            <TouchableOpacity
-              style={[
-                styles.signUpButton,
-                { opacity: disableButton ? 0.5 : 1 }
-                // { marginBottom: isFocusedOnInput ? 10 : undefined }
-                // { marginTop: isFocusedOnInput ? 40 : 20 }
-              ]}
-              disabled={disableButton}
-              activeOpacity={0.5}
-              onPress={() => {
-                const emptyFields = Object.entries(formState).filter(
-                  ([field, properties]) => properties.value === ""
-                ) as Entries<typeof formState>;
-                if (emptyFields.length !== 0) {
+          <TouchableOpacity
+            style={[
+              styles.signUpButton,
+              { opacity: disableButton ? 0.5 : 1 }
+              // { marginBottom: isFocusedOnInput ? 10 : undefined }
+              // { marginTop: isFocusedOnInput ? 40 : 20 }
+            ]}
+            disabled={disableButton}
+            activeOpacity={0.5}
+            onPress={() => {
+              const emptyFields = Object.entries(formState).filter(
+                ([field, properties]) => properties.value === ""
+              ) as Entries<typeof formState>;
+              if (emptyFields.length !== 0) {
+                dispatch({
+                  type: "highlight_fields",
+                  fields: emptyFields.map(([field, properties]) => field)
+                });
+                return;
+              }
+              const formValid = Object.values(formState).every(
+                (field) => field.valid
+              );
+              if (formValid) {
+                setDisableButton(true);
+                // let formFieldValues:
+                const newUserCredentials = (
+                  Object.entries(formState) as Entries<typeof formState>
+                ).reduce(
+                  (accumulator, [field, properties]) => {
+                    accumulator[field] = properties.value;
+                    return accumulator;
+                  },
+                  {} as Record<keyof typeof formState, string>
+                );
+                mutate(newUserCredentials);
+              } else {
+                if (!formState.password.valid) {
                   dispatch({
                     type: "highlight_fields",
-                    fields: emptyFields.map(([field, properties]) => field)
+                    fields: ["password"]
                   });
-                  return;
                 }
-                const formValid = Object.values(formState).every(
-                  (field) => field.valid
-                );
-                if (formValid) {
-                  setDisableButton(true);
-                  // let formFieldValues:
-                  const newUserCredentials = (
-                    Object.entries(formState) as Entries<typeof formState>
-                  ).reduce(
-                    (accumulator, [field, properties]) => {
-                      accumulator[field] = properties.value;
-                      return accumulator;
-                    },
-                    {} as Record<keyof typeof formState, string>
-                  );
-                  mutate(newUserCredentials);
-                } else {
-                  if (!formState.password.valid) {
-                    dispatch({
-                      type: "highlight_fields",
-                      fields: ["password"]
-                    });
-                  }
-                  //TODO: highlight other fields if invalid
-                }
-              }}
-            >
-              <Text style={styles.buttonText}>Sign up</Text>
-            </TouchableOpacity>
-          </KeyboardAvoidingView>
-          {!isFocusedOnInput && (
-            <BottomTab
-              message="Already have an account? Sign in&nbsp;"
-              navigation={navigation}
-              navigateTo="Login"
-            />
-          )}
-        </SafeAreaView>
-      </Pressable>
-    </BackgroundImage>
+                //TODO: highlight other fields if invalid
+              }
+            }}
+          >
+            <Text style={styles.buttonText}>Sign up</Text>
+          </TouchableOpacity>
+        </KeyboardAvoidingView>
+        <BottomTab
+          message="Already have an account? Sign in&nbsp;"
+          navigation={navigation}
+          navigateTo="Login"
+        />
+      </SafeAreaView>
+    </Pressable>
   );
 };
 

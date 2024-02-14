@@ -14,8 +14,8 @@ import styles from "./LandingPageStyles";
 import logo from "../../assets/logo-transparent.png";
 import { StackScreenProps } from "../../Types/NavigationTypes";
 import { useLocalStorageAuthData } from "../../hooks/useLocalStorageAuthData";
-import DarkModeBackground from "../../assets/darkmode-background3.png";
-import BackgroundImage from "../../components/ScreenBackground/ScreenBackground";
+
+// TODO: add animation to logo and screen content the first time the page is loaded up
 
 const LandingPage = ({
   navigation
@@ -26,13 +26,15 @@ const LandingPage = ({
     <SafeAreaView style={styles.container}>
       {/* fadeDuration={0} */}
       <Image style={styles.logo} source={logo} resizeMode="contain" />
+      {/* TODO: Add text below logo: e.g. "See what the world's eating" */}
 
       <View style={styles.buttonContainer}>
         {/* TODO: add accessibility to the touchable opacities */}
         <TouchableOpacity
           style={styles.topButton}
           activeOpacity={0.5}
-          onPress={() => navigation.navigate("Register")}
+          // onPress={() => navigation.navigate("Register")}
+          onPress={() => navigation.navigate("RegistrationEmail")}
         >
           <Text style={styles.topButtonText}>Create Account</Text>
         </TouchableOpacity>

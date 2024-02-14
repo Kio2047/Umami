@@ -21,7 +21,7 @@ import { Entries } from "../../Types/UtilTypes";
 import { StackScreenProps } from "../../Types/NavigationTypes";
 import { LoginUserResponse } from "../../Types/APIResponseTypes";
 import { useInputFocusTracker } from "../../hooks/useInputFocusTracker";
-import { loginScreenFormConstants } from "../../constants/credentialForms";
+import { loginFormConstants } from "../../constants/credentialForms";
 import CredentialTextInput from "../../components/CredentialTextInput/CredentialTextInput";
 import { initialState, reducer } from "./formStateReducer";
 import { useAuthContext } from "../../hooks/useAuthContext";
@@ -113,7 +113,7 @@ const Login = ({
           source={logo}
           resizeMode="contain"
         />
-        {loginScreenFormConstants.map((formFieldConstants) => {
+        {loginFormConstants.map((formFieldConstants) => {
           return (
             <CredentialTextInput
               key={formFieldConstants.formField}

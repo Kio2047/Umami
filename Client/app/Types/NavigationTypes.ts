@@ -1,4 +1,4 @@
-import { RouteProp } from "@react-navigation/core";
+import { RouteProp } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import {
   BottomTabScreenProps,
@@ -11,6 +11,7 @@ export type RootStackParamList = {
   LandingPage: undefined;
   Login: undefined;
   Register: undefined;
+  RegistrationEmail: undefined;
   AddProfileImage: { newUserName: string };
   // Feed: { feedUserInfo: User };
   AppTabs: undefined;
@@ -34,6 +35,13 @@ export type StackScreenProps<screen extends keyof RootStackParamList> = {
   navigation: StackNavigationProp<RootStackParamList, screen>;
   route: RouteProp<RootStackParamList, screen>;
 };
+
+declare global {
+  // eslint-disable-next-line @typescript-eslint/no-namespace
+  namespace ReactNavigation {
+    interface RootParamList extends RootStackParamList {}
+  }
+}
 
 type AppTabsParamlist = {
   Feed: undefined;

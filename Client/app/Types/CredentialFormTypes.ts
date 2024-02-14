@@ -1,13 +1,28 @@
+import { KeyboardTypeOptions } from "react-native";
+
 export type LoginFormField = "usernameOrEmail" | "password";
 export type RegisterFormField = "email" | "name" | "username" | "password";
 
-export type FormFieldState = {
+export interface FormFieldState {
   value: string;
   valid: boolean;
   highlight: boolean;
   focused: boolean;
   error: boolean;
-};
+}
+
+export type FormState<T extends LoginFormField | RegisterFormField> = Record<
+  T,
+  FormFieldState
+>;
+
+export interface InputConstants<T extends LoginFormField | RegisterFormField> {
+  formField: T;
+  placeholder?: string;
+  errorText?: string;
+  keyboardType?: KeyboardTypeOptions;
+  secureTextEntry?: true;
+}
 
 export type FormAction<T extends LoginFormField | RegisterFormField> =
   | {
@@ -29,10 +44,17 @@ export type FormAction<T extends LoginFormField | RegisterFormField> =
       value: string;
     };
 
-export type FormState<T extends LoginFormField | RegisterFormField> = Record<
-  T,
-  FormFieldState
+export type RegistrationInputConstants = Record<
+  RegisterFormField,
+  InputConstants<RegisterFormField>
 >;
+
+export interface RegistrationScreenConstants {
+  heading: string;
+  additionalText?: string;
+  inputConstants: InputConstants<RegisterFormField>;
+  additionalContent?: React.ReactNode;
+}
 
 // TODO: Move below types to appropriate new file
 export type PostRestaurant = {

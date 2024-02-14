@@ -3,7 +3,7 @@ import colors from "../../constants/colors";
 
 export default StyleSheet.create({
   container: {
-    width: 330,
+    width: "100%",
     gap: 10
   },
   pressable: {
