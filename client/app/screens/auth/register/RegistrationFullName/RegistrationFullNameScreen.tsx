@@ -5,19 +5,19 @@ import RegistrationScreenTemplate from "../../../../components/RegisterationScre
 import { registrationScreenConstants } from "../../../../constants/registerConstants";
 import { initialState } from "../registerFormStateReducer";
 
-const RegistrationFullName = ({
+const RegistrationFullNameScreen = ({
   navigation
 }: {
   navigation: StackNavigationProp<ReactNavigation.RootParamList>;
 }) => {
   return (
-    <RegistrationScreenTemplate<"RegistrationFullName">
+    <RegistrationScreenTemplate<"RegistrationFullNameScreen">
       {...registrationScreenConstants.fullNameScreen}
       initialState={initialState}
       navigation={navigation}
-      nextScreen="RegistrationEmail"
+      nextScreen="RegistrationEmailScreen"
     />
   );
 };
 
-export default RegistrationFullName;
+export default RegistrationFullNameScreen;

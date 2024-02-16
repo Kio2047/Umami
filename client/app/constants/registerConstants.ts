@@ -32,7 +32,7 @@ export const registrationScreenConstants: Record<
   emailScreen: {
     heading: "What's your email address?",
     additionalText:
-      "Enter an email through which we can reach you. This won't be visible to other users on your profile.",
+      "Enter an email where we can reach you. This won't be visible to other users on your profile.",
     inputConstants: registrationInputConstants.email
   },
   passwordScreen: {

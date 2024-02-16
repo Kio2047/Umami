@@ -15,7 +15,7 @@ import type {
 } from "../../types/CredentialFormTypes";
 import { colors } from "../../constants/styleConstants";
 
-const RestaurantProfile = ({
+const RestaurantProfileScreen = ({
   route,
   navigation
 }: RestaurantProfileScreenProps) => {
@@ -50,4 +50,4 @@ const RestaurantProfile = ({
   );
 };
 
-export default RestaurantProfile;
+export default RestaurantProfileScreen;

@@ -18,7 +18,7 @@ import { searchForUsers } from "../../services/api/apiClient";
 import UserSearchResult from "../../components/UserSearchResult/UserSearchResult";
 import { getJWT, setJWT } from "../../services/deviceStorageClient";
 
-const Search = ({
+const SearchScreen = ({
   navigation
 }: {
   navigation: AppTabProps<"Search">["navigation"];
@@ -93,4 +93,4 @@ const Search = ({
   );
 };
 
-export default Search;
+export default SearchScreen;

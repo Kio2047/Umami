@@ -16,10 +16,10 @@ import {
 } from "../../types/CredentialFormTypes";
 
 interface NextScreenMap {
-  RegistrationFullName: "RegistrationEmail";
-  RegistrationEmail: "RegistrationUsername";
-  RegistrationUsername: "RegistrationPassword";
-  RegistrationPassword: "AddProfileImage";
+  RegistrationFullNameScreen: "RegistrationEmailScreen";
+  RegistrationEmailScreen: "RegistrationUsernameScreen";
+  RegistrationUsernameScreen: "RegistrationPasswordScreen";
+  RegistrationPasswordScreen: "AddProfileImageScreen";
 }
 
 interface RegistrationScreenTemplateProps<
@@ -47,7 +47,7 @@ const RegistrationScreenTemplate = <
   // TODO: why doesn't typing nextScreen as nextScreen: NextScreenMap[T] (as above) work here?
   const nextButtonOnPressHandler = (nextScreen: ValueOf<NextScreenMap>) => {
     switch (nextScreen) {
-      case "AddProfileImage":
+      case "AddProfileImageScreen":
         navigation.navigate(nextScreen, {
           newUserName: formState.fullName.value
         });

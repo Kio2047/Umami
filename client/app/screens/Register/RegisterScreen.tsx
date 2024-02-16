@@ -31,7 +31,7 @@ import {
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 import BackgroundImage from "../../components/ScreenBackground/ScreenBackground";
 
-const Register = ({
+const RegisterScreen = ({
   navigation
 }: {
   navigation: StackScreenProps<"Register">["navigation"];
@@ -165,4 +165,4 @@ const Register = ({
   );
 };
 
-export default Register;
+export default RegisterScreen;

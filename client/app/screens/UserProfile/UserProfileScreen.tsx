@@ -18,7 +18,7 @@ import type {
 import { colors } from "../../constants/styleConstants";
 import { getPostsByUser } from "../../services/api/apiClient";
 
-const UserProfile = ({ route, navigation }: UserProfileScreenProps) => {
+const UserProfileScreen = ({ route, navigation }: UserProfileScreenProps) => {
   // Rather than filtering the posts from the original feed, this should make another fetch using the userID and get posts from the user's posts field
   let { profileUserID, profileUserprofileImageURL, profileUserName } =
     route.params;
@@ -63,4 +63,4 @@ const UserProfile = ({ route, navigation }: UserProfileScreenProps) => {
   );
 };
 
-export default UserProfile;
+export default UserProfileScreen;

@@ -4,18 +4,19 @@ import RegistrationScreenTemplate from "../../../../components/RegisterationScre
 import { registrationScreenConstants } from "../../../../constants/registerConstants";
 import { initialState } from "../registerFormStateReducer";
 
-const RegistrationEmail = ({
+const RegistrationEmailScreen = ({
   navigation
 }: {
   navigation: StackNavigationProp<ReactNavigation.RootParamList>;
 }) => {
   return (
-    <RegistrationScreenTemplate
+    <RegistrationScreenTemplate<"RegistrationEmailScreen">
       {...registrationScreenConstants.emailScreen}
       initialState={initialState}
       navigation={navigation}
+      nextScreen="RegistrationUsernameScreen"
     />
   );
 };
 
-export default RegistrationEmail;
+export default RegistrationEmailScreen;

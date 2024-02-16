@@ -9,29 +9,29 @@ import { User } from "./CredentialFormTypes";
 
 export type RootStackParamList = {
   WelcomeScreen: undefined;
-  Login: undefined;
-  Register: undefined;
-  RegistrationFullName: undefined;
-  RegistrationEmail: undefined;
-  RegistrationUsername: undefined;
-  RegistrationPassword: undefined;
-  AddProfileImage: { newUserName: string };
+  LoginScreen: undefined;
+  RegisterScreen: undefined;
+  RegistrationFullNameScreen: undefined;
+  RegistrationEmailScreen: undefined;
+  RegistrationUsernameScreen: undefined;
+  RegistrationPasswordScreen: undefined;
+  AddProfileImageScreen: { newUserName: string };
   // Feed: { feedUserInfo: User };
-  AppTabs: undefined;
-  DetailedImage: { imageURL: string };
-  CreateNewPost: {
+  AppTabsScreen: undefined;
+  DetailedImageScreen: { imageURL: string };
+  CreateNewPostScreen: {
     profileImageURL: string;
     authorID: string;
     setRefreshCount: React.Dispatch<React.SetStateAction<number>>;
   };
-  UserProfile: {
+  UserProfileScreen: {
     profileUserID: string;
     profileUserprofileImageURL: string;
     profileUserName: string;
   };
-  RestaurantProfile: { restaurantID: string; restaurantName: string };
+  RestaurantProfileScreen: { restaurantID: string; restaurantName: string };
   // DetailedPost: {postData: Post, navigation: any },
-  About: { title: string; body: string };
+  AboutScreen: { title: string; body: string };
 };
 
 export type StackScreenProps<screen extends keyof RootStackParamList> = {

@@ -12,14 +12,14 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import ThemeProvider from "@react-navigation/native";
 
 import WelcomeScreen from "./app/screens/Welcome/WelcomeScreen";
-import Login from "./app/screens/auth/login/Login/LoginScreen";
-import Register from "./app/screens/Register/RegisterScreen";
+import LoginScreen from "./app/screens/auth/login/Login/LoginScreen";
+import RegisterScreen from "./app/screens/Register/RegisterScreen";
 // import Feed from "./app/screens/Feed/Feed";
-import DetailedImage from "./app/screens/DetailedImage/DetailedImageScreen";
-import CreateNewPost from "./app/screens/CreateNewPost/CreateNewPostScreen";
-import UserProfile from "./app/screens/UserProfile/UserProfileScreen";
-import RestaurantProfile from "./app/screens/RestaurantProfile/RestaurantProfileScreen";
-import AddProfileImage from "./app/screens/auth/register/AddProfileImage/AddProfileImageScreen";
+import DetailedImageScreen from "./app/screens/DetailedImage/DetailedImageScreen";
+import CreateNewPostScreen from "./app/screens/CreateNewPost/CreateNewPostScreen";
+import UserProfileScreen from "./app/screens/UserProfile/UserProfileScreen";
+import RestaurantProfileScreen from "./app/screens/RestaurantProfile/RestaurantProfileScreen";
+import AddProfileImageScreen from "./app/screens/auth/register/AddProfileImage/AddProfileImageScreen";
 // import AppTabs from "./app/components/AppTabs/AppTabs";
 import { AuthContextProvider } from "./app/contexts/AuthContext/AuthContextProvider";
 import { Provider as PaperProvider } from "react-native-paper";
@@ -27,8 +27,8 @@ import { RootStack } from "./app/navigators/RootStack/RootStack";
 import { stackScreenOptions } from "./app/navigators/RootStack/RootStackScreenOptions";
 import useNavigationBarConfig from "./app/hooks/useNavigationBarConfig";
 import ScreenBackground from "./app/components/ScreenBackground/ScreenBackground";
-import RegistrationEmail from "./app/screens/auth/register/RegistrationEmail/RegistrationEmailScreen";
-import RegistrationFullName from "./app/screens/auth/register/RegistrationFullName/RegistrationFullNameScreen";
+import RegistrationEmailScreen from "./app/screens/auth/register/RegistrationEmail/RegistrationEmailScreen";
+import RegistrationFullNameScreen from "./app/screens/auth/register/RegistrationFullName/RegistrationFullNameScreen";
 
 // import DetailedPost from "./app/components/Post";
 
@@ -90,19 +90,25 @@ export default function App() {
                     name="WelcomeScreen"
                     component={WelcomeScreen}
                   />
-                  <RootStack.Screen name="Login" component={Login} />
-                  <RootStack.Screen name="Register" component={Register} />
                   <RootStack.Screen
-                    name="RegistrationFullName"
-                    component={RegistrationFullName}
+                    name="LoginScreen"
+                    component={LoginScreen}
                   />
                   <RootStack.Screen
-                    name="RegistrationEmail"
-                    component={RegistrationEmail}
+                    name="RegisterScreen"
+                    component={RegisterScreen}
                   />
                   <RootStack.Screen
-                    name="AddProfileImage"
-                    component={AddProfileImage}
+                    name="RegistrationFullNameScreen"
+                    component={RegistrationFullNameScreen}
+                  />
+                  <RootStack.Screen
+                    name="RegistrationEmailScreen"
+                    component={RegistrationEmailScreen}
+                  />
+                  <RootStack.Screen
+                    name="AddProfileImageScreen"
+                    component={AddProfileImageScreen}
                     initialParams={{ newUserName: "Kio Shiraz" }}
                   />
                   {/* <RootStack.Screen name="Feed" component={Feed} /> */}
@@ -113,20 +119,20 @@ export default function App() {
                 /> */}
                   {/* <RootStack.Screen name="DetailedPost" component={DetailedPost} /> */}
                   <RootStack.Screen
-                    name="DetailedImage"
-                    component={DetailedImage}
+                    name="DetailedImageScreen"
+                    component={DetailedImageScreen}
                   />
                   <RootStack.Screen
-                    name="CreateNewPost"
-                    component={CreateNewPost}
+                    name="CreateNewPostScreen"
+                    component={CreateNewPostScreen}
                   />
                   <RootStack.Screen
-                    name="UserProfile"
-                    component={UserProfile}
+                    name="UserProfileScreen"
+                    component={UserProfileScreen}
                   />
                   <RootStack.Screen
-                    name="RestaurantProfile"
-                    component={RestaurantProfile}
+                    name="RestaurantProfileScreen"
+                    component={RestaurantProfileScreen}
                   />
                 </RootStack.Navigator>
               </NavigationContainer>

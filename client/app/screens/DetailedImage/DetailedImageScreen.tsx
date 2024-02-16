@@ -3,7 +3,10 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import React from "react";
 import type { DetailedImageScreenProps } from "../../types/CredentialFormTypes";
 
-const DetailedImage = ({ route, navigation }: DetailedImageScreenProps) => {
+const DetailedImageScreen = ({
+  route,
+  navigation
+}: DetailedImageScreenProps) => {
   const { imageURL } = route.params;
 
   return (
@@ -17,4 +20,4 @@ const DetailedImage = ({ route, navigation }: DetailedImageScreenProps) => {
   );
 };
 
-export default DetailedImage;
+export default DetailedImageScreen;

@@ -15,7 +15,7 @@ import {
 } from "../../../../services/api/apiClient";
 import { AuthContext } from "../../../../contexts/AuthContext/AuthContext";
 
-const AddProfileImage = ({
+const AddProfileImageScreen = ({
   navigation,
   route
 }: StackScreenProps<"AddProfileImage">) => {
@@ -148,4 +148,4 @@ const AddProfileImage = ({
   );
 };
 
-export default AddProfileImage;
+export default AddProfileImageScreen;

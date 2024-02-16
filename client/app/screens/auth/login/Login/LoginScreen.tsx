@@ -26,7 +26,7 @@ import CredentialTextInput from "../../../../components/CredentialTextInput/Cred
 import { initialState, reducer } from "./loginFormStateReducer";
 import { useAuthContext } from "../../../../hooks/useAuthContext";
 
-const Login = ({
+const LoginScreen = ({
   navigation
 }: {
   navigation: StackScreenProps<"Login">["navigation"];
@@ -187,4 +187,4 @@ const Login = ({
   );
 };
 
-export default Login;
+export default LoginScreen;

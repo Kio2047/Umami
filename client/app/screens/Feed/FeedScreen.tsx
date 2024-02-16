@@ -26,7 +26,7 @@ import styles from "./FeedScreen.styles";
 import { GetUserCardInfoResponse } from "../../types/APIResponseTypes";
 import FeedHeader from "../../components/FeedHeader/FeedHeader";
 
-const Feed = ({
+const FeedScreen = ({
   navigation
 }: {
   navigation: AppTabProps<"Feed">["navigation"];
@@ -126,4 +126,4 @@ const Feed = ({
   );
 };
 
-export default Feed;
+export default FeedScreen;

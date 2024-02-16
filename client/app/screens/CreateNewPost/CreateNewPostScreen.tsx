@@ -26,7 +26,10 @@ import type {
 } from "../../types/CredentialFormTypes";
 import { sendNewPost, uploadImages } from "../../services/api/apiClient";
 
-const CreateNewPost = ({ navigation, route }: CreateNewPostScreenProps) => {
+const CreateNewPostScreen = ({
+  navigation,
+  route
+}: CreateNewPostScreenProps) => {
   const { profileImageURL, authorID, setRefreshCount } = route.params;
 
   const [formEntries, setFormEntries] = useState<NewPost>({
@@ -274,4 +277,4 @@ const CreateNewPost = ({ navigation, route }: CreateNewPostScreenProps) => {
   );
 };
 
-export default CreateNewPost;
+export default CreateNewPostScreen;
