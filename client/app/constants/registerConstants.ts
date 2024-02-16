@@ -11,7 +11,7 @@ export const registrationInputConstants: RegistrationInputConstants = {
     // errorText: "This is some placeholder error text to test the error text"
     // errorMessages: {}
   },
-  name: { formField: "name", placeholder: "Full Name" },
+  fullName: { formField: "fullName", placeholder: "Full Name" },
   username: { formField: "username" },
   password: {
     formField: "password",
@@ -22,12 +22,12 @@ export const registrationInputConstants: RegistrationInputConstants = {
 };
 
 export const registrationScreenConstants: Record<
-  "emailScreen" | "nameScreen" | "usernameScreen" | "passwordScreen",
+  "emailScreen" | "fullNameScreen" | "usernameScreen" | "passwordScreen",
   RegistrationScreenConstants
 > = {
-  nameScreen: {
+  fullNameScreen: {
     heading: "Hi! What's your name?",
-    inputConstants: registrationInputConstants.name
+    inputConstants: registrationInputConstants.fullName
   },
   emailScreen: {
     heading: "What's your email address?",

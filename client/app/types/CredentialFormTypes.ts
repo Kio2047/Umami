@@ -1,7 +1,7 @@
 import { KeyboardTypeOptions } from "react-native";
 
 export type LoginFormField = "usernameOrEmail" | "password";
-export type RegisterFormField = "email" | "name" | "username" | "password";
+export type RegisterFormField = "email" | "fullName" | "username" | "password";
 
 export interface FormFieldState {
   value: string;

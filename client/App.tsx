@@ -28,6 +28,7 @@ import { stackScreenOptions } from "./app/navigators/RootStack/RootStackScreenOp
 import useNavigationBarConfig from "./app/hooks/useNavigationBarConfig";
 import ScreenBackground from "./app/components/ScreenBackground/ScreenBackground";
 import RegistrationEmail from "./app/screens/auth/register/RegistrationEmail/RegistrationEmailScreen";
+import RegistrationFullName from "./app/screens/auth/register/RegistrationFullName/RegistrationFullNameScreen";
 
 // import DetailedPost from "./app/components/Post";
 
@@ -91,6 +92,10 @@ export default function App() {
                   />
                   <RootStack.Screen name="Login" component={Login} />
                   <RootStack.Screen name="Register" component={Register} />
+                  <RootStack.Screen
+                    name="RegistrationFullName"
+                    component={RegistrationFullName}
+                  />
                   <RootStack.Screen
                     name="RegistrationEmail"
                     component={RegistrationEmail}

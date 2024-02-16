@@ -34,7 +34,7 @@ const WelcomeScreen = ({
           style={styles.topButton}
           activeOpacity={0.5}
           // onPress={() => navigation.navigate("Register")}
-          onPress={() => navigation.navigate("RegistrationEmail")}
+          onPress={() => navigation.navigate("RegistrationFullName")}
         >
           <Text style={styles.topButtonText}>Create Account</Text>
         </TouchableOpacity>

@@ -11,7 +11,10 @@ export type RootStackParamList = {
   WelcomeScreen: undefined;
   Login: undefined;
   Register: undefined;
+  RegistrationFullName: undefined;
   RegistrationEmail: undefined;
+  RegistrationUsername: undefined;
+  RegistrationPassword: undefined;
   AddProfileImage: { newUserName: string };
   // Feed: { feedUserInfo: User };
   AppTabs: undefined;
