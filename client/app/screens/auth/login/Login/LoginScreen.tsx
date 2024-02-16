@@ -14,7 +14,7 @@ import styles from "./LoginScreen.styles";
 import logo from "../../../../assets/images/logo-transparent.png";
 import BottomTab from "../../../../components/BottomTab/BottomTab";
 import { loginUser } from "../../../../services/api/apiClient";
-import { FailedRequestError } from "../../../../services/api/APIUtils";
+import { FailedRequestError } from "../../../../services/api/apiUtils";
 import { setJWT, setUserID } from "../../../../services/deviceStorageClient";
 import { LoginCredentials } from "../../../../types/CredentialFormTypes";
 import { Entries } from "../../../../types/UtilTypes";

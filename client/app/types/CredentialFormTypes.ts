@@ -53,7 +53,6 @@ export interface RegistrationScreenConstants {
   heading: string;
   additionalText?: string;
   inputConstants: InputConstants<RegisterFormField>;
-  additionalContent?: React.ReactNode;
 }
 
 // TODO: Move below types to appropriate new file

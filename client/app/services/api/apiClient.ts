@@ -21,7 +21,7 @@ import {
   UserSearchResultsResponse
 } from "../../types/APIResponseTypes";
 import { getUserID } from "../deviceStorageClient";
-import { sendPostRequest, sendGetRequest, sendPatchRequest } from "./APIUtils";
+import { sendPostRequest, sendGetRequest, sendPatchRequest } from "./apiUtils";
 
 const baseURL =
   "https://20e8-2a00-23c8-5999-8f01-f504-e714-e9cf-68da.eu.ngrok.io";
