@@ -13,9 +13,9 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import styles from "./RegisterScreen.styles";
 import logo from "../../assets/images/logo.png";
 import { StackScreenProps } from "../../types/NavigationTypes";
-import { NewUserCredentials } from "../../types/CredentialFormTypes";
+import { NewUserCredentials } from "../../types/auth/AuthTypes";
 import { Entries } from "../../types/UtilTypes";
-import { registrationInputConstants } from "../../constants/registerConstants";
+import { registerInputConstants } from "../../constants/registerConstants";
 import BottomTab from "../../components/BottomTab/BottomTab";
 import { useInputFocusTracker } from "../../hooks/useInputFocusTracker";
 import { createNewUser } from "../../services/api/apiClient";
@@ -80,7 +80,7 @@ const RegisterScreen = ({
       <SafeAreaView style={styles.container}>
         <KeyboardAvoidingView behavior="padding">
           <View style={styles.inputList}>
-            {registrationInputConstants.map((formFieldConstants) => (
+            {registerInputConstants.map((formFieldConstants) => (
               <CredentialTextInput
                 key={formFieldConstants.formField}
                 formFieldState={formState[formFieldConstants.formField]}

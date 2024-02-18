@@ -16,7 +16,7 @@ import BottomTab from "../../../../components/BottomTab/BottomTab";
 import { loginUser } from "../../../../services/api/apiClient";
 import { FailedRequestError } from "../../../../services/api/apiUtils";
 import { setJWT, setUserID } from "../../../../services/deviceStorageClient";
-import { LoginCredentials } from "../../../../types/CredentialFormTypes";
+import { LoginCredentials } from "../../../../types/auth/AuthTypes";
 import { Entries } from "../../../../types/UtilTypes";
 import { StackScreenProps } from "../../../../types/NavigationTypes";
 import { LoginUserResponse } from "../../../../types/APIResponseTypes";

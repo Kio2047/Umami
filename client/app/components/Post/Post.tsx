@@ -3,11 +3,11 @@ import React from "react";
 import { Rating, AirbnbRating } from "react-native-ratings";
 import ReadMore from "react-native-read-more-text";
 
-import type { Post as PostType } from "../../types/CredentialFormTypes";
+import type { Post as PostType } from "../../types/auth/AuthTypes.ts";
 import { colors } from "../../constants/styleConstants";
 import { calculatePostTimestamp } from "../../utils/utils";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import { PostNavigationProp } from "../../types/CredentialFormTypes";
+import { PostNavigationProp } from "../../types/auth/AuthTypes.ts";
 
 const Post = ({
   postData,

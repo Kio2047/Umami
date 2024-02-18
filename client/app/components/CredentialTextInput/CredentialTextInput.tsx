@@ -17,7 +17,7 @@ import {
   RegisterFormField,
   FormAction,
   FormFieldState
-} from "../../types/CredentialFormTypes";
+} from "../../types/auth/AuthTypes";
 import { colors } from "../../constants/styleConstants";
 
 const getPlaceholderText = (field: string, placeholder?: string) =>
@@ -30,7 +30,6 @@ interface CredentialTextInputProps<
   formFieldState: FormFieldState;
   formField: T;
   placeholder?: string;
-  errorText?: string;
   keyboardType?: KeyboardTypeOptions;
   secureTextEntry?: boolean;
 }
@@ -40,7 +39,7 @@ const CredentialTextInput = <T extends LoginFormField | RegisterFormField>({
   formFieldState,
   formField,
   placeholder,
-  errorText,
+  // errorText,
   keyboardType = "default",
   secureTextEntry = false
 }: CredentialTextInputProps<T>) => {
@@ -80,7 +79,7 @@ const CredentialTextInput = <T extends LoginFormField | RegisterFormField>({
   const pressableStyle = [
     styles.pressable,
     formFieldState.focused && styles.focusedPressable,
-    !!errorText && styles.errorPressable
+    !!formFieldState.error && styles.errorPressable
     // formFieldState.highlight && styles.highlightedPressable
   ];
   // const placeholderTextColor = formFieldState.highlight
@@ -122,7 +121,7 @@ const CredentialTextInput = <T extends LoginFormField | RegisterFormField>({
           style={[
             styles.placeholder,
             animatedStyle,
-            !!errorText && { color: colors.errorColor }
+            !!formFieldState.error && { color: colors.errorColor }
           ]}
         >
           {placeholderText}
@@ -138,7 +137,7 @@ const CredentialTextInput = <T extends LoginFormField | RegisterFormField>({
           onSubmitEditing={Keyboard.dismiss}
           value={formFieldState.value}
         />
-        {errorText ? (
+        {!!formFieldState.error ? (
           <MaterialIcons
             style={styles.inputIcon}
             name="error-outline"
@@ -163,7 +162,7 @@ const CredentialTextInput = <T extends LoginFormField | RegisterFormField>({
         )}
       </Pressable>
       {/* {errorMessages?.length && formFieldState.focused && ( */}
-      {errorText && <Text style={styles.errorText}>{errorText}</Text>}
+      {/* {errorText && <Text style={styles.errorText}>{errorText}</Text>} */}
     </View>
   );
 };

@@ -3,6 +3,7 @@ import { StackNavigationProp } from "@react-navigation/stack";
 import RegistrationScreenTemplate from "../../../../components/RegisterationScreenTemplate/RegistrationScreenTemplate";
 import { registrationScreenConstants } from "../../../../constants/registerConstants";
 import { initialState } from "../registerFormStateReducer";
+import { formValidations } from "../../../../utils/utils";
 
 const RegistrationEmailScreen = ({
   navigation
@@ -11,10 +12,10 @@ const RegistrationEmailScreen = ({
 }) => {
   return (
     <RegistrationScreenTemplate<"RegistrationEmailScreen">
-      {...registrationScreenConstants.emailScreen}
+      {...registrationScreenConstants.RegistrationEmailScreen}
       initialState={initialState}
       navigation={navigation}
-      nextScreen="RegistrationUsernameScreen"
+      inputValidator={formValidations.email}
     />
   );
 };

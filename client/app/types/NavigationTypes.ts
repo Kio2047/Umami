@@ -5,7 +5,7 @@ import {
   BottomTabNavigationProp
 } from "@react-navigation/bottom-tabs";
 
-import { User } from "./CredentialFormTypes";
+import { User } from "./auth/AuthTypes.ts";
 
 export type RootStackParamList = {
   WelcomeScreen: undefined;

@@ -40,11 +40,11 @@ export default StyleSheet.create({
     position: "relative",
     top: 4
   },
-  errorText: {
-    color: colors.errorColor,
-    position: "relative"
-    // top: 40
-  },
+  // errorText: {
+  //   color: colors.errorColor,
+  //   position: "relative"
+  //   // top: 40
+  // },
   inputIcon: {
     position: "absolute",
     right: 10

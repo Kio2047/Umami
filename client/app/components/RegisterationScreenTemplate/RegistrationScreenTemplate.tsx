@@ -11,24 +11,19 @@ import { RootStackParamList } from "../../types/NavigationTypes";
 import { ValueOf } from "../../types/UtilTypes";
 import {
   FormState,
+  ValidationResultsMap,
+  NextScreenMap,
   RegisterFormField,
-  RegistrationScreenConstants
-} from "../../types/CredentialFormTypes";
-
-interface NextScreenMap {
-  RegistrationFullNameScreen: "RegistrationEmailScreen";
-  RegistrationEmailScreen: "RegistrationUsernameScreen";
-  RegistrationUsernameScreen: "RegistrationPasswordScreen";
-  RegistrationPasswordScreen: "AddProfileImageScreen";
-}
+  ScreenConstants
+} from "../../types/auth/AuthTypes";
 
 interface RegistrationScreenTemplateProps<
   T extends keyof NextScreenMap & keyof RootStackParamList
-> extends RegistrationScreenConstants {
+> extends ScreenConstants<T> {
+  additionalContent?: React.ReactNode;
   initialState: FormState<RegisterFormField>;
   navigation: StackNavigationProp<ReactNavigation.RootParamList>;
-  nextScreen: NextScreenMap[T];
-  additionalContent?: React.ReactNode;
+  inputValidator: (input: string) => ValidationResultsMap[T];
 }
 
 const RegistrationScreenTemplate = <
@@ -37,12 +32,17 @@ const RegistrationScreenTemplate = <
   heading,
   additionalText,
   inputConstants,
+  nextScreen,
   additionalContent,
   initialState,
   navigation,
-  nextScreen
+  inputValidator
 }: RegistrationScreenTemplateProps<T>) => {
   const [formState, dispatch] = useReducer(reducer, initialState);
+
+  // useEffect(() => {
+  //   if inputValidator(formState[inputConstants.formField].value);
+  // }, [formState[inputConstants.formField].value]);
 
   // TODO: why doesn't typing nextScreen as nextScreen: NextScreenMap[T] (as above) work here?
   const nextButtonOnPressHandler = (nextScreen: ValueOf<NextScreenMap>) => {

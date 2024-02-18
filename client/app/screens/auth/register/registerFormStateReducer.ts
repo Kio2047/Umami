@@ -2,7 +2,7 @@ import {
   FormAction,
   RegisterFormField,
   FormState
-} from "../../../types/CredentialFormTypes";
+} from "../../../types/auth/AuthTypes.ts";
 import { formValidations } from "../../../utils/utils";
 
 export const reducer = (

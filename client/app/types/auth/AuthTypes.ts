@@ -2,6 +2,11 @@ import { KeyboardTypeOptions } from "react-native";
 
 export type LoginFormField = "usernameOrEmail" | "password";
 export type RegisterFormField = "email" | "fullName" | "username" | "password";
+export type RegisterFormScreen =
+  | "RegistrationEmailScreen"
+  | "RegistrationFullNameScreen"
+  | "RegistrationUsernameScreen"
+  | "RegistrationPasswordScreen";
 
 export interface FormFieldState {
   value: string;
@@ -15,14 +20,6 @@ export type FormState<T extends LoginFormField | RegisterFormField> = Record<
   T,
   FormFieldState
 >;
-
-export interface InputConstants<T extends LoginFormField | RegisterFormField> {
-  formField: T;
-  placeholder?: string;
-  errorText?: string;
-  keyboardType?: KeyboardTypeOptions;
-  secureTextEntry?: true;
-}
 
 export type FormAction<T extends LoginFormField | RegisterFormField> =
   | {
@@ -44,16 +41,66 @@ export type FormAction<T extends LoginFormField | RegisterFormField> =
       value: string;
     };
 
-export type RegistrationInputConstants = Record<
+export interface InputConstants<T extends LoginFormField | RegisterFormField> {
+  formField: T;
+  placeholder?: string;
+  errorText?: string;
+  keyboardType?: KeyboardTypeOptions;
+  secureTextEntry?: true;
+}
+
+export type RegisterInputConstants = Record<
   RegisterFormField,
   InputConstants<RegisterFormField>
 >;
 
-export interface RegistrationScreenConstants {
+export enum PasswordValidation {
+  Valid = 0,
+  Empty = 1,
+  TooShort = 2,
+  NoSpecialCharacter = 3,
+  TooEasy = 4
+}
+export enum UsernameValidation {
+  Valid = 0,
+  Empty = 1,
+  InvalidCharacter = 2,
+  TooLong = 3
+}
+export enum EmailValidation {
+  Valid = 0,
+  Invalid = 1
+}
+export enum FullNameValidation {
+  Valid = 0,
+  Empty = 1
+}
+
+export type ValidationResultsMap = {
+  RegistrationFullNameScreen: FullNameValidation;
+  RegistrationEmailScreen: EmailValidation;
+  RegistrationUsernameScreen: UsernameValidation;
+  RegistrationPasswordScreen: PasswordValidation;
+};
+
+export interface NextScreenMap {
+  RegistrationFullNameScreen: "RegistrationEmailScreen";
+  RegistrationEmailScreen: "RegistrationUsernameScreen";
+  RegistrationUsernameScreen: "RegistrationPasswordScreen";
+  RegistrationPasswordScreen: "AddProfileImageScreen";
+}
+
+export interface ScreenConstants<T extends RegisterFormScreen> {
   heading: string;
   additionalText?: string;
   inputConstants: InputConstants<RegisterFormField>;
+  errorMessages: Record<ValidationResultsMap[T], string>;
+  nextScreen: NextScreenMap[T];
 }
+
+export type RegisterScreenConstants = {
+  [K in RegisterFormScreen]: ScreenConstants<K>;
+};
 
 // TODO: Move below types to appropriate new file
 export type PostRestaurant = {

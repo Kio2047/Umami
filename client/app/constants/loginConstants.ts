@@ -3,7 +3,7 @@ import {
   LoginCredentials,
   LoginFormField,
   NewUserCredentials
-} from "../types/CredentialFormTypes";
+} from "../types/auth/AuthTypes.ts";
 
 type LoginInputConstants = Record<
   LoginFormField,

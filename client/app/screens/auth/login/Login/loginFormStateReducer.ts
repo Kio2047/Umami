@@ -1,8 +1,4 @@
-import {
-  FormAction,
-  LoginFormField,
-  FormState
-} from "../../types/CredentialFormTypes";
+import { FormAction, LoginFormField, FormState } from "../../types/AuthTypes";
 import { formValidations } from "../../utils/utils";
 
 export const reducer = (
