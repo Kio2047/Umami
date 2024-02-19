@@ -1,7 +1,8 @@
 import {
   EmailValidatorResults,
   FullNameValidatorResults,
-  PasswordValidatorResults
+  PasswordValidatorResults,
+  UsernameValidatorResults
 } from "../types/auth/RegisterTypes";
 
 export const formValidators = {
@@ -15,6 +16,14 @@ export const formValidators = {
       ? EmailValidatorResults.Valid
       : EmailValidatorResults.Invalid;
   },
+  username: (username: string): UsernameValidatorResults => {
+    if (!username) return UsernameValidatorResults.Empty;
+    if (/[^A-Za-z0-9_]/.test(username))
+      return UsernameValidatorResults.InvalidCharacter;
+    if (username.length > 20) return UsernameValidatorResults.TooLong;
+    // TODO: add request to check to add if username already exists
+    else return UsernameValidatorResults.Valid;
+  },
   password: (password: string): PasswordValidatorResults => {
     if (!password) return PasswordValidatorResults.Empty;
     if (password.length < 7) return PasswordValidatorResults.TooShort;
@@ -23,5 +32,4 @@ export const formValidators = {
     // TODO: implement basic password strength algorithm (entropy calculation)
     else return PasswordValidatorResults.Valid;
   }
-  // username: (username: string):
 };

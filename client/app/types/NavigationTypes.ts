@@ -5,7 +5,12 @@ import {
   BottomTabNavigationProp
 } from "@react-navigation/bottom-tabs";
 
-import { User } from "./OtherTypes";
+declare global {
+  // eslint-disable-next-line @typescript-eslint/no-namespace
+  namespace ReactNavigation {
+    interface RootParamList extends RootStackParamList {}
+  }
+}
 
 export type RootStackParamList = {
   WelcomeScreen: undefined;
@@ -38,13 +43,6 @@ export type StackScreenProps<screen extends keyof RootStackParamList> = {
   navigation: StackNavigationProp<RootStackParamList, screen>;
   route: RouteProp<RootStackParamList, screen>;
 };
-
-declare global {
-  // eslint-disable-next-line @typescript-eslint/no-namespace
-  namespace ReactNavigation {
-    interface RootParamList extends RootStackParamList {}
-  }
-}
 
 type AppTabsParamlist = {
   Feed: undefined;

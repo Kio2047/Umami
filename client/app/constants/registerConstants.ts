@@ -52,7 +52,7 @@ export const registerScreenConstants: RegisterScreenConstantsTypeMap = {
       [UsernameValidatorResults.InvalidCharacter]:
         "Username can only include letters, numbers and underscores.",
       [UsernameValidatorResults.TooLong]:
-        "Username must be less than 20 characters in length.",
+        "Username must be 20 characters or less in length.",
       [UsernameValidatorResults.AlreadyTaken]:
         "Username is already taken. Try creating a new one."
     },

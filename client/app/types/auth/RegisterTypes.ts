@@ -15,6 +15,7 @@ export enum PasswordValidatorResults {
   NoSpecialCharacter = 3,
   TooEasy = 4
 }
+
 export enum UsernameValidatorResults {
   Valid = 0,
   Empty = 1,

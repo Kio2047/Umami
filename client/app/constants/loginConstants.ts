@@ -1,7 +1,7 @@
-import { InputConstantsCollection } from "../types/auth/CommonAuthTypes";
+import { InputConstantsTypeMap } from "../types/auth/CommonAuthTypes";
 import { LoginField } from "../types/auth/LoginTypes";
 
-export const loginInputConstants: InputConstantsCollection<LoginField> = {
+export const loginInputConstants: InputConstantsTypeMap<LoginField> = {
   usernameOrEmail: {
     formField: "usernameOrEmail",
     placeholder: "Username or Email",
