@@ -12,7 +12,7 @@ import Post from "../../components/Post/Post";
 import type {
   RestaurantProfileScreenProps,
   Post as PostType
-} from "../../types/auth/AuthTypes";
+} from "../../types/OtherTypes";
 import { colors } from "../../constants/styleConstants";
 
 const RestaurantProfileScreen = ({

@@ -1,80 +1,76 @@
-import { StackScreenProps } from "@react-navigation/stack";
+import { InputConstantsTypeMap } from "../types/auth/CommonAuthTypes";
 import {
-  EmailValidation,
-  FullNameValidation,
-  PasswordValidation,
-  RegisterFormScreen,
-  RegisterInputConstants,
-  RegisterScreenConstants,
-  ScreenConstants,
-  UsernameValidation
-} from "../types/auth/AuthTypes.ts";
+  EmailValidatorResults,
+  FullNameValidatorResults,
+  PasswordValidatorResults,
+  RegisterField,
+  RegisterScreenConstantsTypeMap,
+  UsernameValidatorResults
+} from "../types/auth/RegisterTypes";
 
-export const registerInputConstants: RegisterInputConstants = {
+export const registerInputConstants: InputConstantsTypeMap<RegisterField> = {
   fullName: { formField: "fullName", placeholder: "Full Name" },
   email: {
     formField: "email",
     keyboardType: "email-address"
-    // errorText: "This is some placeholder error text to test the error text"
-    // errorMessages: {}
   },
   username: { formField: "username" },
   password: {
     formField: "password",
-    secureTextEntry: true,
-    errorText:
-      "Your password should have at least 7 characters, a number, and a special character"
+    secureTextEntry: true
   }
 };
 
-export const registrationScreenConstants: RegisterScreenConstants = {
-  RegistrationFullNameScreen: {
+export const registerScreenConstants: RegisterScreenConstantsTypeMap = {
+  RegisterFullNameScreen: {
     heading: "Hi! What's your name?",
-    inputConstants: registerInputConstants.fullName,
+    fieldConstants: registerInputConstants.fullName,
     errorMessages: {
-      [FullNameValidation.Valid]: "",
-      [FullNameValidation.Empty]: "Name cannot be empty."
+      [FullNameValidatorResults.Valid]: "",
+      [FullNameValidatorResults.Empty]: "Name cannot be empty."
     },
-    nextScreen: "RegistrationEmailScreen"
+    nextScreen: "RegisterEmailScreen"
   },
-  RegistrationEmailScreen: {
+  RegisterEmailScreen: {
     heading: "What's your email address?",
     additionalText:
       "Enter an email where we can reach you. This won't be visible to other users on your profile.",
-    inputConstants: registerInputConstants.email,
+    fieldConstants: registerInputConstants.email,
     errorMessages: {
-      [EmailValidation.Valid]: "",
-      [EmailValidation.Invalid]: "Please enter a valid email."
+      [EmailValidatorResults.Valid]: "",
+      [EmailValidatorResults.Invalid]: "Please enter a valid email."
     },
-    nextScreen: "RegistrationUsernameScreen"
+    nextScreen: "RegisterUsernameScreen"
   },
-  RegistrationUsernameScreen: {
+  RegisterUsernameScreen: {
     heading: "Create a username",
     additionalText: "Enter a unique username for your profile.",
-    inputConstants: registerInputConstants.username,
+    fieldConstants: registerInputConstants.username,
     errorMessages: {
-      [UsernameValidation.Valid]: "",
-      [UsernameValidation.Empty]: "Username cannot be empty.",
-      [UsernameValidation.InvalidCharacter]:
+      [UsernameValidatorResults.Valid]: "",
+      [UsernameValidatorResults.Empty]: "Username cannot be empty.",
+      [UsernameValidatorResults.InvalidCharacter]:
         "Username can only include letters, numbers and underscores.",
-      [UsernameValidation.TooLong]:
-        "Username must be less than 20 characters in length."
+      [UsernameValidatorResults.TooLong]:
+        "Username must be less than 20 characters in length.",
+      [UsernameValidatorResults.AlreadyTaken]:
+        "Username is already taken. Try creating a new one."
     },
-    nextScreen: "RegistrationPasswordScreen"
+    nextScreen: "RegisterPasswordScreen"
   },
-  RegistrationPasswordScreen: {
+  RegisterPasswordScreen: {
     heading: "Create a password",
     additionalText:
       "Enter a password with at least 7 characters. It should contain a number and a special character.",
-    inputConstants: registerInputConstants.password,
+    fieldConstants: registerInputConstants.password,
     errorMessages: {
-      [PasswordValidation.Valid]: "",
-      [PasswordValidation.Empty]: "Password cannot be empty.",
-      [PasswordValidation.TooShort]:
+      [PasswordValidatorResults.Valid]: "",
+      [PasswordValidatorResults.Empty]: "Password cannot be empty.",
+      [PasswordValidatorResults.TooShort]:
         "Password must be at least 7 characters in length.",
-      [PasswordValidation.NoSpecialCharacter]:
+      [PasswordValidatorResults.NoSpecialCharacter]:
         "Password must contain at least 1 special character.",
-      [PasswordValidation.TooEasy]:
+      [PasswordValidatorResults.TooEasy]:
         "Password is too easy to guess. Try creating a new one."
     },
     nextScreen: "AddProfileImageScreen"

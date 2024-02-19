@@ -6,38 +6,40 @@ import { StackNavigationProp } from "@react-navigation/stack";
 import CredentialTextInput from "../CredentialTextInput/CredentialTextInput";
 import { reducer } from "../../screens/auth/register/registerFormStateReducer";
 import BottomTab from "../BottomTab/BottomTab";
-import styles from "./RegistrationScreenTemplate.styles";
+import styles from "./RegisterScreenTemplate.styles";
 import { RootStackParamList } from "../../types/NavigationTypes";
 import { ValueOf } from "../../types/UtilTypes";
-import {
-  FormState,
-  ValidationResultsMap,
-  NextScreenMap,
-  RegisterFormField,
-  ScreenConstants
-} from "../../types/auth/AuthTypes";
 
-interface RegistrationScreenTemplateProps<
-  T extends keyof NextScreenMap & keyof RootStackParamList
-> extends ScreenConstants<T> {
+import {
+  NextScreenTypeMap,
+  RegisterField,
+  RegisterScreen,
+  RegisterScreenConstants,
+  ValidatorResultsTypeMap
+} from "../../types/auth/RegisterTypes";
+import { FormState } from "../../types/auth/CommonAuthTypes";
+
+interface RegisterScreenTemplateProps<
+  T extends keyof NextScreenTypeMap & keyof RootStackParamList
+> extends RegisterScreenConstants<T> {
   additionalContent?: React.ReactNode;
-  initialState: FormState<RegisterFormField>;
+  initialState: FormState<RegisterField>;
   navigation: StackNavigationProp<ReactNavigation.RootParamList>;
-  inputValidator: (input: string) => ValidationResultsMap[T];
+  inputValidator: (input: string) => ValidatorResultsTypeMap[T];
 }
 
-const RegistrationScreenTemplate = <
-  T extends keyof NextScreenMap & keyof RootStackParamList
+const RegisterScreenTemplate = <
+  T extends RegisterScreen & keyof RootStackParamList
 >({
   heading,
   additionalText,
-  inputConstants,
+  fieldConstants,
   nextScreen,
   additionalContent,
   initialState,
   navigation,
   inputValidator
-}: RegistrationScreenTemplateProps<T>) => {
+}: RegisterScreenTemplateProps<T>) => {
   const [formState, dispatch] = useReducer(reducer, initialState);
 
   // useEffect(() => {
@@ -45,7 +47,7 @@ const RegistrationScreenTemplate = <
   // }, [formState[inputConstants.formField].value]);
 
   // TODO: why doesn't typing nextScreen as nextScreen: NextScreenMap[T] (as above) work here?
-  const nextButtonOnPressHandler = (nextScreen: ValueOf<NextScreenMap>) => {
+  const nextButtonOnPressHandler = (nextScreen: ValueOf<NextScreenTypeMap>) => {
     switch (nextScreen) {
       case "AddProfileImageScreen":
         navigation.navigate(nextScreen, {
@@ -64,9 +66,9 @@ const RegistrationScreenTemplate = <
         {additionalText && (
           <Text style={styles.additionalText}>{additionalText}</Text>
         )}
-        <CredentialTextInput<RegisterFormField>
-          {...inputConstants}
-          formFieldState={formState[inputConstants.formField]}
+        <CredentialTextInput<RegisterField>
+          {...fieldConstants}
+          formFieldState={formState[fieldConstants.formField]}
           stateActionDispatcher={dispatch}
         />
         <TouchableOpacity
@@ -86,4 +88,4 @@ const RegistrationScreenTemplate = <
   );
 };
 
-export default RegistrationScreenTemplate;
+export default RegisterScreenTemplate;

@@ -1,10 +1,10 @@
-import { FormAction, LoginFormField, FormState } from "../../types/AuthTypes";
-import { formValidations } from "../../utils/utils";
+import { FormAction, LoginField, FormState } from "../../types/AuthTypes";
+import { formValidators } from "../../utils/utils";
 
 export const reducer = (
-  state: FormState<LoginFormField>,
-  action: FormAction<LoginFormField>
-): FormState<LoginFormField> => {
+  state: FormState<LoginField>,
+  action: FormAction<LoginField>
+): FormState<LoginField> => {
   switch (action.type) {
     case "highlight_fields":
       return action.fields.reduce(
@@ -26,7 +26,7 @@ export const reducer = (
         [action.field]: {
           ...state[action.field],
           value: action.value,
-          // valid: formValidations[action.field](action.value),
+          // valid: formValidators[action.field](action.value),
           highlight: false
         }
       };
@@ -52,7 +52,7 @@ export const reducer = (
   }
 };
 
-export const initialState: FormState<LoginFormField> = {
+export const initialState: FormState<LoginField> = {
   usernameOrEmail: {
     value: "",
     valid: false,

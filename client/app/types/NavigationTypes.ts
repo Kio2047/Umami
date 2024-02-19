@@ -5,16 +5,16 @@ import {
   BottomTabNavigationProp
 } from "@react-navigation/bottom-tabs";
 
-import { User } from "./auth/AuthTypes.ts";
+import { User } from "./OtherTypes";
 
 export type RootStackParamList = {
   WelcomeScreen: undefined;
   LoginScreen: undefined;
   RegisterScreen: undefined;
-  RegistrationFullNameScreen: undefined;
-  RegistrationEmailScreen: undefined;
-  RegistrationUsernameScreen: undefined;
-  RegistrationPasswordScreen: undefined;
+  RegisterFullNameScreen: undefined;
+  RegisterEmailScreen: undefined;
+  RegisterUsernameScreen: undefined;
+  RegisterPasswordScreen: undefined;
   AddProfileImageScreen: { newUserName: string };
   // Feed: { feedUserInfo: User };
   AppTabsScreen: undefined;

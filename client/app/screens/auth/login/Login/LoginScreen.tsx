@@ -16,7 +16,7 @@ import BottomTab from "../../../../components/BottomTab/BottomTab";
 import { loginUser } from "../../../../services/api/apiClient";
 import { FailedRequestError } from "../../../../services/api/apiUtils";
 import { setJWT, setUserID } from "../../../../services/deviceStorageClient";
-import { LoginCredentials } from "../../../../types/auth/AuthTypes";
+import { LoginCredentials } from "../../../../types/OtherTypes";
 import { Entries } from "../../../../types/UtilTypes";
 import { StackScreenProps } from "../../../../types/NavigationTypes";
 import { LoginUserResponse } from "../../../../types/APIResponseTypes";
@@ -113,16 +113,16 @@ const LoginScreen = ({
           source={logo}
           resizeMode="contain"
         />
-        {loginFormConstants.map((formFieldConstants) => {
+        {loginFormConstants.map((formInputConstants) => {
           return (
             <CredentialTextInput
-              key={formFieldConstants.formField}
-              formFieldState={formState[formFieldConstants.formField]}
+              key={formInputConstants.formField}
+              formFieldState={formState[formInputConstants.formField]}
               stateActionDispatcher={dispatch}
-              formField={formFieldConstants.formField}
-              secureTextEntry={formFieldConstants.secureTextEntry}
-              keyboardType={formFieldConstants.keyboardType}
-              placeholder={formFieldConstants.placeholder}
+              formField={formInputConstants.formField}
+              secureTextEntry={formInputConstants.secureTextEntry}
+              keyboardType={formInputConstants.keyboardType}
+              placeholder={formInputConstants.placeholder}
             />
           );
         })}

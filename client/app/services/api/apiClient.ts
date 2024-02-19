@@ -10,7 +10,7 @@ import type {
   NewUserCredentials,
   NewPost,
   Post
-} from "../../types/auth/AuthTypes.ts";
+} from "../../types/OtherTypes";
 import {
   CloudinaryImageUploadResponse,
   CreateNewUserResponse,

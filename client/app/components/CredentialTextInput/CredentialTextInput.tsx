@@ -13,28 +13,26 @@ import { MaterialIcons } from "@expo/vector-icons";
 
 import styles from "./CredentialTextInput.styles";
 import {
-  LoginFormField,
-  RegisterFormField,
+  LoginField,
+  RegisterField,
   FormAction,
-  FormFieldState
-} from "../../types/auth/AuthTypes";
+  FieldState
+} from "../../types/OtherTypes";
 import { colors } from "../../constants/styleConstants";
 
 const getPlaceholderText = (field: string, placeholder?: string) =>
   placeholder ?? field.charAt(0).toUpperCase() + field.substring(1);
 
-interface CredentialTextInputProps<
-  T extends LoginFormField | RegisterFormField
-> {
+interface CredentialTextInputProps<T extends LoginField | RegisterField> {
   stateActionDispatcher: React.Dispatch<FormAction<T>>;
-  formFieldState: FormFieldState;
+  formFieldState: FieldState;
   formField: T;
   placeholder?: string;
   keyboardType?: KeyboardTypeOptions;
   secureTextEntry?: boolean;
 }
 
-const CredentialTextInput = <T extends LoginFormField | RegisterFormField>({
+const CredentialTextInput = <T extends LoginField | RegisterField>({
   stateActionDispatcher,
   formFieldState,
   formField,

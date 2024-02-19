@@ -27,8 +27,8 @@ import { RootStack } from "./app/navigators/RootStack/RootStack";
 import { stackScreenOptions } from "./app/navigators/RootStack/RootStackScreenOptions";
 import useNavigationBarConfig from "./app/hooks/useNavigationBarConfig";
 import ScreenBackground from "./app/components/ScreenBackground/ScreenBackground";
-import RegistrationEmailScreen from "./app/screens/auth/register/RegistrationEmail/RegistrationEmailScreen";
-import RegistrationFullNameScreen from "./app/screens/auth/register/RegistrationFullName/RegistrationFullNameScreen";
+import RegisterEmailScreen from "./app/screens/auth/register/RegisterEmail/RegisterEmailScreen";
+import RegisterFullNameScreen from "./app/screens/auth/register/RegisterFullName/RegisterFullNameScreen";
 
 // import DetailedPost from "./app/components/Post";
 
@@ -99,12 +99,12 @@ export default function App() {
                     component={RegisterScreen}
                   />
                   <RootStack.Screen
-                    name="RegistrationFullNameScreen"
-                    component={RegistrationFullNameScreen}
+                    name="RegisterFullNameScreen"
+                    component={RegisterFullNameScreen}
                   />
                   <RootStack.Screen
-                    name="RegistrationEmailScreen"
-                    component={RegistrationEmailScreen}
+                    name="RegisterEmailScreen"
+                    component={RegisterEmailScreen}
                   />
                   <RootStack.Screen
                     name="AddProfileImageScreen"

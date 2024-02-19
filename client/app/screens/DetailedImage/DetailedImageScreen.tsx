@@ -1,7 +1,7 @@
 import { StyleSheet, Image } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import React from "react";
-import type { DetailedImageScreenProps } from "../../types/auth/AuthTypes.ts";
+import type { DetailedImageScreenProps } from "../../types/OtherTypes";
 
 const DetailedImageScreen = ({
   route,

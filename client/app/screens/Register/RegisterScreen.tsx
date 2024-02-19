@@ -13,7 +13,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import styles from "./RegisterScreen.styles";
 import logo from "../../assets/images/logo.png";
 import { StackScreenProps } from "../../types/NavigationTypes";
-import { NewUserCredentials } from "../../types/auth/AuthTypes";
+import { NewUserCredentials } from "../../types/OtherTypes";
 import { Entries } from "../../types/UtilTypes";
 import { registerInputConstants } from "../../constants/registerConstants";
 import BottomTab from "../../components/BottomTab/BottomTab";
@@ -80,16 +80,16 @@ const RegisterScreen = ({
       <SafeAreaView style={styles.container}>
         <KeyboardAvoidingView behavior="padding">
           <View style={styles.inputList}>
-            {registerInputConstants.map((formFieldConstants) => (
+            {registerInputConstants.map((formInputConstants) => (
               <CredentialTextInput
-                key={formFieldConstants.formField}
-                formFieldState={formState[formFieldConstants.formField]}
+                key={formInputConstants.formField}
+                formFieldState={formState[formInputConstants.formField]}
                 stateActionDispatcher={dispatch}
-                formField={formFieldConstants.formField}
-                secureTextEntry={formFieldConstants.secureTextEntry}
-                keyboardType={formFieldConstants.keyboardType}
-                placeholder={formFieldConstants.placeholder}
-                errorText={formFieldConstants.errorText}
+                formField={formInputConstants.formField}
+                secureTextEntry={formInputConstants.secureTextEntry}
+                keyboardType={formInputConstants.keyboardType}
+                placeholder={formInputConstants.placeholder}
+                errorText={formInputConstants.errorText}
               />
             ))}
           </View>

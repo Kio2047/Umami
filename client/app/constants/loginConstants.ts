@@ -1,20 +1,11 @@
-import {
-  InputConstants,
-  LoginCredentials,
-  LoginFormField,
-  NewUserCredentials
-} from "../types/auth/AuthTypes.ts";
+import { InputConstantsCollection } from "../types/auth/CommonAuthTypes";
+import { LoginField } from "../types/auth/LoginTypes";
 
-type LoginInputConstants = Record<
-  LoginFormField,
-  InputConstants<LoginFormField>
->;
-
-export const loginInputConstants: LoginInputConstants = [
-  {
+export const loginInputConstants: InputConstantsCollection<LoginField> = {
+  usernameOrEmail: {
     formField: "usernameOrEmail",
     placeholder: "Username or Email",
     keyboardType: "email-address"
   },
-  { formField: "password", secureTextEntry: true }
-];
+  password: { formField: "password", secureTextEntry: true }
+};
