@@ -39,18 +39,6 @@ export type CompleteUserDocument = {
   followers: string[];
 };
 
-export type LoginCredentials = {
-  usernameOrEmail: string;
-  password: string;
-};
-
-export type NewUserCredentials = {
-  email: string;
-  name: string;
-  username: string;
-  password: string;
-};
-
 export type NewPost = {
   authorID: string;
   restaurant: string;

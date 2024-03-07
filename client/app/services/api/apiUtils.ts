@@ -1,13 +1,13 @@
 import { getJWT } from "../deviceStorageClient";
 
 export class FailedRequestError extends Error {
-  public responseBody?: any;
-  public statusCode?: number;
-  public statusClass?: string;
+  public readonly responseBody?: unknown;
+  public readonly statusCode?: number;
+  public readonly statusClass?: string;
   constructor(
     message?: string,
     optionalData?: {
-      responseBody?: any;
+      responseBody?: unknown;
       statusCode?: number;
     }
   ) {
@@ -15,16 +15,18 @@ export class FailedRequestError extends Error {
     this.responseBody = optionalData?.responseBody;
     this.statusCode = optionalData?.statusCode;
     this.statusClass = optionalData?.statusCode?.toString()[0] + "xx";
-    this.name = "FailedRequestError";
+  }
+  get name(): string {
+    return "FailedRequestError";
   }
 }
 
 // TODO: access the JWT value from context cache in request functions (without passing in as params via the query key) to avoid repeated grabs from local storage
 
-export const sendPostRequest = async <ResponseBodyShape>(
+export const sendPostRequest = async <ResponseBody, RequestBody>(
   URL: string,
-  body: Record<string, any>
-): Promise<ResponseBodyShape> => {
+  body: RequestBody
+): Promise<ResponseBody> => {
   const jwt = await getJWT();
   const response = await fetch(URL, {
     method: "POST",
@@ -41,12 +43,12 @@ export const sendPostRequest = async <ResponseBodyShape>(
       responseBody: await response.json()
     });
   }
-  return response.json() as Promise<ResponseBodyShape>;
+  return response.json() as Promise<ResponseBody>;
 };
 
-export const sendGetRequest = async <ResponseBodyShape>(
+export const sendGetRequest = async <ResponseBody, RequestBody>(
   URL: string
-): Promise<ResponseBodyShape> => {
+): Promise<ResponseBody> => {
   const jwt = await getJWT();
   const response = await fetch(URL, {
     method: "GET",
@@ -61,17 +63,17 @@ export const sendGetRequest = async <ResponseBodyShape>(
       responseBody: await response.json()
     });
   }
-  return response.json() as Promise<ResponseBodyShape>;
+  return response.json() as Promise<ResponseBody>;
 };
 
-export const sendPatchRequest = async <ResponseBodyShape>(
+export const sendPatchRequest = async <ResponseBody, RequestBody>(
   URL: string,
   body: {
     operation: "add" | "remove" | "replace";
     path: string;
     value: any;
   }
-): Promise<ResponseBodyShape> => {
+): Promise<ResponseBody> => {
   const jwt = await getJWT();
 
   const response = await fetch(URL, {
@@ -89,5 +91,5 @@ export const sendPatchRequest = async <ResponseBodyShape>(
       responseBody: await response.json()
     });
   }
-  return response.json() as Promise<ResponseBodyShape>;
+  return response.json() as Promise<ResponseBody>;
 };

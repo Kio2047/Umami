@@ -40,6 +40,9 @@ export default StyleSheet.create({
     backgroundColor: colors.defaultButtonColor,
     borderRadius: 7
   },
+  submitButtonDisabled: {
+    opacity: 0.5
+  },
   buttonText: {
     color: colors.primaryFontColor,
     fontSize: 16,

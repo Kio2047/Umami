@@ -49,7 +49,7 @@ export interface NextScreenTypeMap {
 export interface RegisterScreenConstants<T extends RegisterScreen> {
   heading: string;
   additionalText?: string;
-  fieldConstants: InputConstants<RegisterField>;
+  inputConstants: InputConstants<RegisterField>;
   errorMessages: Record<ValidatorResultsTypeMap[T], string>;
   nextScreen: NextScreenTypeMap[T];
 }
@@ -57,3 +57,5 @@ export interface RegisterScreenConstants<T extends RegisterScreen> {
 export type RegisterScreenConstantsTypeMap = {
   [K in RegisterScreen]: RegisterScreenConstants<K>;
 };
+
+export type NewUserCredentials = Record<RegisterField, string>;

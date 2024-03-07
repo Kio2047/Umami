@@ -1,6 +1,7 @@
 import { KeyboardTypeOptions } from "react-native";
 import { LoginField } from "./LoginTypes";
 import { RegisterField } from "./RegisterTypes";
+import { CreatedAccount } from "../APIResponseTypes";
 
 export interface FieldState {
   value: string;
@@ -45,3 +46,17 @@ export interface InputConstants<T extends LoginField | RegisterField> {
 export type InputConstantsTypeMap<T extends LoginField | RegisterField> = {
   [K in T]: InputConstants<K>;
 };
+
+export type LocalStorageAuthData =
+  | {
+      jwt: null;
+      // userID: null;
+      status: "loading" | "unauthenticated";
+    }
+  | {
+      jwt: string;
+      // userID: null;
+      status: "authenticated";
+    };
+// | { jwt: string; userID: string; status: "authenticated" };
+// | { jwt: string; userID: CreatedAccount; status: "authenticated" };

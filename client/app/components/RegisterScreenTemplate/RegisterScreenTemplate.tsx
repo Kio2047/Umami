@@ -1,23 +1,31 @@
 import { Keyboard, Pressable, Text, TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useReducer } from "react";
+import { useReducer, useState } from "react";
 import { StackNavigationProp } from "@react-navigation/stack";
-
-import CredentialTextInput from "../CredentialTextInput/CredentialTextInput";
-import { reducer } from "../../screens/auth/register/registerFormStateReducer";
-import BottomTab from "../BottomTab/BottomTab";
-import styles from "./RegisterScreenTemplate.styles";
-import { RootStackParamList } from "../../types/NavigationTypes";
-import { ValueOf } from "../../types/UtilTypes";
+import { useMutation } from "@tanstack/react-query";
 
 import {
+  NewUserCredentials,
   NextScreenTypeMap,
   RegisterField,
   RegisterScreen,
   RegisterScreenConstants,
   ValidatorResultsTypeMap
 } from "../../types/auth/RegisterTypes";
-import { FormState } from "../../types/auth/CommonAuthTypes";
+import {
+  FormState,
+  LocalStorageAuthData
+} from "../../types/auth/CommonAuthTypes";
+import { Entries, ValueOf } from "../../types/UtilTypes";
+import { RootStackParamList } from "../../types/NavigationTypes";
+import CredentialTextInput from "../CredentialTextInput/CredentialTextInput";
+import { reducer } from "../../screens/auth/register/registerFormStateReducer";
+import BottomTab from "../BottomTab/BottomTab";
+import styles from "./RegisterScreenTemplate.styles";
+import { createNewUser } from "../../services/api/apiClient";
+import { CreateNewUserResponse } from "../../types/APIResponseTypes";
+import { setJWT, setUserID } from "../../services/deviceStorageClient";
+import { useAuthContext } from "../../hooks/useAuthContext";
 
 interface RegisterScreenTemplateProps<
   T extends keyof NextScreenTypeMap & keyof RootStackParamList
@@ -33,7 +41,7 @@ const RegisterScreenTemplate = <
 >({
   heading,
   additionalText,
-  fieldConstants,
+  inputConstants,
   nextScreen,
   additionalContent,
   initialState,
@@ -41,21 +49,75 @@ const RegisterScreenTemplate = <
   inputValidator
 }: RegisterScreenTemplateProps<T>) => {
   const [formState, dispatch] = useReducer(reducer, initialState);
+  const [disableButton, setDisableButton] = useState(false);
+  const setAuthData = useAuthContext()[1];
+
+  const { mutate } = useMutation(createNewUser, {
+    retry: false,
+    onSuccess: async (data) => {
+      try {
+        await saveSessionToken(data.data.createdAccount._id, setAuthData);
+        navigation.reset({
+          index: 0,
+          routes: [
+            {
+              name: "AddProfileImageScreen",
+              params: {
+                newUserName: data.data.createdAccount.name
+              }
+            }
+          ]
+        });
+      } catch (err) {
+        () => setDisableButton(false);
+      }
+    },
+    onError: () => setDisableButton(false)
+  });
 
   // useEffect(() => {
   //   if inputValidator(formState[inputConstants.formField].value);
   // }, [formState[inputConstants.formField].value]);
 
   // TODO: why doesn't typing nextScreen as nextScreen: NextScreenMap[T] (as above) work here?
-  const nextButtonOnPressHandler = (nextScreen: ValueOf<NextScreenTypeMap>) => {
-    switch (nextScreen) {
-      case "AddProfileImageScreen":
-        navigation.navigate(nextScreen, {
-          newUserName: formState.fullName.value
-        });
-        break;
-      default:
-        navigation.navigate(nextScreen);
+
+  const saveSessionToken = async (
+    jwt: string,
+    // userID: CreatedAccount,
+    setAuthData: React.Dispatch<React.SetStateAction<LocalStorageAuthData>>
+  ) => {
+    await Promise.all([setJWT(jwt)]);
+    // await Promise.all([setJWT(jwt), setUserID(userID)]);
+    setAuthData({
+      jwt,
+      // userID,
+      status: "authenticated"
+    });
+  };
+
+  const nextButtonOnPressHandler = async (
+    nextScreen: ValueOf<NextScreenTypeMap>
+  ) => {
+    // TODO: validate input value
+    if (nextScreen === "AddProfileImageScreen") {
+      setDisableButton(true);
+      const newUserCredentials = (
+        Object.entries(formState) as Entries<FormState<RegisterField>>
+      ).reduce<NewUserCredentials>(
+        (accumulator, [field, values]) => {
+          accumulator[field] = values.value;
+          return accumulator;
+        },
+        {
+          email: "",
+          username: "",
+          password: "",
+          fullName: ""
+        }
+      );
+      mutate(newUserCredentials);
+    } else {
+      navigation.navigate(nextScreen);
     }
   };
 
@@ -67,15 +129,20 @@ const RegisterScreenTemplate = <
           <Text style={styles.additionalText}>{additionalText}</Text>
         )}
         <CredentialTextInput<RegisterField>
-          {...fieldConstants}
-          formFieldState={formState[fieldConstants.formField]}
+          {...inputConstants}
+          formFieldState={formState[inputConstants.formField]}
           stateActionDispatcher={dispatch}
         />
         <TouchableOpacity
-          style={styles.submitButton}
+          style={[
+            styles.submitButton,
+            disableButton && styles.submitButtonDisabled
+          ]}
           onPress={() => nextButtonOnPressHandler(nextScreen)}
         >
-          <Text style={styles.buttonText}>Next</Text>
+          <Text style={styles.buttonText}>
+            {nextScreen === "AddProfileImageScreen" ? "Register" : "Next"}
+          </Text>
         </TouchableOpacity>
         {additionalContent}
         <BottomTab

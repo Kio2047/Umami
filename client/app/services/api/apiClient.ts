@@ -5,12 +5,7 @@ import { Platform } from "react-native";
 
 // type ObjectId = Types.ObjectId;
 
-import type {
-  LoginCredentials,
-  NewUserCredentials,
-  NewPost,
-  Post
-} from "../../types/OtherTypes";
+import type { NewPost, Post } from "../../types/OtherTypes";
 import {
   CloudinaryImageUploadResponse,
   CreateNewUserResponse,
@@ -22,9 +17,19 @@ import {
 } from "../../types/APIResponseTypes";
 import { getUserID } from "../deviceStorageClient";
 import { sendPostRequest, sendGetRequest, sendPatchRequest } from "./apiUtils";
+import { NewUserCredentials } from "../../types/auth/RegisterTypes";
 
-const baseURL =
-  "https://20e8-2a00-23c8-5999-8f01-f504-e714-e9cf-68da.eu.ngrok.io";
+const baseURL = process.env.EXPO_PUBLIC_BASE_URL;
+
+export const createNewUser: MutationFunction<
+  CreateNewUserResponse,
+  NewUserCredentials
+> = async (newUserCredentials) => {
+  return sendPostRequest<CreateNewUserResponse, NewUserCredentials>(
+    `${baseURL}/user`,
+    newUserCredentials
+  );
+};
 
 export const loginUser: MutationFunction<
   LoginUserResponse,
@@ -33,16 +38,6 @@ export const loginUser: MutationFunction<
   return sendPostRequest<LoginUserResponse>(
     `${baseURL}/session`,
     userCredentials
-  );
-};
-
-export const createNewUser: MutationFunction<
-  CreateNewUserResponse,
-  NewUserCredentials
-> = async (newUserCredentials) => {
-  return sendPostRequest<CreateNewUserResponse>(
-    `${baseURL}/user`,
-    newUserCredentials
   );
 };
 

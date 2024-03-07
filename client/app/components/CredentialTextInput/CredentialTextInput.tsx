@@ -3,7 +3,6 @@ import {
   Animated,
   KeyboardTypeOptions,
   TextInput,
-  Text,
   Keyboard,
   View,
   Pressable,
@@ -12,13 +11,10 @@ import {
 import { MaterialIcons } from "@expo/vector-icons";
 
 import styles from "./CredentialTextInput.styles";
-import {
-  LoginField,
-  RegisterField,
-  FormAction,
-  FieldState
-} from "../../types/OtherTypes";
 import { colors } from "../../constants/styleConstants";
+import { FieldState, FormAction } from "../../types/auth/CommonAuthTypes";
+import { LoginField } from "../../types/auth/LoginTypes";
+import { RegisterField } from "../../types/auth/RegisterTypes";
 
 const getPlaceholderText = (field: string, placeholder?: string) =>
   placeholder ?? field.charAt(0).toUpperCase() + field.substring(1);
@@ -77,7 +73,7 @@ const CredentialTextInput = <T extends LoginField | RegisterField>({
   const pressableStyle = [
     styles.pressable,
     formFieldState.focused && styles.focusedPressable,
-    !!formFieldState.error && styles.errorPressable
+    formFieldState.error && styles.errorPressable
     // formFieldState.highlight && styles.highlightedPressable
   ];
   // const placeholderTextColor = formFieldState.highlight
@@ -119,7 +115,7 @@ const CredentialTextInput = <T extends LoginField | RegisterField>({
           style={[
             styles.placeholder,
             animatedStyle,
-            !!formFieldState.error && { color: colors.errorColor }
+            formFieldState.error && { color: colors.errorColor }
           ]}
         >
           {placeholderText}
@@ -135,7 +131,7 @@ const CredentialTextInput = <T extends LoginField | RegisterField>({
           onSubmitEditing={Keyboard.dismiss}
           value={formFieldState.value}
         />
-        {!!formFieldState.error ? (
+        {formFieldState.error ? (
           <MaterialIcons
             style={styles.inputIcon}
             name="error-outline"

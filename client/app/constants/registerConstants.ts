@@ -24,7 +24,7 @@ export const registerInputConstants: InputConstantsTypeMap<RegisterField> = {
 export const registerScreenConstants: RegisterScreenConstantsTypeMap = {
   RegisterFullNameScreen: {
     heading: "Hi! What's your name?",
-    fieldConstants: registerInputConstants.fullName,
+    inputConstants: registerInputConstants.fullName,
     errorMessages: {
       [FullNameValidatorResults.Valid]: "",
       [FullNameValidatorResults.Empty]: "Name cannot be empty."
@@ -35,7 +35,7 @@ export const registerScreenConstants: RegisterScreenConstantsTypeMap = {
     heading: "What's your email address?",
     additionalText:
       "Enter an email where we can reach you. This won't be visible to other users on your profile.",
-    fieldConstants: registerInputConstants.email,
+    inputConstants: registerInputConstants.email,
     errorMessages: {
       [EmailValidatorResults.Valid]: "",
       [EmailValidatorResults.Invalid]: "Please enter a valid email."
@@ -45,7 +45,7 @@ export const registerScreenConstants: RegisterScreenConstantsTypeMap = {
   RegisterUsernameScreen: {
     heading: "Create a username",
     additionalText: "Enter a unique username for your profile.",
-    fieldConstants: registerInputConstants.username,
+    inputConstants: registerInputConstants.username,
     errorMessages: {
       [UsernameValidatorResults.Valid]: "",
       [UsernameValidatorResults.Empty]: "Username cannot be empty.",
@@ -61,8 +61,8 @@ export const registerScreenConstants: RegisterScreenConstantsTypeMap = {
   RegisterPasswordScreen: {
     heading: "Create a password",
     additionalText:
-      "Enter a password with at least 7 characters. It should contain a number and a special character.",
-    fieldConstants: registerInputConstants.password,
+      "Enter a password with at least 7 characters. Include both a number and a special character.",
+    inputConstants: registerInputConstants.password,
     errorMessages: {
       [PasswordValidatorResults.Valid]: "",
       [PasswordValidatorResults.Empty]: "Password cannot be empty.",

@@ -1,9 +1,5 @@
-import {
-  FormAction,
-  RegisterField,
-  FormState
-} from "../../../types/OtherTypes";
-import { formValidators } from "../../../utils/utils";
+import { FormAction, FormState } from "../../../types/auth/CommonAuthTypes";
+import { RegisterField } from "../../../types/auth/RegisterTypes";
 
 export const reducer = (
   state: FormState<RegisterField>,

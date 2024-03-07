@@ -1,41 +1,41 @@
 import { useEffect, useState } from "react";
 import { getJWT, getUserID } from "../services/deviceStorageClient";
-
-export type AuthData =
-  | { jwt: null; userID: null; status: "loading" | "failure" }
-  | { jwt: string; userID: string; status: "success" };
+import { LocalStorageAuthData } from "../types/auth/CommonAuthTypes";
 
 export const useLocalStorageAuthData = (): [
-  AuthData,
-  React.Dispatch<React.SetStateAction<AuthData>>
+  LocalStorageAuthData,
+  React.Dispatch<React.SetStateAction<LocalStorageAuthData>>
 ] => {
-  const [authData, setAuthData] = useState<AuthData>({
-    jwt: null,
-    userID: null,
-    status: "loading"
-  });
+  const [localStorageAuthData, setLocalStorageAuthData] =
+    useState<LocalStorageAuthData>({
+      jwt: null,
+      // userID: null,
+      status: "loading"
+    });
 
   useEffect(() => {
     (async () => {
-      const [jwt, userID] = await Promise.all([
-        await getJWT(),
-        await getUserID()
-      ]);
-      if (!jwt || !userID) {
-        setAuthData({
+      // const [jwt, userID] = await Promise.all([
+      //   await getJWT()
+      //   await getUserID()
+      // ]);
+      const jwt = await getJWT();
+      if (!jwt) {
+        // if (!jwt || !userID) {
+        setLocalStorageAuthData({
           jwt: null,
-          userID: null,
-          status: "failure"
+          // userID: null,
+          status: "unauthenticated"
         });
       } else {
-        setAuthData({
+        setLocalStorageAuthData({
           jwt,
-          userID,
-          status: "success"
+          // userID,
+          status: "authenticated"
         });
       }
     })();
   }, []);
 
-  return [authData, setAuthData];
+  return [localStorageAuthData, setLocalStorageAuthData];
 };

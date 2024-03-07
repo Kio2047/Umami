@@ -5,18 +5,20 @@ export interface LoginUserResponse {
   };
 }
 
+export interface CreatedAccount {
+  _id: string;
+  email: string;
+  name: string;
+  username: string;
+  profileImageURL: string;
+  following: string[];
+  followers: string[];
+  password: string;
+}
+
 export interface CreateNewUserResponse {
   data: {
-    createdAccount: {
-      email: string;
-      name: string;
-      username: string;
-      profileImageURL: string;
-      following: string[];
-      followers: string[];
-      _id: string;
-      password: string;
-    };
+    createdAccount: CreatedAccount;
     token: string;
   };
 }
