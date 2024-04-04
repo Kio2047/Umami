@@ -1,7 +1,10 @@
 {
   "compilerOptions": {
     // "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "noFallthroughCasesInSwitch": true,
     "module": "commonjs",
+    "strict": true,
     "strictNullChecks": true,
     "esModuleInterop": true,
     "target": "ES2022",
