@@ -1,35 +1,36 @@
 import * as dotenv from "dotenv";
 dotenv.config({ path: "./.env" });
 
-import { mongoose, connectDBClient } from "../../models/index";
-import { createNewDummyUser } from "../../models/User";
-import { createNewDummyPost } from "../../models/Post";
-import { createNewDummyRestaurant } from "../../models/Restaurant";
-import { hashPassword } from "../../modules/auth";
+import { mongoose, connectDBClient } from "../../Models/index";
+import { createNewDummyUser } from "../../Models/User";
+import { createNewDummyPost } from "../../Models/Post";
+import { createNewDummyRestaurant } from "../../Models/Restaurant";
+import { hashPassword } from "../../Modules/auth";
+import logger from "../../utils/logger";
 
 let retryCount = 0;
 
 const seedDB = async function () {
   if (retryCount === 10) {
-    console.log(
+    logger.error(
       "Multiple unsuccessful attempts to connect to the DB were made. Please review error logs"
     );
     return;
   }
 
   // if (mongoose.connection.readyState !== 0) {
-  //   console.log("Do not seed the DB whilst the server is running");
+  //   logger.notice("Do not seed the DB whilst the server is running");
   //   return;
   // }
 
   try {
     await connectDBClient();
   } catch (err) {
-    console.log("An error occurred whilst attempting to connect to the DB");
-    console.log(err);
+    logger.error("An error occurred whilst attempting to connect to the DB");
+    logger.error(err);
     // Reattempt seed function if connection error is not authentication related
     if (err.code !== 8000) {
-      console.log("Reattempting to connect to DB in 5 seconds");
+      logger.info("Reattempting to connect to DB in 5 seconds");
       setTimeout(seedDB, 5000);
       retryCount++;
     }
@@ -39,11 +40,11 @@ const seedDB = async function () {
   try {
     mongoose.connection.db.dropDatabase();
   } catch (err) {
-    console.log("An error occurred whilst attempting to clear the database");
-    console.log(err);
+    logger.error("An error occurred whilst attempting to clear the database");
+    logger.error(err);
     return;
   }
-  console.log("Successfully cleared DB");
+  logger.info("Successfully cleared DB");
 
   const user1ID = new mongoose.Types.ObjectId();
   const user2ID = new mongoose.Types.ObjectId();
@@ -210,11 +211,11 @@ const seedDB = async function () {
     name: "Bosco Pizzeria"
   });
 
-  console.log("Successfully seeded DB");
+  logger.info("Successfully seeded DB");
 
   mongoose.connection.close();
 
-  console.log("Succesfully closed connection with DB");
+  logger.info("Successfully closed connection with DB");
 };
 
 seedDB();

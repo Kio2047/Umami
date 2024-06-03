@@ -1,8 +1,9 @@
 import mongoose from "mongoose";
 
+import logger from "../utils/logger";
+
 mongoose.connection.on("connected", function () {
-  console.log("Successfully connected to DB");
-  // console.log(`Successfully connected to DB ${process.env.DB_NAME}`);
+  logger.info(`Successfully connected to DB ${process.env.DB_NAME}`);
 });
 
 export const connectDBClient = async function () {

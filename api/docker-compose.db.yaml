@@ -17,4 +17,4 @@ services:
       - DB_PORT=27017
       - DB_USER_NAME=
       - DB_USER_PASSWORD=
-    command: sh -c "sleep 5 && npm run seedDB"
+    command: sh -c "/usr/local/bin/wait-for-it.sh db:27017 -- npm run seedDB"
