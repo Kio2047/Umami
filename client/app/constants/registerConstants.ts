@@ -68,8 +68,8 @@ export const registerScreenConstants: RegisterScreenConstantsTypeMap = {
       [PasswordValidatorResults.Empty]: "Password cannot be empty.",
       [PasswordValidatorResults.TooShort]:
         "Password must be at least 7 characters in length.",
-      [PasswordValidatorResults.NoSpecialCharacter]:
-        "Password must contain at least 1 special character.",
+      [PasswordValidatorResults.NoSpecialCharacterOrNumber]:
+        "Password must contain a special character and a number.",
       [PasswordValidatorResults.TooEasy]:
         "Password is too easy to guess. Try creating a new one."
     },

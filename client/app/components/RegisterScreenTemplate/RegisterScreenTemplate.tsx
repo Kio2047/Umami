@@ -27,6 +27,11 @@ import { CreateNewUserResponse } from "../../types/APIResponseTypes";
 import { setJWT, setUserID } from "../../services/deviceStorageClient";
 import { useAuthContext } from "../../hooks/useAuthContext";
 
+// TODO: create a prop for a function that runs on submission prior to navigating
+// to next page. said function can include fetches to server to see if credentials
+// are already associated with account, so that users don't need to complete the
+// entire form prior to being informed an account already exists
+
 interface RegisterScreenTemplateProps<
   T extends keyof NextScreenTypeMap & keyof RootStackParamList
 > extends RegisterScreenConstants<T> {

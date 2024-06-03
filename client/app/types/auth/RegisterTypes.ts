@@ -12,7 +12,7 @@ export enum PasswordValidatorResults {
   Valid = 0,
   Empty = 1,
   TooShort = 2,
-  NoSpecialCharacter = 3,
+  NoSpecialCharacterOrNumber = 3,
   TooEasy = 4
 }
 

@@ -20,7 +20,12 @@ export const userSchema = new Schema<RawUserDocument>({
   passwordHash: { type: String, required: true },
   name: { type: String, required: true, index: true },
   username: { type: String, required: true, unique: true, index: true },
-  profileImageURL: { type: String, required: true },
+  profileImageURL: {
+    type: String,
+    required: true,
+    default:
+      "https://res.cloudinary.com/di3penpbh/image/upload/v1678286761/user_profile_pictures/1200px-Default_pfp.svg_ewo17q.png"
+  },
   following: [{ type: Schema.Types.ObjectId, ref: "User" }],
   followers: [{ type: Schema.Types.ObjectId, ref: "User" }]
 });

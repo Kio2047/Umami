@@ -10,6 +10,8 @@ import { RequestHandler } from "express";
 import { Types } from "mongoose";
 const { ObjectId } = Types;
 
+// TODO: pull all register form validations up to root level shared folder for SSOT
+
 export const validateRequest: RequestHandler = (req, res, next) => {
   const errors = validationResult(req);
   console.log(errors);
@@ -58,14 +60,16 @@ export const createNewUserValidations = [
     .exists()
     .isString()
     .isLength({ min: 1, max: 20 })
-    .matches(/^[\w.]+$/),
+    .matches(/^[\w.]+$/)
+    .not()
+    .matches(/[^A-Za-z0-9_]/),
   body("password")
     .exists()
     .isString()
-    .isLength({ min: 8 })
-    // Password contains at least one number and at least one special character
+    .isLength({ min: 7 })
+    // Password contains a number and a special character
     .matches(/[0-9]/)
-    .matches(/[^A-Za-z0-9]/)
+    .matches(/[^A-Za-z0-9\s]/)
 ];
 
 export const loginUserValidations = [

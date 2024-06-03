@@ -5,6 +5,8 @@ import {
   UsernameValidatorResults
 } from "../types/auth/RegisterTypes";
 
+// TODO: pull all register form validations up to root level shared folder for SSOT
+
 export const formValidators = {
   fullName: (fullName: string): FullNameValidatorResults => {
     if (!fullName) return FullNameValidatorResults.Empty;
@@ -27,8 +29,8 @@ export const formValidators = {
   password: (password: string): PasswordValidatorResults => {
     if (!password) return PasswordValidatorResults.Empty;
     if (password.length < 7) return PasswordValidatorResults.TooShort;
-    if (!/[^A-Za-z0-9\s]/.test(password))
-      return PasswordValidatorResults.NoSpecialCharacter;
+    if (!/[^A-Za-z0-9\s]/.test(password) || !/0-9/.test(password))
+      return PasswordValidatorResults.NoSpecialCharacterOrNumber;
     // TODO: implement basic password strength algorithm (entropy calculation)
     else return PasswordValidatorResults.Valid;
   }
