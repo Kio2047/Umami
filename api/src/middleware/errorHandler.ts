@@ -42,6 +42,9 @@ const errorHandler: ErrorRequestHandler = function (err, req, res, next) {
           error: { message: "internal server error. that one's on us :(" }
         });
         break;
+      case "invalid credentials":
+        res.status(401).json({ error: { message: "invalid credentials" } });
+        break;
       case "unknown":
         unhandledErr = true;
         res.status(500).json({

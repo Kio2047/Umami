@@ -1,5 +1,6 @@
 type ServerErrorMessages =
   | "invalid jwt"
+  | "invalid credentials"
   | "not authorised"
   | "invalid user id"
   | "no cloudinary API secret"

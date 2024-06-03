@@ -1,17 +1,19 @@
 import * as dotenv from "dotenv";
-dotenv.config({ path: "./.env" });
 
 import app from "./server";
-import { connectDBClient } from "./models";
+import { connectDBClient } from "./Models";
+import logger from "./utils/logger";
+
+dotenv.config({ path: "./.env" });
 
 (async () => {
   try {
     const port = process.env.PORT || 3001;
     await connectDBClient();
     app.listen(port, () => {
-      console.log(`Server listening on ${port}`);
+      logger.info(`Server running on ${port}`);
     });
   } catch (err) {
-    console.log(err);
+    logger.error(err);
   }
 })();

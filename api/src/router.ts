@@ -1,15 +1,15 @@
 import { Router } from "express";
 import { body } from "express-validator";
 
-import * as AuthController from "./controllers/AuthenticationController";
-import * as PostController from "./controllers/PostController";
-import * as ImageUploadController from "./controllers/ImageUploadController";
+import * as AuthController from "./Controllers/AuthenticationController";
+import * as PostController from "./Controllers/PostController";
+import * as ImageUploadController from "./Controllers/ImageUploadController";
 import {
   createNewPostValidations,
   updateUserValidations,
   validateRequest
-} from "./modules/validations";
-import * as UserController from "./controllers/UserController";
+} from "./Modules/validations";
+import * as UserController from "./Controllers/UserController";
 
 const protectedRouter = Router();
 

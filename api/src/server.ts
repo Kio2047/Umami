@@ -2,17 +2,17 @@ import express, { ErrorRequestHandler } from "express";
 import cors from "cors";
 import requestLogger from "pino-http";
 
-import { errorHandler } from "./middleware/errorHandlers";
+import errorHandler from "./middleware/errorHandler";
 import {
   createNewUserValidations,
   loginUserValidations,
   validateRequest
-} from "./modules/validations";
+} from "./Modules/validations";
 import {
   createNewUser,
   loginUser
-} from "./controllers/AuthenticationController";
-import { authenticate } from "./modules/auth";
+} from "./Controllers/AuthenticationController";
+import { authenticate } from "./Modules/auth";
 import protectedRouter from "./router";
 import logger from "./utils/logger";
 
