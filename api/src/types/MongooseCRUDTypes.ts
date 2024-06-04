@@ -1,32 +1,39 @@
-import { HydratedDocument, Types } from "mongoose";
+import { Document, Types } from "mongoose";
 
 type Nullable<T> = T | null;
 
-export type FindOneResult<
-  Document,
-  Fields extends keyof Document = keyof Document
-> = Nullable<Omit<HydratedDocument<Document>, Exclude<keyof Document, Fields>>>;
+export type HydratedDocument<
+  DocumentType,
+  Fields extends keyof DocumentType = keyof DocumentType
+> = Document & Pick<DocumentType, Fields> & { _id: Types.ObjectId };
 
-export type NonNullFindOneResult<
-  Document,
-  Fields extends keyof Document = keyof Document
-> = Omit<HydratedDocument<Document>, Exclude<keyof Document, Fields>>;
+export type NullableHydratedDocument<
+  DocumentType,
+  Fields extends keyof DocumentType = keyof DocumentType
+> = Nullable<HydratedDocument<DocumentType, Fields>>;
 
 export type FindOnePromise<
-  Document,
-  Fields extends keyof Document = keyof Document
-> = Promise<FindOneResult<Document, Fields>>;
+  DocumentType,
+  Fields extends keyof DocumentType = keyof DocumentType
+> = Promise<NullableHydratedDocument<DocumentType, Fields>>;
 
-export type UpdateOneResult<
-  Document,
-  Fields extends keyof Document = keyof Document
-> = Omit<HydratedDocument<Document>, Exclude<keyof Document, Fields>>;
+export type CreateOnePromise<DocumentType> = Promise<
+  HydratedDocument<DocumentType>
+>;
 
-export type UpdateOnePromise<
-  Document,
-  Fields extends keyof Document = keyof Document
-> = Promise<UpdateOneResult<Document, Fields>>;
+// export type UpdateOnePromise<
+//   DocumentType,
+//   Fields extends keyof DocumentType = keyof DocumentType
+// > = Promise<HydratedDocument<DocumentType, Fields>>;
 
-export type CreateOneResult<Document> = HydratedDocument<Document>;
+// export type UpdateOneResult<
+//   Document,
+//   Fields extends keyof Document = keyof Document
+// > = Omit<HydratedDocument<Document>, Exclude<keyof Document, Fields>>;
 
-export type CreateOnePromise<Document> = Promise<CreateOneResult<Document>>;
+// export type UpdateOnePromise<
+//   Document,
+//   Fields extends keyof Document = keyof Document
+// > = Promise<UpdateOneResult<Document, Fields>>;
+
+// export type CreateOneResult<Document> = HydratedDocument<Document>;
