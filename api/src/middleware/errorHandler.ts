@@ -32,12 +32,8 @@ const errorHandler: ErrorRequestHandler = function (err, req, res, next) {
           .status(404)
           .json({ error: { message: "invalid user id provided" } });
         break;
-      case "no cloudinary API secret":
-        res.status(500).json({
-          error: { message: "internal server error. that one's on us :(" }
-        });
-        break;
-      case "no jwt secret":
+      case "no cloudinary API secret in process environment":
+      case "no jwt secret in process environment":
         res.status(500).json({
           error: { message: "internal server error. that one's on us :(" }
         });
@@ -45,13 +41,11 @@ const errorHandler: ErrorRequestHandler = function (err, req, res, next) {
       case "invalid credentials":
         res.status(401).json({ error: { message: "invalid credentials" } });
         break;
-      case "unknown":
+      default:
         unhandledErr = true;
         res.status(500).json({
           error: { message: "internal server error. that one's on us :(" }
         });
-        break;
-      default:
         assertUnreachable("error handler", "server error", serverError);
     }
   } else {
@@ -60,13 +54,14 @@ const errorHandler: ErrorRequestHandler = function (err, req, res, next) {
       error: { message: "internal server error. that one's on us :(" }
     });
   }
-  logger.error(
-    `${unhandledErr ? "unhandled error:" : ""}`,
-    err,
-    Object.keys(err.data).length
-      ? `Additional information: ${JSON.stringify(err.data)}`
-      : ""
-  );
+
+  const errorData = Object.keys(err?.data ?? {}).length
+    ? `Additional information: ${JSON.stringify(err.data)}`
+    : "";
+
+  unhandledErr
+    ? logger.fatal("Unhandled error", err, errorData)
+    : logger.error("Handled error", err, errorData);
 };
 
 export default errorHandler;

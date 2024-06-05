@@ -3,9 +3,8 @@ type ServerErrorMessages =
   | "invalid credentials"
   | "not authorised"
   | "invalid user id"
-  | "no cloudinary API secret"
-  | "no jwt secret"
-  | "unknown"
+  | "no cloudinary API secret in process environment"
+  | "no jwt secret in process environment"
   | "duplicate value";
 
 type RequiredDataMap = {
