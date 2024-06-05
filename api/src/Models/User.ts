@@ -1,27 +1,25 @@
 import { mongoose } from "./index";
-import { RawUserDocument } from "../types/UserTypes";
+import { HashedNewUserCredentials, RawUserDocument } from "../types/UserTypes";
 // import { RawUserDocument, RawUserDocumentWithID } from "../types/UserTypes";
 import {
   FindOnePromise,
-  CreateOnePromise,
-  UpdateOnePromise,
-  FindOneResult,
-  NonNullFindOneResult
+  NullableHydratedDocument,
+  HydratedDocument,
+  CreateOnePromise
+  // UpdateOnePromise
 } from "../types/MongooseCRUDTypes";
 
-import { ProcessedNewUserData } from "../types/UserTypes";
 import { NewDummyUserData } from "../types/SeedTypes";
 // import { UserCredentials, UserAndPostIDs } from "../types/types";
 import { userSchema } from "./schemas";
-import { HydratedDocument, NullExpression, Types } from "mongoose";
-import { typeSafeSelect } from "../utils";
+import { Types } from "mongoose";
 
 const User = mongoose.model<RawUserDocument>("User", userSchema);
 
 // TODO: either give each query function a lean boolean argument which if true makes them return a POJO, or create a lean copy of each query function
 
 export const createNewUser = async function (
-  newUserData: ProcessedNewUserData
+  newUserData: HashedNewUserCredentials
 ): CreateOnePromise<RawUserDocument> {
   const newUser = await User.create({
     ...newUserData
@@ -30,10 +28,9 @@ export const createNewUser = async function (
 };
 
 export const getUserByID = async <
-  // TODO: password hash will be required for resetPassword endpoint
-  Fields extends Exclude<keyof RawUserDocument, "passwordHash"> = Exclude<
-    keyof RawUserDocument,
-    "passwordHash"
+  Fields extends keyof Omit<RawUserDocument, "_id"> = keyof Omit<
+    RawUserDocument,
+    "_id"
   >
 >(
   id: string,
@@ -41,34 +38,58 @@ export const getUserByID = async <
     fields: Fields[];
   }
 ): FindOnePromise<RawUserDocument, Fields> => {
-  let account: FindOneResult<RawUserDocument, Fields>;
+  let account: NullableHydratedDocument<RawUserDocument, Fields>;
   if (options?.fields) {
-    account = await User.findById(id).select(options.fields.join(" "));
+    account = await User.findById(id).select<
+      Pick<RawUserDocument, Fields> & { _id: Types.ObjectId }
+    >(options.fields.join(" "));
   } else {
-    account = await User.findById(id).select("-passwordHash");
+    account = await User.findById(id);
   }
   return account;
-
-  // <
-  //   fields extends Extract<keyof RawUserDocumentWithID, string>
-  // >
 };
 
-export const getUserByEmail = async function (
-  email: string
-): FindOnePromise<RawUserDocument> {
-  const account = await User.findOne({
-    email: email
-  });
+export const getUserByEmail = async <
+  Fields extends keyof Omit<RawUserDocument, "_id"> = keyof Omit<
+    RawUserDocument,
+    "_id"
+  >
+>(
+  email: string,
+  options?: {
+    fields: Fields[];
+  }
+): FindOnePromise<RawUserDocument, Fields> => {
+  let account: NullableHydratedDocument<RawUserDocument, Fields>;
+  if (options?.fields) {
+    account = await User.findOne({ email }).select<
+      Pick<RawUserDocument, Fields> & { _id: Types.ObjectId }
+    >(options.fields.join(" "));
+  } else {
+    account = await User.findOne({ email });
+  }
   return account;
 };
 
-export const getUserByUsername = async function (
-  username: string
-): FindOnePromise<RawUserDocument> {
-  const account = await User.findOne({
-    username: username
-  });
+export const getUserByUsername = async <
+  Fields extends keyof Omit<RawUserDocument, "_id"> = keyof Omit<
+    RawUserDocument,
+    "_id"
+  >
+>(
+  username: string,
+  options?: {
+    fields: Fields[];
+  }
+): FindOnePromise<RawUserDocument, Fields> => {
+  let account: NullableHydratedDocument<RawUserDocument, Fields>;
+  if (options?.fields) {
+    account = await User.findOne({ username }).select<
+      Pick<RawUserDocument, Fields> & { _id: Types.ObjectId }
+    >(options.fields.join(" "));
+  } else {
+    account = await User.findOne({ username });
+  }
   return account;
 };
 
@@ -83,16 +104,16 @@ export const replaceUserprofileImageURL = async function (
 //TODO: change from save to updateOne for atomicity?
 
 export const appendUserFollowers = async function (
-  user: NonNullFindOneResult<RawUserDocument, "followers">,
+  user: HydratedDocument<RawUserDocument, "followers">,
   newFollowerID: mongoose.Types.ObjectId
-): UpdateOnePromise<RawUserDocument, "followers"> {
+): Promise<HydratedDocument<RawUserDocument, "followers">> {
   user.followers.push(new mongoose.Types.ObjectId(newFollowerID));
   await user.save();
   return user;
 };
 
 export const appendUserFollowing = async function (
-  user: NonNullFindOneResult<RawUserDocument, "following">,
+  user: HydratedDocument<RawUserDocument, "following">,
   newFollowedID: mongoose.Types.ObjectId
 ): UpdateOnePromise<RawUserDocument, "following"> {
   user.following.push(new mongoose.Types.ObjectId(newFollowedID));

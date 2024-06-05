@@ -1,77 +1,84 @@
-import { Request } from "express";
-import { ParamsDictionary } from "express-serve-static-core";
+import { NextFunction } from "express";
+import { MongoServerError } from "mongodb";
 
-import { hashPassword, comparePasswords, createJWT } from "../modules/auth";
-import * as UserModel from "../models/User";
-import { RequestHandler } from "express";
+import { TypedRequest, TypedResponse } from "../types/ExpressTypes";
+import { hashPassword, comparePasswords, createJWT } from "../Modules/auth";
+import * as UserModel from "../Models/User";
 import {
-  ProcessedNewUserData,
-  RawUserDocument,
-  ReceivedNewUserData,
+  AuthenticationResponse,
+  HashedNewUserCredentials,
+  NewUserCredentials,
   UserCredentials
 } from "../types/UserTypes";
-// import { FindOneResult } from "../types/MongooseCRUDTypes";
+import { ServerError } from "../../src/utils/ServerError";
 
-export const createNewUser: RequestHandler = async function (
-  req: Request<ParamsDictionary, any, ReceivedNewUserData>,
-  res,
-  next
-) {
+export const createNewUser = async function (
+  req: TypedRequest<NewUserCredentials>,
+  res: TypedResponse<{ data: AuthenticationResponse }>,
+  next: NextFunction
+): Promise<void> {
   try {
-    const newUserDataPreHash = req.body;
-    const passwordHash = await hashPassword(newUserDataPreHash.password);
-    const { password, ...rest } = newUserDataPreHash;
-    const newUserDataPostHash: ProcessedNewUserData = {
+    const { password, ...rest } = req.body;
+    const passwordHash = await hashPassword(password);
+    const hashedUserCredentials: HashedNewUserCredentials = {
       ...rest,
-      passwordHash,
-      profileImageURL:
-        "https://res.cloudinary.com/di3penpbh/image/upload/v1678286761/user_profile_pictures/1200px-Default_pfp.svg_ewo17q.png"
+      passwordHash
     };
-    const newUserAccount = await UserModel.createNewUser(newUserDataPostHash);
-    res.status(200).json({
+    const newUser = await UserModel.createNewUser(hashedUserCredentials);
+    res.location(`/users/${newUser._id}`);
+    res.status(201).json({
       data: {
-        createdAccount: {
-          ...newUserAccount.toObject(),
-          // Setting property to undefined removes it from the JSON response body so the hash isn't sent back to the client
-          passwordHash: undefined,
-          password
-        },
-        token: createJWT(newUserAccount)
+        _id: newUser._id.toString(),
+        token: createJWT(newUser._id)
       }
     });
   } catch (err) {
-    if (err.name === "MongoServerError" && err.code === 11000) {
-      err.cause = "duplicate value";
-      err.duplicateKey = Object.keys(err.keyPattern)[0];
+    let serverError: unknown = err;
+    if (!(err instanceof ServerError)) {
+      if (err instanceof MongoServerError && err.code === 11000) {
+        serverError = new ServerError("duplicate value", {
+          duplicateKey: Object.keys(err.keyPattern)[0],
+          duplicateVal: ""
+        });
+      }
     }
-    next(err);
+    next(serverError);
   }
 };
 
-export const loginUser: RequestHandler = async function (
-  req: Request<ParamsDictionary, any, UserCredentials>,
-  res,
-  next
+export const loginUser = async function (
+  req: TypedRequest<UserCredentials>,
+  res: TypedResponse<{ data: AuthenticationResponse }>,
+  next: NextFunction
 ) {
   try {
     const { usernameOrEmail, password } = req.body;
-    let user: Awaited<ReturnType<typeof UserModel.getUserByEmail>>;
+    let user: Awaited<
+      ReturnType<typeof UserModel.getUserByEmail<"passwordHash">>
+    >;
     if (usernameOrEmail.includes("@")) {
-      user = await UserModel.getUserByEmail(usernameOrEmail);
+      user = await UserModel.getUserByEmail(usernameOrEmail, {
+        fields: ["passwordHash"]
+      });
     } else {
-      user = await UserModel.getUserByUsername(usernameOrEmail);
+      user = await UserModel.getUserByUsername(usernameOrEmail, {
+        fields: ["passwordHash"]
+      });
     }
     if (!user || !(await comparePasswords(password, user.passwordHash))) {
-      res.status(401).json({ error: { message: "invalid details" } });
+      throw new ServerError("invalid credentials");
     } else {
       res.status(200).json({
         data: {
-          userID: user._id,
-          token: createJWT(user)
+          _id: user._id.toString(),
+          token: createJWT(user._id)
         }
       });
     }
   } catch (err) {
-    next(err);
+    let serverError: unknown = err;
+    if (!(err instanceof ServerError)) {
+    }
+    next(serverError);
   }
 };

@@ -1,6 +1,7 @@
 import { Types } from "mongoose";
 
 export interface RawUserDocument {
+  _id: Types.ObjectId;
   email: string;
   passwordHash: string;
   name: string;
@@ -15,6 +16,27 @@ export interface RawUserDocument {
 //   _id: Types.ObjectId;
 // }
 
+export interface NewUserCredentials {
+  email: string;
+  name: string;
+  username: string;
+  password: string;
+}
+
+export interface UserCredentials {
+  usernameOrEmail: string;
+  password: string;
+}
+
+export interface AuthenticationResponse {
+  _id: string;
+  token: string;
+}
+
+export type HashedNewUserCredentials = Omit<NewUserCredentials, "password"> & {
+  passwordHash: string;
+};
+
 export interface NewUserData {
   email: string;
   name: string;
@@ -28,9 +50,4 @@ export interface ReceivedNewUserData extends NewUserData {
 export interface ProcessedNewUserData extends NewUserData {
   profileImageURL: string;
   passwordHash: string;
-}
-
-export interface UserCredentials {
-  usernameOrEmail: string;
-  password: string;
 }
