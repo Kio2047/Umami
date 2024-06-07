@@ -8,6 +8,9 @@ import {
 } from "express-validator";
 import { RequestHandler } from "express";
 import { Types } from "mongoose";
+import jwt from "jsonwebtoken";
+import { TokenPayload } from "../types/ExpressTypes";
+
 const { ObjectId } = Types;
 
 // TODO: pull all register form validations up to root level shared folder for SSOT
@@ -26,6 +29,12 @@ export const validateRequest: RequestHandler = (req, res, next) => {
     req.body = filteredBody;
     next();
   }
+};
+
+export const isValidToken = (
+  token: string | jwt.JwtPayload
+): token is TokenPayload => {
+  return typeof token !== "string" && "sub" in token && "iat" in token;
 };
 
 const isValidObjectID = (str: string) => {

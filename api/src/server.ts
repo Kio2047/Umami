@@ -12,7 +12,7 @@ import {
   createNewUser,
   loginUser
 } from "./Controllers/AuthenticationController";
-import { authenticate } from "./Modules/auth";
+import { authenticate } from "./middleware/authenticate";
 import protectedRouter from "./router";
 import logger from "./utils/logger";
 
@@ -28,6 +28,7 @@ app.use(express.json());
 
 app.post("/user", createNewUserValidations, validateRequest, createNewUser);
 app.post("/session", loginUserValidations, validateRequest, loginUser);
+
 app.use(authenticate, protectedRouter);
 
 app.use(errorHandler);

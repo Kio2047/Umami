@@ -1,8 +1,8 @@
-import jwt from "jsonwebtoken";
+import jwt, { JsonWebTokenError } from "jsonwebtoken";
 import bcrypt from "bcrypt";
-import { RawUserDocument } from "../types/UserTypes";
-import { HydratedDocument } from "mongoose";
+import { Types } from "mongoose";
 import { RequestHandler } from "express";
+import { ServerError } from "../../src/utils/ServerError";
 
 export const hashPassword = (password: string): Promise<string> => {
   return bcrypt.hash(password, 10);
@@ -15,45 +15,14 @@ export const comparePasswords = (
   return bcrypt.compare(password, hash);
 };
 
-export const createJWT = (user: HydratedDocument<RawUserDocument>): string => {
+export const createJWT = (userId: Types.ObjectId): string => {
   if (!process.env.JWT_SECRET) {
-    throw new Error("No JWT_SECRET value exists in process environment", {
-      cause: "no jwt secret"
-    });
+    throw new ServerError("no jwt secret in process environment");
   }
-  const token = jwt.sign(
-    {
-      sub: user._id,
-      iat: Date.now()
-    },
-    process.env.JWT_SECRET
-  );
+  const token = jwt.sign({}, process.env.JWT_SECRET, {
+    subject: userId.toString()
+  });
   return token;
-};
-
-export const authenticate: RequestHandler = (req, res, next) => {
-  if (!process.env.JWT_SECRET) {
-    throw new Error("No JWT_SECRET value exists in process environment", {
-      cause: "no jwt secret"
-    });
-  }
-
-  const authHeader = req.headers.authorization;
-  if (!authHeader || !authHeader.split(" ")[1]) {
-    res.status(401);
-    res.json({ error: { message: "not authenticated" } });
-    return;
-  }
-
-  const token = authHeader.split(" ")[1];
-  try {
-    const tokenPayload = jwt.verify(token, process.env.JWT_SECRET);
-    res.locals.tokenPayload = tokenPayload;
-    next();
-  } catch (err) {
-    err.cause = "invalid jwt";
-    next(err);
-  }
 };
 
 // TODO: move this to middleware (would require knowing requiredID prior to any DB lookups)
