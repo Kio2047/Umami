@@ -24,6 +24,16 @@ const errorHandler: ErrorRequestHandler = function (err, req, res, next) {
       case "invalid jwt":
         res.status(401).json({ error: { message: "invalid bearer token" } });
         break;
+      case "missing jwt":
+        res
+          .status(401)
+          .json({ error: { message: "missing authorization header" } });
+        break;
+      case "malformed jwt":
+        res
+          .status(401)
+          .json({ error: { message: "malformed authorization header" } });
+        break;
       case "not authorised":
         res.status(403).json({ error: { message: "not authorised" } });
         break;

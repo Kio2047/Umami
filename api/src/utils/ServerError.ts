@@ -1,4 +1,6 @@
 type ServerErrorMessages =
+  | "missing jwt"
+  | "malformed jwt"
   | "invalid jwt"
   | "invalid credentials"
   | "not authorised"
@@ -8,14 +10,19 @@ type ServerErrorMessages =
   | "duplicate value";
 
 type RequiredDataMap = {
-  "duplicate value": { duplicateKey: string; duplicateVal: string };
+  "duplicate value": {
+    duplicateKey: string;
+    duplicateVal: string;
+    cause?: unknown;
+    additionalInfo?: string;
+  };
 };
 
 type ServerErrorDataMap = RequiredDataMap & {
-  [K in Exclude<ServerErrorMessages, keyof RequiredDataMap>]: Record<
-    string,
-    never
-  >;
+  [K in Exclude<ServerErrorMessages, keyof RequiredDataMap>]: {
+    cause?: unknown;
+    additionalInfo?: string;
+  };
 };
 
 export type ServerErrorUnion = {
@@ -39,3 +46,5 @@ export class ServerError<T extends ServerErrorMessages> extends Error {
     return "ServerError";
   }
 }
+
+throw new ServerError("invalid credentials", { additionalInfo: "world" });
