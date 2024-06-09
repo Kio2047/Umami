@@ -3,14 +3,12 @@ import jwt, { JwtPayload } from "jsonwebtoken";
 
 import { ServerError } from "../utils/ServerError";
 import { isValidToken } from "../Modules/validations";
+import { envVars } from "#src/envConfig";
 
 export const authenticate: RequestHandler = (req, res, next) => {
-  const jwtSecret = process.env.JWT_SECRET;
-  if (!jwtSecret) {
-    return next(new ServerError("no jwt secret in process environment"));
-  }
-
+  const jwtSecret = envVars.JWT_SECRET;
   const authHeader = req.headers.authorization;
+
   if (!authHeader)
     return next(
       new ServerError("missing jwt", {

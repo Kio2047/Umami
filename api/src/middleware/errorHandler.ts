@@ -42,11 +42,10 @@ const errorHandler: ErrorRequestHandler = function (err, req, res, next) {
           .status(404)
           .json({ error: { message: "invalid user id provided" } });
         break;
-      case "no cloudinary API secret in process environment":
-      case "no jwt secret in process environment":
-        res.status(500).json({
-          error: { message: "internal server error. that one's on us :(" }
-        });
+      case "invalid restaurant id":
+        res
+          .status(404)
+          .json({ error: { message: "invalid restaurant id provided" } });
         break;
       case "invalid credentials":
         res.status(401).json({ error: { message: "invalid credentials" } });

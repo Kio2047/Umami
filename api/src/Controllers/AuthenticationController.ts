@@ -1,20 +1,23 @@
 import { NextFunction } from "express";
 import { MongoServerError } from "mongodb";
 
-import { TypedRequest, TypedResponse } from "../types/ExpressTypes";
-import { hashPassword, comparePasswords, createJWT } from "../Modules/auth";
-import * as UserModel from "../Models/User";
+import {
+  CustomRequest as Request,
+  CustomResponse as Response
+} from "#src/types/ExpressTypes";
 import {
   AuthenticationResponse,
   HashedNewUserCredentials,
   NewUserCredentials,
   UserCredentials
-} from "../types/UserTypes";
-import { ServerError } from "../../src/utils/ServerError";
+} from "#src/types/UserTypes";
+import { hashPassword, comparePasswords, createJWT } from "#src/Modules/auth";
+import * as UserModel from "#src/Models/User";
+import { ServerError } from "#src/utils/ServerError";
 
 export const createNewUser = async function (
-  req: TypedRequest<NewUserCredentials>,
-  res: TypedResponse<{ data: AuthenticationResponse }>,
+  req: Request<NewUserCredentials>,
+  res: Response<{ data: AuthenticationResponse }>,
   next: NextFunction
 ): Promise<void> {
   try {
@@ -47,8 +50,8 @@ export const createNewUser = async function (
 };
 
 export const loginUser = async function (
-  req: TypedRequest<UserCredentials>,
-  res: TypedResponse<{ data: AuthenticationResponse }>,
+  req: Request<UserCredentials>,
+  res: Response<{ data: AuthenticationResponse }>,
   next: NextFunction
 ) {
   try {

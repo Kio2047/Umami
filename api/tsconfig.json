@@ -13,10 +13,10 @@
     "sourceMap": true,
     "outDir": "dist",
     "baseUrl": ".",
+    "typeRoots": ["./node_modules/@types"],
     "paths": {
-      "*": ["node_modules/*"]
-    },
-    "typeRoots": ["./node_modules/@types"]
+      "#src/*": ["./src/*"]
+    }
   },
   "include": ["src/**/*"]
   // "exclude": ["src/types/environment.d.ts"]

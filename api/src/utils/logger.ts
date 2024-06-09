@@ -1,7 +1,8 @@
+import { envVars } from "#src/envConfig";
 import { LoggerOptions, pino } from "pino";
 
 const options: LoggerOptions =
-  process.env.NODE_ENV === "production"
+  envVars.NODE_ENV === "production"
     ? {}
     : {
         transport: {

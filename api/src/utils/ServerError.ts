@@ -5,8 +5,7 @@ type ServerErrorMessages =
   | "invalid credentials"
   | "not authorised"
   | "invalid user id"
-  | "no cloudinary API secret in process environment"
-  | "no jwt secret in process environment"
+  | "invalid restaurant id"
   | "duplicate value";
 
 type RequiredDataMap = {
@@ -46,5 +45,3 @@ export class ServerError<T extends ServerErrorMessages> extends Error {
     return "ServerError";
   }
 }
-
-throw new ServerError("invalid credentials", { additionalInfo: "world" });

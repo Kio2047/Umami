@@ -1,8 +1,8 @@
-import jwt, { JsonWebTokenError } from "jsonwebtoken";
+import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import { Types } from "mongoose";
-import { RequestHandler } from "express";
-import { ServerError } from "../../src/utils/ServerError";
+
+import { envVars } from "#src/envConfig";
 
 export const hashPassword = (password: string): Promise<string> => {
   return bcrypt.hash(password, 10);
@@ -16,10 +16,8 @@ export const comparePasswords = (
 };
 
 export const createJWT = (userId: Types.ObjectId): string => {
-  if (!process.env.JWT_SECRET) {
-    throw new ServerError("no jwt secret in process environment");
-  }
-  const token = jwt.sign({}, process.env.JWT_SECRET, {
+  const jwtSecret = envVars.JWT_SECRET;
+  const token = jwt.sign({}, jwtSecret, {
     subject: userId.toString()
   });
   return token;
