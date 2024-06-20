@@ -10,6 +10,8 @@ export interface RawUserDocument {
   // TODO: consider using virtuals and an intermediary collection for many-many following / followers relationship
   following: Types.ObjectId[];
   followers: Types.ObjectId[];
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 // export interface RawUserDocumentWithID extends RawUserDocument {
@@ -23,6 +25,10 @@ export interface NewUserCredentials {
   password: string;
 }
 
+export type HashedNewUserCredentials = Omit<NewUserCredentials, "password"> & {
+  passwordHash: string;
+};
+
 export interface UserCredentials {
   usernameOrEmail: string;
   password: string;
@@ -31,23 +37,4 @@ export interface UserCredentials {
 export interface AuthenticationResponse {
   _id: string;
   token: string;
-}
-
-export type HashedNewUserCredentials = Omit<NewUserCredentials, "password"> & {
-  passwordHash: string;
-};
-
-export interface NewUserData {
-  email: string;
-  name: string;
-  username: string;
-}
-
-export interface ReceivedNewUserData extends NewUserData {
-  password: string;
-}
-
-export interface ProcessedNewUserData extends NewUserData {
-  profileImageURL: string;
-  passwordHash: string;
 }

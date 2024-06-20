@@ -12,9 +12,6 @@ services:
     depends_on:
       - db
     environment:
-      - DB_URI=mongodb://db
+      - DB_URI=mongodb://db:27017
       - DB_NAME=dev
-      - DB_PORT=27017
-      - DB_USER_NAME=
-      - DB_USER_PASSWORD=
-    command: sh -c "/usr/local/bin/wait-for-it.sh db:27017 -- npm run seedDB"
+    command: sh -c "/usr/local/bin/wait-for-it.sh db:27017 -- npm run run-seeder"

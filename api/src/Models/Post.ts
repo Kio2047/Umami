@@ -15,13 +15,3 @@ export const createNewPost = async function (
   });
   return newPost;
 };
-
-// For use in DB seeder only
-export const createNewDummyPost = async function (
-  newDummyPostData: NewDummyPostData
-) {
-  const newDummyPost = await Post.create({
-    ...newDummyPostData
-  });
-  return newDummyPost;
-};

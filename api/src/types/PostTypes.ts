@@ -1,15 +1,16 @@
 import { Types } from "mongoose";
 
 export interface RawPostDocument {
-  // _id: Types.ObjectId;
+  _id: Types.ObjectId;
   author: Types.ObjectId;
   restaurant: Types.ObjectId;
   ratings: number[];
   imageURLs: string[];
   title: string;
   text: string;
-  timestamp: Date;
   others: Types.ObjectId[];
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 interface NewPostDataBase {
@@ -30,12 +31,11 @@ interface NewPostDataWithRestaurantID extends NewPostDataBase {
   newRestaurantName?: never;
 }
 
-export type ReceivedNewPostData =
+export type NewPostData =
   | NewPostDataWithRestaurantName
   | NewPostDataWithRestaurantID;
 
-export interface ProcessedNewPostData extends NewPostDataBase {
-  author: Types.ObjectId;
-  restaurant: Types.ObjectId;
-  timestamp: string;
-}
+// export interface PostData extends NewPostDataBase {
+//   author: Types.ObjectId;
+//   restaurant: Types.ObjectId;
+// }
