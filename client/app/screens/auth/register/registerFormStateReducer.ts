@@ -6,42 +6,22 @@ export const reducer = (
   action: FormAction<RegisterField>
 ): FormState<RegisterField> => {
   switch (action.type) {
-    case "highlight_fields":
-      return action.fields.reduce(
-        (accumulator, field) => {
-          return {
-            ...accumulator,
-            [field]: {
-              ...accumulator[field],
-              highlight: true
-            }
-          };
-        },
-        { ...state }
-      );
-
-    // case "update_and_validate_field":
     case "update_field":
       return {
         ...state,
         [action.field]: {
           ...state[action.field],
           value: action.value,
-          // valid: formValidators[action.field](action.value),
-          highlight: false
+          valid: true,
+          invalidMessage: ""
         }
       };
 
     case "focus_field": {
-      const updatedState = { ...state };
-      let field: keyof typeof state;
-      for (field in updatedState) {
-        updatedState[field] = {
-          ...updatedState[field],
-          focused: field === action.field
-        };
-      }
-      return updatedState;
+      return {
+        ...state,
+        [action.field]: { ...state[action.field], focused: true }
+      };
     }
 
     case "blur_field": {
@@ -50,36 +30,52 @@ export const reducer = (
         [action.field]: { ...state[action.field], focused: false }
       };
     }
+
+    case "add_invalid_warning": {
+      const { invalidMessage } = action;
+      return {
+        ...state,
+        [action.field]: {
+          ...state[action.field],
+          valid: false,
+          invalidMessage
+        }
+      };
+    }
   }
 };
 
 export const initialState: FormState<RegisterField> = {
   email: {
     value: "",
-    valid: false,
-    highlight: false,
+    valid: true,
     focused: false,
-    error: false
+    invalidMessage: ""
+    // highlight: false,
+    // error: false
   },
   fullName: {
     value: "",
-    valid: false,
-    highlight: false,
+    valid: true,
     focused: false,
-    error: false
+    invalidMessage: ""
+    // highlight: false,
+    // error: false
   },
   username: {
     value: "",
-    valid: false,
-    highlight: false,
+    valid: true,
     focused: false,
-    error: false
+    invalidMessage: ""
+    // highlight: false,
+    // error: false
   },
   password: {
     value: "",
-    valid: false,
-    highlight: false,
+    valid: true,
     focused: false,
-    error: false
+    invalidMessage: ""
+    // highlight: false,
+    // error: false
   }
 };

@@ -18,7 +18,7 @@ export interface CreatedAccount {
 
 export interface CreateNewUserResponse {
   data: {
-    createdAccount: CreatedAccount;
+    // createdAccount: CreatedAccount;
     token: string;
   };
 }

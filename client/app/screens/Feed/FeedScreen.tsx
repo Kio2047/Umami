@@ -19,7 +19,7 @@ import { useTheme } from "@react-navigation/native";
 import Post from "../../components/Post/Post";
 // import type { Post as PostType, FeedScreenProps } from "../../types";
 // import { getFeedPosts, getUserInfo } from "../../services/api/apiClient";
-import { colors } from "../../constants/styleConstants";
+import { colors } from "../../constants/styles/styleConstants";
 import { AppTabProps, StackScreenProps } from "../../types/NavigationTypes";
 import { AuthContext } from "../../contexts/AuthContext/AuthContext";
 import styles from "./FeedScreen.styles";

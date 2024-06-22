@@ -29,7 +29,7 @@ export const formValidators = {
   password: (password: string): PasswordValidatorResults => {
     if (!password) return PasswordValidatorResults.Empty;
     if (password.length < 7) return PasswordValidatorResults.TooShort;
-    if (!/[^A-Za-z0-9\s]/.test(password) || !/0-9/.test(password))
+    if (!/[^A-Za-z0-9\s]/.test(password) || !/[0-9]/.test(password))
       return PasswordValidatorResults.NoSpecialCharacterOrNumber;
     // TODO: implement basic password strength algorithm (entropy calculation)
     else return PasswordValidatorResults.Valid;

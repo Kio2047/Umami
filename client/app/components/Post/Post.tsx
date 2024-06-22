@@ -4,7 +4,7 @@ import { Rating, AirbnbRating } from "react-native-ratings";
 import ReadMore from "react-native-read-more-text";
 
 import type { Post as PostType } from "../../types/OtherTypes";
-import { colors } from "../../constants/styleConstants";
+import { colors } from "../../constants/styles/styleConstants";
 import { calculatePostTimestamp } from "../../utils/utils";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { PostNavigationProp } from "../../types/OtherTypes";

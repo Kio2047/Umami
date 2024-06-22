@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getJWT, getUserID } from "../services/deviceStorageClient";
+import { getJwt, getUserID } from "../services/deviceStorageService";
 import { LocalStorageAuthData } from "../types/auth/CommonAuthTypes";
 
 export const useLocalStorageAuthData = (): [
@@ -16,10 +16,10 @@ export const useLocalStorageAuthData = (): [
   useEffect(() => {
     (async () => {
       // const [jwt, userID] = await Promise.all([
-      //   await getJWT()
+      //   await getJwt()
       //   await getUserID()
       // ]);
-      const jwt = await getJWT();
+      const jwt = await getJwt();
       if (!jwt) {
         // if (!jwt || !userID) {
         setLocalStorageAuthData({

@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import { colors } from "../../constants/styleConstants";
+import { colors } from "../../constants/styles/styleConstants";
 
 export default StyleSheet.create({
   container: {
@@ -23,7 +23,7 @@ export default StyleSheet.create({
   focusedPressable: {
     borderColor: colors.fieldFocusedBorderColor
   },
-  errorPressable: {
+  invalidPressable: {
     borderColor: colors.errorColor,
     color: colors.errorColor
   },
@@ -40,11 +40,11 @@ export default StyleSheet.create({
     position: "relative",
     top: 4
   },
-  // errorText: {
-  //   color: colors.errorColor,
-  //   position: "relative"
-  //   // top: 40
-  // },
+  invalidText: {
+    color: colors.errorColor,
+    position: "relative"
+    // top: 40
+  },
   inputIcon: {
     position: "absolute",
     right: 10

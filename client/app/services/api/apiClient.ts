@@ -12,10 +12,10 @@ import {
   GetURLSignatureResponse,
   // GetUserCardInfoResponse,
   // GetUserResultsResponse,
-  LoginUserResponse,
-  UserSearchResultsResponse
+  LoginUserResponse
+  // UserSearchResultsResponse
 } from "../../types/APIResponseTypes";
-import { getUserID } from "../deviceStorageClient";
+// import { getUserID } from "../deviceStorageService";
 import { sendPostRequest, sendGetRequest, sendPatchRequest } from "./apiUtils";
 import { NewUserCredentials } from "../../types/auth/RegisterTypes";
 

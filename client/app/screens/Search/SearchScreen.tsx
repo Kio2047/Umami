@@ -11,12 +11,12 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 import styles from "./SearchScreen.styles";
-import { colors } from "../../constants/styleConstants";
+import { colors } from "../../constants/styles/styleConstants";
 import { useQuery } from "@tanstack/react-query";
 import { AppTabProps } from "../../types/NavigationTypes";
 import { searchForUsers } from "../../services/api/apiClient";
 import UserSearchResult from "../../components/UserSearchResult/UserSearchResult";
-import { getJWT, setJWT } from "../../services/deviceStorageClient";
+import { getJWT, setJWT } from "../../services/deviceStorageService";
 
 const SearchScreen = ({
   navigation

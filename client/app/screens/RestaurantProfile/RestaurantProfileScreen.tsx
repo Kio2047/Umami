@@ -13,7 +13,7 @@ import type {
   RestaurantProfileScreenProps,
   Post as PostType
 } from "../../types/OtherTypes";
-import { colors } from "../../constants/styleConstants";
+import { colors } from "../../constants/styles/styleConstants";
 
 const RestaurantProfileScreen = ({
   route,

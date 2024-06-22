@@ -12,10 +12,7 @@ import {
   RegisterScreenConstants,
   ValidatorResultsTypeMap
 } from "../../types/auth/RegisterTypes";
-import {
-  FormState,
-  LocalStorageAuthData
-} from "../../types/auth/CommonAuthTypes";
+import { FormState } from "../../types/auth/CommonAuthTypes";
 import { Entries, ValueOf } from "../../types/UtilTypes";
 import { RootStackParamList } from "../../types/NavigationTypes";
 import CredentialTextInput from "../CredentialTextInput/CredentialTextInput";
@@ -23,8 +20,7 @@ import { reducer } from "../../screens/auth/register/registerFormStateReducer";
 import BottomTab from "../BottomTab/BottomTab";
 import styles from "./RegisterScreenTemplate.styles";
 import { createNewUser } from "../../services/api/apiClient";
-import { CreateNewUserResponse } from "../../types/APIResponseTypes";
-import { setJWT, setUserID } from "../../services/deviceStorageClient";
+import { saveSessionToken } from "../../services/deviceStorageService";
 import { useAuthContext } from "../../hooks/useAuthContext";
 
 // TODO: create a prop for a function that runs on submission prior to navigating
@@ -48,6 +44,7 @@ const RegisterScreenTemplate = <
   additionalText,
   inputConstants,
   nextScreen,
+  errorMessages,
   additionalContent,
   initialState,
   navigation,
@@ -61,14 +58,15 @@ const RegisterScreenTemplate = <
     retry: false,
     onSuccess: async (data) => {
       try {
-        await saveSessionToken(data.data.createdAccount._id, setAuthData);
+        await saveSessionToken(data.data.token, setAuthData);
+        // TODO: TypeScript not enforcing params type below
         navigation.reset({
           index: 0,
           routes: [
             {
               name: "AddProfileImageScreen",
               params: {
-                newUserName: data.data.createdAccount.name
+                userFirstName: formState.fullName.value.split(" ")[0]
               }
             }
           ]
@@ -80,49 +78,42 @@ const RegisterScreenTemplate = <
     onError: () => setDisableButton(false)
   });
 
-  // useEffect(() => {
-  //   if inputValidator(formState[inputConstants.formField].value);
-  // }, [formState[inputConstants.formField].value]);
-
   // TODO: why doesn't typing nextScreen as nextScreen: NextScreenMap[T] (as above) work here?
-
-  const saveSessionToken = async (
-    jwt: string,
-    // userID: CreatedAccount,
-    setAuthData: React.Dispatch<React.SetStateAction<LocalStorageAuthData>>
-  ) => {
-    await Promise.all([setJWT(jwt)]);
-    // await Promise.all([setJWT(jwt), setUserID(userID)]);
-    setAuthData({
-      jwt,
-      // userID,
-      status: "authenticated"
-    });
-  };
 
   const nextButtonOnPressHandler = async (
     nextScreen: ValueOf<NextScreenTypeMap>
   ) => {
-    // TODO: validate input value
-    if (nextScreen === "AddProfileImageScreen") {
-      setDisableButton(true);
-      const newUserCredentials = (
-        Object.entries(formState) as Entries<FormState<RegisterField>>
-      ).reduce<NewUserCredentials>(
-        (accumulator, [field, values]) => {
-          accumulator[field] = values.value;
-          return accumulator;
-        },
-        {
-          email: "",
-          username: "",
-          password: "",
-          fullName: ""
-        }
-      );
-      mutate(newUserCredentials);
+    const validationStatus = inputValidator(
+      formState[inputConstants.formField].value
+    );
+
+    if (validationStatus !== 0) {
+      dispatch({
+        type: "add_invalid_warning",
+        field: inputConstants.formField,
+        invalidMessage: errorMessages[validationStatus]
+      });
     } else {
-      navigation.navigate(nextScreen);
+      if (nextScreen === "AddProfileImageScreen") {
+        setDisableButton(true);
+        const newUserCredentials = (
+          Object.entries(formState) as Entries<FormState<RegisterField>>
+        ).reduce<NewUserCredentials>(
+          (accumulator, [field, values]) => {
+            accumulator[field] = values.value;
+            return accumulator;
+          },
+          {
+            email: "",
+            username: "",
+            password: "",
+            fullName: ""
+          }
+        );
+        mutate(newUserCredentials);
+      } else {
+        navigation.navigate(nextScreen);
+      }
     }
   };
 

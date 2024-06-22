@@ -59,3 +59,7 @@ export type RegisterScreenConstantsTypeMap = {
 };
 
 export type NewUserCredentials = Record<RegisterField, string>;
+
+// export interface RegisterInputErrorMessageTypeMap<T extends > {
+
+// }

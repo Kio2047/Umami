@@ -6,9 +6,8 @@ import { CreatedAccount } from "../APIResponseTypes";
 export interface FieldState {
   value: string;
   valid: boolean;
-  highlight: boolean;
   focused: boolean;
-  error: boolean;
+  invalidMessage: string;
 }
 
 export type FormState<T extends LoginField | RegisterField> = Record<
@@ -17,10 +16,6 @@ export type FormState<T extends LoginField | RegisterField> = Record<
 >;
 
 export type FormAction<T extends LoginField | RegisterField> =
-  | {
-      type: "highlight_fields";
-      fields: T[];
-    }
   | {
       type: "blur_field";
       field: T;
@@ -34,6 +29,11 @@ export type FormAction<T extends LoginField | RegisterField> =
       type: "update_field";
       field: T;
       value: string;
+    }
+  | {
+      type: "add_invalid_warning";
+      field: T;
+      invalidMessage: string;
     };
 
 export interface InputConstants<T extends LoginField | RegisterField> {

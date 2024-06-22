@@ -18,7 +18,7 @@ import { AntDesign } from "@expo/vector-icons";
 
 import { CreateNewPostScreenProps } from "../../types/OtherTypes";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { colors } from "../../constants/styleConstants";
+import { colors } from "../../constants/styles/styleConstants";
 import type {
   NewPost,
   formTextFields,

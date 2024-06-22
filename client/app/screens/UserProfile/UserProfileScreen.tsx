@@ -15,7 +15,7 @@ import type {
   UserProfileScreenProps,
   Post as PostType
 } from "../../types/OtherTypes";
-import { colors } from "../../constants/styleConstants";
+import { colors } from "../../constants/styles/styleConstants";
 import { getPostsByUser } from "../../services/api/apiClient";
 
 const UserProfileScreen = ({ route, navigation }: UserProfileScreenProps) => {

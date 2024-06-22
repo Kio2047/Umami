@@ -20,7 +20,7 @@ export type RootStackParamList = {
   RegisterEmailScreen: undefined;
   RegisterUsernameScreen: undefined;
   RegisterPasswordScreen: undefined;
-  AddProfileImageScreen: { newUserName: string };
+  AddProfileImageScreen: { userFirstName: string };
   // Feed: { feedUserInfo: User };
   AppTabsScreen: undefined;
   DetailedImageScreen: { imageURL: string };

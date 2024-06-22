@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import {
+  Text,
   Animated,
   KeyboardTypeOptions,
   TextInput,
@@ -11,7 +12,7 @@ import {
 import { MaterialIcons } from "@expo/vector-icons";
 
 import styles from "./CredentialTextInput.styles";
-import { colors } from "../../constants/styleConstants";
+import { colors } from "../../constants/styles/styleConstants";
 import { FieldState, FormAction } from "../../types/auth/CommonAuthTypes";
 import { LoginField } from "../../types/auth/LoginTypes";
 import { RegisterField } from "../../types/auth/RegisterTypes";
@@ -33,7 +34,6 @@ const CredentialTextInput = <T extends LoginField | RegisterField>({
   formFieldState,
   formField,
   placeholder,
-  // errorText,
   keyboardType = "default",
   secureTextEntry = false
 }: CredentialTextInputProps<T>) => {
@@ -51,7 +51,7 @@ const CredentialTextInput = <T extends LoginField | RegisterField>({
   const animatedStyle = {
     top: placeholderAnimationValue.interpolate({
       inputRange: [0, 1],
-      outputRange: [17, 5]
+      outputRange: [19, 5]
     }),
     fontSize: placeholderAnimationValue.interpolate({
       inputRange: [0, 1],
@@ -73,7 +73,7 @@ const CredentialTextInput = <T extends LoginField | RegisterField>({
   const pressableStyle = [
     styles.pressable,
     formFieldState.focused && styles.focusedPressable,
-    formFieldState.error && styles.errorPressable
+    !formFieldState.valid && styles.invalidPressable
     // formFieldState.highlight && styles.highlightedPressable
   ];
   // const placeholderTextColor = formFieldState.highlight
@@ -115,7 +115,7 @@ const CredentialTextInput = <T extends LoginField | RegisterField>({
           style={[
             styles.placeholder,
             animatedStyle,
-            formFieldState.error && { color: colors.errorColor }
+            !formFieldState.valid && { color: colors.errorColor }
           ]}
         >
           {placeholderText}
@@ -131,7 +131,7 @@ const CredentialTextInput = <T extends LoginField | RegisterField>({
           onSubmitEditing={Keyboard.dismiss}
           value={formFieldState.value}
         />
-        {formFieldState.error ? (
+        {!formFieldState.valid ? (
           <MaterialIcons
             style={styles.inputIcon}
             name="error-outline"
@@ -148,7 +148,7 @@ const CredentialTextInput = <T extends LoginField | RegisterField>({
             >
               <MaterialIcons
                 name="clear"
-                size={28}
+                size={24}
                 color={colors.fieldFocusedBorderColor}
               />
             </Pressable>
@@ -156,7 +156,9 @@ const CredentialTextInput = <T extends LoginField | RegisterField>({
         )}
       </Pressable>
       {/* {errorMessages?.length && formFieldState.focused && ( */}
-      {/* {errorText && <Text style={styles.errorText}>{errorText}</Text>} */}
+      {!formFieldState.valid && (
+        <Text style={styles.invalidText}>{formFieldState.invalidMessage}</Text>
+      )}
     </View>
   );
 };

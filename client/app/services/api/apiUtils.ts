@@ -1,4 +1,4 @@
-import { getJWT } from "../deviceStorageClient";
+import { getJwt } from "../deviceStorageService";
 
 export class FailedRequestError extends Error {
   public readonly responseBody?: unknown;
@@ -27,7 +27,7 @@ export const sendPostRequest = async <ResponseBody, RequestBody>(
   URL: string,
   body: RequestBody
 ): Promise<ResponseBody> => {
-  const jwt = await getJWT();
+  const jwt = await getJwt();
   const response = await fetch(URL, {
     method: "POST",
     headers: {
@@ -49,7 +49,7 @@ export const sendPostRequest = async <ResponseBody, RequestBody>(
 export const sendGetRequest = async <ResponseBody, RequestBody>(
   URL: string
 ): Promise<ResponseBody> => {
-  const jwt = await getJWT();
+  const jwt = await getJwt();
   const response = await fetch(URL, {
     method: "GET",
     headers: {
@@ -74,7 +74,7 @@ export const sendPatchRequest = async <ResponseBody, RequestBody>(
     value: any;
   }
 ): Promise<ResponseBody> => {
-  const jwt = await getJWT();
+  const jwt = await getJwt();
 
   const response = await fetch(URL, {
     method: "PATCH",
