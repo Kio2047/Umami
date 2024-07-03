@@ -75,12 +75,12 @@ export default function App() {
             {/* <Provider store={store}> */}
             {/* <ScreenBackground styles={{}}> */}
             <ScreenBackground
-              additionalStyles={{ paddingBottom: navigationBarHeight }}
+            // additionalStyles={{ paddingBottom: navigationBarHeight }}
             >
               <NavigationContainer theme={MyTheme}>
                 {/* <NavigationContainer> */}
                 <RootStack.Navigator
-                  initialRouteName="WelcomeScreen"
+                  initialRouteName="AddProfileImageScreen"
                   // initialRouteName="AppTabs"
                   // initialRouteName={
                   //   authData[0].status === "success" ? "Feed" : "WelcomeScreen"
@@ -119,7 +119,7 @@ export default function App() {
                   <RootStack.Screen
                     name="AddProfileImageScreen"
                     component={AddProfileImageScreen}
-                    initialParams={{ newUserName: "Kio Shiraz" }}
+                    initialParams={{ userFirstName: "Kio Shiraz" }}
                   />
                   {/* <RootStack.Screen name="Feed" component={Feed} /> */}
                   {/* <RootStack.Screen

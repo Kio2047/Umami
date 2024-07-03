@@ -4,11 +4,10 @@ import { colors } from "../../../../constants/styles/styleConstants";
 export default StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.backgroundColor,
-    justifyContent: "space-between",
+    justifyContent: "space-evenly",
     alignItems: "center",
-    paddingTop: 80,
-    paddingBottom: 70
+    // paddingTop: 0,
+    paddingHorizontal: 30
   },
   greetingText: {
     color: colors.primaryFontColor,
@@ -21,15 +20,12 @@ export default StyleSheet.create({
     fontSize: 18,
     textAlign: "center"
   },
-  addPictureButton: {
-    // position: "relative"
-    marginBottom: 40
-  },
+  addPictureButton: {},
   addPictureButtonPlus: {
     position: "absolute",
     bottom: 10,
     right: 10,
-    backgroundColor: "white",
+    backgroundColor: colors.primaryFontColor,
     borderColor: colors.defaultButtonColor,
     borderWidth: 3,
     height: 65,
@@ -40,30 +36,36 @@ export default StyleSheet.create({
   },
   addPictureButtonPlusText: {
     position: "relative",
-    bottom: 10,
+    bottom: 7,
     fontSize: 50,
     color: colors.defaultButtonColor
   },
   skipButtonText: {
-    color: colors.defaultButtonColor,
-    fontSize: 15,
+    color: colors.primaryFontColor,
+    fontSize: 16,
     fontWeight: "500",
     textAlign: "center"
-    // marginTop: 40
   },
   continueButton: {
     justifyContent: "center",
     width: 330,
     height: 50,
     backgroundColor: colors.defaultButtonColor,
-    borderRadius: 7,
-    marginTop: 20,
-    marginBottom: 12
+    borderRadius: 7
+  },
+  skipButton: {},
+  skipButtonImageSelected: {
+    marginTop: 20
   },
   continueButtonText: {
     textAlign: "center",
     color: colors.primaryFontColor,
     fontWeight: "500",
-    fontSize: 15
+    fontSize: 16
+  },
+  profileImage: {
+    height: 200,
+    width: 200,
+    borderRadius: 100
   }
 });

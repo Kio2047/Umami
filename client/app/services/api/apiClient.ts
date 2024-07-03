@@ -9,15 +9,16 @@ import type { NewPost, Post } from "../../types/OtherTypes";
 import {
   CloudinaryImageUploadResponse,
   CreateNewUserResponse,
-  GetURLSignatureResponse,
+  GetUploadSignatureResponse,
   // GetUserCardInfoResponse,
   // GetUserResultsResponse,
   LoginUserResponse
   // UserSearchResultsResponse
 } from "../../types/APIResponseTypes";
 // import { getUserID } from "../deviceStorageService";
-import { sendPostRequest, sendGetRequest, sendPatchRequest } from "./apiUtils";
+import { sendPOSTRequest, sendGETRequest, sendPATCHRequest } from "./apiUtils";
 import { NewUserCredentials } from "../../types/auth/RegisterTypes";
+import { ImageUploadRequest } from "../../types/APIRequestTypes";
 
 const baseURL = process.env.EXPO_PUBLIC_BASE_URL;
 
@@ -25,7 +26,7 @@ export const createNewUser: MutationFunction<
   CreateNewUserResponse,
   NewUserCredentials
 > = async (newUserCredentials) => {
-  return sendPostRequest<CreateNewUserResponse, NewUserCredentials>(
+  return sendPOSTRequest<CreateNewUserResponse, NewUserCredentials>(
     `${baseURL}/user`,
     newUserCredentials
   );
@@ -35,32 +36,26 @@ export const loginUser: MutationFunction<
   LoginUserResponse,
   LoginCredentials
 > = async (userCredentials) => {
-  return sendPostRequest<LoginUserResponse>(
+  return sendPOSTRequest<LoginUserResponse>(
     `${baseURL}/session`,
     userCredentials
   );
 };
 
-export const getURLSignature: QueryFunction<
-  GetURLSignatureResponse,
+export const getProfileImageUploadSignature: QueryFunction<
+  GetUploadSignatureResponse,
   [string]
-> = async ({ queryKey }) => {
-  return sendGetRequest<GetURLSignatureResponse>(
+> = async () => {
+  return sendGETRequest<GetUploadSignatureResponse>(
     `${baseURL}/media-upload-signature/profile-image`
   );
 };
 
-export const uploadCloudinaryMedia: MutationFunction<
+export const uploadMedia: MutationFunction<
   CloudinaryImageUploadResponse,
-  {
-    folder: string;
-    base64Image: string;
-    timestamp: number;
-    api_key: number;
-    signature: string;
-  }
+  ImageUploadRequest
 > = async (uploadData) => {
-  return sendPostRequest<CloudinaryImageUploadResponse>(
+  return sendPOSTRequest<CloudinaryImageUploadResponse, ImageUploadRequest>(
     "https://api.cloudinary.com/v1_1/di3penpbh/image/upload",
     uploadData
   );
@@ -72,7 +67,12 @@ export const updateUserProfileImageURL: MutationFunction<
     newImageURL: string;
   }
 > = async ({ newImageURL }) => {
-  return sendPatchRequest<string>(`${baseURL}/users/${await getUserID()}`, {
+  return sendPATCHRequest<
+    string,
+    {
+      newImageURL: string;
+    }
+  >(`${baseURL}/users/me`, {
     operation: "replace",
     path: "/profileImageURL",
     value: newImageURL
@@ -84,7 +84,7 @@ export const searchForUsers: QueryFunction<
   ["users", string]
 > = async ({ queryKey }) => {
   const query = queryKey[1];
-  return sendGetRequest<UserSearchResultsResponse>(
+  return sendGETRequest<UserSearchResultsResponse>(
     `${baseURL}/users?q=${query}`
   );
 };
@@ -96,7 +96,7 @@ export const searchForUsers: QueryFunction<
 //   ["users", string]
 // > = async ({ queryKey }) => {
 //   const userID = queryKey[1];
-//   return sendGetRequest<string>(`${baseURL}/users/${userID}`);
+//   return sendGETRequest<string>(`${baseURL}/users/${userID}`);
 // };
 
 // export const getUserInfo: QueryFunction<

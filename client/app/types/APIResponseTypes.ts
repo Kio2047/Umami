@@ -23,7 +23,7 @@ export interface CreateNewUserResponse {
   };
 }
 
-export interface GetURLSignatureResponse {
+export interface GetUploadSignatureResponse {
   data: {
     signature: string;
     timestamp: number;
@@ -36,16 +36,16 @@ export interface CloudinaryImageUploadResponse {
   resource_type: "image";
 }
 
-export interface UserSearchResultsResponse {
-  data: {
-    matchedUsers: Pick<
-      CreateNewUserResponse["data"]["createdAccount"],
-      "_id" | "name" | "username" | "profileImageURL"
-    >[];
-  };
-}
+// export interface UserSearchResultsResponse {
+//   data: {
+//     matchedUsers: Pick<
+//       CreateNewUserResponse["data"]["createdAccount"],
+//       "_id" | "name" | "username" | "profileImageURL"
+//     >[];
+//   };
+// }
 
-export type GetUserInfo = Omit<
-  CreateNewUserResponse["data"]["createdAccount"],
-  "password" | "_id" | "followers" | "following" | "email"
->;
+// export type GetUserInfo = Omit<
+//   CreateNewUserResponse["data"]["createdAccount"],
+//   "password" | "_id" | "followers" | "following" | "email"
+// >;

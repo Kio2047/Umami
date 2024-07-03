@@ -53,7 +53,6 @@ const RegisterScreenTemplate = <
   const [formState, dispatch] = useReducer(reducer, initialState);
   const [disableButton, setDisableButton] = useState(false);
   const setAuthData = useAuthContext()[1];
-
   const { mutate } = useMutation(createNewUser, {
     retry: false,
     onSuccess: async (data) => {

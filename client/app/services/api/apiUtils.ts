@@ -23,7 +23,7 @@ export class FailedRequestError extends Error {
 
 // TODO: access the JWT value from context cache in request functions (without passing in as params via the query key) to avoid repeated grabs from local storage
 
-export const sendPostRequest = async <ResponseBody, RequestBody>(
+export const sendPOSTRequest = async <ResponseBody, RequestBody>(
   URL: string,
   body: RequestBody
 ): Promise<ResponseBody> => {
@@ -46,7 +46,7 @@ export const sendPostRequest = async <ResponseBody, RequestBody>(
   return response.json() as Promise<ResponseBody>;
 };
 
-export const sendGetRequest = async <ResponseBody, RequestBody>(
+export const sendGETRequest = async <ResponseBody>(
   URL: string
 ): Promise<ResponseBody> => {
   const jwt = await getJwt();
@@ -66,7 +66,7 @@ export const sendGetRequest = async <ResponseBody, RequestBody>(
   return response.json() as Promise<ResponseBody>;
 };
 
-export const sendPatchRequest = async <ResponseBody, RequestBody>(
+export const sendPATCHRequest = async <ResponseBody, RequestBody>(
   URL: string,
   body: {
     operation: "add" | "remove" | "replace";

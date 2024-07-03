@@ -9,7 +9,7 @@ const ScreenBackground = ({
   additionalStyles,
   children
 }: {
-  additionalStyles: StyleProp<ViewStyle>;
+  additionalStyles?: StyleProp<ViewStyle>;
   children: React.ReactNode;
 }) => {
   return (
