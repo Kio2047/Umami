@@ -12,5 +12,6 @@ export const colors = {
   fieldHighlightedBorderColor: "#ff4d27",
   bottomTabBorderColor: "#2b2b2b",
   ratingsColor: "#ff9d0a",
-  errorColor: "#ed4956"
+  errorColor: "#ed4956",
+  modalBackground: "#00000080"
 };

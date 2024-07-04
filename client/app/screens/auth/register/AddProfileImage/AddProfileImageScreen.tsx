@@ -5,6 +5,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import * as ImagePicker from "expo-image-picker";
 import { Image } from "expo-image";
+import * as NavigationBar from "expo-navigation-bar";
 
 import { StackScreenProps } from "../../../../types/NavigationTypes";
 import styles from "./AddProfileImageSreen.styles";
@@ -81,9 +82,11 @@ const AddProfileImageScreen = ({
             style={styles.continueButton}
             activeOpacity={0.5}
             disabled={loading}
-            onPress={() => {
+            onPress={async () => {
               setLoading(true);
-              fetchSignature();
+              NavigationBar.setPositionAsync("absolute"),
+                NavigationBar.setBackgroundColorAsync("#ffffff01");
+              // fetchSignature();
             }}
           >
             <Text style={styles.continueButtonText}>Continue</Text>
