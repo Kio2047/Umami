@@ -8,21 +8,27 @@ import {
 declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace ReactNavigation {
-    interface RootParamList extends RootStackParamList {}
+    interface RootParamList extends AuthStackParamList {}
   }
 }
 
-export type RootStackParamList = {
+export type AuthStackParamList = {
   WelcomeScreen: undefined;
   LoginScreen: undefined;
-  RegisterScreen: undefined;
   RegisterFullNameScreen: undefined;
   RegisterEmailScreen: undefined;
   RegisterUsernameScreen: undefined;
   RegisterPasswordScreen: undefined;
   AddProfileImageScreen: { userFirstName: string };
+};
+
+export type AppTabParamList = {
+  FeedScreen: undefined;
+  Search: undefined;
+  RestaurantProfileScreen: { restaurantID: string; restaurantName: string };
+  AboutScreen: { title: string; body: string };
+  // DetailedPost: {postData: Post, navigation: any },
   // Feed: { feedUserInfo: User };
-  AppTabsScreen: undefined;
   DetailedImageScreen: { imageURL: string };
   CreateNewPostScreen: {
     profileImageURL: string;
@@ -34,19 +40,11 @@ export type RootStackParamList = {
     profileUserprofileImageURL: string;
     profileUserName: string;
   };
-  RestaurantProfileScreen: { restaurantID: string; restaurantName: string };
-  // DetailedPost: {postData: Post, navigation: any },
-  AboutScreen: { title: string; body: string };
 };
 
-export type StackScreenProps<screen extends keyof RootStackParamList> = {
-  navigation: StackNavigationProp<RootStackParamList, screen>;
-  route: RouteProp<RootStackParamList, screen>;
-};
-
-type AppTabsParamlist = {
-  Feed: undefined;
-  Search: undefined;
+export type StackScreenProps<screen extends keyof AuthStackParamList> = {
+  navigation: StackNavigationProp<AuthStackParamList, screen>;
+  route: RouteProp<AuthStackParamList, screen>;
 };
 
 export type AppTabProps<tab extends keyof AppTabsParamlist> = {
@@ -54,18 +52,18 @@ export type AppTabProps<tab extends keyof AppTabsParamlist> = {
   route: RouteProp<AppTabsParamlist, tab>;
 };
 
-// export type StackScreenProps<screen extends keyof RootStackParamList> = {
+// export type StackScreenProps<screen extends keyof AuthStackParamList> = {
 //   navigation: StackScreenNavigationProp<screen>;
 //   route: StackScreenRouteProp<screen>;
 // };
 
-// export type StackScreenNavigationProp<screen extends keyof RootStackParamList> =
+// export type StackScreenNavigationProp<screen extends keyof AuthStackParamList> =
 //   {
-//     navigation: StackNavigationProp<RootStackParamList, screen>;
+//     navigation: StackNavigationProp<AuthStackParamList, screen>;
 //   };
 
-// export type StackScreenRouteProp<screen extends keyof RootStackParamList> = {
-//   route: RouteProp<RootStackParamList, screen>;
+// export type StackScreenRouteProp<screen extends keyof AuthStackParamList> = {
+//   route: RouteProp<AuthStackParamList, screen>;
 // };
 
 // export type WelcomeScreenScreenProps = {
@@ -81,26 +79,26 @@ export type AppTabProps<tab extends keyof AppTabsParamlist> = {
 // export type FeedScreenProps = StackScreenProps<"Feed">;
 // //______________________________________________
 // export type PostNavigationProp =
-//   | StackNavigationProp<RootStackParamList, "Feed">
-//   | StackNavigationProp<RootStackParamList, "UserProfile">;
+//   | StackNavigationProp<AuthStackParamList, "Feed">
+//   | StackNavigationProp<AuthStackParamList, "UserProfile">;
 // export type DetailedImageScreenProps = StackScreenProps<
-//   RootStackParamList,
+//   AuthStackParamList,
 //   "DetailedImage"
 // >;
 // export type CreateNewPostScreenProps = StackScreenProps<
-//   RootStackParamList,
+//   AuthStackParamList,
 //   "CreateNewPost"
 // >;
 // export type UserProfileScreenProps = StackScreenProps<
-//   RootStackParamList,
+//   AuthStackParamList,
 //   "UserProfile"
 // >;
 // export type RestaurantProfileScreenProps = StackScreenProps<
-//   RootStackParamList,
+//   AuthStackParamList,
 //   "RestaurantProfile"
 // >;
 
-// // export type PostScreenProps = StackScreenProps<RootStackParamList, "Post">
-// // export type AboutScreenProps = StackScreenProps<RootStackParamList, 'About'>;
-// // type SignInScreenRouteAndNavigationProps = StackNavigationProp<RootStackParamList, 'SignIn'>;
-// // export type FeedScreenRouteAndNavigationProps = StackScreenProps<RootStackParamList, 'Feed'>;
+// // export type PostScreenProps = StackScreenProps<AuthStackParamList, "Post">
+// // export type AboutScreenProps = StackScreenProps<AuthStackParamList, 'About'>;
+// // type SignInScreenRouteAndNavigationProps = StackNavigationProp<AuthStackParamList, 'SignIn'>;
+// // export type FeedScreenRouteAndNavigationProps = StackScreenProps<AuthStackParamList, 'Feed'>;

@@ -7,32 +7,16 @@ import {
   DarkTheme,
   DefaultTheme
 } from "@react-navigation/native";
-// import { Provider } from "react-redux";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import ThemeProvider from "@react-navigation/native";
 
-import WelcomeScreen from "./app/screens/Welcome/WelcomeScreen";
-import LoginScreen from "./app/screens/auth/login/Login/LoginScreen";
-import RegisterScreen from "./app/screens/Register/RegisterScreen";
-// import Feed from "./app/screens/Feed/Feed";
-import DetailedImageScreen from "./app/screens/DetailedImage/DetailedImageScreen";
-import CreateNewPostScreen from "./app/screens/CreateNewPost/CreateNewPostScreen";
-import UserProfileScreen from "./app/screens/UserProfile/UserProfileScreen";
-import RestaurantProfileScreen from "./app/screens/RestaurantProfile/RestaurantProfileScreen";
-import AddProfileImageScreen from "./app/screens/auth/register/AddProfileImage/AddProfileImageScreen";
-// import AppTabs from "./app/components/AppTabs/AppTabs";
 import { AuthContextProvider } from "./app/contexts/AuthContext/AuthContextProvider";
 import { Provider as PaperProvider } from "react-native-paper";
-import { RootStack } from "./app/navigators/RootStack/RootStack";
-import { stackScreenOptions } from "./app/navigators/RootStack/RootStackScreenOptions";
 import useNavigationBarConfig from "./app/hooks/useNavigationBarConfig";
 import ScreenBackground from "./app/components/ScreenBackground/ScreenBackground";
-import RegisterEmailScreen from "./app/screens/auth/register/RegisterEmail/RegisterEmailScreen";
-import RegisterFullNameScreen from "./app/screens/auth/register/RegisterFullName/RegisterFullNameScreen";
-import RegisterUsernameScreen from "./app/screens/auth/register/RegisterUsername/RegisterUsernameScreen";
-import RegisterPasswordScreen from "./app/screens/auth/register/RegisterPassword/RegisterPasswordScreen";
-
-// import DetailedPost from "./app/components/Post";
+import { useAuthContext } from "./app/hooks/useAuthContext";
+import AuthScreens from "./app/navigators/AuthStackNavigator/AuthScreens";
+import AppTabs from "./app/navigators/BottomTabNavigator/AppTabs";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -54,101 +38,38 @@ const MyTheme = {
   }
 };
 
+const AppNavigator = () => {
+  const [authData] = useAuthContext();
+  return (
+    <NavigationContainer theme={MyTheme}>
+      {authData.status === "authenticated" ? <AuthScreens /> : <AppTabs />};
+    </NavigationContainer>
+  );
+};
+
 // TODO: add splash screen to application
 
 export default function App() {
   const navigationBarHeight = useNavigationBarConfig();
+
   return (
     <>
       <StatusBar
         backgroundColor="transparent"
         translucent
-        // If dark mode use light-content, else...
+        // TODO: If dark mode use light-content, else...
         barStyle="light-content"
       />
       <QueryClientProvider client={queryClient}>
         {/* <PaperProvider> */}
-        {/* context currently redundant - see API utils to do*/}
         <AuthContextProvider>
           <SafeAreaProvider>
             {/* <SafeAreaView style={styles.appContainer}> */}
-            {/* <Provider store={store}> */}
-            {/* <ScreenBackground styles={{}}> */}
             <ScreenBackground
             // additionalStyles={{ paddingBottom: navigationBarHeight }}
             >
-              <NavigationContainer theme={MyTheme}>
-                {/* <NavigationContainer> */}
-                <RootStack.Navigator
-                  initialRouteName="AddProfileImageScreen"
-                  // initialRouteName="AppTabs"
-                  // initialRouteName={
-                  //   authData[0].status === "success" ? "Feed" : "WelcomeScreen"
-                  // }
-                  screenOptions={stackScreenOptions}
-                >
-                  {/* initialParams={{user: "Dan"}} */}
-                  <RootStack.Screen
-                    name="WelcomeScreen"
-                    component={WelcomeScreen}
-                  />
-                  <RootStack.Screen
-                    name="LoginScreen"
-                    component={LoginScreen}
-                  />
-                  <RootStack.Screen
-                    name="RegisterScreen"
-                    component={RegisterScreen}
-                  />
-                  <RootStack.Screen
-                    name="RegisterFullNameScreen"
-                    component={RegisterFullNameScreen}
-                  />
-                  <RootStack.Screen
-                    name="RegisterEmailScreen"
-                    component={RegisterEmailScreen}
-                  />
-                  <RootStack.Screen
-                    name="RegisterUsernameScreen"
-                    component={RegisterUsernameScreen}
-                  />
-                  <RootStack.Screen
-                    name="RegisterPasswordScreen"
-                    component={RegisterPasswordScreen}
-                  />
-                  <RootStack.Screen
-                    name="AddProfileImageScreen"
-                    component={AddProfileImageScreen}
-                    initialParams={{ userFirstName: "Kio Shiraz" }}
-                  />
-                  {/* <RootStack.Screen name="Feed" component={Feed} /> */}
-                  {/* <RootStack.Screen
-                  name="AppTabs"
-                  component={AppTabs}
-                  options={{ headerShown: false }}
-                /> */}
-                  {/* <RootStack.Screen name="DetailedPost" component={DetailedPost} /> */}
-                  <RootStack.Screen
-                    name="DetailedImageScreen"
-                    component={DetailedImageScreen}
-                  />
-                  <RootStack.Screen
-                    name="CreateNewPostScreen"
-                    component={CreateNewPostScreen}
-                  />
-                  <RootStack.Screen
-                    name="UserProfileScreen"
-                    component={UserProfileScreen}
-                  />
-                  <RootStack.Screen
-                    name="RestaurantProfileScreen"
-                    component={RestaurantProfileScreen}
-                  />
-                </RootStack.Navigator>
-              </NavigationContainer>
+              <AppNavigator />
             </ScreenBackground>
-            {/* </ScreenBackground> */}
-            {/* </Provider> */}
             {/* </SafeAreaView> */}
           </SafeAreaProvider>
         </AuthContextProvider>

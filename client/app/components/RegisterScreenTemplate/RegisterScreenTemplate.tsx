@@ -14,7 +14,7 @@ import {
 } from "../../types/auth/RegisterTypes";
 import { FormState } from "../../types/auth/CommonAuthTypes";
 import { Entries, ValueOf } from "../../types/UtilTypes";
-import { RootStackParamList } from "../../types/NavigationTypes";
+import { AuthStackParamList } from "../../types/NavigationTypes";
 import CredentialTextInput from "../CredentialTextInput/CredentialTextInput";
 import { reducer } from "../../screens/auth/register/registerFormStateReducer";
 import BottomTab from "../BottomTab/BottomTab";
@@ -29,7 +29,7 @@ import { useAuthContext } from "../../hooks/useAuthContext";
 // entire form prior to being informed an account already exists
 
 interface RegisterScreenTemplateProps<
-  T extends keyof NextScreenTypeMap & keyof RootStackParamList
+  T extends keyof NextScreenTypeMap & keyof AuthStackParamList
 > extends RegisterScreenConstants<T> {
   additionalContent?: React.ReactNode;
   initialState: FormState<RegisterField>;
@@ -38,7 +38,7 @@ interface RegisterScreenTemplateProps<
 }
 
 const RegisterScreenTemplate = <
-  T extends RegisterScreen & keyof RootStackParamList
+  T extends RegisterScreen & keyof AuthStackParamList
 >({
   heading,
   additionalText,

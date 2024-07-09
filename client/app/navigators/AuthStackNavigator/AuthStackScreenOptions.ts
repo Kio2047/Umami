@@ -2,7 +2,7 @@ import { StackNavigationOptions } from "@react-navigation/stack";
 import {
   customTransitionSpec,
   screenSlideStyleInterpolator
-} from "./RootStackScreenTransition";
+} from "./AuthStackScreenTransition";
 
 export const stackScreenOptions: StackNavigationOptions = {
   headerShown: true,
