@@ -2,7 +2,7 @@ import React from "react";
 import { View, Text } from "react-native";
 
 import styles from "./BottomTab.styles";
-import { StackScreenProps } from "../../types/NavigationTypes";
+import { AuthStackParamList } from "../../types/NavigationTypes";
 import { StackNavigationProp } from "@react-navigation/stack";
 
 // interface BottomTabPropsBase {
@@ -22,7 +22,7 @@ import { StackNavigationProp } from "@react-navigation/stack";
 // type BottomTabProps = BottomTabLoginPageProps | BottomTabRegisterPageProps;
 
 interface BottomTabProps {
-  navigation: StackNavigationProp<ReactNavigation.RootParamList>;
+  navigation: StackNavigationProp<AuthStackParamList>;
   message: string;
   // TODO: update navigateTo type for new registration screens
   navigateTo: "Register" | "Login";

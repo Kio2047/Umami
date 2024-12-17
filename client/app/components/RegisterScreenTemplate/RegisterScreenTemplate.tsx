@@ -21,7 +21,7 @@ import BottomTab from "../BottomTab/BottomTab";
 import styles from "./RegisterScreenTemplate.styles";
 import { createNewUser } from "../../services/api/apiClient";
 import { saveSessionToken } from "../../services/deviceStorageService";
-import { useAuthContext } from "../../hooks/useAuthContext";
+import useAuth from "../../contexts/AuthContext/useAuth";
 
 // TODO: create a prop for a function that runs on submission prior to navigating
 // to next page. said function can include fetches to server to see if credentials
@@ -33,7 +33,7 @@ interface RegisterScreenTemplateProps<
 > extends RegisterScreenConstants<T> {
   additionalContent?: React.ReactNode;
   initialState: FormState<RegisterField>;
-  navigation: StackNavigationProp<ReactNavigation.RootParamList>;
+  navigation: StackNavigationProp<AuthStackParamList>;
   inputValidator: (input: string) => ValidatorResultsTypeMap[T];
 }
 
@@ -52,7 +52,7 @@ const RegisterScreenTemplate = <
 }: RegisterScreenTemplateProps<T>) => {
   const [formState, dispatch] = useReducer(reducer, initialState);
   const [disableButton, setDisableButton] = useState(false);
-  const setAuthData = useAuthContext()[1];
+  const setAuthData = useAuth()[1];
   const { mutate } = useMutation(createNewUser, {
     retry: false,
     onSuccess: async (data) => {

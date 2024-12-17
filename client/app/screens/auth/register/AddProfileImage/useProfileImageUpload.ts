@@ -11,7 +11,7 @@ import {
 
 const useProfileImageUpload = (
   profileImage: ImagePickerAsset | null,
-  navigation: StackNavigationProp<ReactNavigation.RootParamList>
+  navigation: StackNavigationProp<AuthStackParamList>
 ) => {
   const [loading, setLoading] = useState(false);
   const [uploadURL, setUploadURL] = useState<string | null>(null);

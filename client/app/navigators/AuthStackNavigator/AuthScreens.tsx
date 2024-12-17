@@ -14,9 +14,16 @@ import RegisterUsernameScreen from "../../screens/auth/register/RegisterUsername
 const AuthStack = createStackNavigator<AuthStackParamList>();
 
 const AuthScreens = () => {
+  // authStatus
+  //:{   authStatus: "unauthenticated" | "profile_incomplete";}
   return (
     <AuthStack.Navigator
-      initialRouteName="WelcomeScreen"
+      initialRouteName={
+        // authStatus === "unauthenticated"
+        //   ? "WelcomeScreen"
+        //   : "AddProfileImageScreen"
+        "WelcomeScreen"
+      }
       screenOptions={stackScreenOptions}
     >
       {/* initialParams={{user: "Dan"}} */}

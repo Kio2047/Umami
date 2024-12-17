@@ -1,11 +1,7 @@
 import { useLocalStorageAuthData } from "../../hooks/useLocalStorageAuthData";
 import { AuthContext } from "./AuthContext";
 
-export const AuthContextProvider = ({
-  children
-}: {
-  children: React.ReactNode;
-}) => {
+export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const authData = useLocalStorageAuthData();
 
   if (authData[0].status === "loading") {

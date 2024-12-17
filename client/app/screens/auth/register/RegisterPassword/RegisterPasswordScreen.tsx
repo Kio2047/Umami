@@ -8,7 +8,7 @@ import { formValidators } from "../../../../utils/authFormValidators";
 const RegisterPasswordScreen = ({
   navigation
 }: {
-  navigation: StackNavigationProp<ReactNavigation.RootParamList>;
+  navigation: StackNavigationProp<AuthStackParamList>;
 }) => {
   return (
     <RegisterScreenTemplate<"RegisterPasswordScreen">

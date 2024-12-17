@@ -8,7 +8,7 @@ import { formValidators } from "../../../../utils/authFormValidators";
 const RegisterEmailScreen = ({
   navigation
 }: {
-  navigation: StackNavigationProp<ReactNavigation.RootParamList>;
+  navigation: StackNavigationProp<AuthStackParamList>;
 }) => {
   return (
     <RegisterScreenTemplate<"RegisterEmailScreen">

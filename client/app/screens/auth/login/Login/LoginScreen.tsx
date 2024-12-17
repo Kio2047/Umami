@@ -18,18 +18,19 @@ import { FailedRequestError } from "../../../../services/api/apiUtils";
 import { setJWT, setUserID } from "../../../../services/deviceStorageService";
 import { LoginCredentials } from "../../../../types/OtherTypes";
 import { Entries } from "../../../../types/UtilTypes";
-import { StackScreenProps } from "../../../../types/NavigationTypes";
+import { AuthStackParamList } from "../../../../types/NavigationTypes";
 import { LoginUserResponse } from "../../../../types/APIResponseTypes";
 import { useInputFocusTracker } from "../../../../hooks/useInputFocusTracker";
 import { loginInputConstants } from "../../../../constants/auth/loginConstants";
 import CredentialTextInput from "../../../../components/CredentialTextInput/CredentialTextInput";
 import { initialState, reducer } from "./loginFormStateReducer";
-import { useAuthContext } from "../../../../hooks/useAuthContext";
+import { useAuthContext } from "../../../../contexts/AuthContext/useAuth";
+import { StackNavigationProp } from "@react-navigation/stack";
 
 const LoginScreen = ({
   navigation
 }: {
-  navigation: StackScreenProps<"Login">["navigation"];
+  navigation: StackNavigationProp<AuthStackParamList>;
 }) => {
   const setAuthData = useAuthContext()[1];
   const [formState, dispatch] = useReducer(reducer, initialState);

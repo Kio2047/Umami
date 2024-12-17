@@ -1,5 +1,16 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
+
 import { LocalStorageAuthData } from "../types/auth/CommonAuthTypes";
+
+export const getJwt = async () => {
+  try {
+    const token = await AsyncStorage.getItem("sessionToken");
+    return token;
+  } catch (err) {
+    console.error("Error retrieving session token from local storage:", err);
+    throw err;
+  }
+};
 
 const setJwt = async (token: string) => {
   if (!token)
@@ -7,6 +18,10 @@ const setJwt = async (token: string) => {
       "Token is an empty string. If attempting to remove the token from local storage, please use removeJwt"
     );
   await AsyncStorage.setItem("sessionToken", token);
+};
+
+const deleteJwt = async () => {
+  await AsyncStorage.removeItem("sessionToken");
 };
 
 export const saveSessionToken = async (
@@ -25,10 +40,6 @@ export const saveSessionToken = async (
   }
 };
 
-const deleteJwt = async () => {
-  await AsyncStorage.removeItem("sessionToken");
-};
-
 export const deleteSessionToken = async (
   setAuthData: React.Dispatch<React.SetStateAction<LocalStorageAuthData>>
 ) => {
@@ -40,16 +51,6 @@ export const deleteSessionToken = async (
     });
   } catch (err) {
     console.error("Error deleting session token from local storage:", err);
-    throw err;
-  }
-};
-
-export const getJwt = async () => {
-  try {
-    const token = await AsyncStorage.getItem("sessionToken");
-    return token;
-  } catch (err) {
-    console.error("Error retrieving session token from local storage:", err);
     throw err;
   }
 };
