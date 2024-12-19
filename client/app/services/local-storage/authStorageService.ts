@@ -1,6 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-import { LocalStorageAuthData } from "../types/auth/CommonAuthTypes";
+import { LocalStorageAuthData } from "../../types/auth/CommonAuthTypes";
 
 export const getJwt = async () => {
   try {

@@ -8,6 +8,7 @@ import {
   updateUserProfileImageURL,
   uploadMedia
 } from "../../../../services/api/apiClient";
+import { AuthStackParamList } from "../../../../types/NavigationTypes";
 
 const useProfileImageUpload = (
   profileImage: ImagePickerAsset | null,

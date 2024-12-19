@@ -20,7 +20,7 @@ import { reducer } from "../../screens/auth/register/registerFormStateReducer";
 import BottomTab from "../BottomTab/BottomTab";
 import styles from "./RegisterScreenTemplate.styles";
 import { createNewUser } from "../../services/api/apiClient";
-import { saveSessionToken } from "../../services/deviceStorageService";
+import { saveSessionToken } from "../../services/local-storage/authStorageService";
 import useAuth from "../../contexts/AuthContext/useAuth";
 
 // TODO: create a prop for a function that runs on submission prior to navigating

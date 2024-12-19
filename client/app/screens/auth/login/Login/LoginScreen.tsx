@@ -9,13 +9,17 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import { CommonActions } from "@react-navigation/native";
 import { useMutation, useQuery } from "@tanstack/react-query";
+import { StackNavigationProp } from "@react-navigation/stack";
 
 import styles from "./LoginScreen.styles";
 import logo from "../../../../assets/images/logo-transparent.png";
 import BottomTab from "../../../../components/BottomTab/BottomTab";
 import { loginUser } from "../../../../services/api/apiClient";
 import { FailedRequestError } from "../../../../services/api/apiUtils";
-import { setJWT, setUserID } from "../../../../services/deviceStorageService";
+import {
+  setJWT,
+  setUserID
+} from "../../../../services/local-storage/authStorageService";
 import { LoginCredentials } from "../../../../types/OtherTypes";
 import { Entries } from "../../../../types/UtilTypes";
 import { AuthStackParamList } from "../../../../types/NavigationTypes";
@@ -23,16 +27,15 @@ import { LoginUserResponse } from "../../../../types/APIResponseTypes";
 import { useInputFocusTracker } from "../../../../hooks/useInputFocusTracker";
 import { loginInputConstants } from "../../../../constants/auth/loginConstants";
 import CredentialTextInput from "../../../../components/CredentialTextInput/CredentialTextInput";
+import useAuth from "../../../../contexts/AuthContext/useAuth";
 import { initialState, reducer } from "./loginFormStateReducer";
-import { useAuthContext } from "../../../../contexts/AuthContext/useAuth";
-import { StackNavigationProp } from "@react-navigation/stack";
 
 const LoginScreen = ({
   navigation
 }: {
   navigation: StackNavigationProp<AuthStackParamList>;
 }) => {
-  const setAuthData = useAuthContext()[1];
+  const setAuthData = useAuth()[1];
   const [formState, dispatch] = useReducer(reducer, initialState);
   const [disableButton, setDisableButton] = useState(false);
   const isFocusedOnInput = useInputFocusTracker();
@@ -58,19 +61,7 @@ const LoginScreen = ({
     await Promise.all([setJWT(jwt), setUserID(userID)]);
     setAuthData({
       jwt,
-      userID,
-      status: "success"
-    });
-    navigation.reset({
-      index: 0,
-      routes: [
-        {
-          name: "Feed",
-          params: {
-            feedUserInfo: ""
-          }
-        }
-      ]
+      status: "authenticated"
     });
   }, []);
 

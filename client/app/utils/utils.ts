@@ -1,4 +1,4 @@
-export const calculatePostTimestamp = function (timestamp: Date) {
+export const calculatePostTimestamp = (timestamp: Date) => {
   timestamp = new Date(timestamp);
   const millisecondsInMinute = 1000 * 60;
   const milliSecondsInHour = millisecondsInMinute * 60;
@@ -13,42 +13,11 @@ export const calculatePostTimestamp = function (timestamp: Date) {
   return minutes > 1 ? minutes + "mins" : "1min";
 };
 
-// },
-// usernameOrEmail: (usernameOrEmail) => true,
-// password: (password) =>
-//   password.length >= 7 &&
-//   /[0-9]/.test(password) &&
-//   /[^A-Za-z0-9]/.test(password)
-
-// export const validateRegisterForm = function (
-//   newUserCredentials: NewUserCredentials
-// ): { [k in keyof NewUserCredentials]: boolean } & { form: boolean } {
-//   const { email, name, password, username } = newUserCredentials;
-//   const formValidity = {
-//     email: false,
-//     name: false,
-//     password: false,
-//     username: false,
-//     form: false
-//   };
-//   if (/[0-9]/.test(password) && /[^A-Za-z0-9]/.test(password)) {
-//     formValidity.password = true;
-//   }
-//   //TODO: validate email
-//   if (true) {
-//     formValidity.email = true;
-//   }
-//   //TODO: validate username (only alphanumeric characters, underscores and periods)
-//   if (true) {
-//     formValidity.username = true;
-//   }
-//   //TODO: validate name
-//   if (true) {
-//     formValidity.email = true;
-//   }
-//   const values = Object.values(formValidity);
-//   if (values.indexOf(false) === values.lastIndexOf(false)) {
-//     formValidity.form = true;
-//   }
-//   return formValidity;
-// };
+export const assertUnreachable = (
+  narrowedEntity: string,
+  missedValue: never
+): void => {
+  throw Error(
+    `non-exhaustive check. ${narrowedEntity} ${missedValue} slipped through`
+  );
+};

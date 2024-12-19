@@ -35,7 +35,7 @@ dist
 .env.test.local
 .env.production.local
 **/.env
-local-*
+local-only-*
 
 node_modules/
 .expo/

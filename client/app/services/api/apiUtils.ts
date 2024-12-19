@@ -1,4 +1,4 @@
-import { getJwt } from "../deviceStorageService";
+import { getJwt } from "../local-storage/authStorageService";
 
 export class FailedRequestError extends Error {
   public readonly responseBody?: unknown;

@@ -4,6 +4,7 @@ import RegisterScreenTemplate from "../../../../components/RegisterScreenTemplat
 import { registerScreenConstants } from "../../../../constants/auth/registerConstants";
 import { initialState } from "../registerFormStateReducer";
 import { formValidators } from "../../../../utils/authFormValidators";
+import { AuthStackParamList } from "../../../../types/NavigationTypes";
 
 const RegisterPasswordScreen = ({
   navigation

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getJwt } from "../services/deviceStorageService";
+import { getJwt } from "../services/local-storage/authStorageService";
 import { LocalStorageAuthData } from "../types/auth/CommonAuthTypes";
 
 export const useLocalStorageAuthData = (): [

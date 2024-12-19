@@ -16,10 +16,10 @@ const AddProfileImageScreen = ({
   navigation,
   route
 }: StackScreenProps<"AddProfileImageScreen">) => {
-  const { userFirstName } = route.params;
-
   const [profileImage, setProfileImage] =
     useState<ImagePicker.ImagePickerAsset | null>(null);
+
+  const { userFirstName } = route.params;
 
   const { fetchSignature, loading, setLoading, status } = useProfileImageUpload(
     profileImage,

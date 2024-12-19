@@ -1,7 +1,7 @@
 import "react-native-gesture-handler";
 // import { StatusBar } from "expo-status-bar";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import { StatusBar } from "react-native";
+import { StatusBar, Text } from "react-native";
 import {
   NavigationContainer,
   DarkTheme,
@@ -10,13 +10,16 @@ import {
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import ThemeProvider from "@react-navigation/native";
 
-import { AuthContextProvider } from "./app/contexts/AuthContext/AuthContextProvider";
+import { AuthProvider } from "./app/contexts/AuthContext/AuthProvider";
 import { Provider as PaperProvider } from "react-native-paper";
 import useNavigationBarConfig from "./app/hooks/useNavigationBarConfig";
 import ScreenBackground from "./app/components/ScreenBackground/ScreenBackground";
-import { useAuthContext } from "./app/hooks/useAuthContext";
+import useAuth from "./app/contexts/AuthContext/useAuth";
 import AuthScreens from "./app/navigators/AuthStackNavigator/AuthScreens";
 import AppTabs from "./app/navigators/BottomTabNavigator/AppTabs";
+import { assertUnreachable } from "./app/utils/utils";
+import useUser from "./app/contexts/UserContext/useUser";
+import { User } from "./app/types/UserTypes";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -38,20 +41,40 @@ const MyTheme = {
   }
 };
 
-const AppNavigator = () => {
-  const [authData] = useAuthContext();
-  return (
-    <NavigationContainer theme={MyTheme}>
-      {authData.status === "authenticated" ? <AuthScreens /> : <AppTabs />};
-    </NavigationContainer>
-  );
+const AppContent = () => {
+  const { status: authStatus } = useAuth()[0];
+  const { status: userStatus, user } = useUser()[0];
+  if (authStatus === "loading" || userStatus === "loading") {
+    return <Text>Loading...</Text>;
+  }
+  if (authStatus === "unauthenticated") {
+    if (user)
+      throw new Error(
+        `Inconsistent local storage state: authStatus=${authStatus}, user=${JSON.stringify(
+          user
+        )}`
+      );
+    return <AuthScreens initialRouteName="WelcomeScreen" />;
+  }
+  if (!user)
+    throw new Error(
+      `Inconsistent local storage state: authStatus=${authStatus}, user=${JSON.stringify(
+        user
+      )}`
+    );
+  if (!user.metadata.completedAddProfileImageScreen) {
+    return (
+      <AuthScreens
+        initialRouteName="AddProfileImageScreen"
+        userFirstName={user.data.name.split(" ")[0]}
+      />
+    );
+  }
+  return <AppTabs />;
 };
 
-// TODO: add splash screen to application
-
 export default function App() {
-  const navigationBarHeight = useNavigationBarConfig();
-
+  // const navigationBarHeight = useNavigationBarConfig();
   return (
     <>
       <StatusBar
@@ -62,17 +85,19 @@ export default function App() {
       />
       <QueryClientProvider client={queryClient}>
         {/* <PaperProvider> */}
-        <AuthContextProvider>
+        <AuthProvider>
           <SafeAreaProvider>
             {/* <SafeAreaView style={styles.appContainer}> */}
             <ScreenBackground
             // additionalStyles={{ paddingBottom: navigationBarHeight }}
             >
-              <AppNavigator />
+              <NavigationContainer theme={MyTheme}>
+                <AppContent />
+              </NavigationContainer>
             </ScreenBackground>
             {/* </SafeAreaView> */}
           </SafeAreaProvider>
-        </AuthContextProvider>
+        </AuthProvider>
         {/* </PaperProvider> */}
       </QueryClientProvider>
     </>
