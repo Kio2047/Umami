@@ -1,6 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-import { LocalStorageAuthData } from "../../types/auth/CommonAuthTypes";
+import { AuthState } from "../../types/auth/CommonAuthTypes";
 
 export const getJwt = async () => {
   try {
@@ -26,7 +26,7 @@ const deleteJwt = async () => {
 
 export const saveSessionToken = async (
   jwt: string,
-  setAuthData: React.Dispatch<React.SetStateAction<LocalStorageAuthData>>
+  setAuthData: React.Dispatch<React.SetStateAction<AuthState>>
 ) => {
   try {
     await setJwt(jwt);
@@ -41,7 +41,7 @@ export const saveSessionToken = async (
 };
 
 export const deleteSessionToken = async (
-  setAuthData: React.Dispatch<React.SetStateAction<LocalStorageAuthData>>
+  setAuthData: React.Dispatch<React.SetStateAction<AuthState>>
 ) => {
   try {
     await deleteJwt();

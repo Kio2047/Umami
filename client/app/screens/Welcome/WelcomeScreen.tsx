@@ -13,7 +13,6 @@ import { CommonActions } from "@react-navigation/native";
 import styles from "./WelcomeScreen.styles";
 import logo from "../../assets/images/logo-transparent.png";
 import { StackScreenProps } from "../../types/NavigationTypes";
-import { useLocalStorageAuthData } from "../../hooks/useLocalStorageAuthData";
 
 // TODO: add animation to logo and screen content the first time the page is loaded up
 

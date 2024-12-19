@@ -47,7 +47,7 @@ export type InputConstantsTypeMap<T extends LoginField | RegisterField> = {
   [K in T]: InputConstants<K>;
 };
 
-export type LocalStorageAuthData =
+export type AuthState =
   | {
       jwt: null;
       status: "loading" | "unauthenticated";

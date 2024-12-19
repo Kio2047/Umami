@@ -1,8 +1,8 @@
-import { useLocalStorageUserData } from "../../hooks/useLocalStorageUserData";
+import { useUserState } from "../../hooks/useUserState";
 import { UserContext } from "./UserContext";
 
 export const UserProvider = ({ children }: { children: React.ReactNode }) => {
-  const userStateArray = useLocalStorageUserData();
+  const userStateArray = useUserState();
   return (
     <UserContext.Provider value={userStateArray}>
       {children}

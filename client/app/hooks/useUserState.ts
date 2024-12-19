@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { UserState } from "../types/UserTypes";
 import { getUser } from "../services/local-storage/userStorageService";
 
-export const useLocalStorageUserData = (): [
+export const useUserState = (): [
   UserState,
   React.Dispatch<React.SetStateAction<UserState>>
 ] => {

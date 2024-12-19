@@ -1,9 +1,11 @@
-import { useLocalStorageAuthData } from "../../hooks/useLocalStorageAuthData";
+import { useAuthState } from "../../hooks/useAuthState";
 import { AuthContext } from "./AuthContext";
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  const authData = useLocalStorageAuthData();
+  const authStateArray = useAuthState();
   return (
-    <AuthContext.Provider value={authData}>{children}</AuthContext.Provider>
+    <AuthContext.Provider value={authStateArray}>
+      {children}
+    </AuthContext.Provider>
   );
 };

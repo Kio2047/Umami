@@ -1,6 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-import { LocalStorageAuthData } from "../../types/auth/CommonAuthTypes";
 import { User } from "../../types/UserTypes";
 
 export const getUser = async (): Promise<User | null> => {
