@@ -20,7 +20,6 @@ import { reducer } from "../../screens/auth/register/registerFormStateReducer";
 import BottomTab from "../BottomTab/BottomTab";
 import styles from "./RegisterScreenTemplate.styles";
 import { createNewUser } from "../../services/api/apiClient";
-import { saveSessionToken } from "../../services/local-storage/authStorageService";
 import useAuth from "../../contexts/AuthContext/useAuth";
 
 // TODO: create a prop for a function that runs on submission prior to navigating
@@ -52,12 +51,14 @@ const RegisterScreenTemplate = <
 }: RegisterScreenTemplateProps<T>) => {
   const [formState, dispatch] = useReducer(reducer, initialState);
   const [disableButton, setDisableButton] = useState(false);
-  const setAuthData = useAuth()[1];
+  const {
+    utilities: { login }
+  } = useAuth();
   const { mutate } = useMutation(createNewUser, {
     retry: false,
     onSuccess: async (data) => {
       try {
-        await saveSessionToken(data.data.token, setAuthData);
+        await login(data.data.token);
         // TODO: TypeScript not enforcing params type below
         navigation.reset({
           index: 0,

@@ -47,7 +47,7 @@ export type InputConstantsTypeMap<T extends LoginField | RegisterField> = {
   [K in T]: InputConstants<K>;
 };
 
-export type AuthState =
+export type InternalAuthState =
   | {
       jwt: null;
       status: "loading" | "unauthenticated";
@@ -56,3 +56,8 @@ export type AuthState =
       jwt: string;
       status: "authenticated";
     };
+
+export type AuthUtilities = {
+  login: (jwt: string) => Promise<void>;
+  logout: () => Promise<void>;
+};

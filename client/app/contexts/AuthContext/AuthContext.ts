@@ -1,6 +1,9 @@
 import { createContext } from "react";
-import { AuthState } from "../../types/auth/CommonAuthTypes";
+import {
+  AuthUtilities,
+  InternalAuthState
+} from "../../types/auth/CommonAuthTypes";
 
-export const AuthContext = createContext<
-  [AuthState, React.Dispatch<React.SetStateAction<AuthState>>] | undefined
->(undefined);
+type AuthState = InternalAuthState & { utilities: AuthUtilities };
+
+export const AuthContext = createContext<AuthState | undefined>(undefined);

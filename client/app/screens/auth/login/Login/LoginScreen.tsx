@@ -16,10 +16,6 @@ import logo from "../../../../assets/images/logo-transparent.png";
 import BottomTab from "../../../../components/BottomTab/BottomTab";
 import { loginUser } from "../../../../services/api/apiClient";
 import { FailedRequestError } from "../../../../services/api/apiUtils";
-import {
-  setJWT,
-  setUserID
-} from "../../../../services/local-storage/authStorageService";
 import { LoginCredentials } from "../../../../types/OtherTypes";
 import { Entries } from "../../../../types/UtilTypes";
 import { AuthStackParamList } from "../../../../types/NavigationTypes";
@@ -35,7 +31,9 @@ const LoginScreen = ({
 }: {
   navigation: StackNavigationProp<AuthStackParamList>;
 }) => {
-  const setAuthData = useAuth()[1];
+  const {
+    utilities: { login }
+  } = useAuth();
   const [formState, dispatch] = useReducer(reducer, initialState);
   const [disableButton, setDisableButton] = useState(false);
   const isFocusedOnInput = useInputFocusTracker();
@@ -57,12 +55,9 @@ const LoginScreen = ({
   // });
 
   const handleLogin = useCallback(async (responseBody: LoginUserResponse) => {
-    const [jwt, userID] = [responseBody.data.token, responseBody.data.userID];
-    await Promise.all([setJWT(jwt), setUserID(userID)]);
-    setAuthData({
-      jwt,
-      status: "authenticated"
-    });
+    // const [jwt, userID] = [responseBody.data.token, responseBody.data.userID];
+    // await Promise.all([setJWT(jwt), setUserID(userID)]);
+    await login(responseBody.data.token);
   }, []);
 
   if (isError && error instanceof Error) {

@@ -1,32 +1,61 @@
 import { useEffect, useState } from "react";
-import { getJwt } from "../services/local-storage/authStorageService";
-import { AuthState } from "../types/auth/CommonAuthTypes";
+import {
+  getJwt,
+  login as wrappedLogin,
+  logout as wrappedLogout
+} from "../services/local-storage/authStorageService";
+import {
+  AuthUtilities,
+  InternalAuthState
+} from "../types/auth/CommonAuthTypes";
 
-export const useAuthState = (): [
-  AuthState,
-  React.Dispatch<React.SetStateAction<AuthState>>
-] => {
-  const [authState, setAuthState] = useState<AuthState>({
+export const useAuthState = () => {
+  const [internalState, setInternalState] = useState<InternalAuthState>({
     jwt: null,
     status: "loading"
   });
 
   useEffect(() => {
     (async () => {
-      const jwt = await getJwt();
-      if (!jwt) {
-        setAuthState({
+      try {
+        const jwt = await getJwt();
+        if (!jwt) {
+          setInternalState({
+            jwt: null,
+            status: "unauthenticated"
+          });
+        } else {
+          setInternalState({
+            jwt,
+            status: "authenticated"
+          });
+        }
+      } catch (err) {
+        console.error("Error initializing auth state:", err);
+        setInternalState({
           jwt: null,
           status: "unauthenticated"
-        });
-      } else {
-        setAuthState({
-          jwt,
-          status: "authenticated"
         });
       }
     })();
   }, []);
 
-  return [authState, setAuthState];
+  const utilities: AuthUtilities = {
+    login: async (jwt: string) => {
+      if (internalState.status === "authenticated") {
+        console.warn("User is already logged in");
+        return;
+      }
+      wrappedLogin(jwt, setInternalState);
+    },
+    logout: async () => {
+      if (internalState.status === "unauthenticated") {
+        console.warn("User is already logged out");
+        return;
+      }
+      wrappedLogout(setInternalState);
+    }
+  };
+
+  return { ...internalState, utilities };
 };
