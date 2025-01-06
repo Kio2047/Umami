@@ -1,5 +1,5 @@
 import { mongoose } from ".";
-import { postSchema } from "../../../models/schemas";
+import { postSchema } from "../../../Models/schemas";
 import { CreateOnePromise } from "../../../types/MongooseCRUDTypes";
 import { RawPostDocument } from "../../../types/PostTypes";
 

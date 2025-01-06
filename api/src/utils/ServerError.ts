@@ -1,3 +1,5 @@
+import { ValidationError } from "express-validator";
+
 type ServerErrorMessages =
   | "missing jwt"
   | "malformed jwt"
@@ -6,22 +8,33 @@ type ServerErrorMessages =
   | "not authorised"
   | "invalid user id"
   | "invalid restaurant id"
-  | "duplicate value";
+  | "duplicate value"
+  | "cloudinary error"
+  | "validation error"
+  | "invalid operation";
+
+type OptionalData = {
+  cause?: unknown;
+  additionalInfo?: string;
+};
 
 type RequiredDataMap = {
+  "validation error": {
+    errors: ValidationError[];
+  } & OptionalData;
+
   "duplicate value": {
     duplicateKey: string;
     duplicateVal: string;
-    cause?: unknown;
-    additionalInfo?: string;
-  };
+  } & OptionalData;
+
+  "invalid operation": {
+    responseMessage: string;
+  } & OptionalData;
 };
 
 type ServerErrorDataMap = RequiredDataMap & {
-  [K in Exclude<ServerErrorMessages, keyof RequiredDataMap>]: {
-    cause?: unknown;
-    additionalInfo?: string;
-  };
+  [K in Exclude<ServerErrorMessages, keyof RequiredDataMap>]: OptionalData;
 };
 
 export type ServerErrorUnion = {
@@ -33,7 +46,7 @@ export class ServerError<T extends ServerErrorMessages> extends Error {
   public readonly data: ServerErrorDataMap[T];
   constructor(message: T & keyof RequiredDataMap, data: ServerErrorDataMap[T]);
   constructor(
-    message: Exclude<ServerErrorMessages, keyof RequiredDataMap>,
+    message: T & Exclude<ServerErrorMessages, keyof RequiredDataMap>,
     data?: ServerErrorDataMap[T]
   );
   constructor(message: T, data: ServerErrorDataMap[T]) {

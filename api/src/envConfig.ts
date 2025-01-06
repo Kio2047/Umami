@@ -8,9 +8,9 @@ dotenv.config({ path: "./.env" });
 const envSchema = z.object({
   NODE_ENV: z.enum(["production", "development"]),
   DB_URI: z.string().min(1),
-  DB_USER_USERNAME: z.string().min(1),
-  DB_USER_PASSWORD: z.string().min(1),
   DB_NAME: z.string().min(1),
+  // DB_USER_USERNAME: z.string().min(1),
+  // DB_USER_PASSWORD: z.string().min(1),
   JWT_SECRET: z.string().min(1),
   CLOUDINARY_CLOUD_NAME: z.string().min(1),
   CLOUDINARY_API_KEY: z.string().min(1),
@@ -29,4 +29,5 @@ if (!parsedEnv.success) {
   process.exit(1);
 }
 
-export const envVars: z.infer<typeof envSchema> = parsedEnv.data;
+const envVars: z.infer<typeof envSchema> = parsedEnv.data;
+export default envVars;

@@ -3,7 +3,7 @@ import jwt, { JwtPayload } from "jsonwebtoken";
 
 import { ServerError } from "../utils/ServerError";
 import { isValidToken } from "../Modules/validations";
-import { envVars } from "#src/envConfig";
+import envVars from "../envConfig";
 
 export const authenticate: RequestHandler = (req, res, next) => {
   const jwtSecret = envVars.JWT_SECRET;

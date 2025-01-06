@@ -1,4 +1,4 @@
-import { envVars } from "#src/envConfig";
+import envVars from "../envConfig";
 import { LoggerOptions, pino } from "pino";
 
 const options: LoggerOptions =

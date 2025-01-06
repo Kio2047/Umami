@@ -2,7 +2,8 @@ import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import { Types } from "mongoose";
 
-import { envVars } from "#src/envConfig";
+import envVars from "../envConfig";
+import { ServerError } from "../utils/ServerError";
 
 export const hashPassword = (password: string): Promise<string> => {
   return bcrypt.hash(password, 10);
@@ -18,7 +19,7 @@ export const comparePasswords = (
 export const createJWT = (userId: Types.ObjectId): string => {
   const jwtSecret = envVars.JWT_SECRET;
   const token = jwt.sign({}, jwtSecret, {
-    subject: userId.toString()
+    subject: userId.toHexString()
   });
   return token;
 };
@@ -29,8 +30,6 @@ export const errorIfUnauthorised = (
   tokenPayloadUserID: string
 ) => {
   if (requiredID !== tokenPayloadUserID) {
-    throw new Error("User not authorised to perform this action", {
-      cause: "not authorised"
-    });
+    throw new ServerError("not authorised");
   }
 };

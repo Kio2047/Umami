@@ -1,5 +1,5 @@
 import { mongoose } from ".";
-import { restaurantSchema } from "../../../models/schemas";
+import { restaurantSchema } from "../../../Models/schemas";
 import { RawRestaurantDocument } from "../../../types/RestaurantTypes";
 import { CreateOnePromise } from "../../../types/MongooseCRUDTypes";
 

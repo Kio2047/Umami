@@ -14,6 +14,11 @@ export interface RawUserDocument {
   updatedAt: Date;
 }
 
+export type UpdatableUserField = keyof Exclude<
+  RawUserDocument,
+  "_id" | "createdAt" | "updatedAt"
+>;
+
 // export interface RawUserDocumentWithID extends RawUserDocument {
 //   _id: Types.ObjectId;
 // }
@@ -35,6 +40,7 @@ export interface UserCredentials {
 }
 
 export interface AuthenticationResponse {
-  _id: string;
-  token: string;
+  data: { token: string };
+  status: string;
+  message: string;
 }

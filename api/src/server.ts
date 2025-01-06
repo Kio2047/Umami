@@ -1,4 +1,4 @@
-import express, { ErrorRequestHandler } from "express";
+import express from "express";
 import cors from "cors";
 import requestLogger from "pino-http";
 
@@ -20,9 +20,28 @@ const app = express();
 
 app.use(
   requestLogger({
-    logger
+    logger,
+    customLogLevel: function (req, res, err) {
+      if (res.statusCode >= 500 || err) {
+        return "error";
+      }
+      if (res.statusCode >= 400) {
+        return "warn";
+      }
+      return "info";
+    },
+    serializers: {
+      req: (req) => ({
+        method: req.method,
+        url: req.url
+      }),
+      res: (res) => ({
+        statusCode: res.statusCode
+      })
+    }
   })
 );
+
 app.use(cors());
 app.use(express.json());
 

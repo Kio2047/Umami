@@ -12,19 +12,19 @@ export type NullableHydratedDocument<
   Fields extends keyof DocumentType = keyof DocumentType
 > = Nullable<HydratedDocument<DocumentType, Fields>>;
 
+export type CreateOnePromise<DocumentType> = Promise<
+  HydratedDocument<DocumentType>
+>;
+
 export type FindOnePromise<
   DocumentType,
   Fields extends keyof DocumentType = keyof DocumentType
 > = Promise<NullableHydratedDocument<DocumentType, Fields>>;
 
-export type CreateOnePromise<DocumentType> = Promise<
-  HydratedDocument<DocumentType>
->;
-
-// export type UpdateOnePromise<
-//   DocumentType,
-//   Fields extends keyof DocumentType = keyof DocumentType
-// > = Promise<HydratedDocument<DocumentType, Fields>>;
+export type UpdateOnePromise<
+  DocumentType,
+  Fields extends keyof DocumentType = keyof DocumentType
+> = Promise<HydratedDocument<DocumentType, Fields>>;
 
 // export type UpdateOneResult<
 //   Document,

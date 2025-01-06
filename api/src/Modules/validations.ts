@@ -9,7 +9,9 @@ import {
 import { RequestHandler } from "express";
 import { Types } from "mongoose";
 import jwt from "jsonwebtoken";
+
 import { TokenPayload } from "../types/ExpressTypes";
+import { ServerError } from "../utils/ServerError";
 
 const { ObjectId } = Types;
 
@@ -17,10 +19,8 @@ const { ObjectId } = Types;
 
 export const validateRequest: RequestHandler = (req, res, next) => {
   const errors = validationResult(req);
-  console.log(errors);
   if (!errors.isEmpty()) {
-    res.status(400);
-    res.json({ message: errors.array() });
+    next(new ServerError("validation error", { errors: errors.array() }));
   } else {
     const filteredBody = matchedData(req, {
       locations: ["body"],

@@ -1,7 +1,7 @@
 import app from "./server";
 import { connectDBClient } from "./Models";
 import logger from "./utils/logger";
-import { envVars } from "./envConfig";
+import envVars from "./envConfig";
 
 (async () => {
   try {

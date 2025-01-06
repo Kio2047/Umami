@@ -12,7 +12,7 @@ RUN npm install
 COPY ./tsconfig.json ./
 
 COPY ./src/services/DBSeeder ./src/services/DBSeeder
-COPY ./src/Models/schemas.ts ./src/models/schemas.ts
+COPY ./src/Models/schemas.ts ./src/Models/schemas.ts
 COPY ./src/types/UserTypes.ts ./src/types/UserTypes.ts
 COPY ./src/types/PostTypes.ts ./src/types/PostTypes.ts
 COPY ./src/types/RestaurantTypes.ts ./src/types/RestaurantTypes.ts
