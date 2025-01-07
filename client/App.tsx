@@ -42,7 +42,7 @@ const MyTheme = {
 };
 
 const AppContent = () => {
-  const { status: authStatus } = useAuth()[0];
+  const { status: authStatus } = useAuth();
   const { status: userStatus, user } = useUser()[0];
   if (authStatus === "loading" || userStatus === "loading") {
     return <Text>Loading...</Text>;
