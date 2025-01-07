@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 import logger from "../utils/logger";
-import { envVars } from "#src/envConfig";
+import envVars from "../envConfig";
 
 mongoose.connection.on("connected", function () {
   logger.info(`Successfully connected to DB ${envVars.DB_NAME}`);
@@ -9,9 +9,9 @@ mongoose.connection.on("connected", function () {
 
 export const connectDBClient = async function () {
   await mongoose.connect(envVars.DB_URI, {
-    dbName: envVars.DB_NAME,
-    user: envVars.DB_USER_USERNAME,
-    pass: envVars.DB_USER_PASSWORD
+    dbName: envVars.DB_NAME
+    // user: envVars.DB_USER_USERNAME,
+    // pass: envVars.DB_USER_PASSWORD
   });
 };
 

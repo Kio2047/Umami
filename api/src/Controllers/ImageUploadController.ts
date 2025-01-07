@@ -1,26 +1,50 @@
-import { envVars } from "#src/envConfig";
+import { NextFunction } from "express";
 import { v2 as cloudinary } from "cloudinary";
-import { RequestHandler } from "express";
 
-export const generateMediaUploadSignature: RequestHandler = async (
-  req,
-  res,
-  next
-) => {
+import envVars from "../envConfig";
+import {
+  CustomRequest as Request,
+  ProtectedApiResponse as Response
+} from "../types/ExpressTypes";
+import { ServerError } from "../utils/ServerError";
+
+cloudinary.config({
+  cloud_name: envVars.CLOUDINARY_CLOUD_NAME,
+  api_key: envVars.CLOUDINARY_API_KEY,
+  api_secret: envVars.CLOUDINARY_API_SECRET
+});
+
+const generateCloudinarySignature = function (folder: "user_profile_images") {
+  const timestamp = Math.round(Date.now() / 1000);
+  const signature = cloudinary.utils.api_sign_request(
+    {
+      folder,
+      timestamp
+    },
+    envVars.CLOUDINARY_API_SECRET
+  );
+
+  return {
+    timestamp,
+    signature
+  };
+};
+
+export const generateProfileImageUploadSignature = async function (
+  req: Request<Record<string, never>>,
+  res: Response,
+  next: NextFunction
+) {
   try {
-    const cloudinarySecret = envVars.CLOUDINARY_API_KEY;
-    const timestamp = Math.round(Date.now() / 1000);
-
-    const signature = cloudinary.utils.api_sign_request(
-      {
-        folder: "user_profile_images",
-        timestamp
-      },
-      cloudinarySecret
+    const { timestamp, signature } = generateCloudinarySignature(
+      "user_profile_images"
     );
-
-    res.status(200).json({ data: { timestamp, signature } });
+    res.status(200).json({
+      status: "success",
+      message: "signature successfully generated",
+      data: { timestamp, signature }
+    });
   } catch (err) {
-    next(err);
+    next(new ServerError("cloudinary error", { cause: err }));
   }
 };

@@ -3,21 +3,20 @@ import { MongoServerError } from "mongodb";
 
 import {
   CustomRequest as Request,
-  CustomResponse as Response
-} from "#src/types/ExpressTypes";
+  ApiResponse as Response
+} from "../types/ExpressTypes";
 import {
-  AuthenticationResponse,
   HashedNewUserCredentials,
   NewUserCredentials,
   UserCredentials
-} from "#src/types/UserTypes";
-import { hashPassword, comparePasswords, createJWT } from "#src/Modules/auth";
-import * as UserModel from "#src/Models/User";
-import { ServerError } from "#src/utils/ServerError";
+} from "../types/UserTypes";
+import { hashPassword, comparePasswords, createJWT } from "../Modules/auth";
+import * as UserModel from "../Models/User";
+import { ServerError } from "../utils/ServerError";
 
 export const createNewUser = async function (
   req: Request<NewUserCredentials>,
-  res: Response<{ data: AuthenticationResponse }>,
+  res: Response,
   next: NextFunction
 ): Promise<void> {
   try {
@@ -31,27 +30,31 @@ export const createNewUser = async function (
     res.location(`/users/${newUser._id}`);
     res.status(201).json({
       data: {
-        _id: newUser._id.toString(),
         token: createJWT(newUser._id)
-      }
+      },
+      status: "success",
+      message: "New account successfully created"
     });
   } catch (err) {
-    let serverError: unknown = err;
     if (!(err instanceof ServerError)) {
       if (err instanceof MongoServerError && err.code === 11000) {
-        serverError = new ServerError("duplicate value", {
-          duplicateKey: Object.keys(err.keyPattern)[0],
-          duplicateVal: ""
-        });
+        next(
+          new ServerError("duplicate value", {
+            duplicateKey: Object.keys(err.keyPattern)[0],
+            duplicateVal: Object.values<string>(err.keyValue)[0],
+            cause: err
+          })
+        );
+        return;
       }
     }
-    next(serverError);
+    next(err);
   }
 };
 
 export const loginUser = async function (
   req: Request<UserCredentials>,
-  res: Response<{ data: AuthenticationResponse }>,
+  res: Response,
   next: NextFunction
 ) {
   try {
@@ -73,15 +76,13 @@ export const loginUser = async function (
     } else {
       res.status(200).json({
         data: {
-          _id: user._id.toString(),
           token: createJWT(user._id)
-        }
+        },
+        status: "success",
+        message: "Successfully authenticated user"
       });
     }
   } catch (err) {
-    let serverError: unknown = err;
-    if (!(err instanceof ServerError)) {
-    }
-    next(serverError);
+    next(err);
   }
 };

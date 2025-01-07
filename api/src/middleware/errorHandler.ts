@@ -1,10 +1,20 @@
-import { ErrorRequestHandler } from "express";
+import { ErrorRequestHandler, NextFunction } from "express";
 
 import assertUnreachable from "../utils/assertUnreachable";
 import { ServerError, ServerErrorUnion } from "../utils/ServerError";
 import logger from "../utils/logger";
 
-const errorHandler: ErrorRequestHandler = function (err, req, res, next) {
+import {
+  CustomRequest as Request,
+  ApiResponse as Response
+} from "../types/ExpressTypes";
+
+const errorHandler = function (
+  err: unknown,
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
   let unhandledErr = false;
   if (err instanceof ServerError) {
     // Casting necessary until TS can infer constrained generic parameters after instanceof check https://github.com/microsoft/TypeScript/issues/17473

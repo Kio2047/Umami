@@ -38,9 +38,3 @@ export interface UserCredentials {
   usernameOrEmail: string;
   password: string;
 }
-
-export interface AuthenticationResponse {
-  data: { token: string };
-  status: string;
-  message: string;
-}

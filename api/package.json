@@ -38,7 +38,8 @@
     "build-start-seed-db": "npm run build-db-images && npm run start-db && npm run seed-db",
     "stop-db": "docker-compose -p umami-dev-db down",
     "compile": "npx tsc -p tsconfig.json",
-    "run-seeder": "node ./dist/services/DBSeeder/seedDB.js"
+    "run-seeder": "node ./dist/services/DBSeeder/seedDB.js",
+    "run-server": "node ./dist/index.js"
   },
   "imports": {
     "#src/*": "./src/*"

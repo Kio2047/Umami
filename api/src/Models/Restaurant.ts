@@ -1,9 +1,8 @@
 import { mongoose } from "./index";
 import { CreateOnePromise, FindOnePromise } from "../types/MongooseCRUDTypes";
 import { RawRestaurantDocument } from "../types/RestaurantTypes";
-import { RestaurantNewPost } from "../types/types";
+// import { RestaurantNewPost } from "../types/types";
 import { restaurantSchema } from "./schemas";
-import { NewDummyRestaurantData } from "../types/SeedTypes";
 
 const Restaurant = mongoose.model<RawRestaurantDocument>(
   "Restaurant",
@@ -47,13 +46,3 @@ export const findRestaurantByID = async function (
 // //   const matchedRestaurants = await Restaurant.find({ name: {$regex: regex} });
 // //   return matchedRestaurants;
 // // };
-
-// For use in DB seeder only
-export const createNewDummyRestaurant = async function (
-  newDummyRestaurantData: NewDummyRestaurantData
-) {
-  const newDummyRestaurant = await Restaurant.create({
-    ...newDummyRestaurantData
-  });
-  return newDummyRestaurant;
-};
