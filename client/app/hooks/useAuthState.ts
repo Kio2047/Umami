@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
+
 import {
+  deleteJwt,
   getJwt,
-  login as wrappedLogin,
-  logout as wrappedLogout
+  setJwt
 } from "../services/local-storage/authStorageService";
 import {
   AuthUtilities,
@@ -42,18 +43,36 @@ export const useAuthState = () => {
 
   const utilities: AuthUtilities = {
     login: async (jwt: string) => {
-      if (internalState.status === "authenticated") {
-        console.warn("User is already logged in");
-        return;
+      try {
+        if (internalState.status === "authenticated") {
+          console.warn("User is already logged in");
+          return;
+        }
+        await setJwt(jwt);
+        setInternalState({
+          jwt,
+          status: "authenticated"
+        });
+      } catch (err) {
+        console.error("Error saving session token in local storage:", err);
+        throw err;
       }
-      wrappedLogin(jwt, setInternalState);
     },
     logout: async () => {
-      if (internalState.status === "unauthenticated") {
-        console.warn("User is already logged out");
-        return;
+      try {
+        if (internalState.status === "unauthenticated") {
+          console.warn("User is already logged out");
+          return;
+        }
+        await deleteJwt();
+        setInternalState({
+          jwt: null,
+          status: "unauthenticated"
+        });
+      } catch (err) {
+        console.error("Error deleting session token from local storage:", err);
+        throw err;
       }
-      wrappedLogout(setInternalState);
     }
   };
 

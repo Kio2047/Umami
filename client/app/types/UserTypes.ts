@@ -1,4 +1,4 @@
-export type UserState =
+export type InternalUserState =
   | {
       user: User;
       status: "complete";
@@ -8,17 +8,28 @@ export type UserState =
       status: "complete" | "loading";
     };
 
-export interface User {
+export type User = {
   data: UserData;
   metadata: UserMetadata;
-}
+};
 
-interface UserData {
+export type UserData = {
   name: string;
   username: string;
   profileImageURL: string;
-}
+};
 
-interface UserMetadata {
+export type UserMetadata = {
   completedAddProfileImageScreen: boolean;
-}
+};
+
+export type UserUtilities = {
+  initialiseUser: () => Promise<void>;
+  updateUser: ({
+    data,
+    metadata
+  }: {
+    data?: Partial<UserData>;
+    metadata?: Partial<UserMetadata>;
+  }) => Promise<void>;
+};

@@ -3,9 +3,9 @@ import { useContext } from "react";
 import { AuthContext } from "./AuthContext";
 
 export default () => {
-  const authStateArray = useContext(AuthContext);
-  if (!authStateArray) {
+  const auth = useContext(AuthContext);
+  if (!auth) {
     throw new Error("Component must be used within AuthProvider");
   }
-  return authStateArray;
+  return auth;
 };

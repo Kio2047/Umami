@@ -3,9 +3,9 @@ import { useContext } from "react";
 import { UserContext } from "./UserContext";
 
 export default () => {
-  const userStateArray = useContext(UserContext);
-  if (!userStateArray) {
+  const user = useContext(UserContext);
+  if (!user) {
     throw new Error("Component must be used within UserProvider");
   }
-  return userStateArray;
+  return user;
 };

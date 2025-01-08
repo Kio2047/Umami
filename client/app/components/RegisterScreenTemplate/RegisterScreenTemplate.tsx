@@ -21,6 +21,7 @@ import BottomTab from "../BottomTab/BottomTab";
 import styles from "./RegisterScreenTemplate.styles";
 import { createNewUser } from "../../services/api/apiClient";
 import useAuth from "../../contexts/AuthContext/useAuth";
+import useUser from "../../contexts/UserContext/useUser";
 
 // TODO: create a prop for a function that runs on submission prior to navigating
 // to next page. said function can include fetches to server to see if credentials
@@ -50,28 +51,24 @@ const RegisterScreenTemplate = <
   inputValidator
 }: RegisterScreenTemplateProps<T>) => {
   const [formState, dispatch] = useReducer(reducer, initialState);
+
   const [disableButton, setDisableButton] = useState(false);
+
   const {
     utilities: { login }
   } = useAuth();
+
+  const {
+    utilities: { initialiseUser }
+  } = useUser();
+
   const { mutate } = useMutation(createNewUser, {
     retry: false,
     onSuccess: async (data) => {
       try {
-        await login(data.data.token);
-        // TODO: TypeScript not enforcing params type below
-        navigation.reset({
-          index: 0,
-          routes: [
-            {
-              name: "AddProfileImageScreen",
-              params: {
-                userFirstName: formState.fullName.value.split(" ")[0]
-              }
-            }
-          ]
-        });
+        await Promise.all([login(data.data.token), initialiseUser()]);
       } catch (err) {
+        console.error(err);
         () => setDisableButton(false);
       }
     },
@@ -79,7 +76,6 @@ const RegisterScreenTemplate = <
   });
 
   // TODO: why doesn't typing nextScreen as nextScreen: NextScreenMap[T] (as above) work here?
-
   const nextButtonOnPressHandler = async (
     nextScreen: ValueOf<NextScreenTypeMap>
   ) => {

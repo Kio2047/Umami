@@ -4,6 +4,6 @@ import {
   InternalAuthState
 } from "../../types/auth/CommonAuthTypes";
 
-type AuthState = InternalAuthState & { utilities: AuthUtilities };
+type Auth = InternalAuthState & { utilities: AuthUtilities };
 
-export const AuthContext = createContext<AuthState | undefined>(undefined);
+export const AuthContext = createContext<Auth | undefined>(undefined);
