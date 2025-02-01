@@ -19,7 +19,7 @@ export type AuthStackParamList = {
   RegisterEmailScreen: undefined;
   RegisterUsernameScreen: undefined;
   RegisterPasswordScreen: undefined;
-  AddProfileImageScreen: { userFirstName: string };
+  AddProfileImageScreen: undefined;
 };
 
 export type AppTabParamList = {

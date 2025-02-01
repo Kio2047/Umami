@@ -14,11 +14,10 @@ import RegisterUsernameScreen from "../../screens/auth/register/RegisterUsername
 const AuthStack = createStackNavigator<AuthStackParamList>();
 
 const AuthScreens = ({
-  initialRouteName,
-  userFirstName
-}:
-  | { initialRouteName: "WelcomeScreen"; userFirstName?: undefined }
-  | { initialRouteName: "AddProfileImageScreen"; userFirstName: string }) => {
+  initialRouteName
+}: {
+  initialRouteName: "WelcomeScreen" | "AddProfileImageScreen";
+}) => {
   return (
     <AuthStack.Navigator
       initialRouteName={initialRouteName}
@@ -46,7 +45,6 @@ const AuthScreens = ({
       <AuthStack.Screen
         name="AddProfileImageScreen"
         component={AddProfileImageScreen}
-        initialParams={{ userFirstName }}
       />
     </AuthStack.Navigator>
   );

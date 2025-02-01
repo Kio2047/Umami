@@ -1,18 +1,17 @@
 import { useState } from "react";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { ImagePickerAsset } from "expo-image-picker";
-import { StackNavigationProp } from "@react-navigation/stack";
 
 import {
   getProfileImageUploadSignature,
   updateUserProfileImageURL,
   uploadMedia
 } from "../../../../services/api/apiClient";
-import { AuthStackParamList } from "../../../../types/NavigationTypes";
+import { UserUtilities } from "../../../../types/UserTypes";
 
 const useProfileImageUpload = (
   profileImage: ImagePickerAsset | null,
-  navigation: StackNavigationProp<AuthStackParamList>
+  updateUser: UserUtilities["updateUser"]
 ) => {
   const [loading, setLoading] = useState(false);
   const [uploadURL, setUploadURL] = useState<string | null>(null);
@@ -59,9 +58,10 @@ const useProfileImageUpload = (
     updateUserProfileImageURL,
     {
       onSuccess: () => {
-        navigation.reset({
-          index: 0,
-          routes: [{ name: "AppTabs", params: { feedUserInfo: "" } }]
+        updateUser({
+          metadata: {
+            completedAddProfileImageScreen: true
+          }
         });
       },
       onError: (error) => {

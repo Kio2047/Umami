@@ -7,28 +7,27 @@ import * as ImagePicker from "expo-image-picker";
 import { Image } from "expo-image";
 import * as NavigationBar from "expo-navigation-bar";
 
-import { StackScreenProps } from "../../../../types/NavigationTypes";
 import styles from "./AddProfileImageSreen.styles";
 import useProfileImageUpload from "./useProfileImageUpload";
 import LoadingModal from "../../../../components/LoadingModal/LoadingModal";
+import useUser from "../../../../contexts/UserContext/useUser";
 
-const AddProfileImageScreen = ({
-  navigation,
-  route
-}: StackScreenProps<"AddProfileImageScreen">) => {
+const AddProfileImageScreen = () => {
   const [profileImage, setProfileImage] =
     useState<ImagePicker.ImagePickerAsset | null>(null);
 
-  const { userFirstName } = route.params;
+  const { user, utilities } = useUser();
+  if (!user)
+    throw new Error("Inconsistent application state: user not yet initialised");
 
   const { fetchSignature, loading, setLoading, status } = useProfileImageUpload(
     profileImage,
-    navigation
+    utilities.updateUser
   );
 
   const pickImage = async () => {
     const result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      mediaTypes: ["images"],
       allowsEditing: true,
       aspect: [1, 1],
       quality: 0.5
@@ -43,7 +42,7 @@ const AddProfileImageScreen = ({
     <SafeAreaView style={styles.container}>
       <View>
         <Text style={styles.greetingText}>
-          Hey {userFirstName.split(" ")[0]}!
+          Hey {user.data.name.split(" ")[0]}!
         </Text>
         <Text style={styles.addPictureText}>
           How about adding a profile picture to help your friends recognize you?
@@ -95,9 +94,10 @@ const AddProfileImageScreen = ({
         <TouchableOpacity
           activeOpacity={0.5}
           onPress={() => {
-            navigation.reset({
-              index: 0,
-              routes: [{ name: "AppTabs", params: { feedUserInfo: "" } }]
+            utilities.updateUser({
+              metadata: {
+                completedAddProfileImageScreen: true
+              }
             });
           }}
           style={profileImage && styles.skipButtonImageSelected}

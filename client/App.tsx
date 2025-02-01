@@ -20,6 +20,7 @@ import AppTabs from "./app/navigators/BottomTabNavigator/AppTabs";
 import { assertUnreachable } from "./app/utils/utils";
 import useUser from "./app/contexts/UserContext/useUser";
 import { User } from "./app/types/UserTypes";
+import { UserProvider } from "./app/contexts/UserContext/UserProvider";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -43,7 +44,7 @@ const MyTheme = {
 
 const AppContent = () => {
   const { status: authStatus } = useAuth();
-  const { status: userStatus, user } = useUser()[0];
+  const { status: userStatus, user } = useUser();
   if (authStatus === "loading" || userStatus === "loading") {
     return <Text>Loading...</Text>;
   }
@@ -63,18 +64,13 @@ const AppContent = () => {
       )}`
     );
   if (!user.metadata.completedAddProfileImageScreen) {
-    return (
-      <AuthScreens
-        initialRouteName="AddProfileImageScreen"
-        userFirstName={user.data.name.split(" ")[0]}
-      />
-    );
+    return <AuthScreens initialRouteName="AddProfileImageScreen" />;
   }
   return <AppTabs />;
 };
 
 export default function App() {
-  // const navigationBarHeight = useNavigationBarConfig();
+  const navigationBarHeight = useNavigationBarConfig();
   return (
     <>
       <StatusBar
@@ -86,17 +82,19 @@ export default function App() {
       <QueryClientProvider client={queryClient}>
         {/* <PaperProvider> */}
         <AuthProvider>
-          <SafeAreaProvider>
-            {/* <SafeAreaView style={styles.appContainer}> */}
-            <ScreenBackground
-            // additionalStyles={{ paddingBottom: navigationBarHeight }}
-            >
-              <NavigationContainer theme={MyTheme}>
-                <AppContent />
-              </NavigationContainer>
-            </ScreenBackground>
-            {/* </SafeAreaView> */}
-          </SafeAreaProvider>
+          <UserProvider>
+            <SafeAreaProvider>
+              {/* <SafeAreaView style={styles.appContainer}> */}
+              <ScreenBackground
+                additionalStyles={{ paddingBottom: navigationBarHeight }}
+              >
+                <NavigationContainer theme={MyTheme}>
+                  <AppContent />
+                </NavigationContainer>
+              </ScreenBackground>
+              {/* </SafeAreaView> */}
+            </SafeAreaProvider>
+          </UserProvider>
         </AuthProvider>
         {/* </PaperProvider> */}
       </QueryClientProvider>
