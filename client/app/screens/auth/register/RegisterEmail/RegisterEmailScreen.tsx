@@ -3,7 +3,7 @@ import { StackNavigationProp } from "@react-navigation/stack";
 import RegisterScreenTemplate from "../../../../components/RegisterScreenTemplate/RegisterScreenTemplate";
 import { registerScreenConstants } from "../../../../constants/auth/registerConstants";
 import { initialState } from "../registerFormStateReducer";
-import { formValidators } from "../../../../utils/authFormValidators";
+import { registerFormValidators } from "../../../../utils/authFormValidators";
 import { AuthStackParamList } from "../../../../types/NavigationTypes";
 
 const RegisterEmailScreen = ({
@@ -16,7 +16,7 @@ const RegisterEmailScreen = ({
       {...registerScreenConstants.RegisterEmailScreen}
       initialState={initialState}
       navigation={navigation}
-      inputValidator={formValidators.email}
+      inputValidator={registerFormValidators.email}
     />
   );
 };

@@ -8,7 +8,6 @@ export default StyleSheet.create({
   },
   container: {
     flex: 1,
-    // backgroundColor: colors.backgroundColor,
     paddingTop: 60,
     paddingHorizontal: 20,
     // justifyContent: "center",

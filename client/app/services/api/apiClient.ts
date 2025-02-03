@@ -19,6 +19,7 @@ import {
 import { sendPOSTRequest, sendGETRequest, sendPATCHRequest } from "./apiUtils";
 import { NewUserCredentials } from "../../types/auth/RegisterTypes";
 import { ImageUploadRequest } from "../../types/APIRequestTypes";
+import { ExistingUserCredentials } from "../../types/auth/LoginTypes";
 
 const baseURL = process.env.EXPO_PUBLIC_BASE_URL;
 
@@ -34,9 +35,9 @@ export const createNewUser: MutationFunction<
 
 export const loginUser: MutationFunction<
   LoginUserResponse,
-  LoginCredentials
+  ExistingUserCredentials
 > = async (userCredentials) => {
-  return sendPOSTRequest<LoginUserResponse>(
+  return sendPOSTRequest<LoginUserResponse, ExistingUserCredentials>(
     `${baseURL}/session`,
     userCredentials
   );

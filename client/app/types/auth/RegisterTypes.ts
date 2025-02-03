@@ -1,4 +1,4 @@
-import { InputConstants } from "./CommonAuthTypes";
+import { FormActionBase, InputConstants } from "./CommonAuthTypes";
 
 export type RegisterField = "email" | "fullName" | "username" | "password";
 
@@ -8,13 +8,13 @@ export type RegisterScreen =
   | "RegisterUsernameScreen"
   | "RegisterPasswordScreen";
 
-export enum PasswordValidatorResults {
-  Valid = 0,
-  Empty = 1,
-  TooShort = 2,
-  NoSpecialCharacterOrNumber = 3,
-  TooEasy = 4
-}
+export type RegisterFormAction<T extends RegisterField> =
+  | {
+      type: "add_invalid_warning";
+      field: T;
+      invalidMessage: string;
+    }
+  | FormActionBase<T>;
 
 export enum UsernameValidatorResults {
   Valid = 0,
@@ -30,6 +30,14 @@ export enum EmailValidatorResults {
 export enum FullNameValidatorResults {
   Valid = 0,
   Empty = 1
+}
+
+export enum PasswordValidatorResults {
+  Valid = 0,
+  Empty = 1,
+  TooShort = 2,
+  NoSpecialCharacterOrNumber = 3,
+  TooEasy = 4
 }
 
 export type ValidatorResultsTypeMap = {

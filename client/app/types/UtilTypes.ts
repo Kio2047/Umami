@@ -4,3 +4,5 @@ export type Entries<T> = {
 }[keyof T][];
 
 export type ValueOf<T> = T[keyof T];
+
+export type Tuple<T, L extends number> = [T, ...T[]] & { length: L };

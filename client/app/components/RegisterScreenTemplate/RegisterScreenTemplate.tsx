@@ -69,10 +69,13 @@ const RegisterScreenTemplate = <
         await Promise.all([login(data.data.token), initialiseUser()]);
       } catch (err) {
         console.error(err);
-        () => setDisableButton(false);
+        setDisableButton(false);
       }
     },
-    onError: () => setDisableButton(false)
+    onError: (err) => {
+      console.error(err);
+      setDisableButton(false);
+    }
   });
 
   // TODO: why doesn't typing nextScreen as nextScreen: NextScreenMap[T] (as above) work here?
@@ -96,6 +99,10 @@ const RegisterScreenTemplate = <
           Object.entries(formState) as Entries<FormState<RegisterField>>
         ).reduce<NewUserCredentials>(
           (accumulator, [field, values]) => {
+            if (accumulator[field] !== "")
+              throw new Error(
+                "Invalid form state: unknown or duplicate field present"
+              );
             accumulator[field] = values.value;
             return accumulator;
           },
@@ -140,7 +147,7 @@ const RegisterScreenTemplate = <
         <BottomTab
           message="Already have an account? Sign in&nbsp;"
           navigation={navigation}
-          navigateTo="Login"
+          navigateTo="LoginScreen"
         />
       </SafeAreaView>
     </Pressable>

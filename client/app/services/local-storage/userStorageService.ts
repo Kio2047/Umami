@@ -1,6 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-import { User, UserMetadata, UserState } from "../../types/UserTypes";
+import { User } from "../../types/UserTypes";
 
 export const getUser = async (): Promise<User | null> => {
   try {

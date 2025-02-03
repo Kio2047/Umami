@@ -15,7 +15,7 @@ export type FormState<T extends LoginField | RegisterField> = Record<
   FieldState
 >;
 
-export type FormAction<T extends LoginField | RegisterField> =
+export type FormActionBase<T extends LoginField | RegisterField> =
   | {
       type: "blur_field";
       field: T;
@@ -25,15 +25,9 @@ export type FormAction<T extends LoginField | RegisterField> =
       field: T;
     }
   | {
-      // type: "update_and_validate_field";
       type: "update_field";
       field: T;
       value: string;
-    }
-  | {
-      type: "add_invalid_warning";
-      field: T;
-      invalidMessage: string;
     };
 
 export interface InputConstants<T extends LoginField | RegisterField> {

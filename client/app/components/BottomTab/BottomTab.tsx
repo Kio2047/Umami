@@ -25,7 +25,7 @@ interface BottomTabProps {
   navigation: StackNavigationProp<AuthStackParamList>;
   message: string;
   // TODO: update navigateTo type for new registration screens
-  navigateTo: "Register" | "Login";
+  navigateTo: "RegisterFullNameScreen" | "LoginScreen";
 }
 
 const BottomTab = ({ navigation, message, navigateTo }: BottomTabProps) => {

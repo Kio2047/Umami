@@ -3,11 +3,16 @@ import { StyleSheet } from "react-native";
 import { colors } from "../../../../constants/styles/styleConstants";
 
 export default StyleSheet.create({
+  pressableWrapper: {
+    flex: 1
+  },
   container: {
     flex: 1,
-    backgroundColor: colors.backgroundColor,
-    justifyContent: "center",
-    alignItems: "center"
+    // justifyContent: "center",
+    alignItems: "center",
+    gap: 20,
+    paddingTop: 60,
+    paddingHorizontal: 20
   },
   logo: {
     width: 200,
@@ -24,14 +29,15 @@ export default StyleSheet.create({
   },
   loginButton: {
     justifyContent: "center",
-    width: 330,
+    width: "100%",
     height: 50,
     backgroundColor: colors.defaultButtonColor,
     borderRadius: 7
   },
   buttonText: {
-    textAlign: "center",
     color: colors.primaryFontColor,
+    fontSize: 16,
+    textAlign: "center",
     fontWeight: "500"
   }
 });
