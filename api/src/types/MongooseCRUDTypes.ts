@@ -21,6 +21,11 @@ export type FindOnePromise<
   Fields extends keyof DocumentType = keyof DocumentType
 > = Promise<NullableHydratedDocument<DocumentType, Fields>>;
 
+export type FindManyPromise<
+  DocumentType,
+  Fields extends keyof DocumentType = keyof DocumentType
+> = Promise<HydratedDocument<DocumentType, Fields>[]>;
+
 export type UpdateOnePromise<
   DocumentType,
   Fields extends keyof DocumentType = keyof DocumentType

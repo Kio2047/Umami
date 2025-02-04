@@ -1,77 +1,86 @@
-import { Request } from "express";
-import { ParamsDictionary } from "express-serve-static-core";
+import { NextFunction } from "express";
 
-import * as UserModel from "../models/User";
-import * as PostModel from "../models/Post";
-import * as RestaurantModel from "../models/Restaurant";
-import { RequestHandler } from "express";
-import { CreateOneResult, FindOneResult } from "../types/MongooseCRUDTypes";
+import {
+  CustomRequest as Request,
+  ProtectedApiResponse as Response
+} from "../types/ExpressTypes";
+import { PopulatedPostDocument } from "src/types/PostTypes";
+import { getUserByID } from "src/Models/User";
+import { loadFeed, loadMoreFeed } from "src/Models/Post";
+import { ServerError } from "src/utils/ServerError";
 
-import { RawPostDocument } from "../types/PostTypes";
-import { RawRestaurantDocument } from "../types/RestaurantTypes";
-import { ReceivedNewPostData } from "../types/PostTypes";
-import { Types } from "mongoose";
-
-// TODO: add type declaration for res.locals (scoped to the protected router endpoints only)
-
-export const createNewPost: RequestHandler = async function (
-  req: Request<ParamsDictionary, any, ReceivedNewPostData>,
-  res,
-  next
+export const getFeedPosts = async function (
+  req: Request<
+    Record<never, never>,
+    {
+      lastCreatedAt: string;
+    }
+  >,
+  res: Response,
+  next: NextFunction
 ) {
   try {
-    const newPostData = req.body;
-    const userID = res.locals.tokenPayload.sub;
-
-    let restaurant: FindOneResult<RawRestaurantDocument>;
-    let newPost: CreateOneResult<RawPostDocument>;
-
-    if (newPostData.restaurantID !== undefined) {
-      restaurant = await RestaurantModel.findRestaurantByID(
-        newPostData.restaurantID
-      );
-      if (!restaurant) {
-        res.status(404).json({ error: { message: "invalid restaurant ID" } });
-        return;
-      }
+    const { lastCreatedAt } = req.query;
+    const { sub: userID } = res.locals.tokenPayload;
+    let posts: PopulatedPostDocument[];
+    const user = await getUserByID(userID);
+    if (!user) throw new ServerError("invalid user id");
+    if (lastCreatedAt) {
+      posts = await loadMoreFeed(user, new Date(lastCreatedAt));
     } else {
-      restaurant = await RestaurantModel.createNewRestaurant({
-        name: newPostData.newRestaurantName
-      });
+      posts = await loadFeed(user);
     }
-    const { restaurantID, newRestaurantName, ...rest } = newPostData;
-    newPost = await PostModel.createNewPost({
-      ...rest,
-      restaurant: restaurant._id,
-      timestamp: new Date().toISOString(),
-      author: new Types.ObjectId(userID)
+    res.status(200).json({
+      status: "success",
+      message: "Feed posts successfully retrieved",
+      data: {
+        posts: posts,
+        lastCreatedAt: posts.at(-1)?.createdAt
+      }
     });
-    res.status(200).json({ data: { newPost } });
   } catch (err) {
     next(err);
   }
 };
 
-// export const getFeedPosts = async function (req: express.Request, res: express.Response) {
+// export const createNewPost = async function (
+//   req: Request<NewPostData>,
+//   res: Response<{ data: { newPost: RawPostDocument } }>,
+//   next: NextFunction
+// ) {
 //   try {
-//     const userID = new mongoose.Types.ObjectId(req.params.userID);
-//     const feedPosts = await UserModel.getFeedPosts(userID);
-//     res.status(200).json(feedPosts);
-//   }
-//   catch (error) {
-//     console.log(error);
-//     res.sendStatus(500);
+//     const newPostData = req.body;
+//     const userID = res.locals.tokenPayload.sub;
+
+//     let restaurant: NullableHydratedDocument<RawRestaurantDocument>;
+
+//     if (newPostData.restaurantID !== undefined) {
+//       restaurant = await RestaurantModel.findRestaurantByID(
+//         newPostData.restaurantID
+//       );
+//       if (!restaurant) {
+//         return next(
+//           new ServerError("invalid restaurant id", {
+//             additionalInfo: `invalid id: ${newPostData.restaurantID}`
+//           })
+//         );
+//       }
+//     } else {
+//       restaurant = await RestaurantModel.createNewRestaurant({
+//         name: newPostData.newRestaurantName
+//       });
+//     }
+//     const { restaurantID, newRestaurantName, ...rest } = newPostData;
+//     const newPost = await PostModel.createNewPost({
+//       ...rest,
+//       restaurant: restaurant._id,
+//       timestamp: new Date().toISOString(),
+//       author: new Types.ObjectId(userID)
+//     });
+//     res.location(`/posts/${newPost._id}`);
+
+//     res.status(201).json({ data: { newPost } });
+//   } catch (err) {
+//     next(err);
 //   }
 // };
-
-// export const getUserPosts = async function (req: express.Request, res: express.Response) {
-//   try {
-//     const userID = new mongoose.Types.ObjectId(req.params.userID);
-//     const userPosts = await UserModel.getUserPosts(userID);
-//     res.status(200).json(userPosts);
-//   }
-//   catch (error) {
-//     console.log(error);
-//     res.sendStatus(500);
-//   }
-// }

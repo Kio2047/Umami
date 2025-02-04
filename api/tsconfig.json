@@ -12,11 +12,11 @@
     "moduleResolution": "node",
     "sourceMap": true,
     "outDir": "dist",
-    "baseUrl": ".",
-    "typeRoots": ["./node_modules/@types"],
-    "paths": {
-      "#src/*": ["./src/*"]
-    }
+    "baseUrl": "./",
+    "typeRoots": ["./node_modules/@types"]
+    // "paths": {
+    //   "#src/*": ["src/*"]
+    // },
   },
   "include": ["src/**/*"]
   // "exclude": ["src/types/environment.d.ts"]

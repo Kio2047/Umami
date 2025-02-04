@@ -1,5 +1,8 @@
 import { Types } from "mongoose";
 
+import { RawUserDocument } from "./UserTypes";
+import { RawRestaurantDocument } from "./RestaurantTypes";
+
 export interface RawPostDocument {
   _id: Types.ObjectId;
   author: Types.ObjectId;
@@ -11,6 +14,13 @@ export interface RawPostDocument {
   others: Types.ObjectId[];
   createdAt: Date;
   updatedAt: Date;
+}
+
+export interface PopulatedPostDocument
+  extends Omit<RawPostDocument, "author" | "restaurant" | "others"> {
+  author: Pick<RawUserDocument, "_id" | "username" | "profileImageURL">;
+  restaurant: RawRestaurantDocument;
+  others: Pick<RawUserDocument, "_id" | "username" | "profileImageURL">[];
 }
 
 interface NewPostDataBase {

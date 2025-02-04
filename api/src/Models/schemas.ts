@@ -62,8 +62,11 @@ export const postSchema = new Schema<RawPostDocument>(
     text: { type: String, required: true },
     others: [{ type: Schema.Types.ObjectId, ref: "User" }]
   },
-  { timestamps: true }
+  {
+    timestamps: true
+  }
 );
+postSchema.index({ author: 1, createdAt: -1 });
 
 export const restaurantSchema = new Schema<RawRestaurantDocument>(
   {

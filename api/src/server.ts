@@ -9,7 +9,7 @@ import {
   validateRequest
 } from "./Modules/validations";
 import {
-  createNewUser,
+  registerUser,
   loginUser
 } from "./Controllers/AuthenticationController";
 import { authenticate } from "./middleware/authenticate";
@@ -45,7 +45,7 @@ app.use(
 app.use(cors());
 app.use(express.json());
 
-app.post("/user", createNewUserValidations, validateRequest, createNewUser);
+app.post("/user", createNewUserValidations, validateRequest, registerUser);
 app.post("/session", loginUserValidations, validateRequest, loginUser);
 
 app.use(authenticate, protectedRouter);

@@ -35,7 +35,7 @@
     "build-db-images": "docker-compose -p umami-dev-db -f docker-compose.db.yaml build",
     "start-db": "docker-compose -p umami-dev-db -f docker-compose.db.yaml up -d db",
     "seed-db": "docker-compose -p umami-dev-db -f docker-compose.db.yaml run --rm seeder",
-    "build-start-seed-db": "npm run build-db-images && npm run start-db && npm run seed-db",
+    "init-db": "npm run build-db-images && npm run start-db && npm run seed-db",
     "stop-db": "docker-compose -p umami-dev-db down",
     "compile": "npx tsc -p tsconfig.json",
     "run-seeder": "node ./dist/services/DBSeeder/seedDB.js",

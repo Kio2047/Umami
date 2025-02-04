@@ -14,7 +14,7 @@ import { hashPassword, comparePasswords, createJWT } from "../Modules/auth";
 import * as UserModel from "../Models/User";
 import { ServerError } from "../utils/ServerError";
 
-export const createNewUser = async function (
+export const registerUser = async function (
   req: Request<NewUserCredentials>,
   res: Response,
   next: NextFunction

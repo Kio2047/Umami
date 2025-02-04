@@ -1,4 +1,4 @@
-import { ErrorRequestHandler, NextFunction } from "express";
+import { NextFunction } from "express";
 
 import assertUnreachable from "../utils/assertUnreachable";
 import { ServerError, ServerErrorUnion } from "../utils/ServerError";
@@ -78,8 +78,10 @@ const errorHandler = function (
         res.status(400).json({
           status: "error",
           message:
-            "Request validation failed. Check the 'details' field for more information",
-          details: serverError.data.errors
+            "Request validation failed. Check the 'data' field for more information",
+          data: {
+            validationErrors: serverError.data.errors
+          }
         });
         break;
       case "invalid operation":
