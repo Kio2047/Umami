@@ -1,55 +1,29 @@
 import express from "express";
 import cors from "cors";
-import requestLogger from "pino-http";
 
 import errorHandler from "./middleware/errorHandler";
-import {
-  createNewUserValidations,
-  loginUserValidations,
-  validateRequest
-} from "./Modules/validations";
-import {
-  registerUser,
-  loginUser
-} from "./Controllers/AuthenticationController";
-import { authenticate } from "./middleware/authenticate";
-import protectedRouter from "./router";
-import logger from "./utils/logger";
+import responseSender from "./middleware/responseSender";
+import httpLogger from "./middleware/httpLogger";
+import authenticator from "./middleware/authenticator";
+import protectedRouter from "./routers/protectedRouter";
+import authRouter from "./routers/authRouter";
 
 const app = express();
 
-app.use(
-  requestLogger({
-    logger,
-    customLogLevel: function (req, res, err) {
-      if (res.statusCode >= 500 || err) {
-        return "error";
-      }
-      if (res.statusCode >= 400) {
-        return "warn";
-      }
-      return "info";
-    },
-    serializers: {
-      req: (req) => ({
-        method: req.method,
-        url: req.url
-      }),
-      res: (res) => ({
-        statusCode: res.statusCode
-      })
-    }
-  })
-);
+app.use(httpLogger);
 
 app.use(cors());
+
 app.use(express.json());
 
-app.post("/user", createNewUserValidations, validateRequest, registerUser);
-app.post("/session", loginUserValidations, validateRequest, loginUser);
+app.use(authenticator);
 
-app.use(authenticate, protectedRouter);
+app.use(authRouter);
+
+app.use(protectedRouter);
 
 app.use(errorHandler);
+
+app.use(responseSender);
 
 export default app;

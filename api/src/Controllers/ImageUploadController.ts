@@ -4,7 +4,7 @@ import { v2 as cloudinary } from "cloudinary";
 import envVars from "../envConfig";
 import {
   CustomRequest as Request,
-  ProtectedApiResponse as Response
+  PrivateControllerResponse as Response
 } from "../types/ExpressTypes";
 import { ServerError } from "../utils/ServerError";
 
@@ -39,11 +39,15 @@ export const generateProfileImageUploadSignature = async function (
     const { timestamp, signature } = generateCloudinarySignature(
       "user_profile_images"
     );
-    res.status(200).json({
-      status: "success",
-      message: "signature successfully generated",
-      data: { timestamp, signature }
-    });
+    res.locals.responseData = {
+      status: 200,
+      body: {
+        status: "success",
+        message: "signature successfully generated",
+        data: { timestamp, signature }
+      }
+    };
+    next();
   } catch (err) {
     next(new ServerError("cloudinary error", { cause: err }));
   }

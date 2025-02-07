@@ -2,7 +2,7 @@ import { NextFunction } from "express";
 
 import {
   CustomRequest as Request,
-  ProtectedApiResponse as Response
+  PrivateControllerResponse as Response
 } from "../types/ExpressTypes";
 import { PopulatedPostDocument } from "src/types/PostTypes";
 import { getUserByID } from "src/Models/User";
@@ -30,14 +30,18 @@ export const getFeedPosts = async function (
     } else {
       posts = await loadFeed(user);
     }
-    res.status(200).json({
-      status: "success",
-      message: "Feed posts successfully retrieved",
-      data: {
-        posts: posts,
-        lastCreatedAt: posts.at(-1)?.createdAt
+    res.locals.responseData = {
+      status: 200,
+      body: {
+        status: "success",
+        message: "Feed posts successfully retrieved",
+        data: {
+          posts: posts,
+          lastCreatedAt: posts.at(-1)?.createdAt
+        }
       }
-    });
+    };
+    next();
   } catch (err) {
     next(err);
   }

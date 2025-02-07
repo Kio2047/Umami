@@ -3,7 +3,7 @@ import { MongoServerError } from "mongodb";
 
 import {
   CustomRequest as Request,
-  ApiResponse as Response
+  PublicControllerResponse as Response
 } from "../types/ExpressTypes";
 import {
   HashedNewUserCredentials,
@@ -27,14 +27,18 @@ export const registerUser = async function (
       passwordHash
     };
     const newUser = await UserModel.createNewUser(hashedUserCredentials);
-    res.location(`/users/${newUser._id}`);
-    res.status(201).json({
-      data: {
-        token: createJWT(newUser._id)
-      },
-      status: "success",
-      message: "New account successfully created"
-    });
+    res.locals.responseData = {
+      status: 201,
+      location: `/users/${newUser._id}`,
+      body: {
+        data: {
+          token: createJWT(newUser._id)
+        },
+        status: "success",
+        message: "New account successfully created"
+      }
+    };
+    next();
   } catch (err) {
     if (!(err instanceof ServerError)) {
       if (err instanceof MongoServerError && err.code === 11000) {
@@ -74,14 +78,18 @@ export const loginUser = async function (
     if (!user || !(await comparePasswords(password, user.passwordHash))) {
       throw new ServerError("invalid credentials");
     } else {
-      res.status(200).json({
-        data: {
-          token: createJWT(user._id)
-        },
-        status: "success",
-        message: "Successfully authenticated user"
-      });
+      res.locals.responseData = {
+        status: 200,
+        body: {
+          data: {
+            token: createJWT(user._id)
+          },
+          status: "success",
+          message: "Successfully authenticated user"
+        }
+      };
     }
+    next();
   } catch (err) {
     next(err);
   }

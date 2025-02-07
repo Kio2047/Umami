@@ -1,8 +1,8 @@
 import { Router } from "express";
 
-import * as ImageUploadController from "./Controllers/ImageUploadController";
-import { updateUserValidations, validateRequest } from "./Modules/validations";
-import * as UserController from "./Controllers/UserController";
+import * as ImageUploadController from "../Controllers/ImageUploadController";
+import { updateUserValidations, validateRequest } from "../Modules/validations";
+import * as UserController from "../Controllers/UserController";
 
 const protectedRouter = Router();
 

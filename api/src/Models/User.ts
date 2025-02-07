@@ -1,3 +1,5 @@
+import { Types } from "mongoose";
+
 import { mongoose } from "./index";
 import { HashedNewUserCredentials, RawUserDocument } from "../types/UserTypes";
 // import { RawUserDocument, RawUserDocumentWithID } from "../types/UserTypes";
@@ -5,14 +7,12 @@ import {
   FindOnePromise,
   NullableHydratedDocument,
   HydratedDocument,
-  CreateOnePromise
-  // UpdateOnePromise
+  CreateOnePromise,
+  UpdateOnePromise
 } from "../types/MongooseCRUDTypes";
 
-import { NewDummyUserData } from "../types/SeedTypes";
 // import { UserCredentials, UserAndPostIDs } from "../types/types";
 import { userSchema } from "./schemas";
-import { Types } from "mongoose";
 
 const User = mongoose.model<RawUserDocument>("User", userSchema);
 
@@ -94,7 +94,7 @@ export const getUserByUsername = async <
 };
 
 export const replaceUserprofileImageURL = async function (
-  user: Omit<HydratedDocument<RawUserDocument>, "passwordHash">,
+  user: HydratedDocument<RawUserDocument, "profileImageURL">,
   newURL: string
 ) {
   user.profileImageURL = newURL;
@@ -105,18 +105,18 @@ export const replaceUserprofileImageURL = async function (
 
 export const appendUserFollowers = async function (
   user: HydratedDocument<RawUserDocument, "followers">,
-  newFollowerID: mongoose.Types.ObjectId
-): Promise<HydratedDocument<RawUserDocument, "followers">> {
-  user.followers.push(new mongoose.Types.ObjectId(newFollowerID));
+  newFollowerId: mongoose.Types.ObjectId
+): UpdateOnePromise<RawUserDocument, "followers"> {
+  user.followers.push(newFollowerId);
   await user.save();
   return user;
 };
 
 export const appendUserFollowing = async function (
   user: HydratedDocument<RawUserDocument, "following">,
-  newFollowedID: mongoose.Types.ObjectId
+  newFolloweeId: mongoose.Types.ObjectId
 ): UpdateOnePromise<RawUserDocument, "following"> {
-  user.following.push(new mongoose.Types.ObjectId(newFollowedID));
+  user.following.push(newFolloweeId);
   await user.save();
   return user;
 };
@@ -133,107 +133,6 @@ export const getUsersByQuery = async function (query: string) {
   return matchedUsers;
 };
 
-// export const addPostToUser = async function ({
-//   userID,
-//   postID
-// }: UserAndPostIDs) {
-//   const account = await User.findOne({ _id: userID });
-//   console.log(account);
-//   // @ts-ignore: Object ID bug
-//   account.posts.push(postID);
-//   await account.save();
-// };
-
-// export const getFeedPosts = async function (userID: Types.ObjectId) {
-//   const feedPosts = [];
-
-//   const account = await User.findOne({ _id: userID })
-//     .populate({
-//       path: "posts",
-//       populate: [
-//         {
-//           path: "restaurant",
-//           select: "-posts"
-//         },
-//         {
-//           path: "others",
-//           select: "_id name profileImageURL"
-//         }
-//       ]
-//     })
-//     .populate({
-//       path: "friends",
-//       populate: {
-//         path: "posts",
-//         populate: [
-//           {
-//             path: "restaurant",
-//             select: "-posts"
-//           },
-//           {
-//             path: "others",
-//             select: "_id name profileImageURL"
-//           }
-//         ]
-//       }
-//     });
-
-//   for (let post of account.posts) {
-//     feedPosts.push({
-//       // @ts-ignore: Object ID bug
-//       ...post.toObject(),
-//       authorName: account.name,
-//       authorprofileImageURL: account.profileImageURL
-//     });
-//   }
-
-//   for (let friend of account.friends) {
-//     // Add populate with typescript
-//     // @ts-ignore: Object ID bug
-//     for (let post of friend.posts) {
-//       // @ts-ignore: Object ID bug
-//       feedPosts.push({
-//         ...post.toObject(),
-//         authorName: friend.name,
-//         authorprofileImageURL: friend.profileImageURL
-//       });
-//     }
-//   }
-//   console.log("feed posts are:", feedPosts);
-//   return feedPosts;
-// };
-
-// export const getUserPosts = async function (userID: Types.ObjectId) {
-//   const user = await User.findOne({ _id: userID }).populate({
-//     path: "posts",
-//     populate: [
-//       {
-//         path: "restaurant",
-//         select: "-posts"
-//       },
-//       {
-//         path: "others",
-//         select: "_id name profileImageURL"
-//       }
-//     ]
-//     // next commit: feat: implemented FE and BE logic for fetching posts by user
-//   });
-
-//   // console.log("The user's post before:", user.posts[0]);
-
-//   const userPosts = user.posts.map((post) => {
-//     // @ts-ignore: Object ID bug
-//     return {
-//       // @ts-ignore: Object ID bug
-//       ...post.toObject(),
-//       authorName: user.name,
-//       authorprofileImageURL: user.profileImageURL
-//     };
-//   });
-//   // console.log("The user's posts after:", userPosts);
-//   return userPosts;
-// };
-
 // export const addFriend = async function (  ) {
 //   const regex = new RegExp(`^${name}`, 'i');
 //   const matchedUsers = await User.find({ name: {$regex: regex} });
@@ -249,13 +148,3 @@ export const getUsersByQuery = async function (query: string) {
 // })
 
 // for (let attr of requiredAttrs) { schema[attr].required = true; }
-
-// For use in DB seeder only
-export const createNewDummyUser = async function (
-  newDummyUserData: NewDummyUserData
-): CreateOnePromise<RawUserDocument> {
-  const newDummyUser = await User.create({
-    ...newDummyUserData
-  });
-  return newDummyUser;
-};

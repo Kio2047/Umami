@@ -21,19 +21,21 @@ type OptionalData = {
 type RequiredDataMap = {
   "validation error": {
     errors: ValidationError[];
-  } & OptionalData;
+  };
 
   "duplicate value": {
     duplicateKey: string;
     duplicateVal: string;
-  } & OptionalData;
+  };
 
   "invalid operation": {
     responseMessage: string;
-  } & OptionalData;
+  };
 };
 
-type ServerErrorDataMap = RequiredDataMap & {
+type ServerErrorDataMap = {
+  [K in keyof RequiredDataMap]: RequiredDataMap[K] & OptionalData;
+} & {
   [K in Exclude<ServerErrorMessages, keyof RequiredDataMap>]: OptionalData;
 };
 
