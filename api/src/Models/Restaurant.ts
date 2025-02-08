@@ -4,7 +4,7 @@ import { RawRestaurantDocument } from "../types/RestaurantTypes";
 // import { RestaurantNewPost } from "../types/types";
 import { restaurantSchema } from "./schemas";
 
-const Restaurant = mongoose.model<RawRestaurantDocument>(
+export const Restaurant = mongoose.model<RawRestaurantDocument>(
   "Restaurant",
   restaurantSchema
 );

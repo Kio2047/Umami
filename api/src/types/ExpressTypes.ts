@@ -1,8 +1,10 @@
 import { Request, Response } from "express";
 import { z } from "zod";
-import { responseSchema } from "./schemas";
+import { responseSchema, tokenPayloadSchema } from "./schemas";
 
 type ResponseData = z.infer<typeof responseSchema>;
+
+type TokenPayload = z.infer<typeof tokenPayloadSchema>;
 
 export type CustomRequest<
   ReqBody extends Record<string, any> = Record<string, never>,
@@ -42,8 +44,3 @@ export type ResponseSenderResponse = CustomResponse<
     responseData: ResponseData;
   }
 >;
-
-export interface TokenPayload {
-  sub: string;
-  iat: number;
-}

@@ -1,24 +1,16 @@
 import { Router } from "express";
 
-import {
-  createNewUserValidations,
-  loginUserValidations,
-  validateRequest
-} from "../Modules/validations";
+import { registerUserSchemas, loginUserSchemas } from "../Modules/validations";
 import {
   loginUser,
   registerUser
 } from "../Controllers/AuthenticationController";
+import validatorGenerator from "../middleware/validatorGenerator";
 
 const authRouter = Router();
 
-authRouter.post(
-  "/user",
-  createNewUserValidations,
-  validateRequest,
-  registerUser
-);
+authRouter.post("/user", validatorGenerator(registerUserSchemas), registerUser);
 
-authRouter.post("/session", loginUserValidations, validateRequest, loginUser);
+authRouter.post("/session", validatorGenerator(loginUserSchemas), loginUser);
 
 export default authRouter;

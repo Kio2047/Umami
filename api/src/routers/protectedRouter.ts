@@ -1,21 +1,33 @@
 import { Router } from "express";
 
 import * as ImageUploadController from "../Controllers/ImageUploadController";
-import { updateUserValidations, validateRequest } from "../Modules/validations";
 import * as UserController from "../Controllers/UserController";
+import * as PostController from "../Controllers/PostController";
+import {
+  getFeedPostsSchemas,
+  getImageUploadSignatureSchema
+} from "../Modules/validations";
+import validatorGenerator from "../middleware/validatorGenerator";
 
 const protectedRouter = Router();
 
 protectedRouter.get(
-  "/media-upload-signature/profile-image",
-  ImageUploadController.generateProfileImageUploadSignature
+  "/feed",
+  validatorGenerator(getFeedPostsSchemas),
+  PostController.getFeedPosts
 );
 
-protectedRouter.patch(
-  "/users/me",
-  updateUserValidations,
-  validateRequest,
-  UserController.updateUser
+protectedRouter.get(
+  "/image-upload-signature/:folder",
+  validatorGenerator(getImageUploadSignatureSchema),
+  ImageUploadController.generateImageUploadSignature
 );
+
+// protectedRouter.patch(
+//   "/users/me",
+//   updateUserValidations,
+//   requestValidator,
+//   UserController.updateUser
+// );
 
 export default protectedRouter;

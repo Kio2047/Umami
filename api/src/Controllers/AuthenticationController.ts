@@ -1,21 +1,19 @@
 import { NextFunction } from "express";
 import { MongoServerError } from "mongodb";
+import { z } from "zod";
 
 import {
   CustomRequest as Request,
   PublicControllerResponse as Response
 } from "../types/ExpressTypes";
-import {
-  HashedNewUserCredentials,
-  NewUserCredentials,
-  UserCredentials
-} from "../types/UserTypes";
+import { HashedNewUserCredentials } from "../types/UserTypes";
 import { hashPassword, comparePasswords, createJWT } from "../Modules/auth";
 import * as UserModel from "../Models/User";
 import { ServerError } from "../utils/ServerError";
+import { loginUserSchemas, registerUserSchemas } from "src/Modules/validations";
 
 export const registerUser = async function (
-  req: Request<NewUserCredentials>,
+  req: Request<z.infer<typeof registerUserSchemas.body>>,
   res: Response,
   next: NextFunction
 ): Promise<void> {
@@ -57,7 +55,7 @@ export const registerUser = async function (
 };
 
 export const loginUser = async function (
-  req: Request<UserCredentials>,
+  req: Request<z.infer<typeof loginUserSchemas.body>>,
   res: Response,
   next: NextFunction
 ) {

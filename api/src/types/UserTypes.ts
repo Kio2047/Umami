@@ -23,18 +23,6 @@ export type UpdatableUserField = keyof Exclude<
 //   _id: Types.ObjectId;
 // }
 
-export interface NewUserCredentials {
-  email: string;
-  name: string;
-  username: string;
-  password: string;
-}
-
 export type HashedNewUserCredentials = Omit<NewUserCredentials, "password"> & {
   passwordHash: string;
 };
-
-export interface UserCredentials {
-  usernameOrEmail: string;
-  password: string;
-}

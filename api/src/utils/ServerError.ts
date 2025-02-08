@@ -1,4 +1,5 @@
 import { ValidationError } from "express-validator";
+import { z } from "zod";
 
 type ServerErrorMessages =
   | "missing jwt"
@@ -20,7 +21,9 @@ type OptionalData = {
 
 type RequiredDataMap = {
   "validation error": {
-    errors: ValidationError[];
+    errors:
+      | ValidationError[]
+      | Record<string | number | symbol, string[] | undefined>;
   };
 
   "duplicate value": {

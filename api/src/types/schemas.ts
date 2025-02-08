@@ -26,3 +26,10 @@ export const responseSchema = z.object({
     data: z.record(z.any()).optional()
   })
 });
+
+export const tokenPayloadSchema = z
+  .object({
+    sub: z.string(),
+    iat: z.number()
+  })
+  .strict();

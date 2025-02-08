@@ -6,8 +6,8 @@ import {
   PrivateControllerResponse as Response
 } from "../types/ExpressTypes";
 import { ServerError } from "../utils/ServerError";
-import { isValidToken } from "../Modules/validations";
 import envVars from "../envConfig";
+import { tokenPayloadSchema } from "../types/schemas";
 
 const publicRoutes = new Set(["POST:/user", "POST:/session"]);
 
@@ -50,7 +50,8 @@ const authenticator = (
     );
   }
 
-  if (!isValidToken(decryptedToken)) {
+  const parseResult = tokenPayloadSchema.safeParse(decryptedToken);
+  if (!parseResult.success)
     return next(
       new ServerError("invalid jwt", {
         additionalInfo: `token payload in invalid format: ${JSON.stringify(
@@ -58,9 +59,8 @@ const authenticator = (
         )}`
       })
     );
-  }
 
-  res.locals.tokenPayload = decryptedToken;
+  res.locals.tokenPayload = parseResult.data;
 
   next();
 };

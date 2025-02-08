@@ -1,21 +1,18 @@
 import { NextFunction } from "express";
+import { z } from "zod";
 
 import {
   CustomRequest as Request,
   PrivateControllerResponse as Response
 } from "../types/ExpressTypes";
-import { PopulatedPostDocument } from "src/types/PostTypes";
-import { getUserByID } from "src/Models/User";
-import { loadFeed, loadMoreFeed } from "src/Models/Post";
-import { ServerError } from "src/utils/ServerError";
+import { PopulatedPostDocument } from "../../src/types/PostTypes";
+import { getUserByID } from "../../src/Models/User";
+import { loadFeed, loadMoreFeed } from "../../src/Models/Post";
+import { ServerError } from "../../src/utils/ServerError";
+import { getFeedPostsSchemas } from "src/Modules/validations";
 
 export const getFeedPosts = async function (
-  req: Request<
-    Record<never, never>,
-    {
-      lastCreatedAt: string;
-    }
-  >,
+  req: Request<never, z.infer<typeof getFeedPostsSchemas.query>>,
   res: Response,
   next: NextFunction
 ) {
