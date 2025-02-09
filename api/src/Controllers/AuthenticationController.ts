@@ -4,13 +4,14 @@ import { z } from "zod";
 
 import {
   CustomRequest as Request,
-  PublicControllerResponse as Response
+  PublicMiddlewareResponse as Response
 } from "../types/ExpressTypes";
 import { HashedNewUserCredentials } from "../types/UserTypes";
 import { hashPassword, comparePasswords, createJWT } from "../Modules/auth";
 import * as UserModel from "../Models/User";
 import { ServerError } from "../utils/ServerError";
-import { loginUserSchemas, registerUserSchemas } from "src/Modules/validations";
+import { loginUserSchemas, registerUserSchemas } from "../Modules/validations";
+import sendResponse from "../utils/sendResponse";
 
 export const registerUser = async function (
   req: Request<z.infer<typeof registerUserSchemas.body>>,
@@ -25,7 +26,7 @@ export const registerUser = async function (
       passwordHash
     };
     const newUser = await UserModel.createNewUser(hashedUserCredentials);
-    res.locals.responseData = {
+    sendResponse(res, {
       status: 201,
       location: `/users/${newUser._id}`,
       body: {
@@ -35,8 +36,7 @@ export const registerUser = async function (
         status: "success",
         message: "New account successfully created"
       }
-    };
-    next();
+    });
   } catch (err) {
     if (!(err instanceof ServerError)) {
       if (err instanceof MongoServerError && err.code === 11000) {
@@ -75,19 +75,17 @@ export const loginUser = async function (
     }
     if (!user || !(await comparePasswords(password, user.passwordHash))) {
       throw new ServerError("invalid credentials");
-    } else {
-      res.locals.responseData = {
-        status: 200,
-        body: {
-          data: {
-            token: createJWT(user._id)
-          },
-          status: "success",
-          message: "Successfully authenticated user"
-        }
-      };
     }
-    next();
+    sendResponse(res, {
+      status: 200,
+      body: {
+        data: {
+          token: createJWT(user._id)
+        },
+        status: "success",
+        message: "Successfully authenticated user"
+      }
+    });
   } catch (err) {
     next(err);
   }

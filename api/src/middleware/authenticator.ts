@@ -3,7 +3,7 @@ import jwt, { JwtPayload } from "jsonwebtoken";
 
 import {
   CustomRequest as Request,
-  PrivateControllerResponse as Response
+  PrivateMiddlewareResponse as Response
 } from "../types/ExpressTypes";
 import { ServerError } from "../utils/ServerError";
 import envVars from "../envConfig";

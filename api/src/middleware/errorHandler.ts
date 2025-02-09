@@ -6,13 +6,15 @@ import logger from "../utils/logger";
 
 import {
   CustomRequest as Request,
-  PublicControllerResponse as Response
+  PublicMiddlewareResponse,
+  PrivateMiddlewareResponse
 } from "../types/ExpressTypes";
+import sendResponse from "../utils/sendResponse";
 
 const errorHandler = function (
   err: unknown,
   req: Request,
-  res: Response,
+  res: PublicMiddlewareResponse | PrivateMiddlewareResponse,
   next: NextFunction
 ) {
   let unhandledErr = false;
@@ -20,87 +22,88 @@ const errorHandler = function (
     // Casting necessary until TS can infer constrained generic parameters after instanceof check https://github.com/microsoft/TypeScript/issues/17473
     const serverError = err as ServerErrorUnion;
     switch (serverError.message) {
+      case "not found":
+        sendResponse(res, {
+          status: 404,
+          body: {
+            status: "error",
+            message: "The requested resource was not found"
+          }
+        });
+        break;
       case "duplicate value":
-        res.locals.responseData = {
+        sendResponse(res, {
           status: 400,
           body: {
             status: "error",
-            message: "duplicate value",
+            message:
+              "Duplicate value. Check the 'data' field for more information",
             data: {
               duplicateEntity: serverError.data.duplicateKey,
               duplicateValue: serverError.data.duplicateVal
             }
           }
-        };
+        });
         break;
       case "invalid jwt":
-        res.locals.responseData = {
+        sendResponse(res, {
           status: 401,
           body: {
             status: "error",
             message: "Invalid bearer token"
           }
-        };
+        });
         break;
       case "missing jwt":
-        res.locals.responseData = {
+        sendResponse(res, {
           status: 401,
           body: {
             status: "error",
             message: "Missing authorization header"
           }
-        };
+        });
         break;
       case "malformed jwt":
-        res.locals.responseData = {
+        sendResponse(res, {
           status: 401,
           body: {
             status: "error",
             message: "Malformed authorization header"
           }
-        };
+        });
         break;
       case "not authorised":
-        res.locals.responseData = {
+        sendResponse(res, {
           status: 403,
           body: { status: "error", message: "Not authorised" }
-        };
+        });
         break;
       case "invalid user id":
-        res.locals.responseData = {
+        sendResponse(res, {
           status: 404,
           body: {
             status: "error",
             message: "The requested user was not found"
           }
-        };
+        });
         break;
       case "invalid restaurant id":
-        res.locals.responseData = {
+        sendResponse(res, {
           status: 404,
           body: {
             status: "error",
             message: "The requested restaurant was not found"
           }
-        };
+        });
         break;
       case "invalid credentials":
-        res.locals.responseData = {
+        sendResponse(res, {
           status: 401,
           body: { status: "error", message: "Invalid credentials" }
-        };
-        break;
-      case "cloudinary error":
-        res.locals.responseData = {
-          status: 500,
-          body: {
-            status: "error",
-            message: "Error generating Cloudinary upload signature"
-          }
-        };
+        });
         break;
       case "validation error":
-        res.locals.responseData = {
+        sendResponse(res, {
           status: 400,
           body: {
             status: "error",
@@ -110,40 +113,54 @@ const errorHandler = function (
               validationErrors: serverError.data.errors
             }
           }
-        };
+        });
         break;
       case "invalid operation":
-        res.locals.responseData = {
+        sendResponse(res, {
           status: 400,
           body: {
             status: "error",
-            message: serverError.data.responseMessage
+            message:
+              "Invalid operation attempted. Check the 'data' field for more information",
+            data: {
+              operation: serverError.data.operation
+            }
           }
-        };
+        });
         break;
-      default:
-        unhandledErr = true;
-        res.locals.responseData = {
+      case "cloudinary error":
+        sendResponse(res, {
+          status: 500,
+          body: {
+            status: "error",
+            message: "Error generating Cloudinary upload signature"
+          }
+        });
+        break;
+      case "sensitive information leak":
+      case "invalid response data format":
+        sendResponse(res, {
           status: 500,
           body: {
             status: "error",
             message: "Internal server error. This one is on us :("
           }
-        };
+        });
+        break;
+      default:
         assertUnreachable("error handler", "server error", serverError);
     }
   } else {
     unhandledErr = true;
-    res.locals.responseData = {
+    sendResponse(res, {
       status: 500,
       body: {
         status: "error",
         message: "Internal server error. This one is on us :("
       }
-    };
+    });
   }
   logger.error(err, unhandledErr ? "Unhandled error" : "Handled error");
-  next();
 };
 
 export default errorHandler;

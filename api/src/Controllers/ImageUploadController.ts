@@ -5,10 +5,11 @@ import { z } from "zod";
 import envVars from "../envConfig";
 import {
   CustomRequest as Request,
-  PrivateControllerResponse as Response
+  PrivateMiddlewareResponse as Response
 } from "../types/ExpressTypes";
 import { ServerError } from "../utils/ServerError";
-import { getImageUploadSignatureSchema } from "src/Modules/validations";
+import { getImageUploadSignatureSchema } from "../Modules/validations";
+import sendResponse from "../utils/sendResponse";
 
 cloudinary.config({
   cloud_name: envVars.CLOUDINARY_CLOUD_NAME,
@@ -35,16 +36,14 @@ export const generateImageUploadSignature = async function (
       },
       envVars.CLOUDINARY_API_SECRET
     );
-
-    res.locals.responseData = {
+    sendResponse(res, {
       status: 200,
       body: {
         status: "success",
         message: "Upload signature successfully generated",
         data: { timestamp, signature }
       }
-    };
-    next();
+    });
   } catch (err) {
     next(new ServerError("cloudinary error", { cause: err }));
   }

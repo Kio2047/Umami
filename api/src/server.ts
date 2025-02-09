@@ -2,11 +2,11 @@ import express from "express";
 import cors from "cors";
 
 import errorHandler from "./middleware/errorHandler";
-import responseSender from "./middleware/responseSender";
 import httpLogger from "./middleware/httpLogger";
 import authenticator from "./middleware/authenticator";
 import protectedRouter from "./routers/protectedRouter";
 import authRouter from "./routers/authRouter";
+import notFoundHandler from "./middleware/notFoundHandler";
 
 const app = express();
 
@@ -22,8 +22,8 @@ app.use(authRouter);
 
 app.use(protectedRouter);
 
-app.use(errorHandler);
+app.use(notFoundHandler);
 
-app.use(responseSender);
+app.use(errorHandler);
 
 export default app;

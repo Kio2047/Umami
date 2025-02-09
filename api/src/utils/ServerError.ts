@@ -1,7 +1,7 @@
 import { ValidationError } from "express-validator";
-import { z } from "zod";
 
 type ServerErrorMessages =
+  | "not found"
   | "missing jwt"
   | "malformed jwt"
   | "invalid jwt"
@@ -12,7 +12,9 @@ type ServerErrorMessages =
   | "duplicate value"
   | "cloudinary error"
   | "validation error"
-  | "invalid operation";
+  | "invalid operation"
+  | "sensitive information leak"
+  | "invalid response data format";
 
 type OptionalData = {
   cause?: unknown;
@@ -32,7 +34,11 @@ type RequiredDataMap = {
   };
 
   "invalid operation": {
-    responseMessage: string;
+    operation: string;
+  };
+
+  "sensitive information leak": {
+    sensitiveFields: string[];
   };
 };
 
