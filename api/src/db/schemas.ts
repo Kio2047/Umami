@@ -3,9 +3,9 @@
 
 import { Schema } from "mongoose";
 
-import { RawUserDocument } from "../types/UserTypes";
-import { RawPostDocument } from "../types/PostTypes";
-import { RawRestaurantDocument } from "../types/RestaurantTypes";
+import { RawUserDocument } from "../modules/user/user.types";
+import { RawPostDocument } from "../modules/post/post.types";
+import { RawRestaurantDocument } from "../modules/restaurant/restaurant.types";
 
 // TODO: Make the schema properties required where necessary
 // TODO: remove _id from schema and corresponding interface if you can

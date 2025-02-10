@@ -2,7 +2,7 @@ import * as dotenv from "dotenv";
 import { z } from "zod";
 import { pino } from "pino";
 
-import { envSchema } from "./types/schemas";
+import { envSchema } from "./validations";
 
 dotenv.config({ path: "./.env" });
 

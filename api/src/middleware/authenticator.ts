@@ -1,24 +1,11 @@
-import { NextFunction } from "express";
+import { RequestHandler } from "express";
 import jwt, { JwtPayload } from "jsonwebtoken";
 
-import {
-  CustomRequest as Request,
-  PrivateMiddlewareResponse as Response
-} from "../types/ExpressTypes";
 import { ServerError } from "../utils/ServerError";
 import envVars from "../envConfig";
-import { tokenPayloadSchema } from "../types/schemas";
+import { tokenPayloadSchema } from "../validations";
 
-const publicRoutes = new Set(["POST:/user", "POST:/session"]);
-
-const authenticator = (
-  req: Request,
-  res: Response,
-  next: NextFunction
-): void => {
-  const requestKey = `${req.method}:${req.path}`;
-  if (publicRoutes.has(requestKey)) return next();
-
+const authenticator: RequestHandler = (req, res, next): void => {
   const jwtSecret = envVars.JWT_SECRET;
   const authHeader = req.headers.authorization;
 

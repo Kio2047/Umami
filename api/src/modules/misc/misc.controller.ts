@@ -2,14 +2,14 @@ import { NextFunction } from "express";
 import { v2 as cloudinary } from "cloudinary";
 import { z } from "zod";
 
-import envVars from "../envConfig";
+import envVars from "../../envConfig";
 import {
   CustomRequest as Request,
   PrivateMiddlewareResponse as Response
-} from "../types/ExpressTypes";
-import { ServerError } from "../utils/ServerError";
-import { getImageUploadSignatureSchema } from "../Modules/validations";
-import sendResponse from "../utils/sendResponse";
+} from "../../types/ExpressTypes";
+import { ServerError } from "../../utils/ServerError";
+import { getImageUploadSignatureSchema } from "./misc.validations";
+import sendResponse from "../../utils/sendResponse";
 
 cloudinary.config({
   cloud_name: envVars.CLOUDINARY_CLOUD_NAME,

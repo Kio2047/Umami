@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { z } from "zod";
-import { responseSchema, tokenPayloadSchema } from "./schemas";
+import { responseSchema, tokenPayloadSchema } from "../validations";
 
 export type ResponseData = z.infer<typeof responseSchema>;
 

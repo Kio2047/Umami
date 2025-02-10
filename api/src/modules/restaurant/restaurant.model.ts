@@ -1,8 +1,8 @@
-import { mongoose } from "./index";
-import { CreateOnePromise, FindOnePromise } from "../types/MongooseCRUDTypes";
-import { RawRestaurantDocument } from "../types/RestaurantTypes";
+import { mongoose } from "../../db/index";
+import { CreateOnePromise, FindOnePromise } from "../../types/MongooseTypes";
+import { RawRestaurantDocument } from "./restaurant.types";
 // import { RestaurantNewPost } from "../types/types";
-import { restaurantSchema } from "./schemas";
+import { restaurantSchema } from "../../db/schemas";
 
 export const Restaurant = mongoose.model<RawRestaurantDocument>(
   "Restaurant",

@@ -4,13 +4,13 @@ import { z } from "zod";
 import {
   CustomRequest as Request,
   PrivateMiddlewareResponse as Response
-} from "../types/ExpressTypes";
-import { PopulatedPostDocument } from "../../src/types/PostTypes";
-import { getUserByID } from "../../src/Models/User";
-import { loadFeed, loadMoreFeed } from "../../src/Models/Post";
-import { ServerError } from "../../src/utils/ServerError";
-import { getFeedPostsSchemas } from "src/Modules/validations";
-import sendResponse from "../utils/sendResponse";
+} from "../../types/ExpressTypes";
+import { PopulatedPostDocument } from "./post.types";
+import { getUserByID } from "../user/user.model";
+import { loadFeed, loadMoreFeed } from "./post.model";
+import { ServerError } from "../../utils/ServerError";
+import { getFeedPostsSchemas } from "./post.validations";
+import sendResponse from "../../utils/sendResponse";
 
 export const getFeedPosts = async function (
   req: Request<never, z.infer<typeof getFeedPostsSchemas.query>>,

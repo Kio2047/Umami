@@ -1,7 +1,7 @@
 import { mongoose } from ".";
-import { postSchema } from "../../../Models/schemas";
-import { CreateOnePromise } from "../../../types/MongooseCRUDTypes";
-import { RawPostDocument } from "../../../types/PostTypes";
+import { postSchema } from "../../../db/schemas";
+import { CreateOnePromise } from "../../../types/MongooseTypes";
+import { RawPostDocument } from "../../../modules/post/post.types";
 
 const Post = mongoose.model<RawPostDocument>("Post", postSchema);
 

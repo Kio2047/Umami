@@ -3,7 +3,7 @@ import {
   PrivateMiddlewareResponse,
   ResponseData
 } from "../types/ExpressTypes";
-import { responseSchema } from "../types/schemas";
+import { responseSchema } from "../validations";
 import { ServerError } from "./ServerError";
 import deepSearch from "./deepSearch";
 

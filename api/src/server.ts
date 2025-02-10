@@ -3,10 +3,11 @@ import cors from "cors";
 
 import errorHandler from "./middleware/errorHandler";
 import httpLogger from "./middleware/httpLogger";
-import authenticator from "./middleware/authenticator";
-import protectedRouter from "./routers/protectedRouter";
-import authRouter from "./routers/authRouter";
 import notFoundHandler from "./middleware/notFoundHandler";
+import authRouter from "./modules/auth/auth.routes";
+import userRouter from "./modules/user/user.routes";
+import postRouter from "./modules/post/post.routes";
+import miscRouter from "./modules/misc/misc.routes";
 
 const app = express();
 
@@ -16,11 +17,7 @@ app.use(cors());
 
 app.use(express.json());
 
-app.use(authenticator);
-
-app.use(authRouter);
-
-app.use(protectedRouter);
+app.use(authRouter, userRouter, postRouter, miscRouter);
 
 app.use(notFoundHandler);
 

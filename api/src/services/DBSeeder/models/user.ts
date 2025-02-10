@@ -1,7 +1,7 @@
 import { mongoose } from ".";
-import { userSchema } from "../../../Models/schemas";
-import { CreateOnePromise } from "../../../types/MongooseCRUDTypes";
-import { RawUserDocument } from "../../../types/UserTypes";
+import { userSchema } from "../../../db/schemas";
+import { CreateOnePromise } from "../../../types/MongooseTypes";
+import { RawUserDocument } from "../../../modules/user/user.types";
 
 const User = mongoose.model<RawUserDocument>("User", userSchema);
 

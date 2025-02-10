@@ -12,12 +12,11 @@ RUN npm install
 COPY ./tsconfig.json ./
 
 COPY ./src/services/DBSeeder ./src/services/DBSeeder
-COPY ./src/Models/schemas.ts ./src/Models/schemas.ts
-COPY ./src/types/UserTypes.ts ./src/types/UserTypes.ts
-COPY ./src/types/PostTypes.ts ./src/types/PostTypes.ts
-COPY ./src/types/RestaurantTypes.ts ./src/types/RestaurantTypes.ts
-COPY ./src/types/MongooseCRUDTypes.ts ./src/types/MongooseCRUDTypes.ts
-
+COPY ./src/db/schemas.ts ./src/db/schemas.ts
+COPY ./src/modules/user/user.types.ts ./src/modules/user/user.types.ts
+COPY ./src/modules/post/post.types.ts ./src/modules/post/post.types.ts
+COPY ./src/modules/restaurant/restaurant.types.ts ./src/modules/restaurant/restaurant.types.ts
+COPY ./src/types/MongooseTypes.ts ./src/types/MongooseTypes.ts
 
 RUN curl -o /usr/local/bin/wait-for-it.sh https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh \
     && chmod +x /usr/local/bin/wait-for-it.sh

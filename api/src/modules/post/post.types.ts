@@ -1,7 +1,7 @@
 import { Types } from "mongoose";
 
-import { RawUserDocument } from "./UserTypes";
-import { RawRestaurantDocument } from "./RestaurantTypes";
+import { RawUserDocument } from "../user/user.types";
+import { RawRestaurantDocument } from "../restaurant/restaurant.types";
 
 export interface RawPostDocument {
   _id: Types.ObjectId;

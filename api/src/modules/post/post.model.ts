@@ -1,16 +1,10 @@
-import { mongoose } from "./index";
-import "./Restaurant";
-import { postSchema } from "./schemas";
-import { RawUserDocument } from "../../src/types/UserTypes";
-import { RawRestaurantDocument } from "../../src/types/RestaurantTypes";
-import {
-  FindManyPromise,
-  HydratedDocument
-} from "../../src/types/MongooseCRUDTypes";
-import type {
-  RawPostDocument,
-  PopulatedPostDocument
-} from "../types/PostTypes";
+import { mongoose } from "../../db/index";
+import "../restaurant/restaurant.model";
+import { postSchema } from "../../db/schemas";
+import { RawUserDocument } from "../user/user.types";
+import { RawRestaurantDocument } from "../restaurant/restaurant.types";
+import { FindManyPromise, HydratedDocument } from "../../types/MongooseTypes";
+import type { RawPostDocument, PopulatedPostDocument } from "./post.types";
 
 const Post = mongoose.model<RawPostDocument>("Post", postSchema);
 

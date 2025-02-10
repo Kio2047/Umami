@@ -1,7 +1,7 @@
 import { mongoose } from ".";
-import { restaurantSchema } from "../../../Models/schemas";
-import { RawRestaurantDocument } from "../../../types/RestaurantTypes";
-import { CreateOnePromise } from "../../../types/MongooseCRUDTypes";
+import { restaurantSchema } from "../../../db/schemas";
+import { RawRestaurantDocument } from "../../../modules/restaurant/restaurant.types";
+import { CreateOnePromise } from "../../../types/MongooseTypes";
 
 const Restaurant = mongoose.model<RawRestaurantDocument>(
   "Restaurant",

@@ -14,15 +14,6 @@ export interface RawUserDocument {
   updatedAt: Date;
 }
 
-export type UpdatableUserField = keyof Exclude<
-  RawUserDocument,
-  "_id" | "createdAt" | "updatedAt"
->;
-
 // export interface RawUserDocumentWithID extends RawUserDocument {
 //   _id: Types.ObjectId;
 // }
-
-export type HashedNewUserCredentials = Omit<NewUserCredentials, "password"> & {
-  passwordHash: string;
-};

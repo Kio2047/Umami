@@ -1,5 +1,3 @@
-import { ValidationError } from "express-validator";
-
 type ServerErrorMessages =
   | "not found"
   | "missing jwt"
@@ -23,9 +21,7 @@ type OptionalData = {
 
 type RequiredDataMap = {
   "validation error": {
-    errors:
-      | ValidationError[]
-      | Record<string | number | symbol, string[] | undefined>;
+    errors: Record<string | number | symbol, string[] | undefined>;
   };
 
   "duplicate value": {
