@@ -2,11 +2,11 @@ import { Router } from "express";
 
 import { registerUser } from "./user.controller";
 import validatorGenerator from "../../middleware/validatorGenerator";
-import { registerUserSchemas } from "./user.validations";
+import { registerUserSchema } from "./user.validations";
 
 const userRouter = Router();
 
-userRouter.post("/user", validatorGenerator(registerUserSchemas), registerUser);
+userRouter.post("/user", validatorGenerator(registerUserSchema), registerUser);
 
 // protectedRouter.patch(
 //   "/user/me",

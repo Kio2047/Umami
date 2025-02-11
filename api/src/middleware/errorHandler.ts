@@ -149,13 +149,6 @@ const errorHandler = function (
         break;
       default:
         assertUnreachable("error handler", "server error", serverError);
-        sendResponse(res, {
-          status: 500,
-          body: {
-            status: "error",
-            message: "Internal server error. This one is on us :("
-          }
-        });
     }
   } else {
     unhandledErr = true;

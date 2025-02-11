@@ -14,18 +14,14 @@ import {
 
 // import { UserCredentials, UserAndPostIDs } from "../types/types";
 import { userSchema } from "../../db/schemas";
-import {
-  registerUserSchemas,
-  updateReplaceSchema,
-  updateUserSchemas
-} from "./user.validations";
+import { registerUserSchema } from "./user.validations";
 
 const User = mongoose.model<RawUserDocument>("User", userSchema);
 
 // TODO: either give each query function a lean boolean argument which if true makes them return a POJO, or create a lean copy of each query function
 
 export const createNewUser = async function (
-  newUserData: Omit<z.infer<typeof registerUserSchemas.body>, "password"> & {
+  newUserData: Omit<z.infer<typeof registerUserSchema.body>, "password"> & {
     passwordHash: string;
   }
 ): CreateOnePromise<RawUserDocument> {
@@ -33,6 +29,18 @@ export const createNewUser = async function (
     ...newUserData
   });
   return newUser;
+};
+
+export const replaceUserField = async function (
+  userId: string,
+  field: keyof RawUserDocument,
+  newVal: string
+) {
+  const result = await User.updateOne(
+    { _id: userId },
+    { $set: { [field]: newVal } }
+  );
+  return result;
 };
 
 export const getUserByID = async <
@@ -99,18 +107,6 @@ export const getUserByUsername = async <
     account = await User.findOne({ username });
   }
   return account;
-};
-
-export const replaceUserField = async function (
-  userId: string,
-  field: keyof RawUserDocument,
-  newVal: string
-) {
-  const result = await User.updateOne(
-    { _id: userId },
-    { $set: { [field]: newVal } }
-  );
-  return result;
 };
 
 //TODO: change from save to updateOne for atomicity?

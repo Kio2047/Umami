@@ -10,12 +10,12 @@ import { ServerError } from "../../utils/ServerError";
 import sendResponse from "../../utils/sendResponse";
 import { createJWT, hashPassword } from "../../utils/auth";
 import * as UserModel from "./user.model";
-import { registerUserSchemas, updateUserSchemas } from "./user.validations";
+import { registerUserSchema, updateUserSchemas } from "./user.validations";
 import assertUnreachable from "../../utils/assertUnreachable";
 import { UpdateWriteOpResult } from "mongoose";
 
 export const registerUser = async function (
-  req: Request<z.infer<typeof registerUserSchemas.body>>,
+  req: Request<z.infer<typeof registerUserSchema.body>>,
   res: Response,
   next: NextFunction
 ): Promise<void> {
@@ -23,7 +23,7 @@ export const registerUser = async function (
     const { password, ...rest } = req.body;
     const passwordHash = await hashPassword(password);
     const hashedUserCredentials: Omit<
-      z.infer<typeof registerUserSchemas.body>,
+      z.infer<typeof registerUserSchema.body>,
       "password"
     > & {
       passwordHash: string;
