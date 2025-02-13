@@ -14,7 +14,7 @@ import { RawRestaurantDocument } from "../modules/restaurant/restaurant.types";
 //   [key: string]:
 // })
 
-export const userSchema = new Schema<RawUserDocument>(
+export const userSchema = new Schema(
   {
     // _id: Schema.Types.ObjectId,
     email: { type: String, required: true, unique: true, index: true },
@@ -41,7 +41,7 @@ export const userSchema = new Schema<RawUserDocument>(
   { timestamps: true }
 );
 
-export const postSchema = new Schema<RawPostDocument>(
+export const postSchema = new Schema(
   {
     // _id: Schema.Types.ObjectId,
     author: {
@@ -56,7 +56,14 @@ export const postSchema = new Schema<RawPostDocument>(
       required: true,
       index: true
     },
-    ratings: [Number],
+    scores: {
+      type: {
+        food: { type: Number, required: true, min: 1, max: 5 },
+        atmosphere: { type: Number, required: true, min: 1, max: 5 },
+        service: { type: Number, required: true, min: 1, max: 5 }
+      },
+      required: true
+    },
     imageURLs: [String],
     title: { type: String, required: true },
     text: { type: String, required: true },
@@ -68,7 +75,7 @@ export const postSchema = new Schema<RawPostDocument>(
 );
 postSchema.index({ author: 1, createdAt: -1 });
 
-export const restaurantSchema = new Schema<RawRestaurantDocument>(
+export const restaurantSchema = new Schema(
   {
     // _id: Schema.Types.ObjectId,
     name: { type: String, required: true }

@@ -1,8 +1,4 @@
-import { Types } from "mongoose";
+import { InferSchemaType } from "../../types/MongooseTypes";
+import { restaurantSchema } from "src/db/schemas";
 
-export interface RawRestaurantDocument {
-  _id: Types.ObjectId;
-  name: string;
-  createdAt: Date;
-  updatedAt: Date;
-}
+export type RawRestaurantDocument = InferSchemaType<typeof restaurantSchema>;

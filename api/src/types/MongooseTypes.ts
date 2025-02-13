@@ -1,4 +1,8 @@
-import { Document, Types } from "mongoose";
+import {
+  Document,
+  Types,
+  InferSchemaType as MongooseInferSchemaType
+} from "mongoose";
 
 type Nullable<T> = T | null;
 
@@ -30,6 +34,10 @@ export type UpdateOnePromise<
   DocumentType,
   Fields extends keyof DocumentType = keyof DocumentType
 > = Promise<HydratedDocument<DocumentType, Fields>>;
+
+export type InferSchemaType<T> = MongooseInferSchemaType<T> & {
+  _id: Types.ObjectId;
+};
 
 // export type UpdateOneResult<
 //   Document,

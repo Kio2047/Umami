@@ -1,20 +1,11 @@
 import { Types } from "mongoose";
 
+import { InferSchemaType } from "../../types/MongooseTypes";
 import { RawUserDocument } from "../user/user.types";
 import { RawRestaurantDocument } from "../restaurant/restaurant.types";
+import { postSchema } from "../../db/schemas";
 
-export interface RawPostDocument {
-  _id: Types.ObjectId;
-  author: Types.ObjectId;
-  restaurant: Types.ObjectId;
-  ratings: number[];
-  imageURLs: string[];
-  title: string;
-  text: string;
-  others: Types.ObjectId[];
-  createdAt: Date;
-  updatedAt: Date;
-}
+export type RawPostDocument = InferSchemaType<typeof postSchema>;
 
 export interface PopulatedPostDocument
   extends Omit<RawPostDocument, "author" | "restaurant" | "others"> {
