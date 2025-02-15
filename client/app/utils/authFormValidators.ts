@@ -13,7 +13,7 @@ import {
 
 export const loginFormValidators = {
   usernameOrEmail(usernameOrEmail: string): UsernameOrEmailValidatorResults {
-    if (usernameOrEmail) return UsernameOrEmailValidatorResults.Empty;
+    if (!usernameOrEmail) return UsernameOrEmailValidatorResults.Empty;
     // if (
     //   registerFormValidators.username(usernameOrEmail) ||
     //   registerFormValidators.email(usernameOrEmail)

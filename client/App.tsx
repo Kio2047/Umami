@@ -17,9 +17,7 @@ import ScreenBackground from "./app/components/ScreenBackground/ScreenBackground
 import useAuth from "./app/contexts/AuthContext/useAuth";
 import AuthScreens from "./app/navigators/AuthStackNavigator/AuthScreens";
 import AppTabs from "./app/navigators/BottomTabNavigator/AppTabs";
-import { assertUnreachable } from "./app/utils/utils";
 import useUser from "./app/contexts/UserContext/useUser";
-import { User } from "./app/types/UserTypes";
 import { UserProvider } from "./app/contexts/UserContext/UserProvider";
 
 const queryClient = new QueryClient({

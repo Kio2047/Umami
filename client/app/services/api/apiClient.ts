@@ -1,17 +1,11 @@
 // import { v4 as uuidv4 } from "uuid";
 // import { Types } from "mongoose";
 import { MutationFunction, Query, QueryFunction } from "@tanstack/react-query";
-import { Platform } from "react-native";
 
-// type ObjectId = Types.ObjectId;
-
-import type { NewPost, Post } from "../../types/OtherTypes";
 import {
   CloudinaryImageUploadResponse,
   CreateNewUserResponse,
   GetUploadSignatureResponse,
-  // GetUserCardInfoResponse,
-  // GetUserResultsResponse,
   LoginUserResponse
   // UserSearchResultsResponse
 } from "../../types/APIResponseTypes";
