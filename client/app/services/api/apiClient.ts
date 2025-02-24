@@ -4,7 +4,7 @@ import { MutationFunction, Query, QueryFunction } from "@tanstack/react-query";
 
 import {
   CloudinaryImageUploadResponse,
-  CreateNewUserResponse,
+  RegisterUserResponse,
   GetUploadSignatureResponse,
   LoginUserResponse
   // UserSearchResultsResponse
@@ -17,11 +17,11 @@ import { ExistingUserCredentials } from "../../types/auth/LoginTypes";
 
 const baseURL = process.env.EXPO_PUBLIC_BASE_URL;
 
-export const createNewUser: MutationFunction<
-  CreateNewUserResponse,
+export const registerUser: MutationFunction<
+  RegisterUserResponse,
   NewUserCredentials
 > = async (newUserCredentials) => {
-  return sendPOSTRequest<CreateNewUserResponse, NewUserCredentials>(
+  return sendPOSTRequest<RegisterUserResponse, NewUserCredentials>(
     `${baseURL}/user`,
     newUserCredentials
   );
@@ -42,7 +42,7 @@ export const getProfileImageUploadSignature: QueryFunction<
   [string]
 > = async () => {
   return sendGETRequest<GetUploadSignatureResponse>(
-    `${baseURL}/media-upload-signature/profile-image`
+    `${baseURL}/image-upload-signature/profile_images`
   );
 };
 

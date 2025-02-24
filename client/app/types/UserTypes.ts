@@ -24,7 +24,7 @@ export type UserMetadata = {
 };
 
 export type UserUtilities = {
-  initialiseUser: () => Promise<void>;
+  initialiseUser: (user: User) => Promise<void>;
   updateUser: ({
     data,
     metadata

@@ -83,9 +83,7 @@ const AddProfileImageScreen = () => {
             disabled={loading}
             onPress={async () => {
               setLoading(true);
-              NavigationBar.setPositionAsync("absolute"),
-                NavigationBar.setBackgroundColorAsync("#ffffff01");
-              // fetchSignature();
+              fetchSignature();
             }}
           >
             <Text style={styles.continueButtonText}>Continue</Text>

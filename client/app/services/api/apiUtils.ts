@@ -35,7 +35,7 @@ export const parseJSON = async <T>(response: Response): Promise<T> => {
 
 // TODO: access the JWT value from context cache in request functions (without passing in as params via the query key) to avoid repeated grabs from local storage
 
-const requestTimeoutMs = 5000;
+const requestTimeoutMs = 2000;
 
 export const sendPOSTRequest = async <ResponseBody, RequestBody>(
   url: string,
@@ -86,13 +86,12 @@ export const sendPOSTRequest = async <ResponseBody, RequestBody>(
   }
 };
 
-export const sendGETRequest = async <ResponseBody, RequestBody>(
+export const sendGETRequest = async <ResponseBody>(
   url: string
 ): Promise<ResponseBody> => {
   const controller = new AbortController();
   const timeoutId = setTimeout(() => controller.abort(), requestTimeoutMs);
   const jwt = await getJwt();
-
   try {
     const response = await fetch(url, {
       method: "GET",

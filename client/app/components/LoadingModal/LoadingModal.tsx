@@ -32,7 +32,7 @@ const LoadingModal = ({
         useNativeDriver: true
       }).start();
     }
-  }, [isVisible, fadeAnim]);
+  }, [isVisible]);
 
   if (!isVisible) {
     return null;

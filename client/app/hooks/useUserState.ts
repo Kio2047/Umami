@@ -19,20 +19,16 @@ export const useUserState = () => {
     })();
   }, []);
 
+  // TODO: add zod validations to ensure user has correct shape
+
   const utilities: UserUtilities = {
-    initialiseUser: async () => {
+    initialiseUser: async (user: User) => {
       try {
-        const user: User = {
-          data: {
-            name: "",
-            profileImageURL: "",
-            username: ""
-          },
-          metadata: {
-            completedAddProfileImageScreen: false
-          }
-        };
         await setUser(user);
+        setInternalState({
+          status: "complete",
+          user
+        });
       } catch (err) {
         console.error("Error saving user data in local storage:", err);
         throw err;

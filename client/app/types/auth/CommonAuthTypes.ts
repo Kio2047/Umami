@@ -1,7 +1,6 @@
 import { KeyboardTypeOptions } from "react-native";
 import { LoginField } from "./LoginTypes";
 import { RegisterField } from "./RegisterTypes";
-import { CreatedAccount } from "../APIResponseTypes";
 
 export interface FieldState {
   value: string;

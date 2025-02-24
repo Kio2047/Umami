@@ -1,25 +1,32 @@
 export interface LoginUserResponse {
   data: {
-    userID: string;
     token: string;
+    user: {
+      data: {
+        profileImageURL: string;
+        name: string;
+        username: string;
+      };
+      metadata: {
+        completedAddProfileImageScreen: boolean;
+      };
+    };
   };
 }
 
-export interface CreatedAccount {
-  _id: string;
-  email: string;
-  name: string;
-  username: string;
-  profileImageURL: string;
-  following: string[];
-  followers: string[];
-  password: string;
-}
-
-export interface CreateNewUserResponse {
+export interface RegisterUserResponse {
   data: {
-    // createdAccount: CreatedAccount;
     token: string;
+    user: {
+      data: {
+        profileImageURL: string;
+        name: string;
+        username: string;
+      };
+      metadata: {
+        completedAddProfileImageScreen: boolean;
+      };
+    };
   };
 }
 

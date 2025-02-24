@@ -19,7 +19,7 @@ import CredentialTextInput from "../CredentialTextInput/CredentialTextInput";
 import { reducer } from "../../screens/auth/register/registerFormStateReducer";
 import BottomTab from "../BottomTab/BottomTab";
 import styles from "./RegisterScreenTemplate.styles";
-import { createNewUser } from "../../services/api/apiClient";
+import { registerUser } from "../../services/api/apiClient";
 import useAuth from "../../contexts/AuthContext/useAuth";
 import useUser from "../../contexts/UserContext/useUser";
 
@@ -62,11 +62,12 @@ const RegisterScreenTemplate = <
     utilities: { initialiseUser }
   } = useUser();
 
-  const { mutate } = useMutation(createNewUser, {
+  const { mutate } = useMutation(registerUser, {
     retry: false,
     onSuccess: async (data) => {
       try {
-        await Promise.all([login(data.data.token), initialiseUser()]);
+        const { token, user } = data.data;
+        await Promise.all([login(token), initialiseUser(user)]);
       } catch (err) {
         console.error(err);
         setDisableButton(false);

@@ -20,7 +20,7 @@ export default StyleSheet.create({
     marginBottom: 25
   },
   loginErrorText: {
-    color: "red",
+    color: colors.errorColor,
     marginTop: -10,
     marginBottom: -11,
     padding: 0,

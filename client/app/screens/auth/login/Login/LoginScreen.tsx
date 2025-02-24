@@ -7,7 +7,7 @@ import {
   Keyboard
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { StackNavigationProp } from "@react-navigation/stack";
 
 import styles from "./LoginScreen.styles";
@@ -24,6 +24,8 @@ import { initialState, reducer } from "./loginFormStateReducer";
 import useUser from "../../../../contexts/UserContext/useUser";
 import { LoginField } from "../../../../types/auth/LoginTypes";
 import { loginFormValidators } from "../../../../utils/authFormValidators";
+import { FailedRequestError } from "../../../../services/api/apiUtils";
+import ErrorModal from "../../../../components/ErrorModal/ErrorModal";
 
 const LoginScreen = ({
   navigation
@@ -44,13 +46,14 @@ const LoginScreen = ({
   const [disableButton, setDisableButton] = useState(false);
   const isFocusedOnInput = useInputFocusTracker();
 
-  // const { mutate, isError, error } = useMutation(loginUser, {
-  const { mutate } = useMutation(loginUser, {
+  const { mutate, isError, error, reset } = useMutation(loginUser, {
     retry: false,
     onSuccess: async (data) => {
       try {
-        await Promise.all([login(data.data.token), initialiseUser()]);
-      } catch {
+        const { token, user } = data.data;
+        await Promise.all([login(token), initialiseUser(user)]);
+      } catch (err) {
+        console.error(err);
         setDisableButton(false);
       }
     },
@@ -61,6 +64,8 @@ const LoginScreen = ({
   });
 
   const loginButtonOnPressHandler = () => {
+    Keyboard.dismiss();
+    reset();
     const invalidFields: LoginField[] = [];
     const invalidMessages: string[] = [];
     for (const [field, state] of Object.entries(formState) as Entries<
@@ -70,7 +75,6 @@ const LoginScreen = ({
       if (validationStatus !== 0) {
         invalidFields.push(field);
         invalidMessages.push(errorMessages[field][validationStatus]);
-        return;
       }
     }
     // Ensure compatibility with expected tuple type of dispatch action
@@ -118,37 +122,6 @@ const LoginScreen = ({
         throw new Error("Invalid login form state: length must be 0, 1, or 2.");
     }
   };
-  // const [requestErrorCause, setRequestErrorCause] = useState<
-  //   Record<"invalidCredentials" | "applicationError", boolean>
-  // >({
-  //   invalidCredentials: false,
-  //   applicationError: false
-  // });
-
-  // if (isError && error instanceof Error) {
-  //   if (
-  //     error instanceof TypeError ||
-  //     (error instanceof FailedRequestError && error.statusClass !== "4xx")
-  //   ) {
-  //     if (!requestErrorCause.applicationError) {
-  //       setRequestErrorCause({
-  //         invalidCredentials: false,
-  //         applicationError: true
-  //       });
-  //     }
-  //   } else if (
-  //     error instanceof FailedRequestError &&
-  //     error.statusClass === "4xx"
-  //   )
-  //     if (!requestErrorCause.invalidCredentials) {
-  //       {
-  //         setRequestErrorCause({
-  //           invalidCredentials: true,
-  //           applicationError: false
-  //         });
-  //       }
-  //     }
-  // }
 
   return (
     <Pressable onPress={Keyboard.dismiss} style={styles.pressableWrapper}>
@@ -173,14 +146,31 @@ const LoginScreen = ({
           formFieldState={formState.password}
           {...inputConstants.password}
         />
-        {/* {requestErrorCause.invalidCredentials && (
-          <Text style={styles.loginErrorText}>Invalid login details</Text>
-        )} */}
-        {/* {requestErrorCause.applicationError && (
-          <Text style={styles.loginErrorText}>
-            Server issue — please try again later
-          </Text>
-        )} */}
+        <ErrorModal
+          isVisible={
+            isError &&
+            error instanceof FailedRequestError &&
+            error.statusClass?.[0] === "4"
+          }
+          errorType="user"
+          title="Account not found"
+          body="We can't seem to find an account that matches those details. Please double check your credentials and try again!"
+          reset={reset}
+        />
+        <ErrorModal
+          isVisible={
+            isError &&
+            !(
+              error instanceof FailedRequestError &&
+              error.statusClass?.[0] === "4"
+            )
+          }
+          errorType="app"
+          title="Application error"
+          body="Looks like we're having some trouble at the moment. Please try logging in again"
+          reset={reset}
+        />
+
         <TouchableOpacity
           style={[
             styles.loginButton,

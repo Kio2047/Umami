@@ -21,10 +21,22 @@ export default StyleSheet.create({
     borderRadius: 4,
     alignItems: "center"
   },
-  modalText: {
+  modalTitle: {
+    marginTop: 10,
+    fontSize: 22,
+    fontWeight: 700,
+    textAlign: "center"
+  },
+  modalBody: {
     marginTop: 10,
     fontSize: 16,
-    textAlign: "center",
-    fontWeight: "500"
+    textAlign: "left"
+  },
+  button: {
+    marginTop: 10,
+    alignSelf: "flex-end"
+  },
+  buttonText: {
+    fontWeight: 700
   }
 });
