@@ -3,10 +3,6 @@
 
 import { Schema } from "mongoose";
 
-import { RawUserDocument } from "../modules/user/user.types";
-import { RawPostDocument } from "../modules/post/post.types";
-import { RawRestaurantDocument } from "../modules/restaurant/restaurant.types";
-
 // TODO: Make the schema properties required where necessary
 // TODO: remove _id from schema and corresponding interface if you can
 
@@ -36,6 +32,18 @@ export const userSchema = new Schema(
       type: [{ type: Schema.Types.ObjectId, ref: "User" }],
       required: true,
       default: []
+    },
+    metadata: {
+      type: {
+        _id: false,
+        completedAddProfileImageScreen: {
+          type: Boolean,
+          required: true,
+          default: false
+        }
+      },
+      required: true,
+      default: { completedAddProfileImageScreen: false }
     }
   },
   { timestamps: true }
@@ -58,6 +66,7 @@ export const postSchema = new Schema(
     },
     scores: {
       type: {
+        _id: false,
         food: { type: Number, required: true, min: 1, max: 5 },
         atmosphere: { type: Number, required: true, min: 1, max: 5 },
         service: { type: Number, required: true, min: 1, max: 5 }

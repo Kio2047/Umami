@@ -10,6 +10,8 @@ import * as UserModel from "../user/user.model";
 import { ServerError } from "../../utils/ServerError";
 import { loginUserSchemas } from "./auth.validations";
 import sendResponse from "../../utils/sendResponse";
+import { NullableLeanDocument } from "src/types/MongooseTypes";
+import { RawUserDocument } from "../user/user.types";
 
 export const loginUser = async function (
   req: Request<z.infer<typeof loginUserSchemas.body>>,
@@ -18,26 +20,49 @@ export const loginUser = async function (
 ) {
   try {
     const { usernameOrEmail, password } = req.body;
-    let user: Awaited<
-      ReturnType<typeof UserModel.getUserByEmail<"passwordHash">>
+    let user: NullableLeanDocument<
+      RawUserDocument,
+      "passwordHash" | "profileImageURL" | "name" | "username" | "metadata"
     >;
+
     if (usernameOrEmail.includes("@")) {
       user = await UserModel.getUserByEmail(usernameOrEmail, {
-        fields: ["passwordHash"]
+        fields: [
+          "passwordHash",
+          "profileImageURL",
+          "name",
+          "username",
+          "metadata"
+        ]
       });
     } else {
       user = await UserModel.getUserByUsername(usernameOrEmail, {
-        fields: ["passwordHash"]
+        fields: [
+          "passwordHash",
+          "profileImageURL",
+          "name",
+          "username",
+          "metadata"
+        ]
       });
     }
     if (!user || !(await comparePasswords(password, user.passwordHash))) {
       throw new ServerError("invalid credentials");
     }
+    const { profileImageURL, name, username, metadata } = user;
     sendResponse(res, {
       status: 200,
       body: {
         data: {
-          token: createJWT(user._id)
+          token: createJWT(user._id),
+          user: {
+            data: {
+              profileImageURL,
+              name,
+              username
+            },
+            metadata
+          }
         },
         status: "success",
         message: "Successfully authenticated user"

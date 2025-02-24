@@ -6,6 +6,16 @@ import {
 
 type Nullable<T> = T | null;
 
+export type LeanDocument<
+  DocumentType,
+  Fields extends keyof DocumentType = keyof DocumentType
+> = Pick<DocumentType, Fields> & { _id: Types.ObjectId };
+
+export type NullableLeanDocument<
+  DocumentType,
+  Fields extends keyof DocumentType = keyof DocumentType
+> = Nullable<LeanDocument<DocumentType, Fields>>;
+
 export type HydratedDocument<
   DocumentType,
   Fields extends keyof DocumentType = keyof DocumentType
@@ -20,10 +30,20 @@ export type CreateOnePromise<DocumentType> = Promise<
   HydratedDocument<DocumentType>
 >;
 
+export type LeanFindOnePromise<
+  DocumentType,
+  Fields extends keyof DocumentType = keyof DocumentType
+> = Promise<NullableLeanDocument<DocumentType, Fields>>;
+
 export type FindOnePromise<
   DocumentType,
   Fields extends keyof DocumentType = keyof DocumentType
 > = Promise<NullableHydratedDocument<DocumentType, Fields>>;
+
+export type LeanFindManyPromise<
+  DocumentType,
+  Fields extends keyof DocumentType = keyof DocumentType
+> = Promise<LeanDocument<DocumentType, Fields>[]>;
 
 export type FindManyPromise<
   DocumentType,

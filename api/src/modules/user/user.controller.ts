@@ -31,13 +31,23 @@ export const registerUser = async function (
       ...rest,
       passwordHash
     };
-    const newUser = await UserModel.createNewUser(hashedUserCredentials);
+    const { _id, profileImageURL, name, username, metadata } =
+      await UserModel.createNewUser(hashedUserCredentials);
+
     sendResponse(res, {
       status: 201,
-      location: `/users/${newUser._id}`,
+      location: `/users/${_id}`,
       body: {
         data: {
-          token: createJWT(newUser._id)
+          token: createJWT(_id),
+          user: {
+            data: {
+              profileImageURL,
+              name,
+              username
+            },
+            metadata
+          }
         },
         status: "success",
         message: "New account successfully created"

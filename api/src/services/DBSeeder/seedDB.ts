@@ -97,7 +97,10 @@ const createDummyUsers = async function (): Promise<mongoose.Types.ObjectId[]> {
       following: [user2ID, user3ID, user4ID],
       followers: [user2ID, user3ID, user4ID],
       createdAt: generateDate(10),
-      updatedAt: generateDate(10)
+      updatedAt: generateDate(10),
+      metadata: {
+        completedAddProfileImageScreen: true
+      }
     },
     {
       _id: user2ID,
@@ -110,7 +113,10 @@ const createDummyUsers = async function (): Promise<mongoose.Types.ObjectId[]> {
       following: [user1ID, user3ID, user4ID],
       followers: [user1ID, user3ID, user4ID],
       createdAt: generateDate(10),
-      updatedAt: generateDate(10)
+      updatedAt: generateDate(10),
+      metadata: {
+        completedAddProfileImageScreen: true
+      }
     },
     {
       _id: user3ID,
@@ -123,7 +129,10 @@ const createDummyUsers = async function (): Promise<mongoose.Types.ObjectId[]> {
       following: [user1ID, user2ID, user4ID],
       followers: [user1ID, user2ID, user4ID],
       createdAt: generateDate(10),
-      updatedAt: generateDate(10)
+      updatedAt: generateDate(10),
+      metadata: {
+        completedAddProfileImageScreen: true
+      }
     },
     {
       _id: user4ID,
@@ -136,7 +145,10 @@ const createDummyUsers = async function (): Promise<mongoose.Types.ObjectId[]> {
       following: [user1ID, user2ID, user3ID],
       followers: [user1ID, user2ID, user3ID],
       createdAt: generateDate(10),
-      updatedAt: generateDate(10)
+      updatedAt: generateDate(10),
+      metadata: {
+        completedAddProfileImageScreen: true
+      }
     },
     {
       _id: user5ID,
@@ -149,7 +161,10 @@ const createDummyUsers = async function (): Promise<mongoose.Types.ObjectId[]> {
       following: [],
       followers: [],
       createdAt: generateDate(10),
-      updatedAt: generateDate(10)
+      updatedAt: generateDate(10),
+      metadata: {
+        completedAddProfileImageScreen: true
+      }
     }
   ];
 

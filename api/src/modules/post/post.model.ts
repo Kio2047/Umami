@@ -3,7 +3,7 @@ import "../restaurant/restaurant.model";
 import { postSchema } from "../../db/schemas";
 import { RawUserDocument } from "../user/user.types";
 import { RawRestaurantDocument } from "../restaurant/restaurant.types";
-import { FindManyPromise, HydratedDocument } from "../../types/MongooseTypes";
+import { LeanDocument, LeanFindManyPromise } from "../../types/MongooseTypes";
 import type { RawPostDocument, PopulatedPostDocument } from "./post.types";
 
 const Post = mongoose.model<RawPostDocument>("Post", postSchema);
@@ -11,11 +11,12 @@ const Post = mongoose.model<RawPostDocument>("Post", postSchema);
 const batchSize = 15;
 
 export const loadFeed = async function (
-  user: HydratedDocument<RawUserDocument, "following">
-): FindManyPromise<PopulatedPostDocument> {
+  user: LeanDocument<RawUserDocument, "following">
+): LeanFindManyPromise<PopulatedPostDocument> {
   const feedPosts = await Post.find({
     author: { $in: [user._id, ...user.following] }
   })
+    .lean()
     .sort({ createdAt: -1 })
     .limit(batchSize)
     .populate<{
@@ -39,13 +40,14 @@ export const loadFeed = async function (
 };
 
 export const loadMoreFeed = async function (
-  user: HydratedDocument<RawUserDocument, "following">,
+  user: LeanDocument<RawUserDocument, "following">,
   lastCreatedAt: Date
-): FindManyPromise<PopulatedPostDocument> {
+): LeanFindManyPromise<PopulatedPostDocument> {
   const nextBatch = await Post.find({
     author: { $in: [user._id, ...user.following] },
     createdAt: { $lt: lastCreatedAt }
   })
+    .lean()
     .sort({ createdAt: -1 })
     .limit(batchSize)
     .populate<{
