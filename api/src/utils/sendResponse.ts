@@ -1,7 +1,6 @@
 import {
   PublicMiddlewareResponse,
-  PrivateMiddlewareResponse,
-  ResponseData
+  PrivateMiddlewareResponse
 } from "../types/ExpressTypes";
 import { responseSchema } from "../validations";
 import { ServerError } from "./ServerError";
@@ -12,13 +11,13 @@ const sensitiveFields = new Set(["passwordHash"]);
 
 const sendResponse = (
   res: PublicMiddlewareResponse | PrivateMiddlewareResponse,
-  responseData: ResponseData
+  responseData: unknown
 ) => {
   const validationResult = responseSchema.safeParse(responseData);
   if (!validationResult.success) {
     throw new ServerError("invalid response data format");
   }
-  const { status, body, location } = responseData;
+  const { status, body, location } = validationResult.data;
   const matchedFields = deepSearch(body, sensitiveFields);
   if (matchedFields.length) {
     throw new ServerError("sensitive information leak", {
