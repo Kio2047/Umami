@@ -1,3 +1,4 @@
+import React from "react";
 import "react-native-gesture-handler";
 // import { StatusBar } from "expo-status-bar";
 import { SafeAreaProvider } from "react-native-safe-area-context";
@@ -16,9 +17,10 @@ import useNavigationBarConfig from "./app/hooks/useNavigationBarConfig";
 import ScreenBackground from "./app/components/ScreenBackground/ScreenBackground";
 import useAuth from "./app/contexts/AuthContext/useAuth";
 import AuthScreens from "./app/navigators/AuthStackNavigator/AuthScreens";
-import AppTabs from "./app/navigators/BottomTabNavigator/AppTabs";
 import useUser from "./app/contexts/UserContext/useUser";
 import { UserProvider } from "./app/contexts/UserContext/UserProvider";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import AppTabs from "./app/navigators/BottomTabNavigator/AppTabs";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -41,34 +43,35 @@ const MyTheme = {
 };
 
 const AppContent = () => {
+  // AsyncStorage.clear();
+  const navigationBarHeight = useNavigationBarConfig();
   const { status: authStatus } = useAuth();
   const { status: userStatus, user } = useUser();
+  let content: React.JSX.Element;
+
   if (authStatus === "loading" || userStatus === "loading") {
-    return <Text>Loading...</Text>;
-  }
-  if (authStatus === "unauthenticated") {
-    if (user)
-      throw new Error(
-        `Inconsistent local storage state: authStatus=${authStatus}, user=${JSON.stringify(
-          user
-        )}`
-      );
-    return <AuthScreens initialRouteName="WelcomeScreen" />;
-  }
-  if (!user)
-    throw new Error(
-      `Inconsistent local storage state: authStatus=${authStatus}, user=${JSON.stringify(
-        user
-      )}`
+    content = <Text style={{ color: "white", fontSize: 30 }}>Loading...</Text>;
+  } else if (authStatus === "unauthenticated") {
+    content = <AuthScreens initialRouteName="WelcomeScreen" />;
+  } else if (!user) {
+    content = <Text style={{ color: "white", fontSize: 30 }}>Loading...</Text>;
+  } else if (!user.metadata.completedAddProfileImageScreen) {
+    content = <AuthScreens initialRouteName="AddProfileImageScreen" />;
+  } else {
+    return (
+      <ScreenBackground>
+        <AppTabs bottomSpacing={navigationBarHeight} />;
+      </ScreenBackground>
     );
-  if (!user.metadata.completedAddProfileImageScreen) {
-    return <AuthScreens initialRouteName="AddProfileImageScreen" />;
   }
-  return <AppTabs />;
+  return (
+    <ScreenBackground additionalStyles={{ paddingBottom: navigationBarHeight }}>
+      {content}
+    </ScreenBackground>
+  );
 };
 
 export default function App() {
-  const navigationBarHeight = useNavigationBarConfig();
   return (
     <>
       <StatusBar
@@ -83,13 +86,9 @@ export default function App() {
           <UserProvider>
             <SafeAreaProvider>
               {/* <SafeAreaView style={styles.appContainer}> */}
-              <ScreenBackground
-                additionalStyles={{ paddingBottom: navigationBarHeight }}
-              >
-                <NavigationContainer theme={MyTheme}>
-                  <AppContent />
-                </NavigationContainer>
-              </ScreenBackground>
+              <NavigationContainer theme={MyTheme}>
+                <AppContent />
+              </NavigationContainer>
               {/* </SafeAreaView> */}
             </SafeAreaProvider>
           </UserProvider>

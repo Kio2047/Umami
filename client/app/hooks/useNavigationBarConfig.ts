@@ -16,11 +16,13 @@ export default () => {
           const calculatedNavBarHeight =
             screenHeight - windowHeight - statusBarHeight;
           if (calculatedNavBarHeight) {
-            setNavBarHeight(calculatedNavBarHeight);
-            Promise.all([
-              await NavigationBar.setPositionAsync("absolute"),
-              await NavigationBar.setBackgroundColorAsync("#ffffff01")
+            // Delay addresses Expo bug which requires rerender to make navigation bar transparent
+            await new Promise((resolve) => setTimeout(resolve, 50));
+            await Promise.all([
+              NavigationBar.setBackgroundColorAsync("#ffffff01"),
+              NavigationBar.setPositionAsync("absolute")
             ]);
+            setNavBarHeight(calculatedNavBarHeight);
           }
         } catch (error) {
           console.error("NavigationBar configuration failed:", error);
