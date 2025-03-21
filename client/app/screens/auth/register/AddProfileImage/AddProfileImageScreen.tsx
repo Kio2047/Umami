@@ -17,8 +17,7 @@ const AddProfileImageScreen = () => {
     useState<ImagePicker.ImagePickerAsset | null>(null);
 
   const { user, utilities } = useUser();
-  if (!user)
-    throw new Error("Inconsistent application state: user not yet initialised");
+  if (!user) throw new Error("Error - user not yet initialised");
 
   const { fetchSignature, loading, setLoading, status } = useProfileImageUpload(
     profileImage,
