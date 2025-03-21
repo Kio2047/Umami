@@ -2,19 +2,17 @@ import { View, Text, TouchableOpacity, Image } from "react-native";
 import React from "react";
 import { Ionicons } from "@expo/vector-icons";
 
-import styles from "./FeedHeaderStyles";
-import { StackScreenProps } from "../../types/NavigationTypes";
-import { SafeAreaView } from "react-native-safe-area-context";
+import styles from "./FeedHeader.styles";
+import useUser from "../../contexts/UserContext/useUser";
 
-const FeedHeader = ({
-  userInfo
-}: {
-  userInfo: { name: string; profileImageURL: string };
-}) => {
+const FeedHeader = () => {
+  const { user } = useUser();
+  if (!user) throw new Error("Error - user not yet initialised");
+  const { name, profileImageURL } = user.data;
   return (
     <View style={styles.feedBanner}>
       <Text style={styles.userGreeting}>
-        Good evening, {userInfo.name.split(" ")[0]}
+        Good evening, {name.split(" ")[0]}
       </Text>
       <View style={styles.feedIconsContainer}>
         <TouchableOpacity activeOpacity={0.5}>

@@ -7,9 +7,10 @@ export default StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    width: "94%",
-    paddingTop: 20
-    // paddingVertical: 10
+    width: "100%",
+    padding: 15,
+    paddingBottom: 0
+    // paddingTop: 20,
     // marginBottom: 2
   },
   // feedBannerTop: {

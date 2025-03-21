@@ -5,24 +5,24 @@ import {
   FlatList,
   Dimensions,
   NativeSyntheticEvent,
-  NativeScrollEvent
+  NativeScrollEvent,
+  TouchableOpacity
 } from "react-native";
 import React, { useState } from "react";
-import { Rating, AirbnbRating } from "react-native-ratings";
-import ReadMore from "react-native-read-more-text";
 
 import styles from "./Post.styles";
 import type { Post as PostType } from "../../types/OtherTypes";
-import { colors } from "../../constants/styles/styleConstants";
 import { calculatePostTimestamp } from "../../utils/utils";
-import { TouchableOpacity } from "react-native-gesture-handler";
 import PostRating from "../PostRating/PostRating";
-// import { PostNavigationProp } from "../../types/OtherTypes";
 
+const TEXT_TRUNCATE_LIMIT = 300;
 const { width: screenWidth } = Dimensions.get("screen");
 
 const Post = ({ post }: { post: PostType }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  const toggleExpanded = () => setIsExpanded((prev) => !prev);
 
   const onMomentumScrollEnd = (
     event: NativeSyntheticEvent<NativeScrollEvent>
@@ -144,7 +144,17 @@ const Post = ({ post }: { post: PostType }) => {
 
       <View style={styles.reviewTextContainer}>
         <Text style={styles.reviewTitle}>{title}</Text>
-        <Text style={styles.reviewMainText}>{text}</Text>
+        <Text style={styles.reviewMainText}>
+          {" "}
+          {isExpanded || text.length <= TEXT_TRUNCATE_LIMIT
+            ? `${text} `
+            : `${text.slice(0, TEXT_TRUNCATE_LIMIT).trim()}... `}
+          {text.length > TEXT_TRUNCATE_LIMIT && (
+            <Text style={styles.readMoreLessText} onPress={toggleExpanded}>
+              {isExpanded ? "less" : "more"}
+            </Text>
+          )}
+        </Text>
       </View>
     </View>
   );

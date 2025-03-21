@@ -92,5 +92,9 @@ export default StyleSheet.create({
   reviewMainText: {
     color: colors.primaryFontColor,
     lineHeight: 18
+  },
+  readMoreLessText: {
+    color: colors.defaultButtonColor,
+    fontWeight: "500"
   }
 });
