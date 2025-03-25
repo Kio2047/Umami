@@ -1,11 +1,11 @@
 import { ImageBackground, StyleProp, ViewStyle } from "react-native";
 
-import styles from "./ScreenBackground.styles";
+import styles from "./AuthScreenBackground.styles";
 import DarkModeBackground from "../../assets/images/darkmode-background.png";
 
 // If dark mode use darkmodebackground, else...
 
-const ScreenBackground = ({
+const AuthScreenBackground = ({
   additionalStyles,
   children
 }: {
@@ -22,4 +22,4 @@ const ScreenBackground = ({
   );
 };
 
-export default ScreenBackground;
+export default AuthScreenBackground;

@@ -1,5 +1,16 @@
+import { Dimensions, StatusBar } from "react-native";
+
+export const navBarHeight = Math.max(
+  Dimensions.get("screen").height -
+    Dimensions.get("window").height -
+    (StatusBar.currentHeight ?? 0),
+  0
+);
+
+export const screenBottomPadding = navBarHeight + 50;
+
 export const colors = {
-  backgroundColor: "#000000",
+  backgroundColor: "#0c0f14",
   primaryFontColor: "#fcfcfc",
   defaultButtonColor: "#096082",
   // defaultButtonColor: "#053837",

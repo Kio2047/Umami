@@ -1,26 +1,24 @@
 import { StyleSheet } from "react-native";
 
-import { colors } from "../../constants/styles/styleConstants";
+import {
+  colors,
+  screenBottomPadding
+} from "../../constants/styles/styleConstants";
 
 export default StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.backgroundColor,
+    width: "100%",
     justifyContent: "flex-start",
     alignItems: "center",
     overflow: "scroll"
   },
   flatList: {
-    width: "100%",
-    borderBottomLeftRadius: 10,
-    borderBottomRightRadius: 10,
-    // backgroundColor: "blue",
-    paddingVertical: 10,
-    paddingHorizontal: 10
+    width: "100%"
   },
-
   postsContainer: {
-    alignItems: "center"
+    alignItems: "center",
+    paddingBottom: screenBottomPadding
   },
   noPostsContainer: {
     flex: 1,

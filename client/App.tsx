@@ -13,14 +13,16 @@ import ThemeProvider from "@react-navigation/native";
 
 import { AuthProvider } from "./app/contexts/AuthContext/AuthProvider";
 import { Provider as PaperProvider } from "react-native-paper";
-import useNavigationBarConfig from "./app/hooks/useNavigationBarConfig";
-import ScreenBackground from "./app/components/ScreenBackground/ScreenBackground";
+import useConfigureNavbar from "./app/hooks/useConfigureNavbar";
+import AuthScreenBackground from "./app/components/AuthScreenBackground/AuthScreenBackground";
+import AppScreenBackground from "./app/components/AppScreenBackground/AppScreenBackground";
 import useAuth from "./app/contexts/AuthContext/useAuth";
 import AuthScreens from "./app/navigators/AuthStackNavigator/AuthScreens";
 import useUser from "./app/contexts/UserContext/useUser";
 import { UserProvider } from "./app/contexts/UserContext/UserProvider";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import AppTabs from "./app/navigators/BottomTabNavigator/AppTabs";
+import { navBarHeight } from "./app/constants/styles/styleConstants";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -44,7 +46,7 @@ const MyTheme = {
 
 const AppContent = () => {
   // AsyncStorage.clear();
-  const navigationBarHeight = useNavigationBarConfig();
+  useConfigureNavbar(navBarHeight);
   const { status: authStatus } = useAuth();
   const { status: userStatus, user } = useUser();
   let content: React.JSX.Element;
@@ -59,15 +61,15 @@ const AppContent = () => {
     content = <AuthScreens initialRouteName="AddProfileImageScreen" />;
   } else {
     return (
-      <ScreenBackground>
-        <AppTabs bottomSpacing={navigationBarHeight} />;
-      </ScreenBackground>
+      <AppScreenBackground>
+        <AppTabs bottomSpacing={navBarHeight} />;
+      </AppScreenBackground>
     );
   }
   return (
-    <ScreenBackground additionalStyles={{ paddingBottom: navigationBarHeight }}>
+    <AuthScreenBackground additionalStyles={{ paddingBottom: navBarHeight }}>
       {content}
-    </ScreenBackground>
+    </AuthScreenBackground>
   );
 };
 
