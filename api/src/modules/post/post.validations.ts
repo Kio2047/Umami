@@ -6,13 +6,10 @@ export const getFeedPostsSchemas = {
       .string()
       .datetime({
         precision: 3,
-        message: "Invalid ISO 8601 UTC format with milliseconds"
+        message:
+          "lastCreated at must be a valid datetime in ISO 8601 UTC format with milliseconds"
       })
-      .or(
-        z.literal("", {
-          message: "lastCreatedAt must be an empty string or a valid datetime"
-        })
-      )
+      .optional()
   })
 };
 

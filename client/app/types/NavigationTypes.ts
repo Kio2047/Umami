@@ -24,7 +24,7 @@ export type AuthStackParamList = {
 
 export type AppTabParamList = {
   FeedScreen: undefined;
-  Search: undefined;
+  SearchScreen: undefined;
   RestaurantProfileScreen: { restaurantID: string; restaurantName: string };
   AboutScreen: { title: string; body: string };
   // DetailedPost: {postData: Post, navigation: any },
@@ -47,9 +47,9 @@ export type StackScreenProps<screen extends keyof AuthStackParamList> = {
   route: RouteProp<AuthStackParamList, screen>;
 };
 
-export type AppTabProps<tab extends keyof AppTabsParamlist> = {
-  navigation: StackNavigationProp<AppTabsParamlist, tab>;
-  route: RouteProp<AppTabsParamlist, tab>;
+export type AppTabProps<tab extends keyof AppTabParamList> = {
+  navigation: StackNavigationProp<AppTabParamList, tab>;
+  route: RouteProp<AppTabParamList, tab>;
 };
 
 // export type StackScreenProps<screen extends keyof AuthStackParamList> = {

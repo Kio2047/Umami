@@ -1,30 +1,30 @@
 // TODO: Move below types to appropriate new files
-export type PostRestaurant = {
-  _id: string;
-  name: string;
-};
-
-export type OtherPerson = {
-  _id: string;
-  name: string;
-  profileImageURL: string;
-};
-
-// TODO Rename restaurant ID to 'restaurant', as we're populating this field
-// TODO - now disagree with the above - the raw field in the document is the ID, not the restaurant itself
 
 export type Post = {
   _id: string;
-  author: string;
-  restaurant: PostRestaurant;
-  ratings: number[];
+  author: {
+    _id: string;
+    username: string;
+    profileImageURL: string;
+  };
+  restaurant: {
+    _id: string;
+    name: string;
+  };
+  scores: {
+    food: number;
+    atmosphere: number;
+    service: number;
+  };
   imageURLs: string[];
-  timestamp: Date;
+  createdAt: Date;
   title: string;
   text: string;
-  others: OtherPerson[];
-  authorName: string;
-  authorprofileImageURL: string;
+  others: {
+    _id: string;
+    username: string;
+    profileImageURL: string;
+  }[];
 };
 
 export type CompleteUserDocument = {

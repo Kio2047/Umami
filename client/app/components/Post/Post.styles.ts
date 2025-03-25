@@ -20,15 +20,10 @@ export default StyleSheet.create({
     // borderWidth: 0.5,
     // paddingBottom: 10
   },
-  postBannerContainer: {
+  banner: {
     paddingHorizontal: horizontalPadding,
-    // paddingVertical: 12,
     flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center"
-  },
-  postInfo: {
-    flexDirection: "row"
+    justifyContent: "space-between"
     // alignItems: "center"
   },
   profilePicture: {
@@ -36,8 +31,13 @@ export default StyleSheet.create({
     height: 35,
     borderRadius: 35 / 2
   },
-  postBannerTextContainer: {
+  bannerTextContainer: {
+    flex: 1,
     marginLeft: 10
+  },
+  bannerUsernameAndDateContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between"
   },
   authorName: {
     color: colors.primaryFontColor,

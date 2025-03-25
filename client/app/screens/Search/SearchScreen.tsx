@@ -16,7 +16,10 @@ import { useQuery } from "@tanstack/react-query";
 import { AppTabProps } from "../../types/NavigationTypes";
 import { searchForUsers } from "../../services/api/apiClient";
 import UserSearchResult from "../../components/UserSearchResult/UserSearchResult";
-import { getJWT, setJWT } from "../../services/deviceStorageService";
+import {
+  getJWT,
+  setJWT
+} from "../../services/local-storage/authStorageService";
 
 const SearchScreen = ({
   navigation

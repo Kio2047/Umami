@@ -50,9 +50,8 @@ const Post = ({ post }: { post: PostType }) => {
 
   return (
     <View style={[styles.container, { width: screenWidth }]}>
-      <View style={styles.postBannerContainer}>
-        <View style={styles.postInfo}>
-          {/* <TouchableOpacity
+      <View style={styles.banner}>
+        {/* <TouchableOpacity
               onPress={() =>
                 navigation.navigate("UserProfile", {
                   profileUserID: author,
@@ -61,40 +60,41 @@ const Post = ({ post }: { post: PostType }) => {
                 })
               }
             > */}
-          <Image
-            style={styles.profilePicture}
-            source={{ uri: profileImageURL }}
-          ></Image>
-          {/* </TouchableOpacity> */}
-          <View style={styles.postBannerTextContainer}>
+        <Image
+          style={styles.profilePicture}
+          source={{ uri: profileImageURL }}
+        ></Image>
+        {/* </TouchableOpacity> */}
+        <View style={styles.bannerTextContainer}>
+          <View style={styles.bannerUsernameAndDateContainer}>
             <Text style={styles.authorName}>{username}</Text>
-            <Text style={styles.subheading}>
-              was at{" "}
-              <Text
-                style={styles.restaurantName}
-                // onPress={() => {
-                //   navigation.navigate("RestaurantProfile", {
-                //     restaurantID: restaurant._id,
-                //     restaurantName: restaurant.name
-                //   });
-                // }}
-              >
-                {name + " "}
-              </Text>
-              {Boolean(others.length) && (
-                <Text style={styles.subheading}>
-                  {"with "}
-                  {others.map((friend) => (
-                    <Text key={friend._id} style={styles.otherProfiles}>
-                      {friend.username}
-                    </Text>
-                  ))}
-                </Text>
-              )}
-            </Text>
+            <Text style={styles.postDate}>{renderedTimestamp}</Text>
           </View>
+          <Text style={styles.subheading}>
+            was at{" "}
+            <Text
+              style={styles.restaurantName}
+              // onPress={() => {
+              //   navigation.navigate("RestaurantProfile", {
+              //     restaurantID: restaurant._id,
+              //     restaurantName: restaurant.name
+              //   });
+              // }}
+            >
+              {name + " "}
+            </Text>
+            {Boolean(others.length) && (
+              <Text style={styles.subheading}>
+                {"with "}
+                {others.map((friend) => (
+                  <Text key={friend._id} style={styles.otherProfiles}>
+                    {friend.username}
+                  </Text>
+                ))}
+              </Text>
+            )}
+          </Text>
         </View>
-        <Text style={styles.postDate}>{renderedTimestamp}</Text>
       </View>
 
       <FlatList
@@ -120,7 +120,7 @@ const Post = ({ post }: { post: PostType }) => {
               ]}
               source={{ uri: item }}
               //
-            ></Image>
+            />
             // </TouchableOpacity>
           );
         }}
@@ -145,7 +145,6 @@ const Post = ({ post }: { post: PostType }) => {
       <View style={styles.reviewTextContainer}>
         <Text style={styles.reviewTitle}>{title}</Text>
         <Text style={styles.reviewMainText}>
-          {" "}
           {isExpanded || text.length <= TEXT_TRUNCATE_LIMIT
             ? `${text} `
             : `${text.slice(0, TEXT_TRUNCATE_LIMIT).trim()}... `}

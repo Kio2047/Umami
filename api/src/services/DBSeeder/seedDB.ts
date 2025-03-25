@@ -371,7 +371,7 @@ const createDummyPosts = async function (
         "https://res.cloudinary.com/di3penpbh/image/upload/v1739361771/post_images/example-819.jpg"
       ],
       title: "Solid yakitori joint",
-      text: `Do not be fooled by the menu. This is a yakitori restaurant. As such, you should order yakitori. Our skewers were very tasty, the other food we had (nasu dengaku, sushi) wasn't as good. Friendly but slightly rushed service, quite tightly packed inside. Nearly caught an elbow to the face at one point from my dining neighbour on the next table. Worth coming for the skewers, but I wouldn't send somebody out of their way to go here 🍡.`,
+      text: `Do not be fooled by the diverse menu. This is a yakitori restaurant. As such, you should order yakitori. Our skewers were very tasty, the other food we had (nasu dengaku, sushi) wasn't as good. Friendly but slightly rushed service, quite tightly packed inside. Nearly caught an elbow to the face at one point from my dining neighbour on the next table. Worth coming for the skewers, but I wouldn't send somebody out of their way to go here 🍡.`,
       others: [user1Id],
       createdAt: generateDate(2.25),
       updatedAt: generateDate(2.25)

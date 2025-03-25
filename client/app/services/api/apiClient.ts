@@ -1,12 +1,13 @@
 // import { v4 as uuidv4 } from "uuid";
 // import { Types } from "mongoose";
-import { MutationFunction, Query, QueryFunction } from "@tanstack/react-query";
+import { MutationFunction, QueryFunction } from "@tanstack/react-query";
 
 import {
   CloudinaryImageUploadResponse,
   RegisterUserResponse,
   GetUploadSignatureResponse,
-  LoginUserResponse
+  LoginUserResponse,
+  GetFeedPostsResponse
   // UserSearchResultsResponse
 } from "../../types/APIResponseTypes";
 // import { getUserID } from "../deviceStorageService";
@@ -38,8 +39,7 @@ export const loginUser: MutationFunction<
 };
 
 export const getProfileImageUploadSignature: QueryFunction<
-  GetUploadSignatureResponse,
-  [string]
+  GetUploadSignatureResponse
 > = async () => {
   return sendGETRequest<GetUploadSignatureResponse>(
     `${baseURL}/image-upload-signature/profile_images`
@@ -56,33 +56,42 @@ export const uploadMedia: MutationFunction<
   );
 };
 
+export const getFeedPosts: QueryFunction<GetFeedPostsResponse> =
+  async function ({ pageParam }) {
+    return sendGETRequest<GetFeedPostsResponse>(
+      `${baseURL}/feed${
+        pageParam
+          ? "?" +
+            new URLSearchParams({
+              lastCreatedAt: pageParam
+            })
+          : ""
+      }`
+    );
+  };
+
 export const updateUserProfileImageURL: MutationFunction<
-  string,
+  never,
   {
     newImageURL: string;
   }
 > = async ({ newImageURL }) => {
-  return sendPATCHRequest<
-    string,
-    {
-      newImageURL: string;
-    }
-  >(`${baseURL}/users/me`, {
-    operation: "replace",
-    path: "/profileImageURL",
+  return sendPATCHRequest(`${baseURL}/users/me`, {
+    op: "replace",
+    path: "/profileImage",
     value: newImageURL
   });
 };
 
-export const searchForUsers: QueryFunction<
-  UserSearchResultsResponse,
-  ["users", string]
-> = async ({ queryKey }) => {
-  const query = queryKey[1];
-  return sendGETRequest<UserSearchResultsResponse>(
-    `${baseURL}/users?q=${query}`
-  );
-};
+// export const searchForUsers: QueryFunction<
+//   UserSearchResultsResponse,
+//   ["users", string]
+// > = async ({ queryKey }) => {
+//   const query = queryKey[1];
+//   return sendGETRequest<UserSearchResultsResponse>(
+//     `${baseURL}/users?q=${query}`
+//   );
+// };
 
 // export const getLoggedInUserInfo: QueryFunction<>
 
@@ -99,12 +108,6 @@ export const searchForUsers: QueryFunction<
 //   [string]
 // > = async ({ queryKey }) => {
 //   const;
-// };
-
-// export const getFeedPosts = async function (userID: string) {
-//   const response = await fetch(`${baseURL}/user/get-feed-posts/${userID}`);
-//   const parsedResponse = await response.json();
-//   return parsedResponse;
 // };
 
 // export const sendNewPost = async function (postData: NewPost) {
