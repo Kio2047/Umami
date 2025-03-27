@@ -45,7 +45,7 @@ const useProfileImageUpload = (
     }
   );
   const { mutate: uploadImageMutate } = useMutation(uploadMedia, {
-    onSuccess: ({ secure_url }) => {
+    onSuccess: ({ data: { secure_url } }) => {
       setUploadURL(secure_url);
       updateImageURLMutate({ newImageURL: secure_url });
     },

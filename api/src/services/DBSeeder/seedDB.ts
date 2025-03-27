@@ -1,4 +1,4 @@
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 import { MongoServerError } from "mongodb";
 
 import { mongoose, connectDBClient } from "./models/index";
@@ -348,8 +348,8 @@ const createDummyPosts = async function (
         food: 4.5
       },
       imageURLs: [
-        "https://res.cloudinary.com/di3penpbh/image/upload/v1739361803/post_images/example-738.jpg",
-        "https://res.cloudinary.com/di3penpbh/image/upload/v1739361802/post_images/example-172.jpg"
+        "https://res.cloudinary.com/di3penpbh/image/upload/v1739380831/post_images/example-719.jpg",
+        "https://res.cloudinary.com/di3penpbh/image/upload/v1739380832/post_images/example-638.jpg"
       ],
       title: "The best deal in Rome (possibly in the World)",
       text: `Stopped for lunch during our trip at this very unassuming spot as it was close to where we were staying. Very small inside with tables tightly packed, with mostly local patrons which we (correctly) took to be a good sign. Our friendly waiter quickly provided us with a set lunch menu which included a bruschetta, pasta dish, and dessert along with coffee and water for a grand total of €10. Given this questionable pricing we lowered our expectations, but that wasn't necessary - while the bruschetta was forgettable, the carbonara was one of the best pastas I had on my trip. Possibly the best guanciale I've ever had. The homemade dessert and coffee were also stellar. I was somewhat bamboozled by the meal we had for the price. The experience made me realize that when we eat out in London, we're not paying for the food - we're paying for the rent.`,

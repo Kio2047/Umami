@@ -17,6 +17,7 @@ import { ImageUploadRequest } from "../../types/APIRequestTypes";
 import { ExistingUserCredentials } from "../../types/auth/LoginTypes";
 
 const baseURL = process.env.EXPO_PUBLIC_BASE_URL;
+const cloudinaryCloudName = process.env.EXPO_PUBLIC_CLOUDINARY_CLOUD_NAME;
 
 export const registerUser: MutationFunction<
   RegisterUserResponse,
@@ -51,7 +52,7 @@ export const uploadMedia: MutationFunction<
   ImageUploadRequest
 > = async (uploadData) => {
   return sendPOSTRequest<CloudinaryImageUploadResponse, ImageUploadRequest>(
-    "https://api.cloudinary.com/v1_1/di3penpbh/image/upload",
+    `https://api.cloudinary.com/v1_1/${cloudinaryCloudName}/image/upload`,
     uploadData
   );
 };

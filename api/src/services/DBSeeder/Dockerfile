@@ -1,25 +1,25 @@
 FROM node:18
 
+RUN corepack enable && corepack prepare pnpm@10.7.0 --activate
+
 WORKDIR /app
 
-# TODO: set up workspaces to further isolate DBSeeder
-# COPY ./src/services/DBSeeder/package*.json ./
-COPY ./package*.json ./
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 
-RUN npm install
+COPY api/package.json api/tsconfig.json ./api/
 
-# COPY ./src/services/DBSeeder/tsconfig.json ./
-COPY ./tsconfig.json ./
+RUN pnpm approve-builds
 
-COPY ./src/services/DBSeeder ./src/services/DBSeeder
-COPY ./src/db/schemas.ts ./src/db/schemas.ts
-COPY ./src/modules/user/user.types.ts ./src/modules/user/user.types.ts
-COPY ./src/modules/post/post.types.ts ./src/modules/post/post.types.ts
-COPY ./src/modules/restaurant/restaurant.types.ts ./src/modules/restaurant/restaurant.types.ts
-COPY ./src/types/MongooseTypes.ts ./src/types/MongooseTypes.ts
+RUN pnpm install --filter=api... --frozen-lockfile
+
+COPY api/src/services/DBSeeder ./api/src/services/DBSeeder
+COPY api/src/db/schemas.ts ./api/src/db/schemas.ts
+COPY api/src/modules/user/user.types.ts ./api/src/modules/user/user.types.ts
+COPY api/src/modules/post/post.types.ts ./api/src/modules/post/post.types.ts
+COPY api/src/modules/restaurant/restaurant.types.ts ./api/src/modules/restaurant/restaurant.types.ts
+COPY api/src/types/MongooseTypes.ts ./api/src/types/MongooseTypes.ts
 
 RUN curl -o /usr/local/bin/wait-for-it.sh https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh \
     && chmod +x /usr/local/bin/wait-for-it.sh
 
-# RUN npm run compile-seeder
-RUN npm run compile
+RUN pnpm --filter=api run compile

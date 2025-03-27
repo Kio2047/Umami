@@ -1,9 +1,15 @@
 {
   "name": "umami",
+  "private": "true",
   "version": "1.0.0",
+  "packageManager": "pnpm@10.7.0",
   "description": "",
   "main": "index.js",
   "scripts": {
+    "init-db": "pnpm --filter=api run init-db",
+    "start-client": "pnpm --filter=client run start",
+    "start-client-tunnel": "pnpm --filter=client run start-tunnel",
+    "start-api": "pnpm --filter=api run start",
     "test": "echo \"Error: no test specified\" && exit 1",
     "prepare": "husky install"
   },

@@ -7,11 +7,11 @@ services:
       - 27017:27017
   seeder:
     build:
-      context: ./
-      dockerfile: ./src/services/DBSeeder/Dockerfile
+      context: ../
+      dockerfile: ./api/src/services/DBSeeder/Dockerfile
     depends_on:
       - db
     environment:
       - DB_URI=mongodb://db:27017
       - DB_NAME=dev
-    command: sh -c "/usr/local/bin/wait-for-it.sh db:27017 -- npm run run-seeder"
+    command: sh -c "/usr/local/bin/wait-for-it.sh db:27017 -- pnpm --filter=api run run-seeder"

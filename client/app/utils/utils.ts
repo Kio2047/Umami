@@ -8,7 +8,7 @@ export const calculatePostTimestamp = (timestamp: Date) => {
   if (timeSincePost > millisecondsInDay)
     return Math.floor(timeSincePost / millisecondsInDay) + "d";
   if (timeSincePost > milliSecondsInHour)
-    return Math.floor(timeSincePost / milliSecondsInHour) + "hr";
+    return Math.floor(timeSincePost / milliSecondsInHour) + "h";
   const minutes = Math.floor(timeSincePost / millisecondsInMinute);
   return minutes > 1 ? minutes + "mins" : "1min";
 };

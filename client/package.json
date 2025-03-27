@@ -1,14 +1,15 @@
 {
-  "name": "umami",
+  "name": "client",
+  "private": "true",
   "version": "1.0.0",
-  "main": "node_modules/expo/AppEntry.js",
+  "main": "./customAppEntry.js",
   "scripts": {
-    "start": "npx expo start",
-    "start-tunnel": "npx expo start --tunnel",
-    "android": "npx expo start --android",
-    "ios": "npx expo start --ios",
-    "web": "npx expo start --web",
-    "eject": "npx expo eject",
+    "start": "expo start",
+    "start-tunnel": "expo start --tunnel",
+    "android": "expo start --android",
+    "ios": "expo start --ios",
+    "web": "expo start --web",
+    "eject": "expo eject",
     "lint": "eslint ."
   },
   "dependencies": {
@@ -50,6 +51,5 @@
     "eslint-plugin-react-native": "^4.0.0",
     "prettier": "^3.0.0",
     "typescript": "^5.3.0"
-  },
-  "private": true
+  }
 }
